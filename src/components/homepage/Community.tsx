@@ -28,7 +28,7 @@ export default function Community() {
     },
   ];
   return (
-    <div className="pt-[168px] bg-[#FCF1FF] hidden md:block pb-[135px]">
+    <div className="pt-[168px] bg-[#FCF1FF] hidden md:block pb-20">
       <section className={`${montserrat.className} text-center px-4`}>
         <h1 className="text-4xl md:text-5xl leading-12 font-bold text-[#14010D] mb-6">
           Join Our Thriving Community
@@ -111,13 +111,20 @@ export default function Community() {
             ))}
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center pb-[135px]">
             <button className="bg-[#5C1CC5] hover:border hover:border-[#5C1CC5] text-[18px] hover:bg-[#FAE1FF] cursor-pointer hover:text-[#5C1CC5]  text-white font-semibold px-7 py-2.5 rounded-sm transition-all duration-300 transform hover:scale-105 ease-in-out">
               Join Community
             </button>
           </div>
         </div>
       </section>
+      <h3 className="text-center md:text-[#14010D] text-[#15010D] hidden md:block font-bold text-2xl  md:text-5xl md:leading-12 leading-normal pb-4 md:pb-6">
+        Alumni Success Stories
+      </h3>
+      <p className="text-[#364153] mx-auto text-center hidden md:block text-[12px] md:text-[20px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] ">
+        Our alumni are now leading product teams at the world's most innovative
+        companies. Here are just a few of their incredible journeys.
+      </p>
     </div>
   );
 }

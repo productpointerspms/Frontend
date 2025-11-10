@@ -12,6 +12,7 @@ interface Testimonial {
   id: number;
   name: string;
   role: string;
+  company: string;
   badge: string;
   quote: string;
   image: string;
@@ -22,6 +23,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: "Favor Osaro",
     role: "Product Manager",
+    company: "",
     badge: "From Healthcare to Tech in 3 Months",
     quote:
       "ProductPointers helped me pivot from healthcare into tech, rebuild my confidence, and land my first Project Manager role all within just a few months. It truly transformed my career and mindset.",
@@ -29,11 +31,12 @@ const testimonials: Testimonial[] = [
   },
   {
     id: 2,
-    name: "Sarah Chen",
-    role: "UX Designer",
-    badge: "Career Switch in 4 Months",
+    name: "Chinonso Esther",
+    role: "Product Manager",
+    company: "Interswitch",
+    badge: "From confusion to confidence in just 3 months.",
     quote:
-      "The program gave me the tools and confidence to transition from marketing to UX design. The mentorship and hands-on projects made all the difference in landing my dream role.",
+      "Before ProductPointers, I felt lost and unsure of my next steps. The hands-on projects and real user interviews changed how I work completely. Now, I've gained confidence and even landed two interviews, including one at Interswitch.",
     image: "/images/esther.png", // Update with your actual filename
   },
 ];
@@ -54,21 +57,21 @@ export default function TestimonialSlider() {
 
   return (
     <div
-      className={`${montserrat.className} md:bg-[#FCF1FF] bg-[#FAE1FF] px-4 md:px-0`}
+      className={`${montserrat.className} md:bg-[#FCF1FF] bg-linear-to-b from-[#FAE1FF] to-[#FCF1FF] px-4 md:px-0 overflow-hidden`}
     >
-      <h3 className="text-center md:text-[#14010D] text-[#15010D] font-bold text-2xl pt-14 md:pt-0 md:text-5xl md:leading-12 leading-normal pb-4 md:pb-6">
+      <h3 className="text-center md:text-[#14010D] text-[#15010D] md:hidden block font-bold text-2xl pt-14 md:pt-0 md:text-5xl md:leading-12 leading-normal pb-4 md:pb-6">
         Alumni Success Stories
       </h3>
-      <p className="text-[#364153] mx-auto text-center text-[12px] md:text-[20px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] pb-[84px] ">
+      <p className="text-[#364153] mx-auto text-center md:hidden block text-[12px] md:text-[20px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] pb-[84px] ">
         Our alumni are now leading product teams at the world's most innovative
         companies. Here are just a few of their incredible journeys.
       </p>
-      <div className="min-h-screen bg-[#FAE1FF] md:bg-linear-to-b from-[#FAE1FF] to-[#FCF1FF] flex items-center justify-center md:px-[30px] px-0">
-        <div className="max-w-6xl w-full relative">
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+      <div className="min-h-screen bg-linear-to-b from-[#FAE1FF] pt-10 to-[#FCF1FF] flex items-center justify-center md:px-[30px] px-0">
+        <div className="max-w-6xl w-full md:w-[1400px] relative md:px-[30px]">
+          <div className="bg-white md:h-[415px] shadow-sm overflow-hidden">
             <div className="grid md:grid-cols-2 gap-0">
               {/* Left side - Image */}
-              <div className="relative h-96 md:h-auto bg-gray-200">
+              <div className="relative h-[333px] md:h-[415px] ">
                 <img
                   src={activeTestimonial.image}
                   alt={activeTestimonial.name}
@@ -77,48 +80,48 @@ export default function TestimonialSlider() {
               </div>
 
               {/* Right side - Content */}
-              <div className="p-12 flex flex-col justify-between">
+              <div className="px-6 py-4 flex flex-col justify-between">
                 <div className="flex-1">
-                  <h2 className="text-4xl font-bold text-gray-900 mb-2">
+                  <h2 className="text-[24px] font-bold text-[#14010D] leading-8 md:pt-10 pt-0 mb-2">
                     {activeTestimonial.name}
                   </h2>
-                  <p className="text-xl text-purple-600 font-semibold mb-4">
+                  <p className=" text-[#5C1CC5] font-bold  text-[16px] leading-6 mb-[18px]">
                     {activeTestimonial.role}
                   </p>
-
+                  <p className=" text-[#000000] font-normal  text-[16px] leading-6 mb-4">
+                    {activeTestimonial.company}
+                  </p>
                   <div className="inline-block mb-6">
-                    <span className="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium">
+                    <span className="rounded-[57384700px] bg-[rgba(92,28,197,0.30)] text-[#5C1CC5] px-3 py-2 text-sm font-normal leading-5">
                       {activeTestimonial.badge}
                     </span>
                   </div>
 
-                  <p className="text-gray-600 text-lg leading-relaxed italic">
+                  <p className="text-[#000000] text-[16px] font-light leading-[29.25px] italic">
                     {activeTestimonial.quote}
                   </p>
-                </div>
-
-                {/* Navigation Controls */}
-                <div className="flex items-center justify-center mt-8">
-                  {/* Dots Indicator */}
-                  <div className="flex gap-2">
-                    {testimonials.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setActiveIndex(index)}
-                        className={`transition-all duration-300 rounded-full ${
-                          index === activeIndex
-                            ? "w-4 h-4 bg-purple-600"
-                            : "w-3 h-3 bg-gray-300 hover:bg-gray-400"
-                        }`}
-                        aria-label={`Go to testimonial ${index + 1}`}
-                      />
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-
+          {/* Navigation Controls */}
+          <div className="flex items-center justify-center mt-8">
+            {/* Dots Indicator */}
+            <div className="flex gap-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`transition-all duration-300 rounded-full ${
+                    index === activeIndex
+                      ? "w-[13px] h-[13px] bg-[#5C1CC5]"
+                      : "w-[13px] h-[13px] bg-[#FFFFFF] hover:bg-gray-400"
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
           {/* Arrow Buttons - Positioned outside the card */}
           {/* Show Previous button only if not on first slide */}
           {activeIndex > 0 && (
@@ -135,7 +138,7 @@ export default function TestimonialSlider() {
           {activeIndex < testimonials.length - 1 && (
             <button
               onClick={handleNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700 transition-all duration-300 shadow-lg"
+              className="absolute md:right-0 right-10 md:top-1/2 top-[260px] -translate-y-1/2 translate-x-6 w-[47px] h-[47px] rounded-full bg-white hover:text-white text-[#5C1CC5] flex items-center justify-center hover:bg-purple-700 transition-all duration-300 shadow-lg"
               aria-label="Next testimonial"
             >
               <ChevronRight size={24} />
