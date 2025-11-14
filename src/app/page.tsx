@@ -1,11 +1,11 @@
-import HeroSection from "@/components/HeroSection";
-import OurPillars from "@/components/OurPillars";
-import ProductPointersJourney from "@/components/ProductPointersJourney";
-import UpcomingPrograms from "@/components/ProgramCard";
-import SecondaryNav from "@/components/SecondaryNav";
-import StatsSection from "@/components/StatsSection";
-import WhatDrivesUs from "@/components/WhatDrivesUs";
-import WhyChooseProductPointers from "@/components/WhyChooseProductPointers";
+import HeroSection from "@/components/homepage/HeroSection";
+import OurPillars from "@/components/homepage/OurPillars";
+import ProductPointersJourney from "@/components/homepage/ProductPointersJourney";
+import UpcomingPrograms from "@/components/homepage/ProgramCard";
+import SecondaryNav from "@/components/homepage/SecondaryNav";
+import StatsSection from "@/components/homepage/StatsSection";
+import WhatDrivesUs from "@/components/homepage/WhatDrivesUs";
+import WhyChooseProductPointers from "@/components/homepage/WhyChooseProductPointers";
 
 
 export default function Home() {

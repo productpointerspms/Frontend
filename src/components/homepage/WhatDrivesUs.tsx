@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
-import img from "../assets/images/what.png";
+import img from "@/assets/images/what.png";
 
 const WhatDrivesUs: React.FC = () => {
   return (

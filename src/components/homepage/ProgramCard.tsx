@@ -1,7 +1,7 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
-import img from "../assets/images/pro.png";
-import img2 from "../assets/images/pro1.png";
+import img from "@/assets/images/pro.png";
+import img2 from "@/assets/images/pro1.png";
 
 interface ProgramCardProps {
   image: string | StaticImageData; // accept both imported images and string URLs

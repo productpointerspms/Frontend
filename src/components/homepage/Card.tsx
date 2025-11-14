@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import React from "react";
-import vector from "../assets/images/Vector.svg";
+import vector from "@/assets/images/Vector.svg";
 
 interface CardProps {
   image: StaticImageData;

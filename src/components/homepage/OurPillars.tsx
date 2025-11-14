@@ -1,9 +1,9 @@
 import React from "react";
-import img from "../assets/images/pila.png";
-import img1 from "../assets/images/pila1.png";
-import img2 from "../assets/images/pila2.png";
-import img3 from "../assets/images/pila3.png";
-import img4 from "../assets/images/pila4.png";
+import img from "@/assets/images/pila.png";
+import img1 from "@/assets/images/pila1.png";
+import img2 from "@/assets/images/pila2.png";
+import img3 from "@/assets/images/pila3.png";
+import img4 from "@/assets/images/pila4.png";
 import Card from "./Card";
 
 const OurPillars: React.FC = () => {
@@ -51,11 +51,11 @@ const OurPillars: React.FC = () => {
       <div className="text-center mb-16 max-w-3xl">
         <h2
           className="
-    text-[24px] md:text-4xl 
-    font-bold font-montserrat 
-    text-[#15010D] 
-    capitalize 
-    text-center md:text-left 
+    text-[24px] md:text-4xl
+    font-bold font-montserrat
+    text-[#15010D]
+    capitalize
+    text-center   
     mb-4
   "
         >

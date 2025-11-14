@@ -1,7 +1,7 @@
 import Image from "next/image";
-import img from "../assets/images/choose.png";
-import img1 from "../assets/images/choose1.png";
-import img2 from "../assets/images/choose2.png";
+import img from "@/assets/images/choose.png";
+import img1 from "@/assets/images/choose1.png";
+import img2 from "@/assets/images/choose2.png";
 import Card from "./Card";
 
 const WhyChooseProductPointers = () => {
