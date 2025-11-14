@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, X, Menu } from "lucide-react";
 import Image from "next/image";
-import logo from "../assets/images/Image.png";
+import logo from "@/assets/images/Image.png";
 
 const Navbar = () => {
   const [active, setActive] = useState("Home");
@@ -18,7 +18,8 @@ const Navbar = () => {
       name: "Programs",
       href: "#",
       dropdown: [
-        { name: "Mentorship", href: "/programs/mentorship" },
+         { name: "Accelerator Program", href: "/accelerator" },
+        { name: "Mentorship Program", href: "/programs/mentorship" },
         { name: "Leadership", href: "/programs/leadership" },
       ],
     },
