@@ -26,19 +26,19 @@ export default function TestimonyCard({ testimony }: TestimonyProps) {
          style={{ background: `linear-gradient(135deg, #FAE1FF 0%, #FCF1FF 50%, #FAE1FF 100%)`}}>
             {/* Avatar */}
             <div className="flex flex-col m-0 p-0 flex-shrink-0 w-full md:w-auto">
-               <div className="flex flex-row flex-shrink-0 md:mb-0 text-center space-x-3">
+               <div className="flex flex-row flex-shrink-0 md:mb-0 text-center space-x-3 py-8 md:py-0">
                   <Image
                      src={testimony.img }
                      alt={testimony.title}
                      width={600}
                      height={600}
-                     className="rounded-full object-center w-[80px] h-[76px] md:w-[56px] md:h-[56px]"
+                     className="rounded-full object-center w-[110px] h-[116px] md:w-[56px] md:h-[56px]"
                   />
 
                   <div className="text-left pt-1 flex items-start flex-col justify-center">
-                     <h3 className="text-xl font-normal md:font-extralight" style={{ color: '#1E1E1E' }}>{testimony.name}</h3>
+                     <h3 className="text-3xl md:text-xl font-normal md:font-extralight" style={{ color: '#1E1E1E' }}>{testimony.name}</h3>
 
-                     <p className="text-[15px] md:text-[12px] font-extralight text-zinc-600 md:text-zinc-400">{testimony.title}</p>
+                     <p className="text-[21px] md:text-[12px] font-extralight text-zinc-500 md:text-zinc-400">{testimony.title}</p>
                   </div>
                </div>
 
@@ -53,16 +53,16 @@ export default function TestimonyCard({ testimony }: TestimonyProps) {
 
             {/* Content */}
             <div className="flex-grow flex flex-col-reverse md:flex-col">
-               <div className="flex flex-col space-y-2 my-5">
+               <div className="flex flex-col space-y-2 my-5 mt-0">
                   {/* Inlined StarRating logic (Hardcoded to 5 stars) */}
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 pt-8">
                         {Array(5).fill(0).map((_, i) => (
-                        <Star key={i} size={20} className="text-[#5C1CC5]" fill="#5C1CC5" />
+                        <Star key={i} size={20} className="text-[#5C1CC5] w-9 h-9 md:w-7 md:h-7" fill="#5C1CC5" />
                         ))}
                   </div>
 
 
-                  <div className="h-auto mt-4 mb-0 md:mb-14 leading-relaxed italic text-zinc-400">
+                  <div className="h-auto mt-4 mb-0 md:mb-3 leading-relaxed italic text-zinc-400">
                
                      {Array.isArray(testimony.text) ? (
                         testimony.text.map((para, idx) => (

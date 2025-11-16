@@ -20,9 +20,9 @@ export default function Hero ({backgroundImage}: HeroData) {
           {/* <div className=" bg-black/70 from-red-50 to-[#14010D] absolute inset-0 " /> */}
           {/* py-20 md:pb-24 md:pt-52 */}
 
-        <div className="z-50 relative container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20 md:pb-20 md:pt-72 text-center flex flex-col items-center justify-between space-y-5">
+        <div className="z-0 relative container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20 md:pb-20 md:pt-72 text-center flex flex-col items-center justify-between space-y-5">
 
-          <div className='bg-white/10 backdrop-blur-lg rounded-3xl backdrop-opacity50 w-fit border-t-[.1px] border-zinc-400'>
+          <div className='bg-white/10 backdrop-blur-lg rounded-3xl  w-fit border-t-[.1px] border-zinc-400'>
           
             <h3 className='text-[12px] px-3 py-1 font-extralight text-zinc-300'>Level Up With Expert Guidance</h3>
           </div>

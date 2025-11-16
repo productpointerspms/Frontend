@@ -1,4 +1,3 @@
-import { Linkedin } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -29,8 +28,8 @@ export default function MentorsCard({ mentors }: MentorsProps) {
                   <h3 className="text-xl font-semibold text-black">{mentors.name}
                   </h3>
 
-                  <Link href={mentors.linkedin} target="_blank" rel="noopener noreferrer" className="text-white p-2 rounded-md bg-[#323898]">
-                     <Linkedin size={20} color='white'/>
+                  <Link href={mentors.linkedin} target="_blank" rel="noopener noreferrer" className="text-white m-0 p-0">
+                     <Image src="/mdi_linkedin.png" alt="linkedin" color='white'  width={40} height={40} className="text-white p-0 m-0" />
                   </Link>
                </div>
                   

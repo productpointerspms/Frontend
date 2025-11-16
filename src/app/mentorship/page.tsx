@@ -3,15 +3,6 @@ import React, {useState} from 'react';
 import {
   Menu,
   X,
-  Brain,
-  Search,
-  BarChart,
-  Users,
-  Award,
-  StarHalf,
-  CheckCircle,
-  Check,
-  CheckIcon, // For testimonials
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -23,7 +14,7 @@ import TestimonyCard from '@/components/mentorship-success-cards';
 // --- Header Component (Monolithic) ---
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navLinks = ['Pricing', 'About', 'Programs', 'Testimonials', 'Community', 'Contact'];
+  const navLinks = ['Home', 'Program', 'About', 'Network', 'Community', 'Contact'];
 
   // Button styles inlined for Sign Up (outlineDark/white bg)
   const signUpBaseStyle = '';
@@ -35,7 +26,7 @@ const Header = () => {
 
 
   return (
-    <nav className="z-50 w-full text-white bg-white" >
+    <nav className="z-50 w-full text-white bg-[#FCF1FF]" >
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
 
@@ -43,7 +34,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href={'/'}>
-                <Image src={"/ProductPointer_logo.png"} alt={`pointer pointer's logo`} height={500} width={500} className='w-15 h-15' />
+                <Image src={"/ProductPointer_logo.png"} alt={`pointer pointer's logo`} height={500} width={500} className='w-20 h-20' />
             </Link>
           </div>
 
@@ -67,9 +58,9 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="lg:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          <div className="lg:hidden text-black">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu" className=''>
+              {isMenuOpen ? <X size={28} className='bg-[#FCF1FF] m-1'/> : <Menu size={28} color='black' />}
             </button>
           </div>
         </div>
@@ -77,13 +68,13 @@ const Header = () => {
 
       {/* Mobile Menu (Dropdown) */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-20 left-0 w-full z-20" style={{ backgroundColor: '#1A0B2E' }}>
-          <div className="flex flex-col items-center space-y-4 py-6">
+        <div className="lg:hidden absolute top-20 left-0 w-full z-50" style={{ backgroundColor: '#FCF1FF' }}>
+          <div className="flex flex-col items-center space-y-4 py-6 z-50">
             {navLinks.map((link) => (
               <Link
                 key={link}
                 href="#"
-                className="text-lg font-medium hover:text-gray-300 transition-colors"
+                className="text-lg font-medium text-black transition-colors"
               >
                 {link}
               </Link>
@@ -109,7 +100,7 @@ const GuidanceSection = () => (
       <div className="flex flex-col md:flex-row justify-around items-center md:items-start">
         {/* Text Content */}
         <div className="flex flex-col space-y-2 md:max-w-lg px-0 sm:px-5 md:px-5 lg:px-0 text-justify md:text-left">
-          <h2 className=" text-3xl lg:text-2xl font-bold text-[#1E1E1E] w-full pr-0 md:pr-40 text-center md:text-left">
+          <h2 className=" text-3xl lg:text-2xl font-bold text-[#1E1E1E] w-full pr-0 md:pr-40 text-left md:text-left">
             {`One-On-One Guidance From PMs Who've Been There`}
           </h2>
           <p className="text-sm line-clamp-6 text-zinc-700" style={{ lineHeight: '35px'}}>
@@ -119,11 +110,11 @@ const GuidanceSection = () => (
             {`Whether you're transitioning into product management, looking to level up your skills, or aiming for that senior role, your mentor becomes your personal guide, advocate, and accountability partner on your journey.`}
           </p>
           
-          <div className='flex flex-row items-center justify-start'>
-            <StarHalf size={20} className="ml-1 text-[#5c1cc5]" />
+          <div className='flex flex-row items-center justify-start gap-1'>
+            <Image src="/star.png" alt="linkedin" color='white'  width={20} height={20} className="text-white p-0 m-0" />
            <Link
               href="#"
-              className=" py-3 items-center text-lg text-[#5C1CC5] text-[13px] font-extralight" >
+              className=" py-12 md:py-3 items-center text-lg text-[#5C1CC5] text-[13px] font-extralight mt-1" >
               Personalized, transformative, and career-changing
             </Link>
           </div>
@@ -147,7 +138,7 @@ const GuidanceSection = () => (
 const TracksSection = () => {
 
   interface MembershipData {
-   icon?: React.ReactNode | string,
+   icon: string,
    title: string,
    description: string,
    bullets: string[],
@@ -158,7 +149,7 @@ const TracksSection = () => {
 
   const tracks: MembershipData[]  = [
     {
-      icon: <Brain />,
+      icon: "/Vector.png",
       title: "AI & No-Code Tools for Product Managers",
       description: "Master the next generation of product development tools. Learn how AI and no-code platforms are transforming how modern PMs build, test, and iterate on products faster than ever before.",
       bullets: [
@@ -172,7 +163,7 @@ const TracksSection = () => {
       imagePosition: 'left'
     },
     {
-      icon: <Search />,
+      icon: "/shield.png",
       title: "QA for Product Managers",
       description: "Bridge the gap between product vision and quality delivery. Gain hands-on QA knowledge that empowers you to work seamlessly with engineering teams and ship reliable products.",
       bullets: [
@@ -186,7 +177,7 @@ const TracksSection = () => {
       imagePosition: 'right'
     },
     {
-        icon: <BarChart />,
+        icon: "/trend-up.png",
         title: "Data-Driven Product Management",
         description: "Transform from intuition-based to evidence-based decision making. Learn to leverage analytics, metrics, and experimentation to build products users love and businesses need.",
         bullets: [
@@ -200,7 +191,7 @@ const TracksSection = () => {
         imagePosition: 'left'
     },
     {
-        icon: <Users />,
+        icon: "/group-profile.png",
         title: "Stakeholder Management & Communication",
         description: "Master the art of influence without authority. Develop communication skills that build trust, manage conflicts, and align diverse teams around a shared product vision.",
         bullets: [
@@ -214,7 +205,7 @@ const TracksSection = () => {
         imagePosition: 'right'
     },
     {
-        icon: <Award />,
+        icon: "/bulb.png",
         title: "Product Leadership & Ownership",
         description: "Step into senior PM roles with confidence. Build the leadership mindset and skills to own product outcomes, inspire teams, and drive organizational impact.",
         bullets: [
@@ -228,7 +219,7 @@ const TracksSection = () => {
         imagePosition: 'left'
     },
     {
-        icon: <Award />,
+        icon: "/target.png",
         title: "Technical Product Management (TPM Mastery)",
         description: "Master the bridge between business strategy and technical execution. This track helps PMs gain the technical fluency needed to collaborate confidently with engineering teams and make informed product decisions.",
         bullets: [
@@ -243,7 +234,7 @@ const TracksSection = () => {
         imagePosition: 'right'
     },
     {
-        icon: <Award />,
+        icon: "/rocket.png",
         title: "Growth Product Management",
         description: "Drive sustainable business growth through product-led strategies. Master the frameworks, metrics, and experimentation techniques that power high-growth companies.",
         bullets: [
@@ -263,7 +254,7 @@ const TracksSection = () => {
     <section className="py-14 bg-gradient-to-b from-[#FAE1FF] to-[#FCF1FF]">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-5 flex flex-col items-center justify-start">
-           <span className="inline-block px-4 py-2 text-[11px] font-extralight rounded-full text-[#FCF1FF] bg-[#5C1CC5]">
+           <span className="inline-block px-6 py-3 md:px-4 md:py-2 text-[16px] md:text-[11px] font-extralight rounded-full text-[#FCF1FF] bg-[#5C1CC5]">
             Premium Learning Journey
            </span>
            <h2 className="text-3xl lg:text-3xl font-extrabold mt-4 text-[#1E1E1E] " >
@@ -274,10 +265,10 @@ const TracksSection = () => {
            </p>
         </div>
 
-        <div className="mt-16 border-none space-y-12 md:space-y-8 pb-8">
+        <div className="mt-6 md:mt-16 border-none space-y-7 md:space-y-8 pb-8">
             {tracks.map((track, index) => {
                 return (
-                    <div key={index} className="flex flex-row md:flex-col space-x-0 justify-center items-center py-2 md:py-6">
+                    <div key={index} className="py-2 md:py-12 w-auto">
                         <MentorshipTracks membershiptracks={track} />
                     </div>
                 )
@@ -311,7 +302,7 @@ const HowItWorksNew = () => {
     ];
 
     return (
-        <section className="relative overflow-hidden h-auto md:h-[729px] flex items-center justify-center py-12 md:py-0" style={{ background: `linear-gradient(135deg, #5C1CC5B2 0%, #4A1D9A 20%)` }}>
+        <section className="relative overflow-hidden h-auto md:h-auto flex items-center justify-center py-12 md:py-20" style={{ background: `linear-gradient(135deg, #5C1CC5B2 0%, #4A1D9A 20%)` }}>
             {/* Background Image/Overlay */}
             <Image
                 src='/people-gathering.jpg'
@@ -337,7 +328,7 @@ const HowItWorksNew = () => {
                               <h3 className="text-2xl md:text-xl font-semibold md:mb-2 mb-5" style={{ color: '#1E1E1E' }}>
                                   {step.title}
                               </h3>
-                              <p className=" text-xl text-black text-[#5B5B5B] md:text-sm font-light md:font-normal">
+                              <p className=" text-xl text-[#5B5B5B] md:text-sm font-light md:font-normal">
                                   {step.description}
                               </p>
                             </div>
@@ -401,21 +392,21 @@ const MentorsNew = () => {
 
 
 
-            <div className='py-20 relative  flex items-start inset-0'>
+            <div className='py-20 relative  flex items-start inset-0 md:bg-transparent bg-white'>
 
               <Image
                   src='/background_particles.png'
                   alt='particles'
-                  className="absolute inset-0 bg-cover opacity-50 mr-30 lg:mr-0 max-w-full md:w-full h-7/5 z-40 "
-                  width={1000}
-                  height={1000}
+                  className="hidden md:block absolute inset-0 bg-cover opacity-100 mr-30 lg:mr-0 max-w-full md:w-auto h-7/7 z-40 "
+                  width={900}
+                  height={900}
               />
             
               <div className="z-50 container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                  <h2 className="text-2xl lg:text-4xl font-bold text-center mb-8 md:mb-4" style={{ color: '#1E1E1E' }}>
+                  <h2 className="text-4xl lg:text-4xl font-bold text-center mb-8 md:mb-4" style={{ color: '#1E1E1E' }}>
                       Meet The Mentors Behind Your Growth
                   </h2>
-                  <p className="text-sm md:text-sm text-center mb-16" style={{ color: '#5B5B5B' }}>
+                  <p className="text-lg md:text-sm text-center mb-16" style={{ color: '#5B5B5B' }}>
                       Experienced mentors guiding you through every phase of your product journey
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
@@ -441,7 +432,7 @@ const CommitmentSection = () => {
                 <h2 className="text-3xl lg:text-4xl font-bold mb-2" style={{ color: '#1E1E1E' }}>
                     Commitment
                 </h2>
-                <p className="text-lg mb-12 mt-5 font-light text-black" >
+                <p className="text-md mb-20 mt-5 font-light text-black" >
                     A small price for transformative career guidance
                 </p>
 
@@ -461,8 +452,14 @@ const CommitmentSection = () => {
                             "Continued support even after sessions"
                         ].map(item => (
                             <li key={item} className="flex items-start text-lg" style={{ color: '#1E1E1E' }}>
-                                <CheckIcon size={24} className="flex-shrink-0 mr-3 mt-1" style={{ color: '#6A35FF' }} />
-                                <span>{item}</span>
+                              <Image
+                                src='/tick.png'
+                                alt='particles'
+                                className="flex-shrink-0 mr-3 mt-1" 
+                                width={20}
+                                height={20}
+                              />
+                              <span>{item}</span>
                             </li>
                         ))}
                     </ul>
@@ -582,14 +579,14 @@ const Footer = () => (
 export default function App() {
   return (
     <div className="font-sans" style={{ backgroundColor: '#F9F6FF' }}>
-      <div className='z-50 relative'>
+      <div className='relative'>
         <Header />
       </div>
       <main>
 
         {/* // --- Hero Section (Monolithic) --- */}
         <div className='relative h-[711px]'>
-          <Image src={'/hero-gradient.png'} alt='Nothing' width={400} height={400} className="w-full absolute inset-0 z-30 h-[711px]"/>
+          <Image src={'/hero-gradient.png'} alt='Nothing' width={400} height={400} className="w-full absolute inset-0 z-0 h-[711px]"/>
           <Hero backgroundImage='/upscalemedia-transformed.png'/>
         </div>
 
