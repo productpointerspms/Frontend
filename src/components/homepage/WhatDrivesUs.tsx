@@ -12,7 +12,7 @@ const WhatDrivesUs: React.FC = () => {
           <h2
             className="
     text-[24px] md:text-4xl
-    font-bold font-[montserrat]
+    font-bold font-montserrat
     text-[#15010D]
     capitalize
     mb-6
@@ -21,7 +21,7 @@ const WhatDrivesUs: React.FC = () => {
             What Drives Us
           </h2>
 
-          <p className="text-gray-700 mb-5 leading-relaxed font-[montserrat]">
+          <p className="text-gray-700 mb-5 leading-relaxed font-montserrat">
             We believe great products don't just happen—they're built by people
             who are equipped, supported, and inspired. That’s why
             <span className="text-purple-700 font-semibold">
@@ -33,7 +33,7 @@ const WhatDrivesUs: React.FC = () => {
             thrive.
           </p>
 
-          <p className="text-gray-700 leading-relaxed mb-8 font-[montserrat] leading-['36px]">
+          <p className="text-gray-700 leading-relaxed mb-8 font-montserrat leading-['36px]">
             Our drive comes from seeing product professionals unlock new
             opportunities, land entry-level roles, and grow into confident
             leaders who shape products that matter. Every program, coaching
@@ -47,7 +47,7 @@ const WhatDrivesUs: React.FC = () => {
             <div className="bg-purple-600 text-white p-1 rounded-full">
               <CheckCircle2 size={20} />
             </div>
-            <p className="text-gray-900 font-medium font-[montserrat]">
+            <p className="text-gray-900 font-medium font-montserrat">
               Empowering the next generation of product leaders
             </p>
           </div>
@@ -64,10 +64,10 @@ const WhatDrivesUs: React.FC = () => {
 
           {/* Floating Card */}
           <div className="absolute bottom-5 left-5 bg-purple-700 text-white px-6 py-4 rounded-xl shadow-lg">
-            <h4 className="font-semibold text-lg font-[montserrat]">
+            <h4 className="font-semibold text-lg font-montserrat">
               Mission-Driven
             </h4>
-            <p className="text-sm text-gray-200 font-[montserrat]">
+            <p className="text-sm text-gray-200 font-montserrat">
               Building tomorrow&apos;s leaders
             </p>
           </div>

@@ -19,10 +19,10 @@ const Card: React.FC<CardProps> = ({ image, title, description, link = "#" }) =>
 
       {/* Content Section */}
       <div className="p-6 flex flex-col flex-grow bg-[#FCF1FF]">
-        <h3 className="text-lg font-semibold font-[montserrat] text-gray-900 mb-2">
+        <h3 className="text-lg font-semibold font-montserrat text-gray-900 mb-2">
           {title}
         </h3>
-        <p className="text-gray-600 flex-grow font-[montserrat]">{description}</p>
+        <p className="text-gray-600 flex-grow font-montserrat">{description}</p>
 
         <a
           href={link}

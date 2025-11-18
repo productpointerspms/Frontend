@@ -32,7 +32,7 @@ const WhyChooseProductPointers = () => {
       <div className="text-center max-w-3xl mb-14">
         <h2
           className="
-    text-center font-[montserrat] text-[#15010D] font-bold capitalize
+    text-center font-montserrat text-[#15010D] font-bold capitalize
     text-[24px] 
     md:text-4xl
     mb-4
@@ -43,7 +43,7 @@ const WhyChooseProductPointers = () => {
 
         <p
           className="
-    text-center font-[montserrat] text-[#15010D] font-normal
+    text-center font-montserrat text-[#15010D] font-normal
     text-[12px] leading-[20px]
     md:text-[20px] md:leading-[36px]
   "
