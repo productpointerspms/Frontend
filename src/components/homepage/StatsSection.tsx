@@ -4,22 +4,22 @@ import { Users, UserCheck, Globe, GraduationCap } from "lucide-react";
 const StatsSection: React.FC = () => {
   const stats = [
     {
-      icon: <Users className="text-purple-600 font-montserrat " size={24} />,
+      icon: <Users className="text-purple-600 font-[montserrat] " size={24} />,
       value: "50+",
       label: "Professionals Trained",
     },
     {
-      icon: <UserCheck className="text-purple-600 font-montserrat " size={24} />,
+      icon: <UserCheck className="text-purple-600 font-[montserrat] " size={24} />,
       value: "7+",
       label: "Expert Mentors",
     },
     {
-      icon: <Globe className="text-purple-600 font-montserrat " size={24} />,
+      icon: <Globe className="text-purple-600 font-[montserrat] " size={24} />,
       value: "6+",
       label: "Countries Reached",
     },
     {
-      icon: <GraduationCap className="text-purple-600 font-montserrat " size={24} />,
+      icon: <GraduationCap className="text-purple-600 font-[montserrat] " size={24} />,
       value: "97%",
       label: "Career Advancement Rate",
     },

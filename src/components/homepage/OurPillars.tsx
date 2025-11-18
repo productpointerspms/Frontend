@@ -52,7 +52,7 @@ const OurPillars: React.FC = () => {
         <h2
           className="
     text-[24px] md:text-4xl 
-    font-bold font-montserrat 
+    font-bold font-[montserrat] 
     text-[#15010D] 
     capitalize 
     text-center md:text-left 
@@ -65,7 +65,7 @@ const OurPillars: React.FC = () => {
         <p
           className="
     text-center 
-    font-montserrat 
+    font-[montserrat] 
     text-[#15010D] 
     font-normal 
     text-[12px] leading-[20px] 

@@ -48,8 +48,8 @@ const ProgramCard: React.FC<ProgramCardProps> = ({
               key={index}
               className="bg-white/25 backdrop-blur-md px-4 py-2 rounded-xl text-white text-center"
             >
-              <p className="text-xl font-bold">{item.value}</p>
-              <p className="text-xs font-medium">{item.label}</p>
+              <p className="text-xl font-bold font-[montserrat]">{item.value}</p>
+              <p className="text-xs font-medium font-[montserrat]">{item.label}</p>
             </div>
           ))}
         </div>
@@ -57,25 +57,25 @@ const ProgramCard: React.FC<ProgramCardProps> = ({
 
       {/* Content */}
       <div className="px-6 py-6">
-        <h2 className="font-bold text-xl text-gray-900 mb-2">{title}</h2>
-        <p className="text-gray-600 text-sm leading-relaxed mb-4">
+        <h2 className="font-bold text-xl text-gray-900 mb-2 font-[montserrat]">{title}</h2>
+        <p className="text-gray-600 text-sm leading-relaxed mb-4 font-[montserrat]">
           {description}
         </p>
 
         {/* Details */}
         <div className="flex flex-col gap-2 text-sm text-gray-700">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-[montserrat]">
             <span>📅</span> Starts {startDate}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-[montserrat]">
             <span>🌐</span> Virtual
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-[montserrat]">
             <span>👥</span> {spots} spots remaining
           </div>
         </div>
 
-        <button className="w-full mt-6 bg-purple-600 text-white py-3 rounded-xl font-semibold hover:bg-purple-700 transition">
+        <button className="w-full mt-6 bg-purple-600 text-white py-3 rounded-xl font-[montserrat] font-semibold hover:bg-purple-700 transition">
           Save Your Spot
         </button>
       </div>

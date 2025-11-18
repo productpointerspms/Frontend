@@ -49,7 +49,7 @@ const ProductPointersJourney: React.FC = () => {
         <h2
           className="
     text-[24px] md:text-4xl
-    font-bold font-montserrat
+    font-bold font-[montserrat]
     text-[#15010D]
     text-center
     capitalize
@@ -63,7 +63,7 @@ const ProductPointersJourney: React.FC = () => {
           className="
     text-center
     text-[12px] md:text-[20px]
-    font-montserrat
+    font-[montserrat]
     font-normal
     leading-[20px] md:leading-[36px]
     text-[#15010D]
