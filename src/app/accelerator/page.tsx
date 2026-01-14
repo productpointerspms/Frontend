@@ -10,7 +10,7 @@ export default function AcceleratorPage() {
             backgroundImage: "url('/images/accelerator-hero-img.jpg')",
           }}
         ></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(92,28,197,0.1)] to-[#14010D]">
+        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(92,28,197,0.35)] to-[#14010D]">
           <div className=" flex flex-col items-center justify-center text-center">
             <div className="inline-flex mt-[149px] px-1 py-2 justify-center items-center gap-2 rounded-full bg-[rgba(255,255,255,0.10)] text-[rgba(255,255,255,0.9)] text-center font-[Montserrat] text-[12px] font-normal leading-[20px]">
               12-Week Intensive Program
@@ -248,7 +248,7 @@ export default function AcceleratorPage() {
           </div>
           <div className="flex items-center gap-12">
             <div className="flex flex-col pt-[70px] ">
-              <img src="/images/blessing.png" alt="blessing okomor" className="w-[521px] h-[402px] object-cover" />
+              <img src="/images/be.png" alt="blessing okomor" className="w-[521px] h-[402px] object-cover" />
               <div className="flex items-center gap-[190px] mt-[32px]">
                 <h2 className="text-[#15010D] whitespace-nowrap font-[Montserrat] text-[32px] font-semibold leading-[28px]">Blessing Okomor</h2>
                 <a href="https://www.linkedin.com/in/blessing-okomor" target="blank"><img src="/images/linkedin.svg" alt="linkedin icon" className="w-[32px] h-[32px] object-cover" /></a>
@@ -257,7 +257,7 @@ export default function AcceleratorPage() {
               <p className="text-[#15010D] font-[Montserrat] text-[20px] font-normal leading-[28px]">7+ years solving business problems and leading products</p>
             </div>
             <div className="flex flex-col pt-[43px]">
-              <img src="/images/mercy.png" alt="mercy adeniyi" className="w-[521px] h-[402px] object-cover" />
+              <img src="/images/me.png" alt="mercy adeniyi" className="w-[521px] h-[402px] object-cover" />
               <div className="flex items-center gap-[190px] mt-[32px]">
                 <h2 className="text-[#15010D] whitespace-nowrap font-[Montserrat] text-[32px] font-semibold leading-[28px]">Mercy Adeniyi</h2>
                 <a href="https://www.linkedin.com/in/blessing-okomor" target="blank"><img src="/images/linkedin.svg" alt="linkedin icon" className="w-[32px] h-[32px] object-cover" /></a>
