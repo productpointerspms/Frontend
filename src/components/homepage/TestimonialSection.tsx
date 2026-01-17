@@ -87,8 +87,8 @@ export default function TestimonialSection() {
             What Our Community Says
           </h2>
           <p className="text-[#364153]  text-[20px] font-normal leading-7 pb-20 max-w-2xl mx-auto">
-            Don't just take our word for it. Hear from the product leaders
-            who've transformed their careers through ProductPointers.
+            Don&apos;t just take our word for it. Hear from the product leaders
+            who&apos;ve transformed their careers through ProductPointers.
           </p>
         </div>
 

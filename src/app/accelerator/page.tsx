@@ -76,7 +76,7 @@ export default function AcceleratorPage() {
       </div>
       <div className=" h-[886px] bg-gradient-to-b from-[#FAE1FF] to-[#FCF1FF]">
         <div className="text-center pt-[108px]">
-          <h2 className="text-[#15010D] text-center font-[Montserrat] text-[48px] font-bold leading-[60px]">What You'll Learn</h2>
+          <h2 className="text-[#15010D] text-center font-[Montserrat] text-[48px] font-bold leading-[60px]">What You&apos;ll Learn</h2>
           <p className="text-[#15010D] text-center font-[Montserrat]  text-[20px] font-normal leading-[28px] mt-[30px]">A comprehensive curriculum designed to take you from PM fundamentals to advanced <br /> product leadership skills</p>
         </div>
         <div className="flex  items-center justify-center gap-[40px] pl-[80px]  pt-[106px]">
@@ -194,7 +194,7 @@ export default function AcceleratorPage() {
       </div>
       <div className=" w-full h-[644px] px-[83px] pb-[20px]  bg-[linear-gradient(180deg,#FCF1FF_0%,#FAE1FF_34.13%,#FAE1FF_49.52%,#FAE1FF_65.38%,#FCF1FF_100%)]">
         <div className="flex pt-[106px]  flex-col  gap-[30px]">
-          <h2 className="text-[#15010D] text-center font-[Montserrat] text-[48px] not-italic font-bold leading-[60px]">What You'll Gain</h2>
+          <h2 className="text-[#15010D] text-center font-[Montserrat] text-[48px] not-italic font-bold leading-[60px]">What You&apos;ll Gain</h2>
           <p className="text-[#15010D] text-center font-[Montserrat] text-[20px] not-italic font-normal leading-[28px]">More than just knowledge walk away with tangible assets that accelerate your career</p>
         </div>
         <div className="flex pt-[50px] justify-between items-start self-stretch">
@@ -335,7 +335,7 @@ export default function AcceleratorPage() {
       <div className="w-full h-[1148px] bg-[#FCF1FF] flex flex-col items-center ">
         <div className="flex flex-col items-center gap-[30px] mt-[72px]  ">
           <h2 className="text-[#15010D] text-center font-[Montserrat] text-[48px] font-bold leading-[60px]">Investment in Your Future</h2>
-          <p className="text-[#15010D] text-center font-[Montserrat] text-[20px] font-normal leading-[28px]">Join hundreds of successful product managers who've transformed their careers</p>
+          <p className="text-[#15010D] text-center font-[Montserrat] text-[20px] font-normal leading-[28px]">Join hundreds of successful product managers who&apos;ve transformed their careers</p>
         </div>
         <div>
           <div className="flex mt-[56px] w-[744px] h-[118px] justify-center items-center self-stretch pt-[29.787px] pb-[29.787px] pl-[225.505px] pr-[227.049px] rounded-t-[24.713px] bg-[#5C1CC5]">
@@ -399,7 +399,7 @@ export default function AcceleratorPage() {
         <div className="relative z-10 flex flex-col items-center  h-full">
           <div className="flex flex-col items-center gap-[24px] mt-[134px]">
             <h2 className="text-white text-center font-[Montserrat] text-[48px] font-bold leading-[48px]">Success Stories</h2>
-            <p className="text-white text-center font-[Montserrat] text-[20px] font-normal leading-[28px]">Don't just take our word for it hear from PMs who've transformed their <br /> careers</p>
+            <p className="text-white text-center font-[Montserrat] text-[20px] font-normal leading-[28px]">Don&apos;t just take our word for it hear from PMs who&apos;ve transformed their <br /> careers</p>
           </div>
           <div className="flex flex-wrap mt-[72px] justify-center items-center content-center gap-[80px] px-[10px]">
             <div className="flex flex-col items-start w-[600px] h-[332px] p-[32px] gap-[18px] rounded-[14px] bg-white shadow-[0_20px_25px_-5px_rgba(0,0,0,0.10),_0_8px_10px_-6px_rgba(0,0,0,0.10)] flex-shrink-0">
@@ -410,7 +410,7 @@ export default function AcceleratorPage() {
                 <img src="/images/icon17.svg" alt="" />
                 <img src="/images/icon17.svg" alt="" />
               </div>
-              <p className="text-[#6D6D6D] font-[Montserrat] text-[13px] italic font-normal leading-[20px]">Before joining the program, I had a lot of questions about who a Product Manager is and what they do exactly as I was seeking to transition and had no prior knowledge or experience. The program has helped me bridge the knowledge gap and I feel confident to practice what I've learnt. I'm grateful that I signed up for the program because the way I'm getting answers to questions within and beyond the scope of Product and Project Management feels so good. The program has strengthened my decision to transition to Product Management. I'll really recommend this to anyone.</p>
+              <p className="text-[#6D6D6D] font-[Montserrat] text-[13px] italic font-normal leading-[20px]">Before joining the program, I had a lot of questions about who a Product Manager is and what they do exactly as I was seeking to transition and had no prior knowledge or experience. The program has helped me bridge the knowledge gap and I feel confident to practice what I&apos;ve learnt. I&apos;m grateful that I signed up for the program because the way I&apos;m getting answers to questions within and beyond the scope of Product and Project Management feels so good. The program has strengthened my decision to transition to Product Management. I&apos;ll really recommend this to anyone.</p>
               <div className="flex items-center gap-[16px] flex-shrink-0 self-stretch">
                 <img src="/images/eniola.png" alt="eniola oyajoju" />
                 <div>
@@ -444,7 +444,7 @@ export default function AcceleratorPage() {
                 <img src="/images/icon17.svg" alt="" />
                 <img src="/images/icon17.svg" alt="" />
               </div>
-              <p className="text-[#6D6D6D] font-[Montserrat] text-[13px] italic font-normal leading-[20px]">Before PPAP, I was a timid, confused, and frustrated certified PM. The program, and especially Coach B's foundational storytelling lessons, changed everything. I am now a confident PM with great insights on how to manage projects and products effortlessly. The individual presentations were another huge confidence booster. Coach B is a truly great mentor.</p>
+              <p className="text-[#6D6D6D] font-[Montserrat] text-[13px] italic font-normal leading-[20px]">Before PPAP, I was a timid, confused, and frustrated certified PM. The program, and especially Coach B&apos;s foundational storytelling lessons, changed everything. I am now a confident PM with great insights on how to manage projects and products effortlessly. The individual presentations were another huge confidence booster. Coach B is a truly great mentor.</p>
               <div className="flex items-center gap-[16px] pt-[65px] flex-shrink-0 self-stretch">
                 <img src="/images/okpara.png" alt="Mercy Okpara" />
                 <div>
@@ -482,7 +482,7 @@ export default function AcceleratorPage() {
           </div>
           <div className="relative">
             <select name="" id="" className="text-[#14010D] font-[Montserrat] text-[18px] font-bold leading-[28px] appearance-none outline-none focus:ring-0 flex flex-col items-start self-stretch w-[996px] h-[60px] px-[24px] py-[16px] rounded-[32px] bg-[#FAE1FF]">
-              <option value="">What's included in the program fee?</option>
+              <option value="">What&apos;s included in the program fee?</option>
             </select>
             <img src="/images/icon18.svg" className="absolute right-5 top-1/2 -translate-y-1/2 w-[20px] h-[20px] pointer-events-none" alt="drop down icon" />
           </div>
@@ -494,7 +494,7 @@ export default function AcceleratorPage() {
           </div>
           <div className="relative">
             <select name="" id="" className="text-[#14010D] font-[Montserrat] text-[18px] font-bold leading-[28px] appearance-none outline-none focus:ring-0 flex flex-col items-start self-stretch w-[996px] h-[60px] px-[24px] py-[16px] rounded-[32px] bg-[#FAE1FF]">
-              <option value="">What if I can't attend a live session?</option>
+              <option value="">What if I can&apos;t attend a live session?</option>
             </select>
             <img src="/images/icon18.svg" className="absolute right-5 top-1/2 -translate-y-1/2 w-[20px] h-[20px] pointer-events-none" alt="drop down icon" />
           </div>

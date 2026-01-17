@@ -22,7 +22,7 @@ const WhatDrivesUs: React.FC = () => {
           </h2>
 
           <p className="text-gray-700 mb-5 leading-relaxed font-montserrat">
-            We believe great products don't just happen—they're built by people
+            We believe great products don&apos;t just happen—they&apos;re built by people
             who are equipped, supported, and inspired. That’s why
             <span className="text-purple-700 font-semibold">
               {" "}

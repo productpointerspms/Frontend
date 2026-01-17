@@ -63,7 +63,7 @@ export default function TestimonialSlider() {
         Alumni Success Stories
       </h3>
       <p className="text-[#364153] mx-auto text-center md:hidden block text-[12px] md:text-[20px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] pb-[84px] ">
-        Our alumni are now leading product teams at the world's most innovative
+        Our alumni are now leading product teams at the world&apos;s most innovative
         companies. Here are just a few of their incredible journeys.
       </p>
       <div className="min-h-screen bg-linear-to-b from-[#FAE1FF] pt-10 to-[#FCF1FF] flex items-center justify-center md:px-[30px] px-0">
@@ -112,11 +112,10 @@ export default function TestimonialSlider() {
                 <button
                   key={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`transition-all duration-300 rounded-full ${
-                    index === activeIndex
+                  className={`transition-all duration-300 rounded-full ${index === activeIndex
                       ? "w-[13px] h-[13px] bg-[#5C1CC5]"
                       : "w-[13px] h-[13px] bg-[#FFFFFF] hover:bg-gray-400"
-                  }`}
+                    }`}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
               ))}

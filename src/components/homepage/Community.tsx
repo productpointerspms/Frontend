@@ -122,7 +122,7 @@ export default function Community() {
         Alumni Success Stories
       </h3>
       <p className="text-[#364153] mx-auto text-center hidden md:block text-[12px] md:text-[20px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] ">
-        Our alumni are now leading product teams at the world's most innovative
+        Our alumni are now leading product teams at the world&apos;s most innovative
         companies. Here are just a few of their incredible journeys.
       </p>
     </div>

@@ -60,7 +60,7 @@ export default function TheNewFuture(): React.ReactElement {
       {/* Description */}
       <p className="text-white/90 text-[16px] sm:text-[18px] md:text-[20px] leading-[30px] max-w-2xl mt-6">
         Join a community of ambitious product professionals who are building the
-        future, one product at a time. Whether you're just starting out or ready
+        future, one product at a time. Whether you&apos;re just starting out or ready
         to level up, your journey to product management excellence starts here.
       </p>
 

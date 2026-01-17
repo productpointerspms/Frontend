@@ -48,7 +48,7 @@ const WhyChooseProductPointers = () => {
     md:text-[20px] md:leading-[36px]
   "
         >
-          We're not just another training program. We're a transformative
+          We&apos;re not just another training program. We&apos;re a transformative
           experience that shapes the future of product management.
         </p>
       </div>

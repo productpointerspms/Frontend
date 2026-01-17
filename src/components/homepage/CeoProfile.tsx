@@ -30,7 +30,7 @@ export default function CeoProfile() {
               Founder, Product Pointers
             </p>
             <p className="text-[15px] font-normal text-[#6D6D6D] leading-5 pt-1">
-              The-Global'PM
+              The-Global&apos;PM
             </p>
             <p className="text-[15px] font-normal text-[#6D6D6D] leading-5">
               Product Manager, Mainstack{" "}

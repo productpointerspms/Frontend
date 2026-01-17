@@ -5,6 +5,9 @@ export default {
       colors: {
         lightPurple: "#FCF1FF",
       },
+      fontFamily: {
+        montserrat: ['var(--font-montserrat)', 'sans-serif'],
+      },
     },
   },
 };
