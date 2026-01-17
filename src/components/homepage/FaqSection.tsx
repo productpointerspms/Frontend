@@ -76,7 +76,7 @@ export default function FaqSection() {
             Frequently Asked Questions
           </h1>
           <p className="text-white/90 md:text-[20px] text-[14px]  md:leading-7 font-normal md:mb-[50px] mb-[17px]">
-            Got questions? We've got answers. If you don't see what you're
+            Got questions? We&apos;ve got answers. If you don&apos;t see what you&apos;re
             looking for, reach out to our team.
           </p>
         </div>
@@ -105,11 +105,10 @@ export default function FaqSection() {
               </button>
 
               <div
-                className={`transition-all duration-300 ease-in-out ${
-                  openIndex === index
+                className={`transition-all duration-300 ease-in-out ${openIndex === index
                     ? "max-h-96 opacity-100"
                     : "max-h-0 opacity-0"
-                }`}
+                  }`}
               >
                 <div className="px-6 pb-5 text-[#717182] leading-relaxed font-normal">
                   {faq.answer}

@@ -48,7 +48,7 @@ export default function PMCoachingHero() {
 
           {/* Subheading */}
           <p className="text-sm md:text-2xl  text-white/90 mb-2 md:w-[670px] w-[343px] mx-auto leading-5 md:leading-[39px]">
-            Join 500+ professionals who've transformed their careers with
+            Join 500+ professionals who&apos;ve transformed their careers with
             ProductPointers. Your journey to product leadership starts here.
           </p>
 

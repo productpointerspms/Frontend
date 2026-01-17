@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ChevronDown, X, Menu } from "lucide-react";
 import Image from "next/image";
@@ -10,6 +10,24 @@ const Navbar = () => {
   const [active, setActive] = useState("Home");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
 
   const menuItems = [
     { name: "Home", href: "/" },
@@ -18,8 +36,8 @@ const Navbar = () => {
       name: "Programs",
       href: "#",
       dropdown: [
-         { name: "Accelerator Program", href: "/accelerator" },
-        { name: "Mentorship Program", href: "/programs/mentorship" },
+        { name: "Accelerator Program", href: "/accelerator" },
+        { name: "Mentorship Program", href: "/mentorship" },
         { name: "Leadership", href: "/programs/leadership" },
       ],
     },
@@ -47,26 +65,30 @@ const Navbar = () => {
           <li key={item.name} className="relative">
             {item.dropdown ? (
               <div
+                ref={dropdownRef}
                 className="flex items-center gap-1 cursor-pointer"
-                onMouseEnter={() => setDropdownOpen(true)}
-                onMouseLeave={() => setDropdownOpen(false)}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 <span
-                  className={`${
-                    active === item.name
-                      ? "text-purple-600"
-                      : "hover:text-purple-600"
-                  } transition`}
+                  className={`${active === item.name
+                    ? "text-purple-600"
+                    : "hover:text-purple-600"
+                    } transition`}
                 >
                   {item.name}
                 </span>
-                <ChevronDown size={16} className="text-gray-600" />
+                <ChevronDown size={16} className={`text-gray-600 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
                 {dropdownOpen && (
                   <ul className="absolute top-6 left-0 bg-white border font-montserrat rounded-lg shadow-md w-40 p-2 z-50">
                     {item.dropdown.map((sub) => (
                       <li key={sub.name}>
                         <Link
                           href={sub.href}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDropdownOpen(false);
+                            setActive("Programs");
+                          }}
                           className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-md"
                         >
                           {sub.name}
@@ -80,11 +102,10 @@ const Navbar = () => {
               <Link
                 href={item.href}
                 onClick={() => setActive(item.name)}
-                className={`pb-1 transition relative ${
-                  active === item.name
-                    ? "text-purple-600"
-                    : "hover:text-purple-600"
-                }`}
+                className={`pb-1 transition relative ${active === item.name
+                  ? "text-purple-600"
+                  : "hover:text-purple-600"
+                  }`}
               >
                 {item.name}
                 {active === item.name && (
@@ -98,12 +119,12 @@ const Navbar = () => {
 
       {/* Desktop Buttons */}
       <div className="hidden md:flex items-center gap-3">
-        <button className="bg-purple-600 text-white px-4 py-2 rounded-md font-montserrat hover:bg-purple-700 transition">
+        <Link href="/signup" className="bg-purple-600 text-white px-4 py-2 rounded-md font-montserrat hover:bg-purple-700 transition">
           Sign Up
-        </button>
-        <button className="border border-purple-600 text-purple-700 px-4 py-2 rounded-md font-montserrat hover:bg-purple-50 transition">
+        </Link>
+        <Link href="/login" className="border border-purple-600 text-purple-700 px-4 py-2 rounded-md font-montserrat hover:bg-purple-50 transition">
           Log In
-        </button>
+        </Link>
       </div>
 
       {/* Mobile Menu Toggle */}
@@ -138,6 +159,11 @@ const Navbar = () => {
                         <Link
                           key={sub.name}
                           href={sub.href}
+                          onClick={() => {
+                            setDropdownOpen(false);
+                            setMobileMenuOpen(false);
+                            setActive("Programs");
+                          }}
                           className="text-gray-700 hover:text-purple-600"
                         >
                           {sub.name}
@@ -153,11 +179,10 @@ const Navbar = () => {
                     setActive(item.name);
                     setMobileMenuOpen(false);
                   }}
-                  className={`relative text-gray-800 text-base font-medium pb-1 ${
-                    active === item.name
-                      ? "text-purple-600"
-                      : "hover:text-purple-600"
-                  }`}
+                  className={`relative text-gray-800 text-base font-medium pb-1 ${active === item.name
+                    ? "text-purple-600"
+                    : "hover:text-purple-600"
+                    }`}
                 >
                   {item.name}
                   {active === item.name && (
@@ -170,12 +195,12 @@ const Navbar = () => {
 
           {/* Mobile Buttons */}
           <div className="flex flex-col items-center w-full mt-4 gap-3 px-6">
-            <button className="w-full bg-purple-600 text-white py-2 rounded-md font-montserrat hover:bg-purple-700 transition">
+            <Link href="/signup" className="w-full text-center bg-purple-600 text-white py-2 rounded-md font-montserrat hover:bg-purple-700 transition">
               Sign Up
-            </button>
-            <button className="w-full border border-purple-600 text-purple-700 py-2 rounded-md font-montserrat hover:bg-purple-50 transition">
+            </Link>
+            <Link href="/login" className="w-full text-center border border-purple-600 text-purple-700 py-2 rounded-md font-montserrat hover:bg-purple-50 transition">
               Log In
-            </button>
+            </Link>
           </div>
         </div>
       )}

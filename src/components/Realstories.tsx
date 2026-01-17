@@ -84,7 +84,7 @@ const RealStories: React.FC = () => {
               </div>
 
               <p className="italic text-[16px] leading-[24px] text-[#4A5565] mb-5">
-                “The program has helped me grow by widening my knowledge about happenings in the world that I had little or zero knowledge about. It's solved a specific problem for me by changing my thought pattern. One of the major effects of the program on me is a broadened knowledge.”
+                “The program has helped me grow by widening my knowledge about happenings in the world that I had little or zero knowledge about. It&apos;s solved a specific problem for me by changing my thought pattern. One of the major effects of the program on me is a broadened knowledge.”
               </p>
 
               <div className="flex items-center gap-3 mt-4">
@@ -123,24 +123,24 @@ const RealStories: React.FC = () => {
 
           {/* Team Success */}
           <div className="relative rounded-2xl overflow-hidden shadow-lg h-[220px]">
-  <Image
-    src="/images/Newsuccess.png"
-    alt="Team Success"
-    fill
-    className="object-cover"
-  />
+            <Image
+              src="/images/Newsuccess.png"
+              alt="Team Success"
+              fill
+              className="object-cover"
+            />
 
-  {/* Dark Overlay */}
-  <div className="absolute inset-0 bg-black/40" />
+            {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-black/40" />
 
-  {/* Bottom-anchored text */}
-  <div className="absolute bottom-0 left-0 right-0 z-10 p-6 text-white">
-    <h4 className="font-semibold">Team Success</h4>
-    <p className="text-sm leading-relaxed">
-      Collaborative growth among passionate professionals.
-    </p>
-  </div>
-</div>
+            {/* Bottom-anchored text */}
+            <div className="absolute bottom-0 left-0 right-0 z-10 p-6 text-white">
+              <h4 className="font-semibold">Team Success</h4>
+              <p className="text-sm leading-relaxed">
+                Collaborative growth among passionate professionals.
+              </p>
+            </div>
+          </div>
 
 
           {/* Samuel */}
@@ -171,29 +171,29 @@ const RealStories: React.FC = () => {
 
           {/* Individual Growth */}
           <div className="relative rounded-2xl overflow-hidden shadow-lg h-[220px]">
-  <Image
-    src="/images/individual.png"
-    alt="Individual Growth"
-    fill
-    className="object-cover"
-  />
+            <Image
+              src="/images/individual.png"
+              alt="Individual Growth"
+              fill
+              className="object-cover"
+            />
 
-  {/* Dark overlay */}
-  <div className="absolute inset-0 bg-black/40" />
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/40" />
 
-  {/* Bottom text */}
-  <div className="absolute bottom-0 left-0 right-0 z-10 p-6 text-white">
-    <h4 className="font-semibold">Individual Growth</h4>
-    <p className="text-sm leading-relaxed">
-      Personal transformation through product leadership.
-    </p>
-  </div>
-</div>
-
+            {/* Bottom text */}
+            <div className="absolute bottom-0 left-0 right-0 z-10 p-6 text-white">
+              <h4 className="font-semibold">Individual Growth</h4>
+              <p className="text-sm leading-relaxed">
+                Personal transformation through product leadership.
+              </p>
+            </div>
           </div>
 
         </div>
-      
+
+      </div>
+
     </section>
   );
 };

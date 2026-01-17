@@ -19,8 +19,8 @@ export const useProductStore = create<State>((set) => ({
     try {
       const res = await api.get<Product[]>('/products');
       set({ products: res.data, loading: false });
-    } catch (err: any) {
-      set({ error: err?.message ?? 'Unknown error', loading: false });
+    } catch (err: unknown) {
+      set({ error: err instanceof Error ? err.message : 'Unknown error', loading: false });
     }
   },
   setProducts: (p: Product[]) => set({ products: p }),
