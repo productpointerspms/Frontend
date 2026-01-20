@@ -27,7 +27,7 @@ const testimonials: Testimonial[] = [
     badge: "From Healthcare to Tech in 3 Months",
     quote:
       "ProductPointers helped me pivot from healthcare into tech, rebuild my confidence, and land my first Project Manager role all within just a few months. It truly transformed my career and mindset.",
-    image: "/images/favour.png", // Update with your actual filename
+    image: "/images/favour1.png",
   },
   {
     id: 2,

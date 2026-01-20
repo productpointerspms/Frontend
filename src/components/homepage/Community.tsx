@@ -69,7 +69,7 @@ export default function Community() {
 
               {/* Countries */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[14px] text-center  p-4  flex flex-col justify-center items-center">
-                <h3 className=" text-[30px] font-bold text-[#FFFFFF]">7+</h3>
+                <h3 className=" text-[30px] font-bold text-[#FFFFFF]">11+</h3>
                 <p className="text-[#FFFFFF] text-sm  font-normal">Countries</p>
               </div>
 
@@ -112,7 +112,7 @@ export default function Community() {
           </div>
 
           <div className="flex justify-center pb-[135px]">
-            <button className="bg-[#5C1CC5] hover:border hover:border-[#5C1CC5] text-[18px] hover:bg-[#FAE1FF] cursor-pointer hover:text-[#5C1CC5]  text-white font-semibold px-7 py-2.5 rounded-sm transition-all duration-300 transform hover:scale-105 ease-in-out">
+            <button className="group   hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] text-[18px]  cursor-pointer   text-white font-semibold px-7 py-2.5 rounded-sm transition-all duration-300 transform  ease-in-out">
               Join Community
             </button>
           </div>

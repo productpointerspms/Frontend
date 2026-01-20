@@ -77,7 +77,7 @@ export default function CommunityMobile() {
               {/* Countries */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[3.6px] text-center  p-2  flex flex-col justify-center items-center">
                 <h3 className=" text-[12px] font-bold text-[#FFFFFF] pb-3">
-                  7+
+                  11+
                 </h3>
                 <p className="text-[#FFFFFF] text-[8px] leading-[5.2px] font-normal">
                   Countries
@@ -127,7 +127,7 @@ export default function CommunityMobile() {
           </div>
 
           <div className="flex justify-center pb-10 ">
-            <button className="bg-[#5C1CC5] hover:border hover:border-[#5C1CC5] text-[12px] hover:bg-[#FAE1FF] cursor-pointer hover:text-[#5C1CC5]  text-white font-semibold p-2 rounded-sm transition-all duration-300 transform hover:scale-105 ease-in-out">
+            <button className="group   hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] text-[12px] cursor-pointer   text-white font-semibold p-2 rounded-sm transition-all duration-300 transform  ease-in-out">
               Join Community
             </button>
           </div>

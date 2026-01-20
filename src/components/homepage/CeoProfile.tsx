@@ -16,7 +16,7 @@ export default function CeoProfile() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:gap-[58px] gap-0">
         <div className=" h-full w-full md:w-[582px] ">
           <Image
-            src="/images/blessing.png"
+            src="/images/blessing1.png"
             alt="Blessing Okomor"
             width={582}
             height={750}

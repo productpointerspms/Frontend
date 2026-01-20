@@ -124,7 +124,7 @@ export default function FaqSection() {
           <p className="text-white text-[16px] font-normal leading-6 mb-4">
             Still have questions?
           </p>
-          <button className=" font-medium text-[24px] cursor-pointer hover:text-white text-[#5C1CC5]   transition-all duration-300 transform hover:scale-105 ease-in-out inline-flex items-center gap-4">
+          <button className=" font-medium text-[24px] cursor-pointer text-white hover:text-[#5C1CC5]   transition-all duration-300 transform hover:scale-105 ease-in-out inline-flex items-center gap-4">
             Contact our team
             <ArrowRight className="w-4 h-4" />
           </button>
