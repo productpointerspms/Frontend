@@ -5,7 +5,7 @@ const StatsSection: React.FC = () => {
   const stats = [
     {
       icon: <Users className="text-purple-600 font-montserrat " size={24} />,
-      value: "50+",
+      value: "167+",
       label: "Professionals Trained",
     },
     {
@@ -15,7 +15,7 @@ const StatsSection: React.FC = () => {
     },
     {
       icon: <Globe className="text-purple-600 font-montserrat " size={24} />,
-      value: "6+",
+      value: "11+",
       label: "Countries Reached",
     },
     {
