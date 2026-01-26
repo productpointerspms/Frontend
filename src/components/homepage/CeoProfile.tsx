@@ -16,7 +16,7 @@ export default function CeoProfile() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:gap-[58px] gap-0">
         <div className=" h-full w-full md:w-[582px] ">
           <Image
-            src="/images/blessing.png"
+            src="/images/blessing1.png"
             alt="Blessing Okomor"
             width={582}
             height={750}
@@ -27,7 +27,7 @@ export default function CeoProfile() {
               Blessing Okomor
             </h3>
             <p className="text-[16px] font-medium text-[#15010D]  leading-5 pt-2">
-              Founder, Product Pointers
+              Founder, ProductPointers
             </p>
             <p className="text-[15px] font-normal text-[#6D6D6D] leading-5 pt-1">
               The-Global&apos;PM
