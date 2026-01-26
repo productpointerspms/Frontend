@@ -67,7 +67,7 @@ export default function CommunityMobile() {
               {/* Active Members */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[3.6px] text-center  p-2 flex flex-col justify-center items-center">
                 <h3 className="text-[12px] font-bold text-[#FFFFFF] pb-3 ">
-                  50+
+                  167+
                 </h3>
                 <p className="text-[#FFFFFF] text-[8px] leading-[5.2px] font-normal">
                   Active Members

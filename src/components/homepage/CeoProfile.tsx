@@ -27,7 +27,7 @@ export default function CeoProfile() {
               Blessing Okomor
             </h3>
             <p className="text-[16px] font-medium text-[#15010D]  leading-5 pt-2">
-              Founder, Product Pointers
+              Founder, ProductPointers
             </p>
             <p className="text-[15px] font-normal text-[#6D6D6D] leading-5 pt-1">
               The-Global'PM
