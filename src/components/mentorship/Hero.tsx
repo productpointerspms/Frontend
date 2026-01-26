@@ -16,7 +16,7 @@ export default function Hero() {
             />
 
             {/* Purple Overlay */}
-            <div className="absolute inset-0 bg-[#5c2d91]/70" />
+            <div className="absolute inset-0 bg-[#5c2d91]/60" />
 
             {/* Content */}
             <div className="relative z-10 flex h-full items-center justify-center px-6">
