@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import Link from "next/link";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
@@ -32,36 +34,36 @@ export default function Footer() {
             </h3>
             <ul className="space-y-4">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/about"
                   className="text-[#FFFFFF] hover:text-white transition-colors text-sm"
                 >
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/contact"
                   className="text-[#FFFFFF] hover:text-white transition-colors text-sm"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/accelerator"
                   className="text-[#FFFFFF] hover:text-white transition-colors text-sm"
                 >
                   Programs
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/community"
                   className="text-[#FFFFFF] hover:text-white transition-colors text-sm"
                 >
                   Community
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -71,7 +73,9 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4 ">Follow Us</h3>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://wa.me/+2348102567773"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-4 h-4 bg-green-500 rounded flex items-center justify-center hover:bg-green-600 transition-colors"
                 aria-label="WhatsApp"
               >
@@ -84,7 +88,18 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/productpointers/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(
+                    "https://www.linkedin.com/company/productpointers/",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                }}
                 className="w-4 h-4 hover:opacity-80 transition-opacity"
                 aria-label="LinkedIn"
               >
@@ -109,7 +124,7 @@ export default function Footer() {
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-1 md:w-[210px] w-[194px] h-9 bg-transparent border leading-6  tracking-[0.5px] border-[#6B7280] rounded-t-sm text-[16px] text-[#6B7280] focus:outline-none focus:border-purple-500 transition-colors"
               />
-              <button className="px-7 w-[147px] bg-[#5C1CC5] hover:bg-purple-700 cursor-pointer rounded h-9 font-medium text-lg text-[#FFFFFF] transition-colors whitespace-nowrap">
+              <button className="px-7 w-[147px] group hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] cursor-pointer rounded h-9 font-medium text-lg text-[#FFFFFF] transition-colors  duration-200 whitespace-nowrap">
                 Subscribe
               </button>
             </div>

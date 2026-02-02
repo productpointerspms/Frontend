@@ -46,11 +46,11 @@ const CommunityAboutSection = () => {
             WHAT WE'RE ABOUT
           </button>
 
-          <h1 className="text-5xl sm:text-5xl font-bold text-[#15010D] leading-[60px] mb-8">
+          <h1 className="md:text-5xl text-2xl font-bold text-[#15010D] md:leading-[60px] leading-normal mb-8">
             More Than a Network, Your Support System
           </h1>
 
-          <p className="text-[20px] text-[#15010D]  font-normal leading-7 mx-auto">
+          <p className="md:text-[20px] text-[12px] text-[#15010D]  font-normal md:leading-7 leading-5 mx-auto">
             Whether you're navigating your first product role, scaling a team,
             or building something from scratch, you'll <br /> find people here
             who genuinely care about your success.

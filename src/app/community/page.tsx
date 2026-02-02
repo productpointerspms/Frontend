@@ -88,7 +88,7 @@ export default function CommunityPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 font-[Arial] justify-center">
               {/* Active Members */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[14px] text-center  p-4 flex flex-col justify-center items-center">
-                <h3 className="text-[30px] font-bold text-[#FFFFFF] ">50+</h3>
+                <h3 className="text-[30px] font-bold text-[#FFFFFF] ">167+</h3>
                 <p className="text-[#FFFFFF] text-sm font-normal">
                   Active Members
                 </p>
@@ -118,7 +118,7 @@ export default function CommunityPage() {
               {/* Active Members */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[3.6px] text-center  p-2 flex flex-col justify-center items-center">
                 <h3 className="text-[12px] font-bold text-[#FFFFFF] pb-3 ">
-                  50+
+                  167+
                 </h3>
                 <p className="text-[#FFFFFF] text-[8px] leading-[5.2px] font-normal">
                   Active Members
