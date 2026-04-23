@@ -25,9 +25,9 @@ const HeroNew: React.FC = () => {
               letterSpacing: "0px",
               textAlign: "center",
             }}
-            className="text-[32px] sm:text-[40px] md:text-[52px] lg:text-[64px] max-w-[90%] md:max-w-[900px]"
+            className="text-[32px] sm:text-[40px] md:text-[52px] lg:text-[44px] max-w-[90%] md:max-w-[900px]"
           >
-            An Impact-First Product Management Community
+           An Impact-First Product Management Mentorship Academy
           </h1>
         </div>
 

@@ -5,13 +5,13 @@ const HeroSection: React.FC = () => {
     <section
       className="relative min-h-screen w-full flex items-center justify-center text-center text-white overflow-hidden"
       style={{
-        backgroundImage: "url('/images/hero-bg.jpg')",
+        backgroundImage:  "linear-gradient(180deg, #5C1CC580 -47.03%, #14010D 129.66%), url('/images/hero-bg.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
       {/* Purple/dark overlay */}
-      <div className="absolute inset-0 bg-[#5C1CC5]/50" />
+      {/* <div className="absolute inset-0 bg-gradient-to-br from-[#5C1CC5]/50 to-[#8e2de2]/50" /> */}
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center px-6 py-20 max-w-4xl mx-auto">

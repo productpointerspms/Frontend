@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
-import teardownImg from "@/assets/images/teardown_masterclass.png";
+import teardownImg from "@/assets/images/pd0.png";
 import vibeCodingImg from "@/assets/images/pd1.png";
 import upworkJobsImg from "@/assets/images/pd2.png";
 
@@ -20,7 +20,7 @@ const FreeResources: React.FC = () => {
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Large Video Card */}
-          <div className="lg:w-2/3">
+          <div className="lg:w-2/3 pb-3">
             <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow h-full flex flex-col overflow-hidden group cursor-pointer">
               <div className="relative w-full aspect-[16/10]">
                 <Image
@@ -29,17 +29,6 @@ const FreeResources: React.FC = () => {
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/5 group-hover:bg-black/20 transition-colors">
-                  <div className="w-16 h-16 bg-[#C62828] rounded-full flex items-center justify-center shadow-lg">
-                    <Play className="text-white w-8 h-8 ml-1" fill="white" />
-                  </div>
-                </div>
-              </div>
-              <div className="p-6 flex-grow flex items-center bg-white">
-                <h3 className="text-xl font-semibold font-montserrat text-[#15010D]">
-                  How to Conduct a Product Teardown | Product Management for
-                  Beginners
-                </h3>
               </div>
             </div>
           </div>
@@ -55,7 +44,7 @@ const FreeResources: React.FC = () => {
                   className="object-cover"
                 />
               </div>
-              
+
             </div>
 
             <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow flex-1 flex flex-col overflow-hidden group cursor-pointer">
@@ -66,16 +55,20 @@ const FreeResources: React.FC = () => {
                   fill
                   className="object-cover"
                 />
-               
+
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-12 flex justify-center">
-          <button className="bg-[#C62828] hover:bg-[#A82121] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-sm md:text-base">
+          <a href="https://youtube.com/@the-globalpm?si=RZKGO1g-N2Hwt-Al"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#C62828] hover:bg-[#A82121] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-sm md:text-base"
+          >
             View Channel
-          </button>
+          </a>
         </div>
       </div>
     </section>
