@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ChevronDown, X, Menu } from "lucide-react";
 import Image from "next/image";
-import logo from "@/assets/images/Image.png";
+import logo from "@/assets/images/logo.png";
 
 const Navbar = () => {
   const [active, setActive] = useState("Home");
@@ -53,8 +53,8 @@ const Navbar = () => {
         <Image
           src={logo}
           alt="ProductPointers Logo"
-          width={70}
-          height={70}
+          width={120}
+          height={90}
           className="object-contain"
         />
       </div>
@@ -195,7 +195,7 @@ const Navbar = () => {
 
           {/* Mobile Buttons */}
           <div className="flex flex-col items-center w-full mt-4 gap-3 px-6">
-            <Link href="/signup" className="w-full text-center bg-purple-600 text-white py-2 rounded-md font-montserrat hover:bg-purple-700 transition">
+            <Link href="/signup" className="w-full text-center bg-[#5C1CC5] text-white py-2 rounded-md font-montserrat hover:bg-[#5C1CC5]-700 transition">
               Sign Up
             </Link>
             <Link href="/login" className="w-full text-center border border-purple-600 text-purple-700 py-2 rounded-md font-montserrat hover:bg-purple-50 transition">

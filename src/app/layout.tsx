@@ -40,7 +40,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${Arial.variable}`}
       suppressHydrationWarning
     >
-      <body className="antialiased font-montserrat">
+      <body className="antialiased font-montserrat" suppressHydrationWarning>
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">{children}</main>
