@@ -1,6 +1,6 @@
 
 "use client";
-import CeoProfile from "@/components/homepage/CeoProfile";
+import ConnectFounder from "@/components/homepage/ConnectFounder";
 import Community from "@/components/homepage/Community";
 import CommunityMobile from "@/components/homepage/CommunityMobile";
 import AlumniStories from "@/components/homepage/AlumniStories";
@@ -9,12 +9,14 @@ import FAQSection from "@/components/homepage/FaqSection";
 import PMCoachingHero from "@/components/homepage/PMCoachingHero";
 import HeroSection from "@/components/homepage/HeroSection";
 import OurPillars from "@/components/homepage/OurPillars";
+import FreeResources from "@/components/homepage/FreeResources";
 import ProductPointersJourney from "@/components/homepage/ProductPointersJourney";
 import UpcomingPrograms from "@/components/homepage/ProgramCard";
 import SecondaryNav from "@/components/homepage/SecondaryNav";
 import StatsSection from "@/components/homepage/StatsSection";
 import WhatDrivesUs from "@/components/homepage/WhatDrivesUs";
 import WhyChooseProductPointers from "@/components/homepage/WhyChooseProductPointers";
+import MentorshipVideo from "@/components/homepage/MentorshipVideo";
 
 
 export default function Home() {
@@ -26,14 +28,16 @@ export default function Home() {
       <WhatDrivesUs />
       <WhyChooseProductPointers />
       <OurPillars />
+      <MentorshipVideo />
       <ProductPointersJourney />
       <UpcomingPrograms />
-      <CeoProfile />
       <Community />
       <CommunityMobile />
       <AlumniStories />
       <TestimonialSection />
+      <FreeResources />
       <FAQSection />
+       <ConnectFounder />
       <PMCoachingHero />
     </main>
   );

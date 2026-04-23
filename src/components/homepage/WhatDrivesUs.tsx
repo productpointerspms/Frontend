@@ -22,24 +22,14 @@ const WhatDrivesUs: React.FC = () => {
           </h2>
 
           <p className="text-gray-700 mb-5 leading-relaxed font-montserrat">
-            We believe great products don&apos;t just happen—they&apos;re built by people
-            who are equipped, supported, and inspired. That’s why
-            <span className="text-purple-700 font-semibold">
-              {" "}
-              ProductPointers
-            </span>{" "}
-            exist: to give aspiring and practicing product managers in Nigeria
-            and beyond the training, mentorship, and community they need to
-            thrive.
+            Great products don’t happen by accident, they’re built by people who are guided, supported, and continuously mentored,
+            That’s why ProductPointers exists: to equip aspiring and growing product managers in Nigeria and around the world with structured mentorship, practical training, and a strong professional community that accelerates real careers.
           </p>
 
           <p className="text-gray-700 leading-relaxed mb-8 font-montserrat leading-['36px]">
-            Our drive comes from seeing product professionals unlock new
-            opportunities, land entry-level roles, and grow into confident
-            leaders who shape products that matter. Every program, coaching
-            session, and community connection we create is designed to deliver
-            hands-on training, practical PM skills, and mentorship that prepares
-            you for success in the global product space.
+            We’re driven by the transformation we see every day, beginners breaking into tech, entry-level PMs gaining direction, and professionals growing into confident product leaders. Every program, coaching session, and internship we design is built around hands-on experience, advanced PM skills, and mentorship that prepares you to compete in the global product space.
+            We’re not just teaching product management.
+            We’re mentoring the next generation of product leaders.
           </p>
 
           {/* Tag with Icon */}

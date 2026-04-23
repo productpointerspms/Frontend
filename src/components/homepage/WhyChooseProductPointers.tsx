@@ -10,20 +10,17 @@ const WhyChooseProductPointers = () => {
       image: img1,
       title: "Mentorship that gives you clarity & confidence",
       description: "Learn directly from experts who guide your every step.",
-      link: "#",
     },
     {
       image: img2,
       title: "Hands-on training that gets you job-ready",
       description:
         "Hands-on workshops and real-world projects that prepare you for immediate impact in your role.",
-      link: "#",
     },
     {
       image: img,
       title: "A global community to keep you growing",
       description: "Connect, share, and grow with product minds worldwide.",
-      link: "#",
     },
   ];
 
@@ -60,7 +57,6 @@ const WhyChooseProductPointers = () => {
             image={card.image}
             title={card.title}
             description={card.description}
-            link={card.link}
           />
         ))}
       </div>
