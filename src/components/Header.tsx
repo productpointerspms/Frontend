@@ -37,7 +37,7 @@ const Navbar = () => {
       href: "#",
       dropdown: [
         { name: "Accelerator Program", href: "/accelerator" },
-        { name: "Mentorship Program", href: "/mentorship" },
+        { name: "PPMP Program", href: "/ppmp" },
         { name: "Leadership", href: "/programs/leadership" },
       ],
     },
