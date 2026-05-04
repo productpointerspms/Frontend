@@ -36,7 +36,9 @@ const ConnectFounder: React.FC = () => {
           </p>
 
           <a
-            href="#"
+            href="https://www.linkedin.com/in/blessing-okomor"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#0077B5] text-white px-6 py-3.5 rounded-full font-medium hover:bg-[#006097] transition-colors mb-12 shadow-sm text-sm"
           >
             <LinkedinIcon className="w-5 h-5 text-white" />
