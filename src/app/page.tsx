@@ -17,17 +17,19 @@ import StatsSection from "@/components/homepage/StatsSection";
 import WhatDrivesUs from "@/components/homepage/WhatDrivesUs";
 import WhyChooseProductPointers from "@/components/homepage/WhyChooseProductPointers";
 import MentorshipVideo from "@/components/homepage/MentorshipVideo";
+import StuckSection from "@/components/homepage/StuckSection";
 
 
 export default function Home() {
   return (
     <main>
       <HeroSection />
-      <SecondaryNav />
-      <StatsSection />
-      <WhatDrivesUs />
+      <StuckSection />
+      {/* <SecondaryNav /> */}
+      {/* <StatsSection /> */}
+      {/* <WhatDrivesUs /> */}
       <WhyChooseProductPointers />
-      <OurPillars />
+      {/* <OurPillars /> */}
       <MentorshipVideo />
       <ProductPointersJourney />
       <UpcomingPrograms />
