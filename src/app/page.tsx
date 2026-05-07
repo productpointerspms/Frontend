@@ -1,12 +1,46 @@
+
 "use client";
+import ConnectFounder from "@/components/homepage/ConnectFounder";
+import Community from "@/components/homepage/Community";
+import CommunityMobile from "@/components/homepage/CommunityMobile";
+import AlumniStories from "@/components/homepage/AlumniStories";
+import TestimonialSection from "@/components/homepage/TestimonialSection";
+import FAQSection from "@/components/homepage/FaqSection";
+import PMCoachingHero from "@/components/homepage/PMCoachingHero";
+import HeroSection from "@/components/homepage/HeroSection";
+import OurPillars from "@/components/homepage/OurPillars";
+import FreeResources from "@/components/homepage/FreeResources";
+import ProductPointersJourney from "@/components/homepage/ProductPointersJourney";
+import UpcomingPrograms from "@/components/homepage/ProgramCard";
+import SecondaryNav from "@/components/homepage/SecondaryNav";
+import StatsSection from "@/components/homepage/StatsSection";
+import WhatDrivesUs from "@/components/homepage/WhatDrivesUs";
+import WhyChooseProductPointers from "@/components/homepage/WhyChooseProductPointers";
+import MentorshipVideo from "@/components/homepage/MentorshipVideo";
+import StuckSection from "@/components/homepage/StuckSection";
+
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-2">Welcome, frontend</h1>
-        <p className="text-lg text-gray-600">Let&apos;s build.</p>
-      </div>
-    </div>
+    <main>
+      <HeroSection />
+      <StuckSection />
+      {/* <SecondaryNav /> */}
+      {/* <StatsSection /> */}
+      {/* <WhatDrivesUs /> */}
+      <WhyChooseProductPointers />
+      {/* <OurPillars /> */}
+      <MentorshipVideo />
+      <ProductPointersJourney />
+      <UpcomingPrograms />
+      <Community />
+      <CommunityMobile />
+      <AlumniStories />
+      <TestimonialSection />
+      <FreeResources />
+      <FAQSection />
+       <ConnectFounder />
+      <PMCoachingHero />
+    </main>
   );
 }
