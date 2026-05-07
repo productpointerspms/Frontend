@@ -2,200 +2,120 @@
 
 import React from "react";
 import Image from "next/image";
-import { Globe, Quote, TrendingUp, Heart } from "lucide-react";
+import { Globe, Quote, Briefcase, Handshake, MapPin } from "lucide-react";
+import { Montserrat } from "next/font/google";
 
-interface StatItem {
-  icon: React.ReactElement;
-  stat: string;
-  text: string;
-}
-
-const stats: StatItem[] = [
-  {
-    icon: <TrendingUp size={26} />,
-    stat: "92%",
-    text: "Average salary increase within first year",
-  },
-  {
-    icon: <Heart size={26} />,
-    stat: "98%",
-    text: "Would recommend to a friend",
-  },
-];
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 const RealStories: React.FC = () => {
   return (
-    <section className="w-full bg-[#FCF1FF] py-24 font-[Montserrat]">
-      <div className="max-w-[1280px] mx-auto px-6">
+    <section className={`${montserrat.className} w-full bg-[#FDF4FF] py-24 text-[#15010D]`}>
+      <div className="max-w-7xl mx-auto px-6">
+        
         {/* Header */}
-        <div className="flex flex-col items-center text-center">
-          <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow mb-4">
-            <Heart className="text-[#5C1CC5]" size={28} />
-          </div>
-
-          <h2 className="text-[46px] font-bold text-[#15010D] leading-[58px]">
-            Real Stories, Real Impact
+        <div className="text-center mb-16">
+          <h2 className="text-[32px] md:text-[42px] font-bold mb-4">
+            Real Stories. Real Impact.
           </h2>
-
-          <p className="text-[#4A5565] mt-4 text-[19px] leading-[28px] max-w-[720px]">
+          <p className="text-lg md:text-xl opacity-60 max-w-3xl mx-auto leading-relaxed">
             Behind every number is a human story. Discover how our community
             transforms careers and builds connections that span the globe.
           </p>
         </div>
 
-        {/* Top Section */}
-        <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-14 w-full">
-          {/* Map + Card */}
-          <div className="relative w-full">
-            <div className="relative w-full h-[450px] rounded-2xl overflow-hidden shadow-md">
-              <Image
-                src="/images/Map.png"
-                alt="Global Map"
-                fill
-                className="object-cover"
-              />
+        {/* Stats Row */}
+        <div className="flex flex-col md:flex-row justify-center gap-6 mb-12">
+          {[
+            { icon: <Briefcase size={24} />, val: "300+", label: "Product Managers trained" },
+            { icon: <Handshake size={24} />, val: "98%", label: "Would recommend to a friend" },
+          ].map((item, idx) => (
+            <div key={idx} className="bg-white rounded-2xl shadow-sm border border-purple-50 p-8 flex flex-col items-center text-center w-full md:w-72">
+              <div className="text-[#6024D0] mb-4 opacity-80">{item.icon}</div>
+              <h3 className="text-3xl font-bold text-[#6024D0] mb-2">{item.val}</h3>
+              <p className="text-sm opacity-60">{item.label}</p>
             </div>
+          ))}
+        </div>
 
-            {/* Floating Card */}
-            <div className="absolute bottom-[-35px] right-[-35px] bg-white rounded-2xl shadow-xl p-6 w-[350px] border border-gray-100">
-              <div className="text-[#5C1CC5] mb-2">
-                <Globe size={22} />
+        {/* Testimonials Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+          {/* Blessing's Testimonial */}
+          <div className="lg:col-span-7 bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-purple-50">
+            <Quote className="text-[#6024D0] w-10 h-10 mb-6 rotate-180" />
+            <p className="text-lg italic opacity-70 leading-relaxed mb-8">
+              "The program has helped me grow by widening my knowledge about happenings in the world that I had little or zero knowledge about. It's solved a specific problem for me by changing my thought pattern. One of the major effects of the program on me is a broadened knowledge."
+            </p>
+            <div className="flex items-center gap-4">
+              <div className="relative w-14 h-14 rounded-full overflow-hidden">
+                <Image src="/images/Bless.png" alt="Blessing" fill className="object-cover" />
               </div>
-              <h4 className="font-semibold text-[17px] text-[#15010D]">
-                Global Reach
-              </h4>
-              <p className="text-[#4A5565] text-[14px] leading-[20px] mt-2">
-                Our growing community spans Ireland, Moscow, the US, the UK, and
-                Equatorial Guinea, bringing together product leaders from every
-                corner of the world.
-              </p>
+              <div>
+                <p className="font-bold text-[#6024D0]">Blessing Conference</p>
+                <p className="text-sm opacity-50">Product Manager</p>
+              </div>
             </div>
           </div>
 
-          {/* Testimonial + Stats */}
-          <div className="flex flex-col justify-start gap-10">
-            {/* Testimonial */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 text-left border border-gray-100">
-              <div className="text-[#5C1CC5] mb-3">
-                <Quote size={26} />
-              </div>
-
-              <p className="italic text-[16px] leading-[24px] text-[#4A5565] mb-5">
-                “The program has helped me grow by widening my knowledge about
-                happenings in the world that I had little or zero knowledge
-                about. It's solved a specific problem for me by changing my
-                thought pattern. One of the major effects of the program on me
-                is a broadened knowledge.”
-              </p>
-
-              <div className="flex items-center gap-3 mt-4">
-                <Image
-                  src="/images/Bless.png"
-                  alt="Blessing Conference"
-                  width={50}
-                  height={50}
-                  className="rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold text-[#5C1CC5]">
-                    Blessing Conference
-                  </p>
-                  <p className="text-sm text-[#4A5565]">Product Manager</p>
-                </div>
-              </div>
+          {/* Samuel's Testimonial */}
+          <div className="lg:col-span-5 bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-purple-50 flex flex-col justify-between">
+            <div>
+                <Quote className="text-[#6024D0] w-8 h-8 mb-6 rotate-180" />
+                <p className="text-base italic opacity-70 leading-relaxed mb-8">
+                "The program transformed my perspective, teaching me how to research, plan, and align products with user needs and business goals."
+                </p>
             </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-5">
-              {stats.map((item: StatItem, index: number) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100"
-                >
-                  <div className="text-[#5C1CC5] mb-3">{item.icon}</div>
-                  <h4 className="text-[30px] font-bold text-[#5C1CC5]">
-                    {item.stat}
-                  </h4>
-                  <p className="text-sm text-[#4A5565] leading-tight mt-2">
-                    {item.text}
-                  </p>
-                </div>
-              ))}
+            <div className="flex items-center gap-4">
+              <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                <Image src="/images/Samuel.png" alt="Samuel" fill className="object-cover" />
+              </div>
+              <div>
+                <p className="font-bold text-[#6024D0]">Samuel Ogunleye</p>
+                <p className="text-sm opacity-50">Product Manager</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Grid */}
-        <div className="mt-28 grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        {/* Bottom Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Team Success */}
-          <div className="relative rounded-2xl overflow-hidden shadow-lg h-[220px]">
-            <Image
-              src="/images/Newsuccess.png"
-              alt="Team Success"
-              fill
-              className="object-cover"
-            />
-
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black/40" />
-
-            {/* Bottom-anchored text */}
-            <div className="absolute bottom-0 left-0 right-0 z-10 p-6 text-white">
-              <h4 className="font-semibold">Team Success</h4>
-              <p className="text-sm leading-relaxed">
-                Collaborative growth among passionate professionals.
-              </p>
-            </div>
-          </div>
-
-          {/* Samuel */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 flex flex-col justify-between">
-            <div className="text-[#5C1CC5] mb-3">
-              <Quote size={24} />
-            </div>
-
-            <p className="italic text-[#4A5565] leading-[22px]">
-              “The program transformed my perspective, teaching me how to
-              research, plan, and align products with user needs and business
-              goals.”
-            </p>
-
-            <div className="flex items-center gap-3 mt-5">
-              <Image
-                src="/images/Samuel.png"
-                alt="Samuel Ogunleye"
-                width={50}
-                height={50}
-                className="rounded-full object-cover"
-              />
-              <div>
-                <p className="font-semibold text-[#5C1CC5]">Samuel Ogunleye</p>
-                <p className="text-sm text-[#4A5565]">Product Manager</p>
-              </div>
+          <div className="relative group h-64 rounded-3xl overflow-hidden shadow-md">
+            <Image src="/images/Newsuccess.png" alt="Team Success" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
+              <h4 className="text-white font-bold text-lg">Team Success</h4>
+              <p className="text-white/80 text-sm">Collaborative growth</p>
             </div>
           </div>
 
           {/* Individual Growth */}
-          <div className="relative rounded-2xl overflow-hidden shadow-lg h-[220px]">
-            <Image
-              src="/images/individual.png"
-              alt="Individual Growth"
-              fill
-              className="object-cover"
-            />
+          <div className="relative group h-64 rounded-3xl overflow-hidden shadow-md">
+            <Image src="/images/individual.png" alt="Individual Growth" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
+              <h4 className="text-white font-bold text-lg">Individual Growth</h4>
+              <p className="text-white/80 text-sm">Personal transformation</p>
+            </div>
+          </div>
 
-            {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/40" />
-
-            {/* Bottom text */}
-            <div className="absolute bottom-0 left-0 right-0 z-10 p-6 text-white">
-              <h4 className="font-semibold">Individual Growth</h4>
-              <p className="text-sm leading-relaxed">
-                Personal transformation through product leadership.
+          {/* Global Map Container */}
+          <div className="relative h-64 rounded-3xl overflow-hidden shadow-md bg-[#6024D0]/10">
+            <Image src="/images/Map.png" alt="Global Reach Map" fill className="object-cover opacity-60 mix-blend-multiply" />
+            
+            {/* Floating Map Info */}
+            <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-xl max-w-[200px] border border-purple-100">
+              <div className="flex items-center gap-2 text-[#6024D0] mb-2">
+                <MapPin size={14} className="fill-[#6024D0]/20" />
+                <span className="text-[10px] font-bold uppercase tracking-wider">Global Reach</span>
+              </div>
+              <p className="text-[9px] leading-relaxed opacity-70">
+                Our growing community spans Ireland, Moscow, the US, the UK, and Equatorial Guinea.
               </p>
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );

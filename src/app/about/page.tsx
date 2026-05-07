@@ -7,6 +7,8 @@ import FounderStory from "@/components/Founder";
 import HerJourney from "@/components/Herjourney"
 import Team from "@/components/Team";
 import TheNewFuture from "@/components/TheNewFuture";
+import FaqSection from "@/components/homepage/FaqSection";
+import CallToAction from "@/components/homepage/CallToAction";
 
 
 const AboutPage: React.FC = () => {
@@ -19,7 +21,9 @@ const AboutPage: React.FC = () => {
         <FounderStory />
         <HerJourney />
         <Team />
-        <TheNewFuture />
+        {/* <TheNewFuture /> */}
+        <FaqSection />
+        <CallToAction/>
     </main>
   );
 };

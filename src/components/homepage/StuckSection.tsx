@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { User, Briefcase, Bot, ImageOff } from 'lucide-react';
+import img1 from "@/assets/images/homeimg1.png"
+import img2 from "@/assets/images/homeimg2.png"
 
 const painPoints = [
   {
@@ -61,7 +63,7 @@ const StuckSection: React.FC = () => {
           {/* Top-Right: Image 1 (Tired Asian Woman) */}
           <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100">
             <img 
-              src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop" 
+              src={img1.src}
               alt="Tired woman at computer" 
               className="w-full h-auto object-cover aspect-[16/10]"
             />
@@ -70,7 +72,7 @@ const StuckSection: React.FC = () => {
           {/* Bottom-Left: Image 2 (Stressed Businesswoman) */}
           <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100 md:row-start-2">
             <img 
-              src="https://images.unsplash.com/photo-1573497620053-ea5310f94f17?q=80&w=1000&auto=format&fit=crop" 
+              src={img2.src}
               alt="Stressed businesswoman" 
               className="w-full h-auto object-cover aspect-[16/10]"
             />

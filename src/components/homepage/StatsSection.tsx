@@ -5,7 +5,7 @@ const StatsSection: React.FC = () => {
   const stats = [
     {
       icon: <Users className="text-purple-600 font-montserrat " size={24} />,
-      value: "276+",
+      value: "300+",
       label: "Professionals Trained",
     },
     {
