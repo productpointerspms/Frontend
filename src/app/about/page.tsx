@@ -9,6 +9,9 @@ import Team from "@/components/Team";
 import TheNewFuture from "@/components/TheNewFuture";
 import FaqSection from "@/components/homepage/FaqSection";
 import CallToAction from "@/components/homepage/CallToAction";
+import MakingDifferent from "@/components/MakingDifferent";
+import VisionMission from "@/components/VisionMission";
+import FinalCTA from "@/components/FinalCTA";
 
 
 const AboutPage: React.FC = () => {
@@ -16,14 +19,18 @@ const AboutPage: React.FC = () => {
     <main className="min-h-screen bg-white text-gray-900">
        <HeroNew />
        <MissionVision />
-        <CoreValues />
+       <MakingDifferent/>
+        
         <RealStories />
         <FounderStory />
         <HerJourney />
         <Team />
+        <VisionMission/>
+        <CoreValues />
         {/* <TheNewFuture /> */}
         <FaqSection />
-        <CallToAction/>
+        {/* <CallToAction/> */}
+        <FinalCTA/>
     </main>
   );
 };
