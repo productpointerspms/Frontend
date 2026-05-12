@@ -26,7 +26,7 @@ const HeroNetwork = () => {
         </p>
 
         {/* CTA */}
-        <button className="mt-8 sm:mt-10 px-6 sm:px-10 py-3 sm:py-4 rounded-lg bg-[#6A2FF5] hover:bg-[#5a26e0] transition text-white font-semibold">
+        <button className="mt-8 sm:mt-10 px-6 sm:px-10 py-3 sm:py-4 rounded-lg bg-[#6A2FF5] hover:bg-[#5a26e0] transition text-white font-semibold cursor-pointer">
           Subscribe Now
         </button>
       </div>

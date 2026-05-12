@@ -42,7 +42,7 @@ const recurSection: React.FC = () => {
           </ul>
 
           {/* Button */}
-          <button className="w-full h-[50px] bg-purple-600 text-white rounded-[4px] font-montserrat font-semibold hover:bg-purple-700 transition">
+          <button className="w-full h-[50px] bg-purple-600 text-white rounded-[4px] font-montserrat font-semibold hover:bg-purple-700 transition cursor-pointer">
             Subscribe Now
           </button>
 

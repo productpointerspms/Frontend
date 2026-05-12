@@ -64,7 +64,7 @@ const CountdownSection: React.FC = () => {
 
       {/* CTA Button & Info */}
       <div className="flex flex-col items-center gap-4">
-        <button className="bg-[#F5F3FF] text-[#581C87] px-8 py-4 rounded-2xl font-bold text-lg flex items-center gap-2 hover:bg-white transition-all shadow-lg active:scale-95">
+        <button className="bg-[#F5F3FF] text-[#581C87] px-8 py-4 rounded-2xl font-bold text-lg flex items-center gap-2 hover:bg-white transition-all shadow-lg active:scale-95 cursor-pointer">
           Apply for the Next Cohort
           <ArrowRight className="w-5 h-5" />
         </button>

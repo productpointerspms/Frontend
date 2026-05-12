@@ -82,7 +82,7 @@ const WhyChooseProductPointers = () => {
         </div>
 
         {/* CTA Button - Full width on mobile, auto on desktop */}
-        <button className="w-full sm:w-auto bg-[#5C1CC5] hover:bg-[#4a15a0] text-white font-semibold py-4 px-10 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-200">
+        <button className="w-full sm:w-auto bg-[#5C1CC5] hover:bg-[#4a15a0] text-white font-semibold py-4 px-10 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-200 cursor-pointer">
           See How the Program Works
           <ArrowRight size={20} />
         </button>

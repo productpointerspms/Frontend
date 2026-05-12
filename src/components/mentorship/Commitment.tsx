@@ -48,7 +48,7 @@ export default function Commitment() {
                     </ul>
 
                     {/* CTA Button */}
-                    <button className="w-full rounded-xl bg-[#6D28D9] py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-[#5b21b6]">
+                    <button className="w-full rounded-xl bg-[#6D28D9] py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-[#5b21b6] cursor-pointer">
                         Join the Mentorship
                     </button>
 

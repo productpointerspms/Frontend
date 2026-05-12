@@ -56,7 +56,7 @@ const Founder: React.FC = () => {
           </div>
 
           {/* LinkedIn Button */}
-          <button className="mt-8 bg-white hover:bg-gray-50 text-[#6024D0] px-6 py-3 rounded-2xl flex items-center gap-3 shadow-md transition-all font-semibold">
+          <button className="mt-8 bg-white hover:bg-gray-50 text-[#6024D0] px-6 py-3 rounded-2xl flex items-center gap-3 shadow-md transition-all font-semibold cursor-pointer">
             <div className="bg-[#0077B5] p-1 rounded-md">
               <Linkedin className="w-4 h-4 text-white fill-white" />
             </div>
@@ -99,7 +99,7 @@ const Founder: React.FC = () => {
           </div>
 
           {/* Bottom CTA */}
-          <button className="mt-12 text-[#6024D0] font-bold text-xl flex items-center gap-2 hover:underline underline-offset-8 transition-all">
+          <button className="mt-12 text-[#6024D0] font-bold text-xl flex items-center gap-2 hover:underline underline-offset-8 transition-all cursor-pointer">
             Learn More About Our Programs
             <ArrowRight className="w-6 h-6" />
           </button>

@@ -208,7 +208,7 @@ function StepOne({ onNext }: { onNext: () => void }) {
 
                 <button
                     type="submit"
-                    className="w-full bg-[#5C1CC5] hover:bg-[#4E17A6] text-white font-medium py-3 px-4 rounded-md transition-colors mt-8"
+                    className="w-full bg-[#5C1CC5] hover:bg-[#4E17A6] text-white font-medium py-3 px-4 rounded-md transition-colors mt-8 cursor-pointer"
                 >
                     Next
                 </button>
@@ -340,7 +340,7 @@ function StepTwo({ onBack }: { onBack: () => void }) {
                 <div className="pt-6 border-t border-gray-100 flex flex-col space-y-4">
                     <button
                         type="submit"
-                        className="w-full bg-[#5C1CC5] text-white py-3 px-4 rounded-md hover:bg-[#4E17A6] transition-colors font-medium text-lg"
+                        className="w-full bg-[#5C1CC5] text-white py-3 px-4 rounded-md hover:bg-[#4E17A6] transition-colors font-medium text-lg cursor-pointer"
                     >
                         Submit Application
                     </button>
@@ -348,7 +348,7 @@ function StepTwo({ onBack }: { onBack: () => void }) {
                     <button
                         type="button"
                         onClick={onBack}
-                        className="w-full text-center text-[#5C1CC5] hover:underline font-medium text-sm py-2"
+                        className="w-full text-center text-[#5C1CC5] hover:underline font-medium text-sm py-2 cursor-pointer"
                     >
                         Go Back
                     </button>

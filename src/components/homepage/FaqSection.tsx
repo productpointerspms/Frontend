@@ -61,7 +61,7 @@ export default function FaqSection() {
             >
               <button
                 onClick={() => toggleAccordion(index)}
-                className="w-full px-8 py-6 flex items-center justify-between text-left"
+                className="w-full px-8 py-6 flex items-center justify-between text-left cursor-pointer"
               >
                 <span className="text-base md:text-lg font-semibold text-[#15010D]">
                   {faq.question}

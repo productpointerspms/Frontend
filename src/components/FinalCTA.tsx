@@ -19,13 +19,13 @@ const FinalCTA: React.FC = () => {
         {/* Button Group */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* Primary Action */}
-          <button className="bg-[#FDF4FF] text-[#6024D0] px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-white transition-colors w-full sm:w-auto justify-center">
+          <button className="bg-[#FDF4FF] text-[#6024D0] px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-white transition-colors w-full sm:w-auto justify-center cursor-pointer">
             Apply Now
             <MoveRight className="w-5 h-5" />
           </button>
 
           {/* Secondary Action */}
-          <button className="border border-white/40 text-white px-8 py-4 rounded-2xl font-medium hover:bg-white/10 transition-colors w-full sm:w-auto justify-center">
+          <button className="border border-white/40 text-white px-8 py-4 rounded-2xl font-medium hover:bg-white/10 transition-colors w-full sm:w-auto justify-center cursor-pointer">
             Find the Right Program for You
           </button>
         </div>

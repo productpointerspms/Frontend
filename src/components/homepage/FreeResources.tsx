@@ -73,7 +73,7 @@ const FreeResources: React.FC = () => {
         </div>
 
         <div className="mt-12 flex justify-center">
-          <button className="bg-[#C62828] hover:bg-[#A82121] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-sm md:text-base">
+          <button className="bg-[#C62828] hover:bg-[#A82121] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-sm md:text-base cursor-pointer">
             View Channel
           </button>
         </div>

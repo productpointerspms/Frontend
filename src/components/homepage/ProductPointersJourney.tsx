@@ -105,7 +105,7 @@ const ProductPointersJourney: React.FC = () => {
         <p className="text-sm font-semibold text-[#582208] mb-5">
           Not sure where to start? We'll guide you.
         </p>
-        <button className="flex items-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white px-5 py-2.5 rounded-lg text-xs font-semibold transition-transform active:scale-95 shadow-md">
+        <button className="flex items-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white px-5 py-2.5 rounded-lg text-xs font-semibold transition-transform active:scale-95 shadow-md cursor-pointer">
           Find the Right Program for You
           <ArrowRight className="w-3.5 h-3.5" />
         </button>

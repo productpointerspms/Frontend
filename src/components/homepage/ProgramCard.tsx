@@ -34,7 +34,7 @@ const ProgramCard: React.FC<ProgramCardProps> = ({ image, whoItsFor, outcome }) 
           </p>
         </div>
 
-        <button className="flex items-center text-[#4F46E5] font-semibold text-sm hover:underline mt-2">
+        <button className="flex items-center text-[#4F46E5] font-semibold text-sm hover:underline mt-2 cursor-pointer">
           Learn More <ArrowRight className="ml-2 w-4 h-4" />
         </button>
       </div>
@@ -103,7 +103,7 @@ export default function ExplorePrograms() {
       {/* Footer CTA */}
       <div className="mt-20 text-center text-white">
         <p className="text-lg mb-6 opacity-90 font-medium">Not sure which program is right for you?</p>
-        <button className="bg-white text-purple-900 px-8 py-4 rounded-2xl font-bold flex items-center mx-auto hover:bg-gray-100 transition-colors">
+        <button className="bg-white text-purple-900 px-8 py-4 rounded-2xl font-bold flex items-center mx-auto hover:bg-gray-100 transition-colors cursor-pointer">
           Find the Right Program for You <ArrowRight className="ml-2 w-5 h-5" />
         </button>
       </div>

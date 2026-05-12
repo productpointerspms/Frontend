@@ -35,10 +35,10 @@ const HeroSection: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <button className="bg-[#5C1CC5] hover:bg-[#4a15a0] text-white font-semibold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-200">
+            <button className="bg-[#5C1CC5] hover:bg-[#4a15a0] text-white font-semibold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-200 cursor-pointer">
               Find Your Next Step in Product <ArrowRight size={20} />
             </button>
-            <button className="border-2 border-[#1A1A1A] hover:bg-gray-100 text-[#1A1A1A] font-semibold px-8 py-4 rounded-xl transition-all">
+            <button className="border-2 border-[#1A1A1A] hover:bg-gray-100 text-[#1A1A1A] font-semibold px-8 py-4 rounded-xl transition-all cursor-pointer">
               Join the Next Cohort
             </button>
           </div>

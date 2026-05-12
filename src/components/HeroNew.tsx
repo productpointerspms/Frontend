@@ -17,7 +17,7 @@ const HeroNew: React.FC = () => {
         
         {/* Left Content */}
         <div className="flex flex-col items-start text-left">
-          <h1 className="text-[#15010D] text-[40px] md:text-[56px] lg:text-[64px] font-bold leading-[1.1] mb-8">
+          <h1 className="text-[#0C1115] text-[36px] md:text-[56px] font-extrabold leading-[1.1] md:leading-[68px] capitalize mb-8 max-w-[658px]">
             We Don't Just Teach Product Management <br />
             We Build Product Managers
           </h1>
@@ -30,11 +30,11 @@ const HeroNew: React.FC = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-wrap gap-4 mb-12">
-            <button className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all">
+            <button className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all cursor-pointer">
               Apply Now
               <ArrowRight className="w-5 h-5" />
             </button>
-            <button className="bg-transparent border border-[#15010D]/20 hover:bg-[#F9E5FF] text-[#15010D] px-8 py-4 rounded-xl font-medium text-lg transition-all">
+            <button className="bg-transparent border border-[#15010D]/20 hover:bg-[#F9E5FF] text-[#15010D] px-8 py-4 rounded-xl font-medium text-lg transition-all cursor-pointer">
               Find Your Program
             </button>
           </div>

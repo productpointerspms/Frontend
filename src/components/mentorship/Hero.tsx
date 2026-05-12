@@ -41,7 +41,7 @@ export default function Hero() {
 
                     {/* CTA */}
                     <div className="mt-10">
-                        <button className="rounded-lg bg-[#6D28D9] px-8 py-4 text-lg font-semibold text-white transition hover:bg-[#5b21b6]">
+                        <button className="rounded-lg bg-[#6D28D9] px-8 py-4 text-lg font-semibold text-white transition hover:bg-[#5b21b6] cursor-pointer">
                             Apply Now
                         </button>
                     </div>
