@@ -1,62 +1,100 @@
 "use client";
 import { useState } from 'react';
-import Router from 'next/router';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Input } from './ui/Input';
+import { Button } from './ui/Button';
+import Image from 'next/image';
+import logo from '@/assets/images/logo.png'; // Assuming logo exists here based on user's SignUpForm change, otherwise will need to fix path
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
     try {
-      // TODO: replace with real auth call using axios
-      await new Promise((r) => setTimeout(r, 700));
+      // TODO: replace with real auth call
+      await new Promise((r) => setTimeout(r, 1000));
       // Mock successful login
-      void Router.push('/');
-    } catch (err: any) {
-      setError(err?.message ?? 'Login failed');
+      router.push('/');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Login failed');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-4 bg-white p-6 rounded shadow">
-      {error && <div className="text-red-600">{error}</div>}
+    <div className="w-full max-w-md mx-auto">
+      <div className="mb-8">
+        <div className="flex flex-col items-center mb-4">
+          {/* Logo Placeholder - using same svg pattern if image fails or use the image if available */}
+          {/* Note: In SignUpForm user used 'logo.png', trying to use that. If not available, fallback to svg */}
+          <div className="flex flex-col items-center mb-6">
+            <Image
+              src={logo}
+              alt="Logo"
+              width={140}
+              height={80}
+              className="object-contain mb-4"
+              priority
+            />
+            <p className="text-gray-500 text-sm text-center">
+              Unlock your potential with premium mentorship and learning experiences designed for aspiring and entry-level Product managers.
+            </p>
+          </div>
+        </div>
 
-      <label className="grid gap-1">
-        <span className="text-sm font-medium">Email</span>
-        <input
-          className="border px-3 py-2 rounded"
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome Back</h1>
+        <p className="text-gray-500 text-sm">Sign in to continue your learning journey</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {error && <div className="text-red-600 text-sm text-center bg-red-50 p-2 rounded">{error}</div>}
+
+        <Input
+          label="Email Address"
           type="email"
+          placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </label>
 
-      <label className="grid gap-1">
-        <span className="text-sm font-medium">Password</span>
-        <input
-          className="border px-3 py-2 rounded"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
+        <div>
+          <Input
+            label="Password"
+            type="password"
+            placeholder="********"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <div className="flex justify-end mt-1">
+            <Link href="/forgot-password" className="text-sm text-[#6b21a8] hover:underline">
+              Forget password?
+            </Link>
+          </div>
+        </div>
 
-      <button
-        type="submit"
-        className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-        disabled={loading}
-      >
-        {loading ? 'Signing in…' : 'Sign in'}
-      </button>
-    </form>
+        <Button
+          type="submit"
+          className="w-full mt-4"
+          disabled={loading}
+        >
+          {loading ? 'Logging In...' : 'Log In'}
+        </Button>
+
+        <p className="text-center text-sm text-gray-900 mt-6">
+          Dont have an account <Link href="/signup" className="text-[#6b21a8] font-medium hover:underline">Sign Up</Link>
+        </p>
+      </form>
+    </div>
   );
 }
