@@ -20,6 +20,7 @@ import MentorshipVideo from "@/components/homepage/MentorshipVideo";
 import StuckSection from "@/components/homepage/StuckSection";
 import CountdownSection from "@/components/homepage/Countdown";
 import CallToAction from "@/components/homepage/CallToAction";
+import VerifyCertificate from "@/components/homepage/VerifyCertificate";
 
 
 export default function Home() {
@@ -36,14 +37,15 @@ export default function Home() {
       <UpcomingPrograms />
       {/* <Community /> */}
       {/* <CommunityMobile /> */}
-       <TestimonialSection />
-       <FreeResources />
-       <StatsSection /> 
-       <CountdownSection/>
-       {/* <AlumniStories /> */}
+      <TestimonialSection />
+      <VerifyCertificate />
+      <FreeResources />
+      <StatsSection />
+      <CountdownSection />
+      {/* <AlumniStories /> */}
       <FAQSection />
-      <CallToAction/>
-       {/* <ConnectFounder /> */}
+      <CallToAction />
+      {/* <ConnectFounder /> */}
       {/* <PMCoachingHero /> */}
     </main>
   );

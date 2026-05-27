@@ -20,9 +20,10 @@ const Navbar = () => {
       name: "Programs",
       href: "#",
       dropdown: [
-        { name: "Accelerator Program", href: "/accelerator" },
+        { name: "PPAP Program", href: "/ppap" },
         { name: "PPMP Program", href: "/ppmp" },
-        { name: "Leadership", href: "/programs/leadership" },
+        { name: "PPCP Program", href: "/ppcp" },
+        { name: "PPTP Program", href: "/pptp" },
       ],
     },
     { name: "Community", href: "/community" },
@@ -50,7 +51,7 @@ const Navbar = () => {
   }, [dropdownOpen]);
 
   return (
-    <nav className="w-full bg-[#FDF4FF] flex items-center justify-between px-6 md:px-12 py-5 relative z-[100]">
+    <nav className="w-full bg-[#FCF1FF] flex items-center justify-between px-6 md:px-12 py-5 relative z-[100]">
       {/* Logo Section matching Hero.jpg */}
       <div className="flex items-center gap-2 cursor-pointer">
         <div className=" p-1.5 rounded-lg">
@@ -110,12 +111,12 @@ const Navbar = () => {
 
       {/* Desktop Buttons matching Hero.jpg styles */}
       <div className="hidden md:flex items-center gap-4">
-        <Link href="/signup" className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg font-bold hover:bg-[#4c1da3] transition shadow-sm">
-          Sign Up
+        <Link href="/" className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg font-bold hover:bg-[#4c1da3] transition shadow-sm">
+          Apply Now
         </Link>
-        <Link href="/login" className="border border-[#6024D0] text-[#6024D0] px-7 py-2.5 rounded-lg font-bold hover:bg-purple-50 transition">
+        {/* <Link href="/login" className="border border-[#6024D0] text-[#6024D0] px-7 py-2.5 rounded-lg font-bold hover:bg-purple-50 transition">
           Log In
-        </Link>
+        </Link> */}
       </div>
 
       {/* Mobile Menu Toggle */}

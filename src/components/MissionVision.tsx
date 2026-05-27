@@ -22,7 +22,7 @@ const ProblemSection: React.FC = () => {
         
         {/* Left Content */}
         <div className="flex flex-col">
-          <h2 className="text-[#15010D] text-3xl md:text-4xl lg:text-[42px] font-bold leading-tight mb-6">
+          <h2 className="text-[#15010D] text-3xl md:text-4xl lg:text-[32px] font-bold leading-tight mb-6">
             The Problem With Learning <br className="hidden md:block" />
             Product Management Today
           </h2>

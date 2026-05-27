@@ -42,7 +42,7 @@ const differences: DifferenceCard[] = [
 
 const WhatMakesUsDifferent: React.FC = () => {
   return (
-    <section className={`${montserrat.className} py-20 bg-[#5C1CC5] w-full text-white`}>
+    <section className={`${montserrat.className} py-20 my-20 bg-[#5C1CC5] w-full text-white`}>
       <div className="max-w-[1280px] mx-auto px-6">
         {/* Header Section */}
         <div className="text-center mb-16">

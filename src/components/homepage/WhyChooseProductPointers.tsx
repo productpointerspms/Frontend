@@ -11,29 +11,29 @@ import imgCareer from "@/assets/images/diff4.png";
 const WhyChooseProductPointers = () => {
   const cards = [
     {
-      image: imgMentorship,
+      image: imgCareer,
       title: "Structured Mentorship",
       description: "Get guided by experienced product professionals who show you exactly what to do step by step.",
     },
     {
-      image: imgBuilding,
+      image: imgMentorship,
       title: "Hands-On Product Building",
       description: "Stop learning passively. Start building real products you can actually show.",
     },
     {
-      image: imgInternship,
+      image: imgBuilding,
       title: "Internship Experience",
       description: "Gain real-world experience working on actual product problems not just case studies.",
     },
     {
-      image: imgCareer,
+      image:imgInternship,
       title: "Career Readiness Support",
       description: "Get prepared to apply, interview, and stand out with confidence.",
     },
   ];
 
   return (
-    <section className="w-full px-5 py-16 md:py-24 bg-[#F9F5FF]">
+    <section className="w-full px-5 py-16 md:py-24 bg-[#FCF1FF]">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         
         {/* Header Section */}
@@ -41,10 +41,10 @@ const WhyChooseProductPointers = () => {
           <h3 className="text-[#1A1A1A] font-semibold text-base sm:text-lg md:text-2xl mb-2">
             We Don’t Just Teach Product Management...
           </h3>
-          <h2 className="text-[#1A1A1A] font-extrabold text-2xl sm:text-3xl md:text-5xl mb-6 leading-tight">
+          <h2 className="text-[#1A1A1A] font-extrabold text-2xl sm:text-3xl md:text-[28px] mb-6 leading-tight">
             We Guide You Through Becoming One
           </h2>
-          <div className="text-gray-500 font-medium text-sm sm:text-base md:text-xl flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+          <div className="text-gray-500 font-medium text-sm sm:text-base md:text-[18px] flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span>Everything you need to go from confused and stuck</span>
             <ArrowRight className="text-[#5C1CC5] w-4 h-4 md:w-5 md:h-5 inline" /> 
             <span>confident and job-ready</span>
@@ -70,10 +70,10 @@ const WhyChooseProductPointers = () => {
               
               {/* Text Content */}
               <div className="px-1 w-full">
-                <h4 className="text-[#1A1A1A] font-bold text-lg md:text-xl mb-2">
+                <h4 className="text-[#1A1A1A] font-bold text-sm md:text-[15px] mb-2">
                   {card.title}
                 </h4>
-                <p className="text-gray-500 text-sm md:text-base leading-relaxed">
+                <p className="text-gray-500 text-sm md:text-[14px] leading-relaxed">
                   {card.description}
                 </p>
               </div>
@@ -82,7 +82,7 @@ const WhyChooseProductPointers = () => {
         </div>
 
         {/* CTA Button - Full width on mobile, auto on desktop */}
-        <button className="w-full sm:w-auto bg-[#5C1CC5] hover:bg-[#4a15a0] text-white font-semibold py-4 px-10 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-200 cursor-pointer">
+        <button className="w-full sm:w-auto bg-[#5C1CC5] hover:bg-[#4a15a0] text-white md:text-[14px] font-semibold py-4 px-10 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-200 cursor-pointer">
           See How the Program Works
           <ArrowRight size={20} />
         </button>

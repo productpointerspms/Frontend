@@ -26,7 +26,7 @@ const painPoints = [
 
 const StuckSection: React.FC = () => {
   return (
-    <section className="bg-[#F9F5FF] py-20 px-6 md:px-12 font-sans">
+    <section className="bg-[#FCF1FF] py-20 px-6 md:px-12 font-sans">
       <div className="max-w-7xl mx-auto text-center">
         {/* Main Heading */}
         <h2 className="text-3xl md:text-4xl font-bold text-[#101828] mb-16 leading-tight">
@@ -63,7 +63,7 @@ const StuckSection: React.FC = () => {
           {/* Top-Right: Image 1 (Tired Asian Woman) */}
           <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100">
             <img 
-              src={img1.src}
+              src={img2.src}
               alt="Tired woman at computer" 
               className="w-full h-auto object-cover aspect-[16/10]"
             />
@@ -72,7 +72,7 @@ const StuckSection: React.FC = () => {
           {/* Bottom-Left: Image 2 (Stressed Businesswoman) */}
           <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100 md:row-start-2">
             <img 
-              src={img2.src}
+              src={img1.src}
               alt="Stressed businesswoman" 
               className="w-full h-auto object-cover aspect-[16/10]"
             />

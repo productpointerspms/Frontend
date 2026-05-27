@@ -18,12 +18,12 @@ const faqData: FAQItem[] = [
   {
     question: "Which ProductPointers program is right for me?",
     answer:
-      "Our programs are tailored to different stages of your journey. Whether you are a beginner looking for a foundation or an intermediate learner seeking real-world execution, we have a path for you.",
+      "The right program depends on your current stage and goals. PPAP is best for beginners looking for foundational Product Management knowledge, PPMP focuses on structured mentorship and guidance, PPIP is designed for hands-on execution and real product experience, PPCP offers personalized 1:1 coaching, while PPTP helps Product Managers specialize and deepen expertise in a chosen track.",
   },
   {
     question: "Do I need Product Management experience to join?",
     answer:
-      "No. Our foundation programs are specifically designed for individuals transitioning into the field, while our advanced tracks help those with some experience level up.",
+      "No. Some ProductPointers programs are beginner-friendly and designed to help aspiring Product Managers start with clarity and structure. More advanced programs like PPTP are intended for individuals with some prior Product Management knowledge or experience.",
   },
   {
     question: "Are the programs remote?",
@@ -40,7 +40,7 @@ export default function FaqSection() {
   };
 
   return (
-    <div className={`${montserrat.className} bg-[#FDF4FF] py-20 px-4 min-h-fit`}>
+    <div className={`${montserrat.className} bg-[#FCF1FF] py-20 px-4 min-h-fit`}>
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -57,7 +57,7 @@ export default function FaqSection() {
           {faqData.map((faq, index) => (
             <div
               key={index}
-              className="bg-[#F9E5FF] rounded-2xl overflow-hidden transition-all duration-300"
+              className="bg-[#FAE1FF] rounded-2xl overflow-hidden transition-all duration-300"
             >
               <button
                 onClick={() => toggleAccordion(index)}

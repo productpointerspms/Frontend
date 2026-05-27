@@ -1,6 +1,8 @@
 import React from "react";
 import { Star } from "lucide-react";
 import { Montserrat } from "next/font/google";
+import img1 from "@/assets/images/favour.jpg"
+import img2 from "@/assets/images/chino.png"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -22,17 +24,27 @@ const testimonials: Testimonial[] = [
   {
     id: 1,
     rating: 5,
-    text: "“Before PPAP, I had learned the basics but still felt completely lost. This program gave me the structure and clarity I was missing, and for the first time, I truly understood how Product Managers think and work.”",
+    text: "ProductPointers helped me pivot from healthcare into tech, rebuild my confidence, and land my first Project Manager role all within just a few months. It truly transformed my career and mindset.",
     author: {
-      name: "Mercy Adeniyi",
+      name: "Favour Osaro",
       role: "Product Manager",
-      image: "/images/mercy.png",
+      image:img1.src,
     },
   },
   {
     id: 2,
     rating: 5,
-    text: "“PPMP helped me move from just understanding concepts to actually applying them. I became more confident in my decisions and finally felt like I could execute like a real Product Manager.”",
+    text: "Before ProductPointers, I felt lost and unsure of my next steps. The hands-on projects and real user interviews changed how I work completely. Now, I’ve gained confidence and even landed two interviews, including one at Interswitch.",
+    author: {
+      name: "Chinonso Esther",
+      role: "Product Manager",
+      image:img2.src,
+    },
+  },
+  {
+    id: 3,
+    rating: 5,
+    text: "ProductPointers helped me go from uncertain to confident. I learned to position myself, build my brand, and communicate my value clearly. It’s been a powerful step in my product management journey.",
     author: {
       name: "Reuben Edosa",
       role: "Product Manager",
@@ -40,23 +52,13 @@ const testimonials: Testimonial[] = [
     },
   },
   {
-    id: 3,
+    id: 4,
     rating: 5,
-    text: "“PPCP helped me position myself properly and stand out. I went from feeling unsure to confidently applying for roles, and I started getting real opportunities.”",
+    text: "ProductPointers gave me the structure and accountability I lacked. I’ve built consistency, confidence, and clarity and it’s positioning me for exciting opportunities ahead.",
     author: {
       name: "Dum Vick Yorgbara",
       role: "Product Manager",
       image: "/images/dum.png",
-    },
-  },
-  {
-    id: 4,
-    rating: 5,
-    text: "“ProductPointers gave me a community that lifted me when I almost quit. I'm deeply thankful for the impact it has had on my career growth and my confidence levels.”",
-    author: {
-      name: "Olagunju Oluwanifesimi",
-      role: "Product Manager",
-      image: "/images/nife.png",
     },
   },
 ];

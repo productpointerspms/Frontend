@@ -72,7 +72,7 @@ export default function ExplorePrograms() {
   ];
 
   return (
-    <div className="w-full bg-[#581C87] py-20 px-6 md:px-12">
+    <div className="w-full bg-[#5C1CC5] py-20 px-6 md:px-12">
       {/* Section Header */}
       <div className="text-center mb-16 text-white">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -103,7 +103,7 @@ export default function ExplorePrograms() {
       {/* Footer CTA */}
       <div className="mt-20 text-center text-white">
         <p className="text-lg mb-6 opacity-90 font-medium">Not sure which program is right for you?</p>
-        <button className="bg-white text-purple-900 px-8 py-4 rounded-2xl font-bold flex items-center mx-auto hover:bg-gray-100 transition-colors cursor-pointer">
+        <button className="bg-white text-[#5C1CC5] px-8 py-4 rounded-2xl font-bold flex items-center mx-auto hover:bg-gray-100 transition-colors cursor-pointer">
           Find the Right Program for You <ArrowRight className="ml-2 w-5 h-5" />
         </button>
       </div>
