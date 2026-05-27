@@ -31,7 +31,7 @@ const Team: React.FC = () => {
     },
     {
       name: "Favour Osaro",
-      role: "Project & Program Manager",
+      role: "Project and Program Manager",
       img: "/images/Favour.png",
       socials: {
         linkedin: "https://www.linkedin.com/in/favourosaro/",
@@ -40,7 +40,7 @@ const Team: React.FC = () => {
     },
     {
       name: "Olubunmi Kehinde",
-      role: "Community Manager",
+      role: "VA/Community Manager",
       img: "/images/Olubunmi.png",
       socials: {
         linkedin: "https://www.linkedin.com/in/olubunmi-kehinde",
@@ -49,7 +49,7 @@ const Team: React.FC = () => {
     },
     {
       name: "Mercy Okpara",
-      role: "Social Media / VA",
+      role: "Social Media/VA",
       img: "/images/Mercy.png",
       socials: {
         instagram: "https://www.instagram.com/mer_cee24/#",
@@ -63,8 +63,6 @@ const Team: React.FC = () => {
       socials: {
         linkedin: "https://www.linkedin.com/in/udochukwu-success-735b61286",
         x: "https://x.com/Theophaniajesse?t=jdBDv7otifsz9FKUgRhJYQ&s=09",
-       
-
       },
     },
   ];
@@ -78,32 +76,47 @@ const Team: React.FC = () => {
   };
 
   return (
-    <section className="w-full bg-[#FCF1FF] py-16 px-6 text-[#15010D] text-center">
+    <section className="w-full bg-[#FAF5FF] py-20 px-6 text-[#15010D] text-center">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-bold font-[Montserrat] mb-4">Meet Our Team</h2>
-        <p className="text-base sm:text-lg max-w-2xl mx-auto mb-12">
-          The passionate individuals behind ProductPointers’ mission to transform product management education.
+        {/* Header Section */}
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          Meet the Team Behind ProductPointers
+        </h2>
+        <p className="text-[#15010D]/60 max-w-2xl mx-auto mb-16 leading-relaxed">
+          Learn from experienced product professionals dedicated to helping you grow.
         </p>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 place-items-center">
+        {/* 3-over-2 Responsive Grid */}
+        <div className="flex flex-wrap justify-center gap-8">
           {team.map((m, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-6 w-full max-w-[360px] shadow-lg hover:shadow-xl transition"
+              className="bg-white rounded-3xl p-8 w-full md:w-[calc(33.33%-2rem)] min-w-[300px] max-w-[350px] shadow-sm flex flex-col items-center"
             >
-              <Image
-                src={m.img}
-                alt={m.name}
-                width={160}
-                height={160}
-                className="mx-auto rounded-full mb-6 object-cover"
-              />
-              <h3 className="text-xl font-semibold">{m.name}</h3>
-              <p className="text-gray-500 mt-1">{m.role}</p>
+              {/* Circular Image with specific border/shadow if seen in image */}
+              <div className="relative w-32 h-32 mb-6">
+                <Image
+                  src={m.img}
+                  alt={m.name}
+                  fill
+                  className="rounded-full object-cover"
+                />
+              </div>
 
-              <div className="flex justify-center gap-4 mt-4 text-2xl text-[#5B1CC5]">
+              {/* Text Content */}
+              <h3 className="text-2xl font-bold mb-1">{m.name}</h3>
+              <p className="text-[#15010D]/50 text-sm mb-6">{m.role}</p>
+
+              {/* Social Icons - Navy Blue Color */}
+              <div className="flex justify-center gap-4 text-xl text-[#2D3182]">
                 {Object.entries(m.socials).map(([platform, url], idx) => (
-                  <a key={idx} href={url} target="_blank" rel="noreferrer" className="hover:scale-110 transition">
+                  <a
+                    key={idx}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:opacity-80 transition-opacity"
+                  >
                     {icons[platform]}
                   </a>
                 ))}

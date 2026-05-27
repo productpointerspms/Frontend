@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import React from "react";
+import { Star } from "lucide-react";
 import { Montserrat } from "next/font/google";
-import Image from "next/image";
+import img1 from "@/assets/images/favour.jpg"
+import img2 from "@/assets/images/chino.png"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], // Add the weights you need
+  weight: ["400", "500", "600", "700"],
 });
 
 interface Testimonial {
@@ -23,117 +24,116 @@ const testimonials: Testimonial[] = [
   {
     id: 1,
     rating: 5,
-    text: "ProductPointers gave me clarity, confidence, and direction. I've gone from random networking to building genuine connections and growing with purpose.",
+    text: "ProductPointers helped me pivot from healthcare into tech, rebuild my confidence, and land my first Project Manager role all within just a few months. It truly transformed my career and mindset.",
     author: {
-      name: "Mercy Adeniyi",
+      name: "Favour Osaro",
       role: "Product Manager",
-      image: "/images/mercy.png",
+      image:img1.src,
     },
   },
   {
     id: 2,
     rating: 5,
-    text: "ProductPointers gave me the structure and accountability I lacked. I've built consistency, confidence, and clarity and it's positioning me for exciting opportunities ahead.",
+    text: "Before ProductPointers, I felt lost and unsure of my next steps. The hands-on projects and real user interviews changed how I work completely. Now, I’ve gained confidence and even landed two interviews, including one at Interswitch.",
     author: {
-      name: "Dum Vick Yorgbara",
+      name: "Chinonso Esther",
       role: "Product Manager",
-      image: "/images/dum.png",
+      image:img2.src,
     },
   },
   {
     id: 3,
     rating: 5,
-    text: "I thought I was joining for career growth, but I soon saw God's hand in it. ProductPointers gave me a community that lifted me when I almost quit. I'm deeply thankful for the impact.",
-    author: {
-      name: "Olagunju Oluwanifesimi",
-      role: "Product Manager",
-      image: "/images/nife.png",
-    },
-  },
-  {
-    id: 4,
-    rating: 5,
-    text: "ProductPointers helped me go from uncertain to confident. I learned to position myself, build my brand, and communicate my value clearly. It's been a powerful step in my product management journey.",
+    text: "ProductPointers helped me go from uncertain to confident. I learned to position myself, build my brand, and communicate my value clearly. It’s been a powerful step in my product management journey.",
     author: {
       name: "Reuben Edosa",
       role: "Product Manager",
       image: "/images/reuben.png",
     },
   },
+  {
+    id: 4,
+    rating: 5,
+    text: "ProductPointers gave me the structure and accountability I lacked. I’ve built consistency, confidence, and clarity and it’s positioning me for exciting opportunities ahead.",
+    author: {
+      name: "Dum Vick Yorgbara",
+      role: "Product Manager",
+      image: "/images/dum.png",
+    },
+  },
 ];
 
 export default function TestimonialSection() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = Math.ceil(testimonials.length / 4);
-  const startIndex = currentPage * 4;
-  const visibleTestimonials = testimonials.slice(startIndex, startIndex + 4);
-
-  const handlePrevious = () => {
-    setCurrentPage((prev) => (prev > 0 ? prev - 1 : totalPages - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
-  };
-
   return (
     <div
-      className={`${montserrat.className} w-full min-h-screen bg-[#FCF1FF] py-20 px-4 md:px-20`}
+      className={`${montserrat.className} w-full bg-white py-16 px-4 md:px-10 overflow-hidden`}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center">
-          <h2 className="text-2xl  md:text-5xl leading-12 font-bold text-[#14010D] mb-6">
-            What Our Community Says
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#14010D] mb-4">
+            Don’t Just Take Our Word For It
           </h2>
-          <p className="text-[#364153]  text-[20px] font-normal leading-7 pb-20 max-w-2xl mx-auto">
-            Don&apos;t just take our word for it. Hear from the product leaders
-            who&apos;ve transformed their careers through ProductPointers.
+          <p className="text-[#6D6D6D] text-lg md:text-xl font-normal max-w-3xl mx-auto leading-relaxed">
+            See how ProductPointers has helped aspiring Product Managers gain
+            real experience and get job-ready
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {visibleTestimonials.map((testimonial) => (
+        {/* Testimonials Horizontal Scroll Container */}
+        <div className="flex gap-6 overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory">
+          {testimonials.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="bg-white/80 backdrop-blur-sm rounded-[14px] p-8 transition-shadow duration-300 hover:shadow-[0_2px_8px_4px_rgba(20,1,49,0.10)]"
+              className="bg-[#5C1CC5] min-w-[320px] md:min-w-[400px] rounded-[24px] p-8 snap-center flex flex-col justify-between"
             >
-              {/* Star Rating */}
-              <div className="flex gap-1 mb-6">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-[#FFCC00] text-[#FFCC00]"
+              <div>
+                {/* Author Info at top */}
+                <div className="flex items-center gap-4 mb-6">
+                  <img
+                    src={testimonial.author.image}
+                    alt={testimonial.author.name}
+                    className="w-14 h-14 rounded-full object-cover border-2 border-white/20"
                   />
-                ))}
-              </div>
-
-              {/* Testimonial Text */}
-              <p className="text-[#6D6D6D] text-[16px] italic leading-[30px] font-normal mb-6">
-                {testimonial.text}
-              </p>
-
-              {/* Author Info */}
-              <div className="flex items-center gap-2">
-                <img
-                  src={testimonial.author.image}
-                  alt={testimonial.author.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="font-bold text-[#15010D] text-[16px] leading-6">
-                    {testimonial.author.name}
-                  </h4>
-                  <p className="text-sm text-[#5C1CC5] font-normal leading-5">
-                    {testimonial.author.role}
-                  </p>
+                  <div>
+                    <h4 className="font-bold text-white text-lg">
+                      {testimonial.author.name}
+                    </h4>
+                    <p className="text-sm text-white/70 font-normal">
+                      {testimonial.author.role}
+                    </p>
+                  </div>
                 </div>
+
+                {/* Star Rating */}
+                <div className="flex gap-1 mb-6">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-4 h-4 fill-[#FFB800] text-[#FFB800]"
+                    />
+                  ))}
+                </div>
+
+                {/* Testimonial Text */}
+                <p className="text-white text-[15px] leading-[24px] font-normal">
+                  {testimonial.text}
+                </p>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 }

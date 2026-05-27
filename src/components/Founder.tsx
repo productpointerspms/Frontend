@@ -1,86 +1,110 @@
 import React from "react";
 import Image from "next/image";
+import { Quote, Linkedin, ArrowRight } from "lucide-react";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 const Founder: React.FC = () => {
+  const storyPoints = [
+    {
+      title: "The Problem",
+      content: "Like many aspiring Product Managers, we saw people learn the theory but struggle to apply it in real-world situations.",
+    },
+    {
+      title: "The Realization",
+      content: "The issue wasn't a lack of knowledge, it was a lack of guidance, structure, and real experience.",
+    },
+    {
+      title: "The Solution",
+      content: "So we built ProductPointers, A mentorship-first system focused on execution, experience, and outcomes.",
+    },
+  ];
+
   return (
-    <section className="w-full bg-white flex flex-col items-center justify-center py-20 px-4 md:px-10 text-[#15010D]">
-      {/* ==== Title and Subtitle ==== */}
+    <section className={`${montserrat.className} w-full bg-[#FDF4FF] py-20 px-6 md:px-12 lg:px-24 text-[#15010D]`}>
+      {/* Header */}
       <div className="text-center mb-16">
-        <h2 className="text-[60px] md:text-[60px] font-bold font-[Montserrat] leading-[60px]">
-          Founder’s Story
+        <span className="text-lg font-medium opacity-80 mb-2 block">Founder's Story</span>
+        <h2 className="text-3xl md:text-[42px] font-bold leading-tight mb-4">
+          Why We Built ProductPointers
         </h2>
-        <p className="text-[20px] font-[400] font-[Montserrat] leading-[28px] mt-3 max-w-[707px] mx-auto text-center text-[#4A5565]">
-          The journey that led to creating ProductPointers
+        <p className="text-lg md:text-xl opacity-60 max-w-[700px] mx-auto leading-relaxed">
+          ProductPointers wasn't created from theory. It was built from real frustration with how Product Management is taught today.
         </p>
       </div>
 
-      {/* ==== Image + Text Section ==== */}
-      <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-[84px] max-w-[1280px] w-full">
-        {/* ==== Image Card with Purple Accent ==== */}
-        <div className="relative w-full max-w-[555px] flex justify-center md:justify-start">
-          {/* Purple accent layer behind image */}
-          <div className="absolute -top-6 -left-6 w-full h-full bg-[#5C1CC5] rounded-[16px] z-0"></div>
+      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-16 lg:gap-24">
+        
+        {/* Left: Image with Border Accent */}
+        <div className="relative flex flex-col items-center">
+          <div className="relative">
+            {/* Purple Offset Background */}
+            <div className="absolute -top-4 -left-4 w-full h-full bg-[#6024D0] rounded-[32px] z-0"></div>
+            
+            {/* Founder Image */}
+            <div className="relative z-10 w-[320px] md:w-[420px] aspect-[4/5] rounded-[32px] overflow-hidden shadow-xl">
+              <img 
+                src="/images/Founder-Pic.png" 
+                alt="Blessing Okomor" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
 
-          {/* Image */}
-          <Image
-            src="/images/Founder-Pic.png"
-            alt="Founder Image"
-            width={555}
-            height={645}
-            className="relative z-10 rounded-[16px] object-cover w-full h-auto"
-            priority
-          />
+          {/* LinkedIn Button */}
+          <button className="mt-8 bg-white hover:bg-gray-50 text-[#6024D0] px-6 py-3 rounded-2xl flex items-center gap-3 shadow-md transition-all font-semibold cursor-pointer">
+            <div className="bg-[#0077B5] p-1 rounded-md">
+              <Linkedin className="w-4 h-4 text-white fill-white" />
+            </div>
+            <span className="underline decoration-2 underline-offset-4">Connect on Linkedin</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
 
-        {/* ==== Text Area ==== */}
-        <div className="max-w-[610px] w-full font-[Montserrat] text-[18px] leading-[28px] text-[#6D6D6D] space-y-5 mt-10 md:mt-0">
-          <h3 className="text-[#15010D] text-[24px] font-semibold">
-            <span className="text-[#6B00B3] text-[32px] align-middle">❝</span> Blessing Okomor
-          </h3>
-          <p className="text-[#6B00B3] font-[400] text-[18px] leading-[28px]">
-            Founder, ProductPointers
-          </p>
+        {/* Right: Timeline Story */}
+        <div className="flex-1">
+          {/* Quote Icon & Name */}
+          <div className="flex items-start gap-4 mb-10">
+            <div className="bg-transparent border-2 border-[#6024D0]/20 p-2 rounded-xl">
+              <Quote className="w-8 h-8 text-[#6024D0] rotate-180 fill-[#6024D0]" />
+            </div>
+            <div>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#15010D]">Blessing Okomor</h3>
+              <p className="text-[#6024D0] font-medium">Founder, ProductPointers</p>
+            </div>
+          </div>
 
-          <p>
-            Blessing’s journey into tech didn’t begin the conventional way. With
-            a strong background in Auditing, she spent years analyzing systems,
-            solving business problems, and understanding how structure drives
-            success. Yet, her heart always leaned toward something more, helping
-            people grow, build, and find purpose through product.
-          </p>
+          {/* Vertical Timeline */}
+          <div className="relative space-y-12">
+            {/* The Vertical Line */}
+            <div className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-[#6024D0]/20"></div>
 
-          <p>
-            Her transition into Product Management came with curiosity, courage,
-            and an unshakable desire to make meaningful impact. Since then,
-            Blessing has led and contributed to impactful products at Evendy,
-            Divaca Tech, and now serves as a Product Manager at Mainstack, where
-            she continues to blend empathy with execution to deliver lasting
-            value.
-          </p>
+            {storyPoints.map((point, index) => (
+              <div key={index} className="relative pl-12">
+                {/* Bullet Point */}
+                <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-[#FDF4FF] border-2 border-[#6024D0] flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-[#6024D0]"></div>
+                </div>
+                
+                <h4 className="text-xl font-bold text-[#15010D] mb-2">{point.title}</h4>
+                <p className="text-[#15010D] opacity-60 leading-relaxed text-lg">
+                  {point.content}
+                </p>
+              </div>
+            ))}
+          </div>
 
-          <p>
-            Beyond her professional path, Blessing is known for her impact-first
-            philosophy. She has guided and mentored numerous aspiring and
-            entry-level Product Managers, helping them gain clarity, confidence,
-            and direction in their careers. As a Product & Project Management
-            Mentor at HGSC² Academy, she remains committed to shaping the next
-            generation of tech leaders through mentorship, teaching, and
-            practical learning.
-          </p>
-
-          <p>
-            Her work with Product Pointers embodies her belief that success
-            isn’t about the numbers, it’s about the lives transformed. Every
-            mentee’s progress, every job secured, and every story of renewed
-            confidence fuels her mission to build people and purpose-driven
-            products.
-          </p>
-
-          <p className="text-[#6B00B3] italic font-[400] mt-6 text-[18px] leading-[28px]">
-            “We may not reach everyone, but the few we touch must feel the
-            impact deeply.”
-          </p>
+          {/* Bottom CTA */}
+          <button className="mt-12 text-[#6024D0] font-bold text-xl flex items-center gap-2 hover:underline underline-offset-8 transition-all cursor-pointer">
+            Learn More About Our Programs
+            <ArrowRight className="w-6 h-6" />
+          </button>
         </div>
+
       </div>
     </section>
   );

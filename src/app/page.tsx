@@ -18,6 +18,9 @@ import WhatDrivesUs from "@/components/homepage/WhatDrivesUs";
 import WhyChooseProductPointers from "@/components/homepage/WhyChooseProductPointers";
 import MentorshipVideo from "@/components/homepage/MentorshipVideo";
 import StuckSection from "@/components/homepage/StuckSection";
+import CountdownSection from "@/components/homepage/Countdown";
+import CallToAction from "@/components/homepage/CallToAction";
+import VerifyCertificate from "@/components/homepage/VerifyCertificate";
 
 
 export default function Home() {
@@ -26,21 +29,24 @@ export default function Home() {
       <HeroSection />
       <StuckSection />
       {/* <SecondaryNav /> */}
-      {/* <StatsSection /> */}
       {/* <WhatDrivesUs /> */}
       <WhyChooseProductPointers />
       {/* <OurPillars /> */}
       <MentorshipVideo />
       <ProductPointersJourney />
       <UpcomingPrograms />
-      <Community />
-      <CommunityMobile />
-      <AlumniStories />
+      {/* <Community /> */}
+      {/* <CommunityMobile /> */}
       <TestimonialSection />
+      <VerifyCertificate />
       <FreeResources />
+      <StatsSection />
+      <CountdownSection />
+      {/* <AlumniStories /> */}
       <FAQSection />
-       <ConnectFounder />
-      <PMCoachingHero />
+      <CallToAction />
+      {/* <ConnectFounder /> */}
+      {/* <PMCoachingHero /> */}
     </main>
   );
 }

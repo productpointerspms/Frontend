@@ -112,7 +112,7 @@ export default function TestimonialSlider() {
                 <button
                   key={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`transition-all duration-300 rounded-full ${
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
                     index === activeIndex
                       ? "w-[13px] h-[13px] bg-[#5C1CC5]"
                       : "w-[13px] h-[13px] bg-[#FFFFFF] hover:bg-gray-400"
@@ -127,7 +127,7 @@ export default function TestimonialSlider() {
           {activeIndex > 0 && (
             <button
               onClick={handlePrev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 w-12 h-12 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:border-purple-600 hover:text-purple-600 transition-all duration-300 shadow-lg"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 w-12 h-12 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center hover:border-purple-600 hover:text-purple-600 transition-all duration-300 shadow-lg cursor-pointer"
               aria-label="Previous testimonial"
             >
               <ChevronLeft size={24} />
@@ -138,7 +138,7 @@ export default function TestimonialSlider() {
           {activeIndex < testimonials.length - 1 && (
             <button
               onClick={handleNext}
-              className="absolute md:right-0 right-10 md:top-1/2 top-[260px] -translate-y-1/2 translate-x-6 w-[47px] h-[47px] rounded-full bg-white hover:text-white text-[#5C1CC5] flex items-center justify-center hover:bg-purple-700 transition-all duration-300 shadow-lg"
+              className="absolute md:right-0 right-10 md:top-1/2 top-[260px] -translate-y-1/2 translate-x-6 w-[47px] h-[47px] rounded-full bg-white hover:text-white text-[#5C1CC5] flex items-center justify-center hover:bg-purple-700 transition-all duration-300 shadow-lg cursor-pointer"
               aria-label="Next testimonial"
             >
               <ChevronRight size={24} />

@@ -1,13 +1,8 @@
 import React from "react";
-import Image from "next/image";
-import { Play } from "lucide-react";
-import teardownImg from "@/assets/images/pd0.png";
-import vibeCodingImg from "@/assets/images/pd1.png";
-import upworkJobsImg from "@/assets/images/pd2.png";
 
 const FreeResources: React.FC = () => {
   return (
-    <section className="py-20 px-6 md:px-16 bg-[#FDF7FF]">
+    <section className="py-20 px-6 md:px-16 bg-gradient-to-r from-[#FAE1FF] to-[#FCF1FF]">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold font-montserrat text-[#15010D] mb-4">
@@ -20,52 +15,72 @@ const FreeResources: React.FC = () => {
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Large Video Card */}
-          <div className="lg:w-2/3 pb-3">
-            <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow h-full flex flex-col overflow-hidden group cursor-pointer">
+          <div className="lg:w-2/3">
+            <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow h-full flex flex-col overflow-hidden">
               <div className="relative w-full aspect-[16/10]">
-                <Image
-                  src={teardownImg}
-                  alt="Product Teardown Masterclass"
-                  fill
-                  className="object-cover"
+                <iframe
+                  src="https://www.youtube.com/embed/FWWueWdw7es?start=24"
+                  title="How to Conduct a Product Teardown | Product Management for Beginners"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
                 />
+              </div>
+              <div className="p-6 flex-grow flex items-center bg-white">
+                <h3 className="text-xl font-semibold font-montserrat text-[#15010D]">
+                  How to Conduct a Product Teardown | Product Management for
+                  Beginners
+                </h3>
               </div>
             </div>
           </div>
 
           {/* Small Video Cards */}
           <div className="lg:w-1/3 flex flex-col gap-6">
-            <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow flex-1 flex flex-col overflow-hidden group cursor-pointer">
+            <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow flex-1 flex flex-col overflow-hidden">
               <div className="relative w-full aspect-video">
-                <Image
-                  src={vibeCodingImg}
-                  alt="Vibe Coding Masterclass"
-                  fill
-                  className="object-cover"
+                <iframe
+                  src="https://www.youtube.com/embed/NCqpMe2HhWc?start=8"
+                  title="Vibe Coding with Bolt: Build & Prototype Apps Fast (PM Masterclass)"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
                 />
               </div>
-
+              <div className="p-4 flex-grow flex items-center bg-white">
+                <h3 className="text-sm md:text-base font-semibold font-montserrat text-[#15010D]">
+                  Vibe Coding with Bolt: Build & Prototype Apps Fast (PM
+                  Masterclass)
+                </h3>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow flex-1 flex flex-col overflow-hidden group cursor-pointer">
+            <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow flex-1 flex flex-col overflow-hidden">
               <div className="relative w-full aspect-video">
-                <Image
-                  src={upworkJobsImg}
-                  alt="How to Land Remote Jobs on Upwork"
-                  fill
-                  className="object-cover"
+                <iframe
+                  src="https://www.youtube.com/embed/fuHdmGevE7Y?start=9"
+                  title="How to Land Remote Jobs on Upwork Using Video Proposals in 2026"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
                 />
-
+              </div>
+              <div className="p-4 flex-grow flex items-center bg-white">
+                <h3 className="text-sm md:text-base font-semibold font-montserrat text-[#15010D]">
+                  How to Land Remote Jobs on Upwork Using Video Proposals in
+                  2026 | A Step by Step Guide
+                </h3>
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-12 flex justify-center">
-          <a href="https://youtube.com/@the-globalpm?si=RZKGO1g-N2Hwt-Al"
+          <a
+            href="https://youtube.com/@productpointerspms?si=EsFKXxA4qT8F53mm"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#C62828] hover:bg-[#A82121] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-sm md:text-base"
+            className="bg-[#C62828] hover:bg-[#A82121] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-sm md:text-base cursor-pointer inline-block"
           >
             View Channel
           </a>

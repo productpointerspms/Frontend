@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
@@ -14,119 +16,78 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
-    question: "Who can apply to ProductPointers programs?",
+    question: "Which ProductPointers program is right for me?",
     answer:
-      "Our programs are designed for beginners, entry-level and professionals at all levels from those looking to break into product management to senior leaders seeking to enhance their strategic skills. We welcome applicants from diverse backgrounds including engineering, design, marketing, and business.",
+      "The right program depends on your current stage and goals. PPAP is best for beginners looking for foundational Product Management knowledge, PPMP focuses on structured mentorship and guidance, PPIP is designed for hands-on execution and real product experience, PPCP offers personalized 1:1 coaching, while PPTP helps Product Managers specialize and deepen expertise in a chosen track.",
   },
   {
-    question: "How does the program work?",
+    question: "Do I need Product Management experience to join?",
     answer:
-      "Our programs combine live workshops, 1-on-1 mentorship, group projects, and community engagement. You'll work on real-world case studies, receive personalized feedback from industry experts, and connect with a global network of product professionals.",
+      "No. Some ProductPointers programs are beginner-friendly and designed to help aspiring Product Managers start with clarity and structure. More advanced programs like PPTP are intended for individuals with some prior Product Management knowledge or experience.",
   },
   {
-    question: "What are the program costs?",
+    question: "Are the programs remote?",
     answer:
-      "Program costs vary depending on the track you choose. Our Accelerator program starts at ₦100,000. Coaching sessions are ₦100,000 for a 3-month plan and ₦170,000 for a 6-month plan, and the Mentorship program is ₦50,000. We offer payment plans and scholarships for qualifying candidates.",
-  },
-  {
-    question: "Do you offer job placement assistance?",
-    answer:
-      "While we don't guarantee job placement, 87% of our graduates receive job offers or promotions within 6 months of completion. We provide career coaching, interview preparation, resume reviews, and access to our extensive alumni network for referrals.",
-  },
-  {
-    question: "What's the time commitment?",
-    answer:
-      "Time commitment varies by program. The Accelerator requires 5-7 hours per week for 12 weeks. Coaching sessions are 1 hour bi-weekly. Mentorship programs require 2-3 hours per week for 6 months. All programs are designed to fit around your current work schedule.",
-  },
-  {
-    question: "Can I participate if I'm based outside Nigeria?",
-    answer:
-      "Absolutely! ProductPointers is a global community with members from 7+ countries. Our programs are designed to be time zone-awfriendly with recorded sessions and flexible scheduling.",
+      "Yes. ProductPointers programs are designed to support remote learning, collaboration, mentorship, and product execution.",
   },
 ];
 
 export default function FaqSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(2); // Setting 2 as default open to match image
 
   const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div className={`${montserrat.className} relative min-h-screen `}>
-      {/* Background Image with Purple Overlay */}
-      <div className="absolute inset-0">
-        <img
-          src="/images/faqbg.jpg" // Update with your actual background image path
-          alt="FAQ Background"
-          className="w-full h-full object-cover"
-        />
-        <img
-          src="/images/faqOverlay.png" // Same overlay image as Community component
-          alt="Overlay"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 py-[70px] sm:px-6 lg:px-8">
+    <div className={`${montserrat.className} bg-[#FCF1FF] py-20 px-4 min-h-fit`}>
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-[16.5px] md:text-5xl font-bold text-white mb-7 leading-4 md:leading-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#15010D] mb-4">
             Frequently Asked Questions
-          </h1>
-          <p className="text-white/90 md:text-[20px] text-[14px]  md:leading-7 font-normal md:mb-[50px] mb-[17px]">
-            Got questions? We&apos;ve got answers. If you don&apos;t see what you&apos;re
-            looking for, reach out to our team.
+          </h2>
+          <p className="text-[#15010D] text-lg md:text-xl font-normal opacity-80">
+            Everything you need to know about the Accelerator Program
           </p>
         </div>
 
         {/* FAQ Items */}
-        <div className="space-y-4 ">
+        <div className="space-y-5">
           {faqData.map((faq, index) => (
             <div
               key={index}
-              className="bg-[#FAE1FF] backdrop-blur-sm rounded-4xl shadow-sm  overflow-hidden transition-all duration-300 hover:shadow-sm"
+              className="bg-[#FAE1FF] rounded-2xl overflow-hidden transition-all duration-300"
             >
               <button
                 onClick={() => toggleAccordion(index)}
-                className="w-full px-6 py-4 flex items-center justify-between text-left   rounded-2xl"
+                className="w-full px-8 py-6 flex items-center justify-between text-left cursor-pointer"
               >
-                <span className="md:text-lg text-[14px] font-semibold text-[#14010D] leading-7 ">
+                <span className="text-base md:text-lg font-semibold text-[#15010D]">
                   {faq.question}
                 </span>
                 <div className="shrink-0">
                   {openIndex === index ? (
-                    <ChevronUp className="w-6 h-6 text-[#717182]" />
+                    <ChevronUp className="w-5 h-5 text-[#15010D]/60" />
                   ) : (
-                    <ChevronDown className="w-6 h-6 text-[#717182]" />
+                    <ChevronDown className="w-5 h-5 text-[#15010D]/60" />
                   )}
                 </div>
               </button>
 
               <div
-                className={`transition-all duration-300 ease-in-out ${openIndex === index
-                    ? "max-h-96 opacity-100"
+                className={`transition-all duration-300 ease-in-out ${
+                  openIndex === index
+                    ? "max-h-60 opacity-100"
                     : "max-h-0 opacity-0"
-                  }`}
+                }`}
               >
-                <div className="px-6 pb-5 text-[#717182] leading-relaxed font-normal">
+                <div className="px-8 pb-8 text-[#15010D] opacity-60 text-base md:text-lg leading-relaxed">
                   {faq.answer}
                 </div>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Contact CTA */}
-        <div className="mt-16 text-center">
-          <p className="text-white text-[16px] font-normal leading-6 mb-4">
-            Still have questions?
-          </p>
-          <button className=" font-medium text-[24px] cursor-pointer hover:text-white text-[#5C1CC5]   transition-all duration-300 transform hover:scale-105 ease-in-out inline-flex items-center gap-4">
-            Contact our team
-            <ArrowRight className="w-4 h-4" />
-          </button>
         </div>
       </div>
     </div>

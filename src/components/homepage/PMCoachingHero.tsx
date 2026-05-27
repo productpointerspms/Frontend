@@ -146,7 +146,7 @@ export default function PMCoachingHero() {
             >
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-6 right-6 bg-white hover:bg-white/30  rounded-full p-2 transition-colors"
+                className="absolute top-6 right-6 bg-white hover:bg-white/30  rounded-full p-2 transition-colors cursor-pointer"
               >
                 <X className="w-6 h-6 text-black" strokeWidth={0.781} />
               </button>

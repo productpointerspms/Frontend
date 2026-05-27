@@ -55,13 +55,13 @@ const GrowthCalendarSection: React.FC = () => {
 
                 {/* Tabs */}
                 <div className="mt-4 flex gap-3">
-                  <button className="px-4 py-2 bg-white text-[#5C1CC5] rounded-lg text-sm font-medium">
+                  <button className="px-4 py-2 bg-white text-[#5C1CC5] rounded-lg text-sm font-medium cursor-pointer">
                     This Week
                   </button>
-                  <button className="px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-sm">
+                  <button className="px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-sm cursor-pointer">
                     Month View
                   </button>
-                  <button className="px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-sm">
+                  <button className="px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-sm cursor-pointer">
                     My Goals
                   </button>
                 </div>
@@ -69,9 +69,9 @@ const GrowthCalendarSection: React.FC = () => {
 
               {/* Right */}
               <div className="flex items-center gap-4 text-sm">
-                <button className="text-white text-xl">‹</button>
+                <button className="text-white text-xl cursor-pointer">‹</button>
                 <span className="font-medium">October 2025</span>
-                <button className="text-white text-xl">›</button>
+                <button className="text-white text-xl cursor-pointer">›</button>
               </div>
             </div>
           </div>

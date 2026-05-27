@@ -150,7 +150,7 @@ export default function SuccessStories() {
 
                             {/* Button */}
                             <div className="mt-8">
-                                <button className="rounded-full bg-[#6D28D9] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#5b21b6]">
+                                <button className="rounded-full bg-[#6D28D9] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#5b21b6] cursor-pointer">
                                     {story.buttonText}
                                 </button>
                             </div>
