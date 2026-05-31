@@ -30,7 +30,7 @@ export default function Hero() {
                     </div>
 
                     {/* Heading */}
-                    <h1 className="font-[Montserrat] text-[24px] font-bold leading-tight text-white sm:text-[36px] md:text-[48px] lg:text-[64px]">
+                    <h1 className="font-[Montserrat] text-[24px] font-bold leading-tight text-white sm:text-[36px] md:text-[48px] lg:text-[54px]">
     ProductPointers Mentorship Program <span className="font-extrabold">(PPMP)</span>
 </h1>
 
