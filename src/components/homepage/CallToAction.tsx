@@ -14,14 +14,15 @@ const CallToAction: React.FC = () => {
     >
       <div className="max-w-4xl mx-auto">
         {/* Main Heading */}
-        <h2 className="text-3xl md:text-[42px] font-bold text-[#15010D] mb-6 tracking-tight leading-tight">
+        <h2 className="text-[1.05rem] min-[375px]:text-lg sm:text-3xl md:text-[42px] font-bold text-[#15010D] mb-6 tracking-tight leading-tight whitespace-nowrap sm:whitespace-normal">
           Start Your Product Journey The Right Way
         </h2>
 
         {/* Subtext */}
-        <p className="text-[#15010D] opacity-60 text-lg md:text-[22px] leading-relaxed md:leading-[34px] font-normal mb-12 max-w-3xl mx-auto">
-          Stop guessing your next step. Get the guidance, experience, and confidence
-          you need to become a job-ready Product Manager.
+        <p className="text-[#15010D] opacity-60 text-[13px] min-[375px]:text-[15px] sm:text-lg md:text-[22px] leading-relaxed md:leading-[34px] font-normal mb-12 max-w-3xl mx-auto">
+          <span className="whitespace-nowrap sm:whitespace-normal">Stop guessing your next step. Get the </span><br className="block md:hidden" />
+          <span className="whitespace-nowrap sm:whitespace-normal">guidance, experience, and confidence you </span><br className="block md:hidden" />
+          <span className="whitespace-nowrap sm:whitespace-normal">need to become a job-ready Product Manager.</span>
         </p>
 
         {/* Button Container */}

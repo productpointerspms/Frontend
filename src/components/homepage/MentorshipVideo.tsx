@@ -32,7 +32,7 @@ const MentorshipVideo: React.FC = () => {
     <section className="w-full bg-[#FCF1FF] py-20 px-6 font-montserrat">
       <div className="max-w-5xl mx-auto flex flex-col items-center">
         
-        <h2 className="text-[#1A1A1A] text-3xl md:text-[30px] font-bold mb-4 text-center">
+        <h2 className="text-[#1A1A1A] text-[1.05rem] min-[375px]:text-[1.15rem] sm:text-3xl md:text-[30px] font-bold mb-4 text-center whitespace-nowrap sm:whitespace-normal">
           See How ProductPointers Works In Action
         </h2>
         <p className="text-gray-500 text-base md:text-[16px] text-center mb-12 max-w-3xl font-medium">
