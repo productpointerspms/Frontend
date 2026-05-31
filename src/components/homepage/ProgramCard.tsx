@@ -75,8 +75,8 @@ export default function ExplorePrograms() {
     <div className="w-full bg-[#5C1CC5] py-20 px-6 md:px-12">
       {/* Section Header */}
       <div className="text-center mb-16 text-white">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">
-          Explore The Program That Fits Your Current Stage
+        <h2 className="text-[1.35rem] min-[375px]:text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+          Explore The Program<br className="block md:hidden" /> That Fits Your Current Stage
         </h2>
         <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
           Whether you're just getting started or ready to gain real experience, there's a clear next step for you.

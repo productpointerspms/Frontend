@@ -5,7 +5,7 @@ const FreeResources: React.FC = () => {
     <section className="py-20 px-6 md:px-16 bg-gradient-to-r from-[#FAE1FF] to-[#FCF1FF]">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold font-montserrat text-[#15010D] mb-4">
+          <h2 className="text-[1.05rem] min-[375px]:text-[1.15rem] sm:text-3xl md:text-4xl font-bold font-montserrat text-[#15010D] mb-4 whitespace-nowrap sm:whitespace-normal">
             Get Access to Free Product Resources
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto font-montserrat text-sm md:text-base">

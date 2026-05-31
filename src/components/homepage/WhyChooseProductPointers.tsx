@@ -41,7 +41,7 @@ const WhyChooseProductPointers = () => {
           <h3 className="text-[#1A1A1A] font-semibold text-base sm:text-lg md:text-2xl mb-2">
             We Don’t Just Teach Product Management...
           </h3>
-          <h2 className="text-[#1A1A1A] font-extrabold text-2xl sm:text-3xl md:text-[28px] mb-6 leading-tight">
+          <h2 className="text-[#1A1A1A] font-extrabold text-[1.1rem] min-[375px]:text-xl sm:text-3xl md:text-[28px] mb-6 leading-tight whitespace-nowrap sm:whitespace-normal">
             We Guide You Through Becoming One
           </h2>
           <div className="text-gray-500 font-medium text-sm sm:text-base md:text-[18px] flex flex-wrap items-center justify-center gap-x-2 gap-y-1">

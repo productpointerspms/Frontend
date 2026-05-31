@@ -60,8 +60,8 @@ const ProductPointersJourney: React.FC = () => {
       <div className="max-w-[1280px] mx-auto flex flex-col items-center">
         
         {/* Header */}
-        <h2 className="text-[#1A1A1A] text-3xl md:text-[33px] font-bold mb-4 text-center tracking-tight">
-          Your Step-By-Step Path To Becoming A Product Manager
+        <h2 className="text-[#1A1A1A] text-[1.35rem] min-[375px]:text-2xl sm:text-3xl md:text-[33px] font-bold mb-4 text-center tracking-tight">
+          Your Step-By-Step Path<br className="block md:hidden" /> To Becoming A Product Manager
         </h2>
         <p className="text-gray-500 text-base md:text-[20px] text-center mb-24 max-w-3xl font-medium">
           We don't leave you guessing. Here's exactly how you go from learning to landing a role.

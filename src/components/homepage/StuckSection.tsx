@@ -29,9 +29,11 @@ const StuckSection: React.FC = () => {
     <section className="bg-[#FCF1FF] py-20 px-6 md:px-12 font-sans">
       <div className="max-w-7xl mx-auto text-center">
         {/* Main Heading */}
-        <h2 className="text-3xl md:text-4xl font-bold text-[#101828] mb-16 leading-tight">
-          You've Learned Product Management...<br />
-          <span className="block mt-2">
+        <h2 className="font-bold text-[#101828] mb-16 leading-tight text-center">
+          <span className="block text-[1.1rem] min-[375px]:text-[1.2rem] sm:text-2xl md:text-4xl whitespace-nowrap sm:whitespace-normal">
+            You've Learned Product Management...
+          </span>
+          <span className="block mt-2 text-2xl sm:text-3xl md:text-4xl">
             But You're{' '}
             <span className="relative inline-block text-[#101828]">
               STILL STUCK
@@ -44,7 +46,7 @@ const StuckSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 items-center">
           
           {/* Top-Left: Pain Points 1 & 2 */}
-          <div className="space-y-6">
+          <div className="space-y-6 order-1">
             {painPoints.slice(0, 2).map((point, index) => (
               <div 
                 key={index} 
@@ -53,7 +55,7 @@ const StuckSection: React.FC = () => {
                 <div className="bg-[#F4EBFF] p-4 rounded-2xl">
                   {point.icon}
                 </div>
-                <p className="text-lg md:text-xl font-medium text-[#101828] text-left">
+                <p className="text-sm sm:text-lg md:text-xl font-medium text-[#101828] text-left whitespace-nowrap sm:whitespace-normal">
                   {point.text}
                 </p>
               </div>
@@ -61,7 +63,7 @@ const StuckSection: React.FC = () => {
           </div>
 
           {/* Top-Right: Image 1 (Tired Asian Woman) */}
-          <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100">
+          <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100 order-3 md:order-2">
             <img 
               src={img2.src}
               alt="Tired woman at computer" 
@@ -70,7 +72,7 @@ const StuckSection: React.FC = () => {
           </div>
 
           {/* Bottom-Left: Image 2 (Stressed Businesswoman) */}
-          <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100 md:row-start-2">
+          <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100 hidden md:block md:order-3 md:row-start-2">
             <img 
               src={img1.src}
               alt="Stressed businesswoman" 
@@ -79,7 +81,7 @@ const StuckSection: React.FC = () => {
           </div>
 
           {/* Bottom-Right: Pain Points 3 & 4 */}
-          <div className="space-y-6 md:row-start-2">
+          <div className="space-y-6 order-2 md:order-4 md:row-start-2">
             {painPoints.slice(2, 4).map((point, index) => (
               <div 
                 key={index} 
@@ -88,7 +90,7 @@ const StuckSection: React.FC = () => {
                 <div className="bg-[#F4EBFF] p-4 rounded-2xl">
                   {point.icon}
                 </div>
-                <p className="text-lg md:text-xl font-medium text-[#101828] text-left">
+                <p className="text-sm sm:text-lg md:text-xl font-medium text-[#101828] text-left whitespace-nowrap sm:whitespace-normal">
                   {point.text}
                 </p>
               </div>

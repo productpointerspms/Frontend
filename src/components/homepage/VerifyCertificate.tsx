@@ -4,12 +4,12 @@ import { ArrowRight } from "lucide-react";
 const VerifyCertificate = () => {
   return (
     <div className="w-full bg-[#FCF1FF] py-24 px-6 flex flex-col items-center justify-center text-center">
-      <h2 className="text-3xl md:text-4xl font-bold text-[#1E0F2B] mb-6">
+      <h2 className="text-[1.05rem] min-[375px]:text-[1.15rem] sm:text-3xl md:text-4xl font-bold text-[#1E0F2B] mb-6 whitespace-nowrap sm:whitespace-normal">
         Verify ProductPointers Certificates
       </h2>
-      <p className="text-gray-500 text-lg md:text-xl max-w-3xl mb-4 font-medium">
-        Employers and organizations can verify ProductPointers program
-        completion using a student verification ID.
+      <p className="text-gray-500 text-[12px] min-[375px]:text-[13px] sm:text-lg md:text-xl max-w-3xl mb-4 font-medium leading-relaxed">
+        <span className="whitespace-nowrap sm:whitespace-normal">Employers and organizations can verify ProductPointers</span><br className="block md:hidden" />
+        <span className="whitespace-nowrap sm:whitespace-normal">program completion using a student verification ID.</span>
       </p>
       <p className="text-gray-400 text-sm md:text-base mb-10">
         Every verified certificate confirms authentic program participation and completion.

@@ -71,12 +71,12 @@ export default function TestimonialSection() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#14010D] mb-4">
+          <h2 className="text-[1.1rem] min-[375px]:text-[1.3rem] sm:text-3xl md:text-4xl font-bold text-[#14010D] mb-4 whitespace-nowrap sm:whitespace-normal">
             Don’t Just Take Our Word For It
           </h2>
-          <p className="text-[#6D6D6D] text-lg md:text-xl font-normal max-w-3xl mx-auto leading-relaxed">
-            See how ProductPointers has helped aspiring Product Managers gain
-            real experience and get job-ready
+          <p className="text-[#6D6D6D] text-[12px] min-[375px]:text-[14px] sm:text-lg md:text-xl font-normal max-w-3xl mx-auto leading-relaxed">
+            <span className="whitespace-nowrap sm:whitespace-normal">See how ProductPointers has helped aspiring Product</span><br className="block md:hidden" />
+            <span className="whitespace-nowrap sm:whitespace-normal">Managers gain real experience and get job-ready</span>
           </p>
         </div>
 
