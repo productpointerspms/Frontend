@@ -13,10 +13,10 @@ const CountdownSection: React.FC = () => {
     <section className="bg-[#2D3E8E] w-full py-20 px-6 flex flex-col items-center justify-center text-white font-sans">
       {/* Header Content */}
       <div className="max-w-4xl text-center mb-12">
-        <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
+        <h2 className="text-2xl md:text-4xl font-bold mb-6 tracking-tight">
           Limited Cohort. <span className="text-[#A5B4FC]">Limited Slots</span>
         </h2>
-        <p className="text-sm md:text-lg text-gray-200 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-xs md:text-base text-gray-200 leading-relaxed max-w-3xl mx-auto">
           We keep our cohorts small to ensure every participant gets real
           mentorship, feedback, and hands-on guidance. Spots fill up quickly.
           Once they're gone, you'll have to wait for the next cohort.
@@ -24,13 +24,13 @@ const CountdownSection: React.FC = () => {
       </div>
 
       {/* Countdown Timer */}
-      <div className="flex items-center gap-4 md:gap-8 mb-16">
+      <div className="flex items-center gap-2 sm:gap-4 md:gap-8 mb-16">
         {/* Days */}
         <div className="flex flex-col items-center gap-4">
-          <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-b from-[#1E3A8A] to-[#0A1D56] rounded-[32px] flex items-center justify-center shadow-2xl border border-white/10">
-            <span className="text-4xl md:text-6xl font-bold">{timeLeft.days}</span>
+          <div className="w-[72px] h-[72px] min-[375px]:w-20 min-[375px]:h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-gradient-to-b from-[#1E3A8A] to-[#0A1D56] rounded-2xl md:rounded-[32px] flex items-center justify-center shadow-2xl border border-white/10">
+            <span className="text-2xl min-[375px]:text-3xl md:text-5xl font-bold">{timeLeft.days}</span>
           </div>
-          <span className="text-sm md:text-lg font-medium opacity-90">Days</span>
+          <span className="text-xs md:text-base font-medium opacity-90">Days</span>
         </div>
 
         {/* Separator */}
@@ -41,10 +41,10 @@ const CountdownSection: React.FC = () => {
 
         {/* Hours */}
         <div className="flex flex-col items-center gap-4">
-          <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-b from-[#1E3A8A] to-[#0A1D56] rounded-[32px] flex items-center justify-center shadow-2xl border border-white/10">
-            <span className="text-4xl md:text-6xl font-bold">{timeLeft.hours}</span>
+          <div className="w-[72px] h-[72px] min-[375px]:w-20 min-[375px]:h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-gradient-to-b from-[#1E3A8A] to-[#0A1D56] rounded-2xl md:rounded-[32px] flex items-center justify-center shadow-2xl border border-white/10">
+            <span className="text-2xl min-[375px]:text-3xl md:text-5xl font-bold">{timeLeft.hours}</span>
           </div>
-          <span className="text-sm md:text-lg font-medium opacity-90">Hours</span>
+          <span className="text-xs md:text-base font-medium opacity-90">Hours</span>
         </div>
 
         {/* Separator */}
@@ -55,21 +55,21 @@ const CountdownSection: React.FC = () => {
 
         {/* Minutes */}
         <div className="flex flex-col items-center gap-4">
-          <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-b from-[#1E3A8A] to-[#0A1D56] rounded-[32px] flex items-center justify-center shadow-2xl border border-white/10">
-            <span className="text-4xl md:text-6xl font-bold">{timeLeft.minutes}</span>
+          <div className="w-[72px] h-[72px] min-[375px]:w-20 min-[375px]:h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-gradient-to-b from-[#1E3A8A] to-[#0A1D56] rounded-2xl md:rounded-[32px] flex items-center justify-center shadow-2xl border border-white/10">
+            <span className="text-2xl min-[375px]:text-3xl md:text-5xl font-bold">{timeLeft.minutes}</span>
           </div>
-          <span className="text-sm md:text-lg font-medium opacity-90">Minutes</span>
+          <span className="text-xs md:text-base font-medium opacity-90">Minutes</span>
         </div>
       </div>
 
       {/* CTA Button & Info */}
       <div className="flex flex-col items-center gap-4">
-        <button className="bg-[#F5F3FF] text-[#581C87] px-8 py-4 rounded-2xl font-bold text-lg flex items-center gap-2 hover:bg-white transition-all shadow-lg active:scale-95 cursor-pointer">
+        <button className="bg-[#F5F3FF] text-[#581C87] px-8 py-4 rounded-2xl font-bold text-base flex items-center gap-2 hover:bg-white transition-all shadow-lg active:scale-95 cursor-pointer">
           Apply for the Next Cohort
           <ArrowRight className="w-5 h-5" />
         </button>
         
-        <div className="flex items-center gap-2 text-sm text-[#A5B4FC] font-medium">
+        <div className="flex items-center gap-2 text-xs text-[#A5B4FC] font-medium">
           <Info className="w-4 h-4 text-orange-400" />
           <span>Applications closing soon</span>
         </div>

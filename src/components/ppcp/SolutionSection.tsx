@@ -12,13 +12,13 @@ const SolutionSection = () => {
     <section className="bg-[#6219D1] py-24 px-6 text-center font-sans">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <h2 className="text-white text-sm md:text-base font-bold uppercase tracking-[0.2em] mb-4">
+        <h2 className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4">
           What You Get
         </h2>
-        <h3 className="text-white text-3xl md:text-4xl font-bold mb-6">
+        <h3 className="text-white text-2xl md:text-3xl font-bold mb-6">
           Personalized 1:1 Coaching
         </h3>
-        <p className="text-purple-100/80 text-lg mb-12">
+        <p className="text-purple-100/80 text-base mb-12">
           Private sessions tailored to:
         </p>
 
@@ -32,7 +32,7 @@ const SolutionSection = () => {
               <div className="text-[#6219D1]">
                 {item.icon}
               </div>
-              <span className="text-gray-900 font-semibold text-base md:text-lg">
+              <span className="text-gray-900 font-semibold text-sm md:text-base">
                 {item.text}
               </span>
             </div>
@@ -40,7 +40,7 @@ const SolutionSection = () => {
         </div>
 
         {/* Closing Statement */}
-        <p className="text-white text-xl md:text-2xl font-medium italic opacity-90">
+        <p className="text-white text-lg md:text-xl font-medium italic opacity-90">
           You’re not following a <span className="line-through decoration-white/50 decoration-2">generic path</span>, 
           you’re following <span className="font-black uppercase tracking-wide">Your Path</span>
         </p>

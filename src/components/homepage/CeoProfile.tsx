@@ -23,25 +23,25 @@ export default function CeoProfile() {
             className="w-full h-auto object-cover"
           />
           <div className="mt-8">
-            <h3 className="text-[32px] leading-7 text-[#5C1CC5] font-bold">
+            <h3 className="text-[28px] leading-7 text-[#5C1CC5] font-bold">
               Blessing Okomor
             </h3>
-            <p className="text-[16px] font-medium text-[#15010D]  leading-5 pt-2">
+            <p className="text-[14px] font-medium text-[#15010D]  leading-5 pt-2">
               Founder, ProductPointers
             </p>
-            <p className="text-[15px] font-normal text-[#6D6D6D] leading-5 pt-1">
+            <p className="text-[13px] font-normal text-[#6D6D6D] leading-5 pt-1">
               The-Global&apos;PM
             </p>
-            <p className="text-[15px] font-normal text-[#6D6D6D] leading-5">
+            <p className="text-[13px] font-normal text-[#6D6D6D] leading-5">
               Product Manager, Mainstack{" "}
             </p>
           </div>
         </div>
         <div className=" w-full md:w-[680px] h-full  pt-2.5">
-          <h3 className="text-[60px] hidden md:block leading-[60px] text-[#15010D] font-bold">
+          <h3 className="text-[53px] hidden md:block leading-[60px] text-[#15010D] font-bold">
             Meet Blessing Okomor
           </h3>
-          <div className=" text-[#15010D] md:text-[18px] text-[14px] font-normal md:leading-9 leading-6">
+          <div className=" text-[#15010D] md:text-[16px] text-[12px] font-normal md:leading-9 leading-6">
             <p className="pt-6">
               Blessing’s journey into tech didn’t begin the conventional way.
               With a strong background in Auditing, she spent years analyzing

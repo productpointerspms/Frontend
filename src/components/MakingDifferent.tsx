@@ -19,37 +19,37 @@ interface DifferenceCard {
 
 const differences: DifferenceCard[] = [
   {
-    image: img1.src, // Replace with your actual image path
+    image: img4.src,
     title: "Structured Mentorship",
     description: "Get guided by experienced product professionals who show you exactly what to do step by step.",
   },
   {
-    image: img2.src, // Replace with your actual image path
-    title: "Hands-On Product Building",
+    image:  img1.src,
+    title: "Product Building",
     description: "Stop learning passively. Start building real products you can actually show.",
   },
   {
-    image: img3.src, // Replace with your actual image path
+    image: img2.src,
     title: "Internship Experience",
     description: "Gain real-world experience working on actual product problems not just case studies.",
   },
   {
-    image: img4.src, // Replace with your actual image path
-    title: "Career Readiness Support",
+    image: img3.src,
+    title: "Career Support",
     description: "Get prepared to apply, interview, and stand out with confidence.",
   },
 ];
 
 const WhatMakesUsDifferent: React.FC = () => {
   return (
-    <section className={`${montserrat.className} py-20 my-20 bg-[#5C1CC5] w-full text-white`}>
+    <section className={`${montserrat.className} py-20 bg-[#5C1CC5] w-full text-white`}>
       <div className="max-w-[1280px] mx-auto px-6">
         {/* Header Section */}
         <div className="text-center mb-16">
-          <h2 className="text-[32px] md:text-[40px] font-bold mb-4">
+          <h2 className="text-[22px] md:text-[35px] font-bold mb-4">
             What Makes ProductPointers Different
           </h2>
-          <p className="text-[18px] md:text-[20px] opacity-90 max-w-[800px] mx-auto leading-relaxed">
+          <p className="text-[16px] md:text-[18px] opacity-90 max-w-[800px] mx-auto leading-relaxed">
             We don't just teach concepts. We guide you through real execution, real experience, and real outcomes.
           </p>
         </div>
@@ -73,10 +73,10 @@ const WhatMakesUsDifferent: React.FC = () => {
 
               {/* Text Content */}
               <div className="px-2 pb-4">
-                <h3 className="text-[#15010D] text-[18px] font-bold mb-3 leading-tight">
+                <h3 className="text-[#15010D] text-[14px] font-bold mb-3 leading-tight">
                   {item.title}
                 </h3>
-                <p className="text-[#4A5565] text-[14px] leading-[22px]">
+                <p className="text-[#4A5565] text-[12px] leading-[22px]">
                   {item.description}
                 </p>
               </div>

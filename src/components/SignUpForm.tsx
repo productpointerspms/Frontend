@@ -77,17 +77,17 @@ export default function SignUpForm() {
                         className="object-contain mb-4"
                         priority
                     />
-                    <p className="text-gray-500 text-sm text-center">
+                    <p className="text-gray-500 text-xs text-center">
                         Unlock your potential with premium mentorship and learning experiences designed for aspiring and entry-level Product managers.
                     </p>
                 </div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Create your account</h1>
-                <p className="text-gray-500 text-sm">Join our community of thriving product managers</p>
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">Create your account</h1>
+                <p className="text-gray-500 text-xs">Join our community of thriving product managers</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
-                    <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm text-center">
+                    <div className="bg-red-50 text-red-600 p-3 rounded-lg text-xs text-center">
                         {error}
                     </div>
                 )}
@@ -154,7 +154,7 @@ export default function SignUpForm() {
                     {loading ? 'Creating Account...' : 'Sign Up'}
                 </Button>
 
-                <p className="text-center text-sm text-gray-600 mt-6">
+                <p className="text-center text-xs text-gray-600 mt-6">
                     Already have an account?{' '}
                     <Link href="/login" className="text-[#6b21a8] font-medium hover:underline">
                         Log in

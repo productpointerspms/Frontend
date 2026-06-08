@@ -30,10 +30,10 @@ const StuckSection: React.FC = () => {
       <div className="max-w-7xl mx-auto text-center">
         {/* Main Heading */}
         <h2 className="font-bold text-[#101828] mb-16 leading-tight text-center">
-          <span className="block text-[1.1rem] min-[375px]:text-[1.2rem] sm:text-2xl md:text-4xl whitespace-nowrap sm:whitespace-normal">
+          <span className="block text-[0.96rem] min-[375px]:text-[1.05rem] sm:text-xl md:text-3xl whitespace-nowrap sm:whitespace-normal">
             You've Learned Product Management...
           </span>
-          <span className="block mt-2 text-2xl sm:text-3xl md:text-4xl">
+          <span className="block mt-2 text-xl sm:text-2xl md:text-3xl">
             But You're{' '}
             <span className="relative inline-block text-[#101828]">
               STILL STUCK
@@ -55,7 +55,7 @@ const StuckSection: React.FC = () => {
                 <div className="bg-[#F4EBFF] p-4 rounded-2xl">
                   {point.icon}
                 </div>
-                <p className="text-sm sm:text-lg md:text-xl font-medium text-[#101828] text-left whitespace-nowrap sm:whitespace-normal">
+                <p className="text-xs sm:text-base md:text-lg font-medium text-[#101828] text-left">
                   {point.text}
                 </p>
               </div>
@@ -90,7 +90,7 @@ const StuckSection: React.FC = () => {
                 <div className="bg-[#F4EBFF] p-4 rounded-2xl">
                   {point.icon}
                 </div>
-                <p className="text-sm sm:text-lg md:text-xl font-medium text-[#101828] text-left whitespace-nowrap sm:whitespace-normal">
+                <p className="text-xs sm:text-base md:text-lg font-medium text-[#101828] text-left">
                   {point.text}
                 </p>
               </div>

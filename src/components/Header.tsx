@@ -63,7 +63,7 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Menu */}
-      <ul className="hidden md:flex items-center gap-10 text-[15px] text-[#15010D] font-medium">
+      <ul className="hidden md:flex items-center gap-10 text-[13px] text-[#15010D] font-medium">
         {menuItems.map((item) => (
           <li key={item.name} className="relative">
             {item.dropdown ? (
@@ -84,7 +84,7 @@ const Navbar = () => {
                         <Link
                           href={sub.href}
                           onClick={() => setDropdownOpen(false)}
-                          className="block px-4 py-2.5 text-sm text-gray-700 hover:text-[#6024D0] hover:bg-purple-50 rounded-lg transition"
+                          className="block px-4 py-2.5 text-xs text-gray-700 hover:text-[#6024D0] hover:bg-purple-50 rounded-lg transition"
                         >
                           {sub.name}
                         </Link>
@@ -133,7 +133,7 @@ const Navbar = () => {
                 <>
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center gap-1 text-lg font-semibold text-[#15010D] cursor-pointer"
+                    className="flex items-center gap-1 text-base font-semibold text-[#15010D] cursor-pointer"
                   >
                     {item.name} <ChevronDown size={18} />
                   </button>
@@ -151,7 +151,7 @@ const Navbar = () => {
                 <Link
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`text-lg font-semibold transition ${active === item.name ? "text-[#6024D0]" : "text-[#15010D]"}`}
+                  className={`text-base font-semibold transition ${active === item.name ? "text-[#6024D0]" : "text-[#15010D]"}`}
                 >
                   {item.name}
                 </Link>
@@ -159,8 +159,9 @@ const Navbar = () => {
             </div>
           ))}
           <div className="flex flex-col w-full px-10 gap-4 mt-4">
-            <Link href="/signup" className="w-full text-center bg-[#6024D0] text-white py-4 rounded-xl font-bold">Sign Up</Link>
-            <Link href="/login" className="w-full text-center border border-[#6024D0] text-[#6024D0] py-4 rounded-xl font-bold">Log In</Link>
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="w-full text-center bg-[#6024D0] text-white py-4 rounded-xl font-bold">
+              Apply Now
+            </Link>
           </div>
         </div>
       )}

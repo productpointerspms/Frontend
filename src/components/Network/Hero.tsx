@@ -12,7 +12,7 @@ const HeroNetwork = () => {
         
         {/* Heading */}
         <div className="w-full max-w-[1280px]">
-          <h1 className="font-montserrat font-bold text-white text-3xl sm:text-4xl md:text-5xl lg:text-[64px] leading-[100%] text-center">
+          <h1 className="font-montserrat font-bold text-white text-2xl sm:text-3xl md:text-4xl lg:text-[56px] leading-[100%] text-center">
             Grow Together with The-Global’PM
             <br />
             Network
@@ -20,7 +20,7 @@ const HeroNetwork = () => {
         </div>
 
         {/* Subtitle */}
-        <p className="mt-4 sm:mt-6 text-white text-sm sm:text-base md:text-[18px] text-center max-w-[720px]">
+        <p className="mt-4 sm:mt-6 text-white text-xs sm:text-sm md:text-[16px] text-center max-w-[720px]">
           Grow beyond your career. Build your brand, your finances, and your
           future.
         </p>

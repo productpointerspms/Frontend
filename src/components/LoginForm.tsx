@@ -45,18 +45,18 @@ export default function LoginForm() {
               className="object-contain mb-4"
               priority
             />
-            <p className="text-gray-500 text-sm text-center">
+            <p className="text-gray-500 text-xs text-center">
               Unlock your potential with premium mentorship and learning experiences designed for aspiring and entry-level Product managers.
             </p>
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome Back</h1>
-        <p className="text-gray-500 text-sm">Sign in to continue your learning journey</p>
+        <h1 className="text-xl font-bold text-gray-900 mb-1">Welcome Back</h1>
+        <p className="text-gray-500 text-xs">Sign in to continue your learning journey</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {error && <div className="text-red-600 text-sm text-center bg-red-50 p-2 rounded">{error}</div>}
+        {error && <div className="text-red-600 text-xs text-center bg-red-50 p-2 rounded">{error}</div>}
 
         <Input
           label="Email Address"
@@ -77,7 +77,7 @@ export default function LoginForm() {
             required
           />
           <div className="flex justify-end mt-1">
-            <Link href="/forgot-password" className="text-sm text-[#6b21a8] hover:underline">
+            <Link href="/forgot-password" className="text-xs text-[#6b21a8] hover:underline">
               Forget password?
             </Link>
           </div>
@@ -91,7 +91,7 @@ export default function LoginForm() {
           {loading ? 'Logging In...' : 'Log In'}
         </Button>
 
-        <p className="text-center text-sm text-gray-900 mt-6">
+        <p className="text-center text-xs text-gray-900 mt-6">
           Dont have an account <Link href="/signup" className="text-[#6b21a8] font-medium hover:underline">Sign Up</Link>
         </p>
       </form>

@@ -5,10 +5,10 @@ const PricingCard = () => {
   return (
     <section className="bg-[#F9F5FF] py-20 px-6 text-center font-sans">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
           Invest In Your Product Career
         </h2>
-        <p className="text-gray-500 text-lg mb-12 max-w-2xl mx-auto">
+        <p className="text-gray-500 text-base mb-12 max-w-2xl mx-auto">
           A specialization-focused program designed to help you deepen your expertise, 
           stand out in your field, and position yourself for higher-impact opportunities.
         </p>
@@ -20,11 +20,11 @@ const PricingCard = () => {
           </span>
           
           <div className="mt-6 mb-2">
-            <h3 className="text-5xl md:text-6xl font-black text-gray-900">
+            <h3 className="text-4xl md:text-5xl font-black text-gray-900">
               ₦150,000
             </h3>
           </div>
-          <p className="text-gray-400 text-sm mb-10">Flexible payment options available</p>
+          <p className="text-gray-400 text-xs mb-10">Flexible payment options available</p>
 
           <div className="text-left space-y-4 mb-12">
             <p className="text-gray-400 font-medium mb-4">Included In This Program:</p>

@@ -48,11 +48,11 @@ export default function CommunityMobile() {
         <section
           className={`${montserrat.className} relative z-10 text-center pt-14 px-4`}
         >
-          <h1 className="text-2xl pb-4 font-bold text-[#FFFFFF]">
+          <h1 className="text-xl pb-4 font-bold text-[#FFFFFF]">
             Join Our Thriving Community
           </h1>
 
-          <p className="text-[10px] text-[#FFFFFF] font-normal mx-auto leading-5 pb-[50px]">
+          <p className="text-[9px] text-[#FFFFFF] font-normal mx-auto leading-5 pb-[50px]">
             Connect with like-minded product professionals from <br /> around
             the world. Share knowledge, celebrate wins, and <br />
             grow together.
@@ -66,30 +66,30 @@ export default function CommunityMobile() {
             <div className="grid grid-cols-3 gap-3  justify-center">
               {/* Active Members */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[3.6px] text-center  p-2 flex flex-col justify-center items-center">
-                <h3 className="text-[12px] font-bold text-[#FFFFFF] pb-3 ">
+                <h3 className="text-[11px] font-bold text-[#FFFFFF] pb-3 ">
                   167+
                 </h3>
-                <p className="text-[#FFFFFF] text-[8px] leading-[5.2px] font-normal">
+                <p className="text-[#FFFFFF] text-[7px] leading-[5.2px] font-normal">
                   Active Members
                 </p>
               </div>
 
               {/* Countries */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[3.6px] text-center  p-2  flex flex-col justify-center items-center">
-                <h3 className=" text-[12px] font-bold text-[#FFFFFF] pb-3">
+                <h3 className=" text-[11px] font-bold text-[#FFFFFF] pb-3">
                   11+
                 </h3>
-                <p className="text-[#FFFFFF] text-[8px] leading-[5.2px] font-normal">
+                <p className="text-[#FFFFFF] text-[7px] leading-[5.2px] font-normal">
                   Countries
                 </p>
               </div>
 
               {/* Career Growth */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[3.6px] text-center  p-2  flex flex-col justify-center items-center">
-                <h3 className="text-[12px] font-bold text-[#FFFFFF] pb-3">
+                <h3 className="text-[11px] font-bold text-[#FFFFFF] pb-3">
                   97%
                 </h3>
-                <p className="text-[#FFFFFF] text-[8px] leading-[5.2px] font-normal">
+                <p className="text-[#FFFFFF] text-[7px] leading-[5.2px] font-normal">
                   Career Growth
                 </p>
               </div>
@@ -116,10 +116,10 @@ export default function CommunityMobile() {
                     className="object-contain"
                   />
                 </div>
-                <h3 className="text-[12px] font-bold text-[#14010D] leading-[7.5px] mb-[6.3px] -mt-2">
+                <h3 className="text-[11px] font-bold text-[#14010D] leading-[7.5px] mb-[6.3px] -mt-2">
                   {feature.title}
                 </h3>
-                <p className="text-[#6D6D6D] text-[6px]  font-normal w-[104px] ">
+                <p className="text-[#6D6D6D] text-[5px]  font-normal w-[104px] ">
                   {feature.description}
                 </p>
               </div>
@@ -127,7 +127,7 @@ export default function CommunityMobile() {
           </div>
 
           <div className="flex justify-center pb-10 ">
-            <button className="bg-[#5C1CC5] hover:border hover:border-[#5C1CC5] text-[12px] hover:bg-[#FAE1FF] cursor-pointer hover:text-[#5C1CC5]  text-white font-semibold p-2 rounded-sm transition-all duration-300 transform hover:scale-105 ease-in-out">
+            <button className="bg-[#5C1CC5] hover:border hover:border-[#5C1CC5] text-[11px] hover:bg-[#FAE1FF] cursor-pointer hover:text-[#5C1CC5]  text-white font-semibold p-2 rounded-sm transition-all duration-300 transform hover:scale-105 ease-in-out">
               Join Community
             </button>
           </div>

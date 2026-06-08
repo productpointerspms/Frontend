@@ -52,10 +52,10 @@ const AlumniGains: React.FC = () => {
     <div className={`${montserrat.className} bg-[#F6E1FF] py-20 px-6 md:px-12 lg:px-24`}>
       <div className="max-w-7xl mx-auto text-center">
         {/* Header Section */}
-        <h2 className="text-[#000000] text-3xl md:text-[40px] font-bold mb-6">
+        <h2 className="text-[#000000] text-2xl md:text-[35px] font-bold mb-6">
           What Alumni Gain From The Community
         </h2>
-        <p className="text-[#000000]/60 text-lg md:text-xl max-w-4xl mx-auto mb-16 leading-relaxed">
+        <p className="text-[#000000]/60 text-base md:text-lg max-w-4xl mx-auto mb-16 leading-relaxed">
           The ProductPointers Community is designed to help alumni continue growing, stay 
           accountable, build meaningful relationships, and access long-term support 
           throughout their Product Management journey.
@@ -74,10 +74,10 @@ const AlumniGains: React.FC = () => {
               </div>
 
               {/* Content */}
-              <h3 className="text-[#000000] text-2xl font-bold mb-6 leading-tight">
+              <h3 className="text-[#000000] text-xl font-bold mb-6 leading-tight">
                 {gain.title}
               </h3>
-              <p className="text-[#000000]/70 text-base leading-relaxed">
+              <p className="text-[#000000]/70 text-sm leading-relaxed">
                 {gain.description}
               </p>
             </div>

@@ -54,7 +54,7 @@ const SecondaryNav: React.FC = () => {
             w-full max-w-[343px] mx-auto 
             flex-wrap justify-center items-center 
             gap-2 py-3
-            text-sm text-purple-700 font-medium
+            text-xs text-purple-700 font-medium
           "
         >
           {links.map((link) => (

@@ -24,13 +24,13 @@ const ConnectFounder: React.FC = () => {
             <LinkedinIcon className="w-8 h-8 text-white" />
           </div>
 
-          <h2 className="text-[36px] md:text-[52px] font-bold text-[#15010D] leading-[1.1] mb-6">
+          <h2 className="text-[32px] md:text-[46px] font-bold text-[#15010D] leading-[1.1] mb-6">
             Connect with Our
             <br />
             Founder
           </h2>
 
-          <p className="text-[#6D6D6D] text-[18px] mb-8 leading-relaxed max-w-md">
+          <p className="text-[#6D6D6D] text-[16px] mb-8 leading-relaxed max-w-md">
             Follow the journey, insights, and real product experiences directly
             from the founder.
           </p>
@@ -39,7 +39,7 @@ const ConnectFounder: React.FC = () => {
             href="https://www.linkedin.com/in/blessing-okomor"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#0077B5] text-white px-6 py-3.5 rounded-full font-medium hover:bg-[#006097] transition-colors mb-12 shadow-sm text-sm"
+            className="inline-flex items-center gap-2 bg-[#0077B5] text-white px-6 py-3.5 rounded-full font-medium hover:bg-[#006097] transition-colors mb-12 shadow-sm text-xs"
           >
             <LinkedinIcon className="w-5 h-5 text-white" />
             Connect on LinkedIn
@@ -51,7 +51,7 @@ const ConnectFounder: React.FC = () => {
               <div className="w-12 h-12 bg-[#5C1CC5] rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
                 8K+
               </div>
-              <span className="text-[#6D6D6D] text-sm font-medium">
+              <span className="text-[#6D6D6D] text-xs font-medium">
                 Followers
               </span>
             </div>
@@ -59,7 +59,7 @@ const ConnectFounder: React.FC = () => {
               <div className="w-12 h-12 bg-[#5C1CC5] rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
                 500+
               </div>
-              <span className="text-[#6D6D6D] text-sm font-medium">Posts</span>
+              <span className="text-[#6D6D6D] text-xs font-medium">Posts</span>
             </div>
           </div>
         </div>
@@ -80,10 +80,10 @@ const ConnectFounder: React.FC = () => {
                 <LinkedinIcon className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col pr-2">
-                <span className="text-[11px] text-[#6D6D6D] font-medium leading-tight">
+                <span className="text-[10px] text-[#6D6D6D] font-medium leading-tight">
                   Response Time
                 </span>
-                <span className="text-[13px] font-bold text-[#15010D] leading-tight">
+                <span className="text-[11px] font-bold text-[#15010D] leading-tight">
                   Within 24h
                 </span>
               </div>
@@ -95,10 +95,10 @@ const ConnectFounder: React.FC = () => {
                 <Check className="text-white w-6 h-6 stroke-[3]" />
               </div>
               <div className="flex flex-col pr-2">
-                <span className="text-[11px] text-[#6D6D6D] font-medium leading-tight">
+                <span className="text-[10px] text-[#6D6D6D] font-medium leading-tight">
                   Active on LinkedIn
                 </span>
-                <span className="text-[13px] font-bold text-[#15010D] leading-tight">
+                <span className="text-[11px] font-bold text-[#15010D] leading-tight">
                   Posting Weekly
                 </span>
               </div>

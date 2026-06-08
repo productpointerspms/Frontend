@@ -26,10 +26,10 @@ const FAQSection = () => {
     <section className="bg-[#FAF5FF] py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-base">
             Everything you need to know about the Accelerator Program
           </p>
         </div>
@@ -46,7 +46,7 @@ const FAQSection = () => {
                   className="w-full px-8 py-6 flex justify-between items-center text-left"
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                 >
-                  <span className="font-semibold text-[#1a1a1a] pr-8 text-[15px]">{faq.question}</span>
+                  <span className="font-semibold text-[#1a1a1a] pr-8 text-[13px]">{faq.question}</span>
                   {/* The image shows an upward caret when closed and open. Let's use ChevronUp as default and down when clicked open, or vice versa, to stay standard while looking like the design. We'll use ChevronUp for closed, ChevronDown for open. */}
                   {isOpen ? (
                     <ChevronDown className="w-5 h-5 text-gray-500 flex-shrink-0" strokeWidth={1.5} />
@@ -56,7 +56,7 @@ const FAQSection = () => {
                 </button>
                 
                 <div 
-                  className={`px-8 pb-8 text-gray-500 text-[15px] leading-relaxed transition-all duration-300 ${
+                  className={`px-8 pb-8 text-gray-500 text-[13px] leading-relaxed transition-all duration-300 ${
                     isOpen ? 'block' : 'hidden'
                   }`}
                 >

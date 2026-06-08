@@ -39,12 +39,12 @@ const CoreValues: React.FC = () => {
     <section className="py-24 bg-[#FDF4FF] w-full px-6">
       <div className="max-w-[1200px] mx-auto text-center">
         {/* Heading */}
-        <h2 className="text-[#15010D] text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">
+        <h2 className="text-[#15010D] text-2xl md:text-3xl font-extrabold mb-4 tracking-tight">
           Our Core Values
         </h2>
 
         {/* Subtitle */}
-        <p className="text-[#15010D]/60 text-lg md:text-xl mb-16 max-w-2xl mx-auto">
+        <p className="text-[#15010D]/60 text-base md:text-lg mb-16 max-w-2xl mx-auto">
           These values guide every decision we make and every program we create
         </p>
 
@@ -61,10 +61,10 @@ const CoreValues: React.FC = () => {
               </div>
 
               {/* Text Content */}
-              <h3 className="text-[#15010D] text-xl font-bold mb-4">
+              <h3 className="text-[#15010D] text-lg font-bold mb-4">
                 {value.title}
               </h3>
-              <p className="text-[#15010D]/70 text-sm leading-relaxed">
+              <p className="text-[#15010D]/70 text-xs leading-relaxed">
                 {value.description}
               </p>
             </div>

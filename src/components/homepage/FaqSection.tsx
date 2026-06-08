@@ -44,10 +44,10 @@ export default function FaqSection() {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#15010D] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#15010D] mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-[#15010D] text-lg md:text-xl font-normal opacity-80">
+          <p className="text-[#15010D] text-base md:text-lg font-normal opacity-80">
             Everything you need to know about the Accelerator Program
           </p>
         </div>
@@ -63,7 +63,7 @@ export default function FaqSection() {
                 onClick={() => toggleAccordion(index)}
                 className="w-full px-8 py-6 flex items-center justify-between text-left cursor-pointer"
               >
-                <span className="text-base md:text-lg font-semibold text-[#15010D]">
+                <span className="text-sm md:text-base font-semibold text-[#15010D]">
                   {faq.question}
                 </span>
                 <div className="shrink-0">
@@ -82,7 +82,7 @@ export default function FaqSection() {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="px-8 pb-8 text-[#15010D] opacity-60 text-base md:text-lg leading-relaxed">
+                <div className="px-8 pb-8 text-[#15010D] opacity-60 text-sm md:text-base leading-relaxed">
                   {faq.answer}
                 </div>
               </div>

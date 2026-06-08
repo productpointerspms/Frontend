@@ -11,7 +11,7 @@ const WhatDrivesUs: React.FC = () => {
         <div>
           <h2
             className="
-    text-[24px] md:text-4xl
+    text-[21px] md:text-3xl
     font-bold font-montserrat
     text-[#15010D]
     capitalize
@@ -54,10 +54,10 @@ const WhatDrivesUs: React.FC = () => {
 
           {/* Floating Card */}
           <div className="absolute bottom-5 left-5 bg-purple-700 text-white px-6 py-4 rounded-xl shadow-lg">
-            <h4 className="font-semibold text-lg font-montserrat">
+            <h4 className="font-semibold text-base font-montserrat">
               Mission-Driven
             </h4>
-            <p className="text-sm text-gray-200 font-montserrat">
+            <p className="text-xs text-gray-200 font-montserrat">
               Building tomorrow&apos;s leaders
             </p>
           </div>

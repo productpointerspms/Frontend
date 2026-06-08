@@ -22,12 +22,12 @@ const ProblemSection: React.FC = () => {
         
         {/* Left Content */}
         <div className="flex flex-col">
-          <h2 className="text-[#15010D] text-3xl md:text-4xl lg:text-[32px] font-bold leading-tight mb-6">
+          <h2 className="text-[#15010D] text-2xl md:text-3xl lg:text-[28px] font-bold leading-tight mb-6">
             The Problem With Learning <br className="hidden md:block" />
             Product Management Today
           </h2>
           
-          <p className="text-[#15010D] opacity-60 text-lg mb-10 max-w-lg">
+          <p className="text-[#15010D] opacity-60 text-base mb-10 max-w-lg">
             Most people don't struggle because they can't learn. They struggle because they don't know how to apply what they've learned.
           </p>
 
@@ -39,7 +39,7 @@ const ProblemSection: React.FC = () => {
                 className="bg-white rounded-2xl p-4 flex items-center gap-4 shadow-sm border border-transparent hover:border-[#E11D48]/10 transition-all max-w-md md:max-w-full"
               >
                 <XCircle className="w-6 h-6 text-[#E11D48] shrink-0" />
-                <span className="text-[#15010D] font-medium text-base md:text-lg">
+                <span className="text-[#15010D] font-medium text-sm md:text-base">
                   {text}
                 </span>
               </div>
@@ -48,7 +48,7 @@ const ProblemSection: React.FC = () => {
 
           <div className="h-[1px] bg-[#15010D]/10 w-full mb-10"></div>
 
-          <h3 className="text-[#6024D0] text-xl md:text-2xl font-bold">
+          <h3 className="text-[#6024D0] text-lg md:text-xl font-bold">
             That's Why We Built ProductPointers.
           </h3>
         </div>

@@ -75,21 +75,21 @@ export default function PMCoachingHero() {
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 pt-[100px]">
           <div className="max-w-4xl mx-auto text-center">
             {/* Heading */}
-            <h1 className="text-[32px] md:text-[72px] hidden md:block lg:text-7xl font-bold text-white mb-[35px] md:leading-[90px] pt-50 md:pt-0">
+            <h1 className="text-[28px] md:text-[63px] hidden md:block lg:text-6xl font-bold text-white mb-[35px] md:leading-[90px] pt-50 md:pt-0">
               Be Part of the Next Generation of <br /> Product Leaders
             </h1>
-            <h1 className="text-[32px] md:hidden block mx-auto  font-bold text-white mb-[35px] md:leading-[90px] pt-50 md:pt-0">
+            <h1 className="text-[28px] md:hidden block mx-auto  font-bold text-white mb-[35px] md:leading-[90px] pt-50 md:pt-0">
               Be Part of the Next Generation of Product Leaders
             </h1>
 
             {/* Subheading */}
-            <p className="text-sm md:text-2xl  text-white/90 mb-2 md:w-[670px] w-[343px] mx-auto leading-5 md:leading-[39px]">
+            <p className="text-xs md:text-xl  text-white/90 mb-2 md:w-[670px] w-[343px] mx-auto leading-5 md:leading-[39px]">
               Join 500+ professionals who've transformed their careers with
               ProductPointers. Your journey to product leadership starts here.
             </p>
 
             {/* Benefits List */}
-            <ul className="text-white/80 md:text-base text-[12px] font-normal leading-6 mb-12 space-y-3 max-w-2xl mx-auto">
+            <ul className="text-white/80 md:text-sm text-[11px] font-normal leading-6 mb-12 space-y-3 max-w-2xl mx-auto">
               <li className="flex items-center justify-center gap-3">
                 <span className="w-2 h-2 bg-[#000000] rounded-full"></span>
                 <span>Expert mentorship from industry leaders</span>
@@ -108,22 +108,22 @@ export default function PMCoachingHero() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-12">
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-[#FAE1FF] text-[#5B1CC5] border border-[#5B1CC5] hover:bg-[#5C1CC5] hover:text-white hover:border hover:border-white cursor-pointer font-medium px-7 py-2.5 rounded-lg text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 transform"
+                className="bg-[#FAE1FF] text-[#5B1CC5] border border-[#5B1CC5] hover:bg-[#5C1CC5] hover:text-white hover:border hover:border-white cursor-pointer font-medium px-7 py-2.5 rounded-lg text-base transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 transform"
               >
                 Apply Now
               </button>
               <div className="text-left text-white/80">
-                <p className="font-bold text-sm leading-5">
+                <p className="font-bold text-xs leading-5">
                   Next cohort starts January 16, 2026
                 </p>
-                <p className="text-sm font-normal leading-5 text-white/80">
+                <p className="text-xs font-normal leading-5 text-white/80">
                   Limited to 20 participants
                 </p>
               </div>
             </div>
 
             {/* Footer Text */}
-            <p className="text-white/60 text-sm font-normal leading-5">
+            <p className="text-white/60 text-xs font-normal leading-5">
               🔒 Application review within 48 hours • 💰 Payment plans available
             </p>
           </div>
@@ -150,10 +150,10 @@ export default function PMCoachingHero() {
               >
                 <X className="w-6 h-6 text-black" strokeWidth={0.781} />
               </button>
-              <h2 className="text-4xl md:text-[40px]  leading-[37.5px] font-medium text-center text-white mb-3">
+              <h2 className="text-3xl md:text-[35px]  leading-[37.5px] font-medium text-center text-white mb-3">
                 Choose Your Program
               </h2>
-              <p className="text-[15px] font-normal leading-[25px] text-white/90">
+              <p className="text-[13px] font-normal leading-[25px] text-white/90">
                 Select the program that best fits your goals and career stage
               </p>
             </div>
@@ -175,13 +175,13 @@ export default function PMCoachingHero() {
                         className="object-contain"
                       />
                     </div>
-                    <h3 className="text-[18px] font-semibold leading-[25px] text-[#15010D] mb-[18px]">
+                    <h3 className="text-[16px] font-semibold leading-[25px] text-[#15010D] mb-[18px]">
                       {program.title}
                     </h3>
-                    <p className="text-[#6D6D6D] mb-6 md:w-40 w-full leading-[20.3px] text-[12px] font-normal">
+                    <p className="text-[#6D6D6D] mb-6 md:w-40 w-full leading-[20.3px] text-[11px] font-normal">
                       {program.description}
                     </p>
-                    <button className="w-[196px] bg-[#5C1CC5] hover:bg-white hover:border hover:border-[#5C1CC5] cursor-pointer text-white text-[13px] font-medium py-2 px-6 rounded-lg hover:text-[#5C1CC5] transition-colors duration-300">
+                    <button className="w-[196px] bg-[#5C1CC5] hover:bg-white hover:border hover:border-[#5C1CC5] cursor-pointer text-white text-[11px] font-medium py-2 px-6 rounded-lg hover:text-[#5C1CC5] transition-colors duration-300">
                       Apply now
                     </button>
                   </div>
@@ -190,11 +190,11 @@ export default function PMCoachingHero() {
 
               {/* Footer */}
               <div className="text-center mt-10">
-                <p className="text-[#15010D] text-[12px] font-normal leading[15.6px]">
+                <p className="text-[#15010D] text-[11px] font-normal leading[15.6px]">
                   Not sure which program is right for you?{" "}
                   <a
                     href="#"
-                    className="text-[#5C1CC5] hover:text-purple-700 text-[12px] leading[15.6px] font-normal"
+                    className="text-[#5C1CC5] hover:text-purple-700 text-[11px] leading[15.6px] font-normal"
                   >
                     Schedule a free consultation
                   </a>

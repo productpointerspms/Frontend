@@ -15,14 +15,14 @@ const ProblemSection = () => {
     <section className="bg-[#FAF5FF] py-20 px-6 md:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 lg:gap-20">
         <div className="flex-1 max-w-xl">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-2 leading-tight">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-2 leading-tight">
             You're Not Stuck Because You Can't Learn...
           </h2>
-          <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#6D28D9] mb-6 leading-tight">
+          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#6D28D9] mb-6 leading-tight">
             -You're Stuck Because There's No Clear Path
           </h3>
           
-          <p className="text-gray-500 text-lg mb-8 leading-relaxed max-w-md">
+          <p className="text-gray-500 text-base mb-8 leading-relaxed max-w-md">
             Most beginners don't struggle because they're not smart...<br/>
             They struggle because they don't know what to focus on.
           </p>
@@ -31,7 +31,7 @@ const ProblemSection = () => {
             {problems.map((problem, index) => (
               <div key={index} className="flex items-center gap-4 p-4 rounded-xl bg-white shadow-sm w-full border border-gray-50">
                 <XCircle className="w-6 h-6 text-red-500 flex-shrink-0" strokeWidth={1.5} />
-                <p className="text-gray-800 font-medium text-[15px]">{problem}</p>
+                <p className="text-gray-800 font-medium text-[13px]">{problem}</p>
               </div>
             ))}
           </div>

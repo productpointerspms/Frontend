@@ -7,7 +7,7 @@ const SolutionSection = () => {
   return (
     <section className="bg-[#FAF5FF] py-20 px-6 md:px-12 lg:px-24">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-[#1a1a1a] mb-16">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-[#1a1a1a] mb-16">
           This Program Is For You If...
         </h2>
         
@@ -20,7 +20,7 @@ const SolutionSection = () => {
                 <div className="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center flex-shrink-0">
                   <User className="w-6 h-6 text-[#6D28D9]" />
                 </div>
-                <p className="text-[#1a1a1a] text-lg font-medium">
+                <p className="text-[#1a1a1a] text-base font-medium">
                   You're completely new to Product Management
                 </p>
               </div>
@@ -29,7 +29,7 @@ const SolutionSection = () => {
                 <div className="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center flex-shrink-0">
                   <RefreshCw className="w-6 h-6 text-[#6D28D9]" />
                 </div>
-                <p className="text-[#1a1a1a] text-lg font-medium">
+                <p className="text-[#1a1a1a] text-base font-medium">
                   You're switching from a non-tech background
                 </p>
               </div>
@@ -68,7 +68,7 @@ const SolutionSection = () => {
                 <div className="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center flex-shrink-0">
                   <MessageSquarePlus className="w-6 h-6 text-[#6D28D9]" />
                 </div>
-                <p className="text-[#1a1a1a] text-lg font-medium">
+                <p className="text-[#1a1a1a] text-base font-medium">
                   You've started learning but still feel stuck
                 </p>
               </div>
@@ -77,7 +77,7 @@ const SolutionSection = () => {
                 <div className="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center flex-shrink-0">
                   <Signpost className="w-6 h-6 text-[#6D28D9]" />
                 </div>
-                <p className="text-[#1a1a1a] text-lg font-medium">
+                <p className="text-[#1a1a1a] text-base font-medium">
                   You want structured guidance instead of guessing
                 </p>
               </div>

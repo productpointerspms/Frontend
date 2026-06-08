@@ -16,21 +16,21 @@ const Hero = () => {
             <span className="text-[#6219D1] text-xs font-semibold">Personalized 1:1 Coaching</span>
           </div>
           
-          <h1 className="text-6xl md:text-7xl font-black text-gray-900 leading-[1.1] mb-8">
+          <h1 className="text-5xl md:text-6xl font-black text-gray-900 leading-[1.1] mb-8">
             Stop Trying To <br /> Figure It Out Alone
           </h1>
           
-          <p className="text-gray-500 text-lg md:text-lg max-w-xl leading-relaxed mb-10">
+          <p className="text-gray-500 text-base md:text-base max-w-xl leading-relaxed mb-10">
             The ProductPointers Coaching Program (PPCP) is a personalized 1:1 mentorship experience 
             designed to take you from beginner to a confident, job-ready Product Manager, 
             with direct guidance every step of the way.
           </p>
 
           <div className="flex flex-wrap gap-4 mb-12">
-            <Link href="/ppcp/apply" className="bg-[#6219D1] text-white text-sm px-8 py-2 rounded-2xl font-bold flex items-center gap-2 hover:bg-[#4f14a8] transition-all">
+            <Link href="/ppcp/apply" className="bg-[#6219D1] text-white text-xs px-8 py-2 rounded-2xl font-bold flex items-center gap-2 hover:bg-[#4f14a8] transition-all">
               Apply for 1:1 Coaching <ArrowRight className="w-5 h-5" />
             </Link>
-            <button className="border-2 border-gray-900 text-gray-900 text-sm px-10 py-2 rounded-2xl font-bold hover:bg-gray-50 transition-all">
+            <button className="border-2 border-gray-900 text-gray-900 text-xs px-10 py-2 rounded-2xl font-bold hover:bg-gray-50 transition-all">
               Book a Session
             </button>
           </div>
@@ -43,7 +43,7 @@ const Hero = () => {
                 </div>
               ))}
             </div>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 text-xs">
               Join <span className="font-bold text-gray-900">300+</span> ambitious Product Managers getting personalized guidance through ProductPointers.
             </p>
           </div>

@@ -28,11 +28,11 @@ const Founder: React.FC = () => {
     <section className={`${montserrat.className} w-full bg-[#FDF4FF] py-20 px-6 md:px-12 lg:px-24 text-[#15010D]`}>
       {/* Header */}
       <div className="text-center mb-16">
-        <span className="text-lg font-medium opacity-80 mb-2 block">Founder's Story</span>
-        <h2 className="text-3xl md:text-[42px] font-bold leading-tight mb-4">
+        <span className="text-base font-bold opacity-80 mb-2 block">Founder's Story</span>
+        <h2 className="text-2xl md:text-[37px] font-bold leading-tight mb-4">
           Why We Built ProductPointers
         </h2>
-        <p className="text-lg md:text-xl opacity-60 max-w-[700px] mx-auto leading-relaxed">
+        <p className="text-base md:text-lg opacity-60 max-w-[700px] mx-auto leading-relaxed">
           ProductPointers wasn't created from theory. It was built from real frustration with how Product Management is taught today.
         </p>
       </div>
@@ -60,7 +60,7 @@ const Founder: React.FC = () => {
             <div className="bg-[#0077B5] p-1 rounded-md">
               <Linkedin className="w-4 h-4 text-white fill-white" />
             </div>
-            <span className="underline decoration-2 underline-offset-4">Connect on Linkedin</span>
+            <span>Connect on Linkedin</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -73,7 +73,7 @@ const Founder: React.FC = () => {
               <Quote className="w-8 h-8 text-[#6024D0] rotate-180 fill-[#6024D0]" />
             </div>
             <div>
-              <h3 className="text-2xl md:text-3xl font-bold text-[#15010D]">Blessing Okomor</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-[#15010D]">Blessing Okomor</h3>
               <p className="text-[#6024D0] font-medium">Founder, ProductPointers</p>
             </div>
           </div>
@@ -90,8 +90,8 @@ const Founder: React.FC = () => {
                   <div className="w-2 h-2 rounded-full bg-[#6024D0]"></div>
                 </div>
                 
-                <h4 className="text-xl font-bold text-[#15010D] mb-2">{point.title}</h4>
-                <p className="text-[#15010D] opacity-60 leading-relaxed text-lg">
+                <h4 className="text-lg font-bold text-[#15010D] mb-2">{point.title}</h4>
+                <p className="text-[#15010D] opacity-60 leading-relaxed text-base">
                   {point.content}
                 </p>
               </div>
@@ -99,7 +99,7 @@ const Founder: React.FC = () => {
           </div>
 
           {/* Bottom CTA */}
-          <button className="mt-12 text-[#6024D0] font-bold text-xl flex items-center gap-2 hover:underline underline-offset-8 transition-all cursor-pointer">
+          <button className="mt-12 text-[#6024D0] font-semibold text-lg flex items-center gap-2 hover:underline underline-offset-8 transition-all cursor-pointer">
             Learn More About Our Programs
             <ArrowRight className="w-6 h-6" />
           </button>

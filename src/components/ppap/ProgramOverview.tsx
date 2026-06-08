@@ -6,15 +6,15 @@ const ProgramOverview = () => {
     <section className="bg-[#FAF5FF] py-20 px-6 md:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 lg:gap-20">
         <div className="flex-1 max-w-xl">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-6 leading-tight">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-6 leading-tight">
             PPAP Gives You What Most Beginners Lack: <span className="text-[#6D28D9]">Clarity</span>
           </h2>
           
-          <p className="text-gray-500 text-lg mb-6 leading-relaxed">
+          <p className="text-gray-500 text-base mb-6 leading-relaxed">
             Instead of random learning, you'll follow a structured path designed to help you understand Product Management from the ground up.
           </p>
           
-          <p className="text-[#1a1a1a] text-lg mb-10 leading-relaxed font-medium">
+          <p className="text-[#1a1a1a] text-base mb-10 leading-relaxed font-medium">
             With mentorship, practical assignments, and guided learning, you won't just "learn", you'll start <span className="text-[#6D28D9]">thinking like a Product Manager.</span>
           </p>
           

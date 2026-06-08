@@ -8,20 +8,20 @@ export default function MentorshipGuidance() {
 
           {/* LEFT CONTENT */}
           <div>
-            <h2 className="max-w-xl text-4xl font-extrabold leading-tight text-[#1A0A1E] md:text-[px]">
+            <h2 className="max-w-xl text-3xl font-extrabold leading-tight text-[#1A0A1E] md:text-[px]">
               One-On-One Guidance From
               <br />
               PMs Who&apos;ve Been There
             </h2>
 
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-[#3A2A3F] md:text-lg ">
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-[#3A2A3F] md:text-base ">
               The ProductPointers Mentorship Program connects you with experienced
               product managers. These aren&apos;t just advisors they&apos;re active
               practitioners who understand the challenges you&apos;re facing
               because they&apos;ve lived them.
             </p>
 
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-[#3A2A3F] md:text-lg">
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#3A2A3F] md:text-base">
               Whether you&apos;re transitioning into product management, looking
               to level up your skills, or aiming for that senior role, your mentor
               becomes your personal guide, advocate, and accountability partner on
@@ -33,7 +33,7 @@ export default function MentorshipGuidance() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full border border-[#6D28D9]/40">
                 ✦
               </span>
-              <span className="text-sm font-medium md:text-base">
+              <span className="text-xs font-medium md:text-sm">
                 Personalized, transformative, and career-changing
               </span>
             </div>

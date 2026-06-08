@@ -35,16 +35,16 @@ const Testimonials = () => {
         </div>
 
         {/* Headline Section */}
-        <h2 className="text-4xl md:text-6xl font-black text-gray-900 leading-[1.1] mb-6">
+        <h2 className="text-3xl md:text-5xl font-black text-gray-900 leading-[1.1] mb-6">
           You're Not Starting Alone
         </h2>
         
         <div className="max-w-3xl mx-auto space-y-4 mb-20">
-          <p className="text-gray-600 text-lg md:text-xl font-medium">
+          <p className="text-gray-600 text-base md:text-lg font-medium">
             Join aspiring Product Managers getting direct 1:1 mentorship, accountability, and personalized support through ProductPointers Coaching.
           </p>
           
-          <p className="text-gray-400 text-base md:text-lg italic">
+          <p className="text-gray-400 text-sm md:text-base italic">
            See how others gained clarity, confidence, and direction through PPCP.
           </p>
         </div>
@@ -58,7 +58,7 @@ const Testimonials = () => {
                   <img src={review.image} alt={review.name} className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg leading-tight">{review.name}</h4>
+                  <h4 className="font-bold text-base leading-tight">{review.name}</h4>
                   <p className="text-xs text-purple-200 uppercase tracking-widest mt-1">{review.role}</p>
                 </div>
               </div>
@@ -69,7 +69,7 @@ const Testimonials = () => {
                 ))}
               </div>
 
-              <p className="text-[15px] leading-relaxed opacity-90 whitespace-pre-line flex-grow">
+              <p className="text-[13px] leading-relaxed opacity-90 whitespace-pre-line flex-grow">
                 {review.text}
               </p>
             </div>
@@ -78,7 +78,7 @@ const Testimonials = () => {
 
         {/* Disclaimer Footer */}
         <div className="max-w-4xl mx-auto border-t border-gray-100 pt-16">
-          <h3 className="text-2xl md:text-4xl font-black text-[#2D3E8B] leading-tight px-4">
+          <h3 className="text-xl md:text-3xl font-black text-[#2D3E8B] leading-tight px-4">
             High-Impact Mentorship Requires Focus. <br className="hidden md:block" />
             We Accept A Limited Number Of PMs Per Track.
           </h3>

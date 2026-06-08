@@ -5,11 +5,11 @@ const CTASection = () => {
   return (
     <section className="bg-white py-24 px-6 md:px-12 text-center">
       <div className="max-w-3xl mx-auto flex flex-col items-center">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-3">
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-3">
           Stop Guessing Your Way Into Product Management.
         </h2>
         
-        <p className="text-gray-500 text-lg md:text-xl mb-10">
+        <p className="text-gray-500 text-base md:text-lg mb-10">
           Start with the right foundation
         </p>
         

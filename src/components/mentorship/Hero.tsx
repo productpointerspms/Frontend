@@ -24,24 +24,24 @@ export default function Hero() {
 
                     {/* Pill */}
                     <div className="mb-6 flex justify-center">
-                        <span className="rounded-full border border-white/30 px-5 py-2 text-sm font-medium backdrop-blur">
+                        <span className="rounded-full border border-white/30 px-5 py-2 text-xs font-medium backdrop-blur">
                             Level Up With Expert Guidance
                         </span>
                     </div>
 
                     {/* Heading */}
-                    <h1 className="font-[Montserrat] text-[24px] font-bold leading-tight text-white sm:text-[36px] md:text-[48px] lg:text-[54px]">
+                    <h1 className="font-[Montserrat] text-[21px] font-bold leading-tight text-white sm:text-[32px] md:text-[42px] lg:text-[47px]">
     ProductPointers Mentorship Program <span className="font-extrabold">(PPMP)</span>
 </h1>
 
                     {/* Subtext */}
-                    <p className="mx-auto mt-6 max-w-2xl text-lg text-white/90 md:text-xl">
+                    <p className="mx-auto mt-6 max-w-2xl text-base text-white/90 md:text-lg">
                         For entry and mid-level PMs who feel stuck and want to advance their career
                     </p>
 
                     {/* CTA */}
                     <div className="mt-10">
-                        <button className="rounded-lg bg-[#6D28D9] px-8 py-4 text-lg font-semibold text-white transition hover:bg-[#5b21b6] cursor-pointer">
+                        <button className="rounded-lg bg-[#6D28D9] px-8 py-4 text-base font-semibold text-white transition hover:bg-[#5b21b6] cursor-pointer">
                             Apply Now
                         </button>
                     </div>

@@ -15,11 +15,11 @@ const PainPoints = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Left Content */}
         <div className="order-2 lg:order-1">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-4">
             Most People Don't Fail Because <br /> They're Not Capable.
           </h2>
           
-          <p className="text-gray-400 mb-8 text-lg">They struggle because:</p>
+          <p className="text-gray-400 mb-8 text-base">They struggle because:</p>
           
           <div className="space-y-4 mb-10">
             {points.map((point, i) => (
@@ -38,10 +38,10 @@ const PainPoints = () => {
           <div className="w-full h-[1px] bg-gray-200 mb-8"></div>
 
           <div className="space-y-2">
-            <p className="text-[#6219D1] text-xl font-bold italic">
+            <p className="text-[#6219D1] text-lg font-bold italic">
               So They Stay Stuck.
             </p>
-            <p className="text-[#6219D1] text-xl font-bold italic opacity-80">
+            <p className="text-[#6219D1] text-lg font-bold italic opacity-80">
               Not Because They Can't... But Because They're Doing It Alone.
             </p>
           </div>

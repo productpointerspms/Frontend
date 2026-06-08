@@ -17,7 +17,7 @@ const WhyChooseProductPointers = () => {
     },
     {
       image: imgMentorship,
-      title: "Hands-On Product Building",
+      title: "Product Building",
       description: "Stop learning passively. Start building real products you can actually show.",
     },
     {
@@ -27,7 +27,7 @@ const WhyChooseProductPointers = () => {
     },
     {
       image:imgInternship,
-      title: "Career Readiness Support",
+      title: "Career Support",
       description: "Get prepared to apply, interview, and stand out with confidence.",
     },
   ];
@@ -38,13 +38,13 @@ const WhyChooseProductPointers = () => {
         
         {/* Header Section */}
         <div className="text-center max-w-4xl mb-12 md:mb-16">
-          <h3 className="text-[#1A1A1A] font-semibold text-base sm:text-lg md:text-2xl mb-2">
+          <h3 className="text-[#1A1A1A] font-semibold text-sm sm:text-base md:text-xl mb-2">
             We Don’t Just Teach Product Management...
           </h3>
-          <h2 className="text-[#1A1A1A] font-extrabold text-[1.1rem] min-[375px]:text-xl sm:text-3xl md:text-[28px] mb-6 leading-tight whitespace-nowrap sm:whitespace-normal">
+          <h2 className="text-[#1A1A1A] font-extrabold text-[0.96rem] min-[375px]:text-lg sm:text-2xl md:text-[25px] mb-6 leading-tight whitespace-nowrap sm:whitespace-normal">
             We Guide You Through Becoming One
           </h2>
-          <div className="text-gray-500 font-medium text-sm sm:text-base md:text-[18px] flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+          <div className="text-gray-500 font-medium text-xs sm:text-sm md:text-[16px] flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span>Everything you need to go from confused and stuck</span>
             <ArrowRight className="text-[#5C1CC5] w-4 h-4 md:w-5 md:h-5 inline" /> 
             <span>confident and job-ready</span>
@@ -70,10 +70,10 @@ const WhyChooseProductPointers = () => {
               
               {/* Text Content */}
               <div className="px-1 w-full">
-                <h4 className="text-[#1A1A1A] font-bold text-sm md:text-[15px] mb-2">
+                <h4 className="text-[#1A1A1A] font-bold text-[14px] mb-2 leading-tight">
                   {card.title}
                 </h4>
-                <p className="text-gray-500 text-sm md:text-[14px] leading-relaxed">
+                <p className="text-gray-500 text-xs md:text-[12px] leading-relaxed">
                   {card.description}
                 </p>
               </div>
@@ -82,7 +82,7 @@ const WhyChooseProductPointers = () => {
         </div>
 
         {/* CTA Button - Full width on mobile, auto on desktop */}
-        <button className="w-full sm:w-auto bg-[#5C1CC5] hover:bg-[#4a15a0] text-white md:text-[14px] font-semibold py-4 px-10 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-200 cursor-pointer">
+        <button className="w-full sm:w-auto bg-[#5C1CC5] hover:bg-[#4a15a0] text-white md:text-[12px] font-semibold py-4 px-10 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-200 cursor-pointer">
           See How the Program Works
           <ArrowRight size={20} />
         </button>

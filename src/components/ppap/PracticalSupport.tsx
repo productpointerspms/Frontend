@@ -39,10 +39,10 @@ const PracticalSupport = () => {
     <section className="bg-[#6D28D9] py-24 px-6 md:px-12 lg:px-16 overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6">
             This Is Not a Passive Course
           </h2>
-          <p className="text-purple-100 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="text-purple-100 max-w-2xl mx-auto text-base leading-relaxed">
             You won't just watch videos. You'll actively learn, practice, and grow with guidance every step of the way.
           </p>
         </div>
@@ -58,7 +58,7 @@ const PracticalSupport = () => {
                 <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mb-4">
                   {feature.icon}
                 </div>
-                <h3 className="font-bold text-[#1a1a1a] mb-3 text-[15px] leading-snug">
+                <h3 className="font-bold text-[#1a1a1a] mb-3 text-[13px] leading-snug">
                   {feature.title}
                 </h3>
                 <p className="text-gray-500 text-xs leading-relaxed">
@@ -70,7 +70,7 @@ const PracticalSupport = () => {
         </div>
 
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
             Most courses <span className="text-[#FACC15]">teach.</span> We <span className="text-green-500 underline decoration-4 underline-offset-8">Guide</span>
           </h2>
         </div>

@@ -18,10 +18,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-12 gap-8">
           {/* Brand Section */}
           <div>
-            <h2 className="text-[32px] text-[#FFFFFF] font-semibold mb-4">
+            <h2 className="text-[28px] text-[#FFFFFF] font-semibold mb-4">
               ProductPointers
             </h2>
-            <p className="text-[#FFFFFF] text-[18px] font-normal leading-[27px] w-[346px] ">
+            <p className="text-[#FFFFFF] text-[16px] font-normal leading-[27px] w-[346px] ">
               Shaping the next wave of product leaders through mentorship,
               coaching, and community.
             </p>
@@ -29,14 +29,14 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="md:ml-30">
-            <h3 className="text-[20px] text-[#FFFFFF] font-semibold mb-4">
+            <h3 className="text-[18px] text-[#FFFFFF] font-semibold mb-4">
               Quick Links
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link
                   href="/about"
-                  className="text-[#FFFFFF] hover:text-white transition-colors text-sm"
+                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
                   About
                 </Link>
@@ -44,7 +44,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="text-[#FFFFFF] hover:text-white transition-colors text-sm"
+                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
                   Contact
                 </Link>
@@ -52,7 +52,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/accelerator"
-                  className="text-[#FFFFFF] hover:text-white transition-colors text-sm"
+                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
                   Programs
                 </Link>
@@ -60,7 +60,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/community"
-                  className="text-[#FFFFFF] hover:text-white transition-colors text-sm"
+                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
                   Community
                 </Link>
@@ -70,7 +70,7 @@ export default function Footer() {
 
           {/* Follow Us */}
           <div className="md:ml-10">
-            <h3 className="text-lg font-semibold mb-4 ">Follow Us</h3>
+            <h3 className="text-base font-semibold mb-4 ">Follow Us</h3>
             <div className="flex gap-4">
               <a
                 href="https://wa.me/+2348102567773"
@@ -114,17 +114,17 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div className="md:-ml-16">
-            <h3 className="text-[20px] font-semibold mb-4">Stay Updated</h3>
-            <p className="text-[#FFFFFF] text-sm mb-8 w-[175px]">
+            <h3 className="text-[18px] font-semibold mb-4">Stay Updated</h3>
+            <p className="text-[#FFFFFF] text-xs mb-8 w-[175px]">
               Get the latest insights and opportunities delivered to your inbox.
             </p>
             <div className="flex flex-col sm:flex-row md:gap-2 gap-4">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-1 md:w-[210px] w-[194px] h-9 bg-transparent border leading-6  tracking-[0.5px] border-[#6B7280] rounded-t-sm text-[16px] text-[#6B7280] focus:outline-none focus:border-purple-500 transition-colors"
+                className="flex-1 px-4 py-1 md:w-[210px] w-[194px] h-9 bg-transparent border leading-6  tracking-[0.5px] border-[#6B7280] rounded-t-sm text-[14px] text-[#6B7280] focus:outline-none focus:border-purple-500 transition-colors"
               />
-              <button className="px-7 w-[147px] group hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] cursor-pointer rounded h-9 font-medium text-lg text-[#FFFFFF] transition-colors  duration-200 whitespace-nowrap">
+              <button className="px-7 w-[147px] group hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] cursor-pointer rounded h-9 font-medium text-base text-[#FFFFFF] transition-colors  duration-200 whitespace-nowrap">
                 Subscribe
               </button>
             </div>
@@ -133,7 +133,7 @@ export default function Footer() {
 
         {/* Bottom Border */}
         <div className="mt-12 pt-8 border-t border-[#B4B4B4] md:w-[1150px]">
-          <p className="text-center text-[#B4B4B4] text-[12px] font-semibold">
+          <p className="text-center text-[#B4B4B4] text-[11px] font-semibold">
             © 2025 ProductPointers. All rights reserved.
           </p>
         </div>

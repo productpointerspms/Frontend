@@ -46,10 +46,10 @@ const CommunityActivities = () => {
       <div className="max-w-7xl mx-auto text-center relative z-10">
         
         {/* Header Section */}
-        <h2 className="text-white text-3xl md:text-5xl font-bold mb-6">
+        <h2 className="text-white text-2xl md:text-4xl font-bold mb-6">
           What Happens Inside The Community
         </h2>
-        <p className="text-white/80 text-lg md:text-xl max-w-4xl mx-auto mb-20 leading-relaxed font-light">
+        <p className="text-white/80 text-base md:text-lg max-w-4xl mx-auto mb-20 leading-relaxed font-light">
           The ProductPointers Community is designed to help alumni continue learning, 
           growing, staying accountable, and building meaningful relationships long after 
           completing their programs.
@@ -83,11 +83,11 @@ const CommunityActivities = () => {
                     {item.icon}
                   </div>
 
-                  <h3 className="text-[#15010D] text-lg font-bold mb-4 leading-snug min-h-[56px]">
+                  <h3 className="text-[#15010D] text-base font-bold mb-4 leading-snug min-h-[56px]">
                     {item.title}
                   </h3>
 
-                  <p className="text-[#15010D]/60 text-xs md:text-sm leading-relaxed">
+                  <p className="text-[#15010D]/60 text-xs md:text-xs leading-relaxed">
                     {item.description}
                   </p>
                 </div>

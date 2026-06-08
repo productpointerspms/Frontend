@@ -7,10 +7,10 @@ const FinalCTA = () => {
     <section className="bg-white py-24 px-6 text-center font-sans">
       <div className="max-w-5xl mx-auto">
         {/* Main Heading */}
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
           You Don't Need More Experience.
         </h2>
-        <h3 className="text-2xl md:text-3xl font-bold italic text-[#6219D1] mb-10">
+        <h3 className="text-xl md:text-2xl font-bold italic text-[#6219D1] mb-10">
           You need direction and depth.
         </h3>
 
@@ -28,7 +28,7 @@ const FinalCTA = () => {
         <div className="w-full h-[1px] bg-gray-100 mb-16"></div>
 
         {/* Bottom Tagline */}
-        <p className="text-xl md:text-2xl font-bold text-gray-900 leading-relaxed">
+        <p className="text-lg md:text-xl font-bold text-gray-900 leading-relaxed">
           PPTP Is Where Product Managers Stop Being{' '}
           <span className="text-[#FBBF24]">Generalists</span>...{' '}
           And Start Becoming{' '}

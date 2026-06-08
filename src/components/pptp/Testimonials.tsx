@@ -39,11 +39,11 @@ const Testimonials = () => {
         </div>
 
         {/* Hero Text */}
-        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+        <h2 className="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-4">
           You’re Not Just Growing...<br />
           You’re Becoming Specialized
         </h2>
-        <p className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto mb-16">
+        <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto mb-16">
           Join Product Managers who moved beyond being generalists and started building deeper expertise through ProductPointers.
           <br /><br />
           See how experienced Product Managers deepened their expertise and positioned themselves for higher-impact opportunities through PPTP.
@@ -57,7 +57,7 @@ const Testimonials = () => {
                 <img src={review.image} alt={review.name} className="w-12 h-12 rounded-full border-2 border-white/20" />
                 <div>
                   <h4 className="font-bold leading-tight">{review.name}</h4>
-                  <p className="text-sm text-purple-200">{review.role}</p>
+                  <p className="text-xs text-purple-200">{review.role}</p>
                 </div>
               </div>
               
@@ -67,7 +67,7 @@ const Testimonials = () => {
                 ))}
               </div>
 
-              <p className="text-[15px] leading-relaxed italic opacity-90 whitespace-pre-line">
+              <p className="text-[13px] leading-relaxed italic opacity-90 whitespace-pre-line">
                 {review.text}
               </p>
             </div>
@@ -75,7 +75,7 @@ const Testimonials = () => {
         </div>
 
         {/* Footer CTA */}
-        <h3 className="text-2xl md:text-3xl font-bold text-[#2D3E8B] max-w-4xl mx-auto leading-relaxed">
+        <h3 className="text-xl md:text-2xl font-bold text-[#2D3E8B] max-w-4xl mx-auto leading-relaxed">
           High-Impact Mentorship Requires Focus. We Accept A Limited Number Of PMs Per Track.
         </h3>
       </div>

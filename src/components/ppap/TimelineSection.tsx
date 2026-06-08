@@ -55,10 +55,10 @@ const TimelineSection = () => {
           <div className="inline-block px-4 py-1.5 border border-[#a855f7] bg-transparent text-[#a855f7] rounded-full text-xs font-semibold mb-6">
             12-Week Structured Program
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
             A Clear Path From Beginner To Confident Product Manager
           </h2>
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-500 text-base">
             A 12-week guided journey designed to take you from beginner to confident Product Manager step by step. Each phase builds on the previous one, so you're never lost or overwhelmed.
           </p>
         </div>
@@ -67,7 +67,7 @@ const TimelineSection = () => {
           {phases.map((item, index) => (
             <div key={index} className="relative pl-10 md:pl-16">
               <div className="absolute -left-[17px] top-4 w-8 h-8 md:w-8 md:h-8 bg-[#FAF5FF] rounded-full flex items-center justify-center">
-                <div className="w-8 h-8 md:w-8 md:h-8 bg-[#E9D5FF] text-[#6D28D9] rounded-full flex items-center justify-center font-bold text-sm">
+                <div className="w-8 h-8 md:w-8 md:h-8 bg-[#E9D5FF] text-[#6D28D9] rounded-full flex items-center justify-center font-bold text-xs">
                   {index + 1}
                 </div>
               </div>
@@ -77,20 +77,20 @@ const TimelineSection = () => {
                   <span className="text-xs font-bold text-[#6D28D9] tracking-wider uppercase">{item.phase}</span>
                   <span className="text-xs font-bold bg-[#F3E8FF] text-[#6D28D9] px-2 py-0.5 rounded-full">{item.weeks}</span>
                 </div>
-                <h3 className="text-xl font-bold text-[#1a1a1a] mb-2">{item.title}</h3>
-                <p className="text-gray-500 text-[15px] mb-6">{item.description}</p>
+                <h3 className="text-lg font-bold text-[#1a1a1a] mb-2">{item.title}</h3>
+                <p className="text-gray-500 text-[13px] mb-6">{item.description}</p>
                 
                 <hr className="border-t border-gray-100 mb-6" />
                 
                 <div className="text-xs font-bold text-[#a855f7] tracking-wider mb-2">OUTCOME:</div>
-                <p className="text-gray-500 text-sm">{item.outcome}</p>
+                <p className="text-gray-500 text-xs">{item.outcome}</p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="max-w-3xl mx-auto border-t border-gray-200 pt-16">
-          <p className="text-center text-lg md:text-xl font-medium text-gray-600 mb-10 leading-relaxed">
+          <p className="text-center text-base md:text-lg font-medium text-gray-600 mb-10 leading-relaxed">
             By the end of the 12 weeks, you won't just understand Product Management... You'll understand how to think, structure, and approach real product work with confidence.
           </p>
           
@@ -100,7 +100,7 @@ const TimelineSection = () => {
             {finalOutcomes.map((outcome, idx) => (
               <div key={idx} className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-[#a855f7] flex-shrink-0 mt-0.5" strokeWidth={3} />
-                <span className="text-gray-500 font-medium text-[15px]">{outcome}</span>
+                <span className="text-gray-500 font-medium text-[13px]">{outcome}</span>
               </div>
             ))}
           </div>

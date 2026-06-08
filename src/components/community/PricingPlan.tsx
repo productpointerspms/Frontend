@@ -27,10 +27,10 @@ export default function PricingPlan() {
       <div className="max-w-2xl w-full">
         {/* Header */}
         <div className="text-center md:mb-[72px] mb-8">
-          <h1 className="md:text-5xl text-2xl font-bold text-[#15010D] md:mb-[30px] mb-4 md:mt-[99px] mt-7 md:leading-[60px leading-normal mb-4">
+          <h1 className="md:text-4xl text-xl font-bold text-[#15010D] md:mb-[30px] mb-4 md:mt-[99px] mt-7 md:leading-[60px leading-normal mb-4">
             Choose Your Plan
           </h1>
-          <p className="text-[#15010D] md:text-[20px] text-[12px] text-center mx-auto leading-5 md:leading-7 font-normal">
+          <p className="text-[#15010D] md:text-[18px] text-[11px] text-center mx-auto leading-5 md:leading-7 font-normal">
             Invest in personalized coaching that transforms your PM career
           </p>
         </div>
@@ -42,8 +42,8 @@ export default function PricingPlan() {
             className="bg-[#5C1CC5] text-white text-center md:pt-3.5 pb-[27px] pt-[14.5px]  pr-[114px] md:pr-0  pl-[115px] md:pl-0  "
             style={{ borderRadius: "17.261px 17.261px 0 0" }}
           >
-            <h2 className="text-5xl font-semibold mb-1">Free</h2>
-            <p className="text-[#FFFFFF] text-sm leading-[12.946px] font-normal">
+            <h2 className="text-4xl font-semibold mb-1">Free</h2>
+            <p className="text-[#FFFFFF] text-xs leading-[12.946px] font-normal">
               Lifetime Access
             </p>
           </div>
@@ -62,7 +62,7 @@ export default function PricingPlan() {
                     width={13}
                     height={8}
                   />
-                  <span className="text-[#15010D] text-[12.946px] leading-[12.946px]">
+                  <span className="text-[#15010D] text-[11px] leading-[12.946px]">
                     {feature}
                   </span>
                 </li>
@@ -71,12 +71,12 @@ export default function PricingPlan() {
 
             {/* CTA Button */}
             <div className="flex justify-center">
-              <button className="md:w-full w-[280px] group   hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] md:text-[20px] text-sm cursor-pointer text-white font-medium py-2 px-4 md:rounded-lg rounded-2xl transition-colors duration-200 mb-4">
+              <button className="md:w-full w-[280px] group   hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] md:text-[18px] text-xs cursor-pointer text-white font-medium py-2 px-4 md:rounded-lg rounded-2xl transition-colors duration-200 mb-4">
                 Claim Free Access
               </button>
             </div>
             {/* Subtext */}
-            <p className="text-center text-[#6D6D6D] text-sm leading-5 pb-4">
+            <p className="text-center text-[#6D6D6D] text-xs leading-5 pb-4">
               Free for all Product managers
             </p>
           </div>
@@ -84,10 +84,10 @@ export default function PricingPlan() {
 
         {/* Bottom Section */}
         <div className="bg-[#FAE1FF] backdrop-blur-sm rounded-2xl p-8 text-center md:w-[600px] w-full mx-auto">
-          <h3 className="md:text-2xl text-[20px] leading-7 font-normal text-[#15010D] mb-6">
+          <h3 className="md:text-xl text-[18px] leading-7 font-normal text-[#15010D] mb-6">
             Lifetime Access Guarantees
           </h3>
-          <p className="text-[#15010D] md:text-[18px] text-[12px] md:leading-7 leading-5 font-normal">
+          <p className="text-[#15010D] md:text-[16px] text-[11px] md:leading-7 leading-5 font-normal">
             No subscriptions. No hidden fees. Just unlimited access to a
             community that grows with you.
           </p>

@@ -46,10 +46,10 @@ const HerJourney: React.FC = () => {
     <section className={`${montserrat.className} w-full py-16 md:py-24 px-6 md:px-12 bg-[#FDF4FF]`}>
       {/* Section Header */}
       <div className="text-center mb-16 md:mb-24">
-        <h2 className="text-[#15010D] text-[28px] md:text-[42px] font-bold mb-4 leading-tight">
+        <h2 className="text-[#15010D] text-[25px] md:text-[37px] font-bold mb-4 leading-tight">
           Her Journey
         </h2>
-        <p className="text-[#15010D] opacity-60 text-base md:text-xl font-normal max-w-2xl mx-auto">
+        <p className="text-[#15010D] opacity-60 text-sm md:text-lg font-normal max-w-2xl mx-auto">
           From a small community to a global movement in product management education
         </p>
       </div>
@@ -68,23 +68,23 @@ const HerJourney: React.FC = () => {
               <div
                 key={index}
                 className={`relative flex items-center w-full justify-start md:justify-normal ${
-                  isEven ? "md:flex-row-reverse" : ""
+                  isEven ? "" : "md:flex-row-reverse"
                 }`}
               >
                 {/* 1. The Card Container */}
                 <div className="w-full md:w-1/2 pl-12 md:pl-0">
                   <div
                     className={`bg-white shadow-sm border border-purple-50 rounded-[24px] p-6 md:p-8 
-                      ${!isEven ? "md:mr-12" : "md:ml-12"} 
+                      ${isEven ? "md:mr-12" : "md:ml-12"} 
                       transition-transform hover:scale-[1.02]`}
                   >
-                    <p className="text-[#6024D0] text-lg md:text-xl font-bold mb-2 md:mb-4">
+                    <p className="text-[#6024D0] text-base md:text-lg font-bold mb-2 md:mb-4">
                       {item.year}
                     </p>
-                    <h3 className="text-[#15010D] text-lg md:text-[22px] font-bold mb-3">
+                    <h3 className="text-[#15010D] text-base md:text-[19px] font-bold mb-3">
                       {item.title}
                     </h3>
-                    <p className="text-[#15010D] opacity-70 text-sm md:text-base leading-relaxed font-normal">
+                    <p className="text-[#15010D] opacity-70 text-xs md:text-sm leading-relaxed font-normal">
                       {item.desc}
                     </p>
                   </div>

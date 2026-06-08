@@ -69,10 +69,10 @@ export default function MentorsGrid() {
 
                 {/* Header */}
                 <div className="mb-16 text-center">
-                    <h2 className="text-3xl font-extrabold text-[#1A0A1E] md:text-5xl">
+                    <h2 className="text-2xl font-extrabold text-[#1A0A1E] md:text-4xl">
                         Meet The Minds Behind Your Growth
                     </h2>
-                    <p className="mx-auto mt-4 max-w-2xl text-base text-[#4A3A4F] md:text-lg">
+                    <p className="mx-auto mt-4 max-w-2xl text-sm text-[#4A3A4F] md:text-base">
                         Experienced mentors guiding you through every phase of your product journey.
                     </p>
                 </div>
@@ -96,7 +96,7 @@ export default function MentorsGrid() {
                             {/* Info */}
                             <div className="space-y-1">
                                 <div className="flex items-start justify-between gap-2">
-                                    <h3 className="text-lg font-bold text-[#1A0A1E]">
+                                    <h3 className="text-base font-bold text-[#1A0A1E]">
                                         {mentor.name}
                                     </h3>
                                     <a
@@ -107,7 +107,7 @@ export default function MentorsGrid() {
                                         <FaLinkedin className="h-5 w-5" />
                                     </a>
                                 </div>
-                                <p className="text-sm font-medium leading-snug text-[#6D28D9]">
+                                <p className="text-xs font-medium leading-snug text-[#6D28D9]">
                                     {mentor.role}
                                 </p>
                             </div>

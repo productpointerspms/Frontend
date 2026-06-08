@@ -46,14 +46,14 @@ const PathToCommunity = () => {
       <div className="max-w-7xl mx-auto text-center">
         {/* Top Pills */}
         <div className="inline-block border border-[#6024D0]/30 rounded-full px-6 py-2 mb-8 bg-white/50">
-          <span className="text-[#6024D0] text-sm font-medium">Community Access Path</span>
+          <span className="text-[#6024D0] text-xs font-medium">Community Access Path</span>
         </div>
 
         {/* Section Heading */}
-        <h2 className="text-3xl md:text-[45px] font-bold text-black mb-6">
+        <h2 className="text-2xl md:text-[39px] font-bold text-black mb-6">
           Your Path Into The Community
         </h2>
-        <p className="text-[#000000]/60 text-lg md:text-xl max-w-3xl mx-auto mb-16 leading-relaxed">
+        <p className="text-[#000000]/60 text-base md:text-lg max-w-3xl mx-auto mb-16 leading-relaxed">
           Complete any ProductPointers program to unlock lifetime access to the 
           alumni community and accountability ecosystem.
         </p>
@@ -68,7 +68,7 @@ const PathToCommunity = () => {
         {/* Bottom Centered Row */}
         <div className="flex flex-col md:flex-row justify-center gap-8">
           {programs.slice(3).map((program, idx) => (
-            <div key={idx} className="w-full lg:w-1/3">
+            <div key={idx} className="w-full md:w-[calc(50%-16px)] lg:w-1/3">
               <ProgramCard {...program} />
             </div>
           ))}
@@ -79,10 +79,10 @@ const PathToCommunity = () => {
 };
 
 const ProgramCard = ({ badge, title, description }: { badge: string; title: string; description: string }) => (
-  <div className="bg-white rounded-[32px] p-10 text-left flex flex-col h-full shadow-sm">
+  <div className="bg-white rounded-[32px] p-10 text-center flex flex-col items-center h-full shadow-sm">
     {/* Badge */}
-    <div className="inline-block self-start border border-[#6024D0] rounded-full px-4 py-1 mb-8">
-      <span className="text-[#6024D0] text-[12px] font-medium">{badge}</span>
+    <div className="inline-block border border-[#6024D0] rounded-full px-4 py-1 mb-8 bg-[#FAE1FF]">
+      <span className="text-[#6024D0] text-[11px] font-medium">{badge}</span>
     </div>
 
     {/* Purple Icon Box */}
@@ -91,8 +91,8 @@ const ProgramCard = ({ badge, title, description }: { badge: string; title: stri
     </div>
 
     {/* Content */}
-    <h3 className="text-3xl font-bold text-black mb-6">{title}</h3>
-    <p className="text-[#000000]/70 text-base leading-relaxed mb-8 grow">
+    <h3 className="text-2xl font-bold text-black mb-6">{title}</h3>
+    <p className="text-[#000000]/70 text-sm leading-relaxed mb-8 grow">
       {description}
     </p>
 
