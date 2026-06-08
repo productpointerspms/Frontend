@@ -24,17 +24,17 @@ const HeroSection = () => {
         
         <div className="flex flex-col items-start">
           {/* Top Badge */}
-          <div className="border border-[#6024D0]/30 rounded-full px-4 py-1.5 mb-8 bg-white/50">
-            <span className="text-[#6024D0] text-sm font-medium">We're Here To Help</span>
+          <div className="border border-[#6024D0]/30 rounded-full px-4 py-1.5 mb-8 bg-[#FAE1FF]">
+            <span className="text-[#6024D0] text-xs font-medium">We're Here To Help</span>
           </div>
 
           {/* Heading */}
-          <h1 className="text-5xl md:text-[64px] font-extrabold text-black leading-[1.1] mb-8">
+          <h1 className="text-3xl md:text-[42px] font-extrabold text-black leading-[1.2] mb-8">
             Let's Help You Find <br /> Your Next Step
           </h1>
 
           {/* Description */}
-          <p className="text-[#000000]/60 text-lg md:text-xl max-w-lg mb-12 leading-relaxed">
+          <p className="text-[#000000]/60 text-base md:text-lg max-w-lg mb-12 leading-relaxed">
             Whether you have questions about our programs, mentorship, internships, 
             or specialization tracks, the ProductPointers team is here to help
           </p>

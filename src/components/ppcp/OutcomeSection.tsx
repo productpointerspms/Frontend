@@ -16,11 +16,11 @@ const OutcomeSection = () => {
         
         {/* Left Content */}
         <div className="order-2 lg:order-1">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-8">
             What If You Didn’t Have To <br /> Guess Your Next Step?
           </h2>
           
-          <p className="text-gray-500 mb-8 text-lg">
+          <p className="text-gray-500 mb-8 text-base">
             With PPCP, you don’t just learn Product Management... <br /> You get:
           </p>
           
@@ -33,16 +33,16 @@ const OutcomeSection = () => {
                 <div className="flex-shrink-0">
                   <Check className="text-[#10B981] w-5 h-5" strokeWidth={3} />
                 </div>
-                <p className="text-gray-800 font-medium text-lg">{item}</p>
+                <p className="text-gray-800 font-medium text-base">{item}</p>
               </div>
             ))}
           </div>
 
           <div className="space-y-1">
-            <p className="text-xl md:text-2xl font-bold text-gray-900">
+            <p className="text-lg md:text-xl font-bold text-gray-900">
               This is not a <span className="text-[#FBBF24] italic underline decoration-2 underline-offset-4">course.</span>
             </p>
-            <p className="text-xl md:text-2xl font-bold text-[#10B981] italic">
+            <p className="text-lg md:text-xl font-bold text-[#10B981] italic">
               This is a Guided Transformation.
             </p>
           </div>

@@ -5,10 +5,10 @@ const FreeResources: React.FC = () => {
     <section className="py-20 px-6 md:px-16 bg-gradient-to-r from-[#FAE1FF] to-[#FCF1FF]">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-[1.05rem] min-[375px]:text-[1.15rem] sm:text-3xl md:text-4xl font-bold font-montserrat text-[#15010D] mb-4 whitespace-nowrap sm:whitespace-normal">
+          <h2 className="text-[0.92rem] min-[375px]:text-[1.01rem] sm:text-2xl md:text-3xl font-bold font-montserrat text-[#15010D] mb-4 whitespace-nowrap sm:whitespace-normal">
             Get Access to Free Product Resources
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto font-montserrat text-sm md:text-base">
+          <p className="text-gray-600 max-w-2xl mx-auto font-montserrat text-xs md:text-sm">
             Explore practical product management insights, tutorials, and real-world breakdowns — all for free.
           </p>
         </div>
@@ -27,7 +27,7 @@ const FreeResources: React.FC = () => {
                 />
               </div>
               <div className="p-6 flex-grow flex items-center bg-white">
-                <h3 className="text-xl font-semibold font-montserrat text-[#15010D]">
+                <h3 className="text-lg font-semibold font-montserrat text-[#15010D]">
                   How to Conduct a Product Teardown | Product Management for
                   Beginners
                 </h3>
@@ -48,7 +48,7 @@ const FreeResources: React.FC = () => {
                 />
               </div>
               <div className="p-4 flex-grow flex items-center bg-white">
-                <h3 className="text-sm md:text-base font-semibold font-montserrat text-[#15010D]">
+                <h3 className="text-xs md:text-sm font-semibold font-montserrat text-[#15010D]">
                   Vibe Coding with Bolt: Build & Prototype Apps Fast (PM
                   Masterclass)
                 </h3>
@@ -66,7 +66,7 @@ const FreeResources: React.FC = () => {
                 />
               </div>
               <div className="p-4 flex-grow flex items-center bg-white">
-                <h3 className="text-sm md:text-base font-semibold font-montserrat text-[#15010D]">
+                <h3 className="text-xs md:text-sm font-semibold font-montserrat text-[#15010D]">
                   How to Land Remote Jobs on Upwork Using Video Proposals in
                   2026 | A Step by Step Guide
                 </h3>
@@ -80,7 +80,7 @@ const FreeResources: React.FC = () => {
             href="https://youtube.com/@productpointerspms?si=EsFKXxA4qT8F53mm"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#C62828] hover:bg-[#A82121] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-sm md:text-base cursor-pointer inline-block"
+            className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-xs md:text-sm cursor-pointer inline-block"
           >
             View Channel
           </a>

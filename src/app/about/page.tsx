@@ -7,7 +7,7 @@ import FounderStory from "@/components/Founder";
 import HerJourney from "@/components/Herjourney"
 import Team from "@/components/Team";
 import TheNewFuture from "@/components/TheNewFuture";
-import FaqSection from "@/components/homepage/FaqSection";
+import AboutFaqSection from "@/components/AboutFaqSection";
 import CallToAction from "@/components/homepage/CallToAction";
 import MakingDifferent from "@/components/MakingDifferent";
 import VisionMission from "@/components/VisionMission";
@@ -28,7 +28,7 @@ const AboutPage: React.FC = () => {
         <VisionMission/>
         <CoreValues />
         {/* <TheNewFuture /> */}
-        <FaqSection />
+        <AboutFaqSection />
         {/* <CallToAction/> */}
         <FinalCTA/>
     </main>

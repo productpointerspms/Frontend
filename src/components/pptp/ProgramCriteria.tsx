@@ -26,7 +26,7 @@ const ProgramCriteria = () => {
   return (
     <div className="bg-[#2D3E8B] min-h-screen p-8 md:p-16 flex flex-col items-center font-sans">
       {/* Heading */}
-      <h1 className="text-white text-3xl md:text-4xl font-bold mb-12">
+      <h1 className="text-white text-2xl md:text-3xl font-bold mb-12">
         This Program Is For You If...
       </h1>
 

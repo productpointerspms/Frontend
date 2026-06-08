@@ -6,7 +6,7 @@ const VisionMission: React.FC = () => {
     <section className="py-24 bg-[#FDF4FF] w-full px-6">
       <div className="max-w-[1200px] mx-auto">
         {/* Section Heading */}
-        <h2 className="text-center text-[#15010D] text-3xl md:text-4xl font-extrabold mb-16 tracking-tight">
+        <h2 className="text-center text-[#15010D] text-2xl md:text-3xl font-extrabold mb-16 tracking-tight">
           Why We Do What We Do
         </h2>
 
@@ -18,8 +18,8 @@ const VisionMission: React.FC = () => {
             <div className="w-14 h-14 bg-[#6024D0] rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-purple-200">
               <Target className="text-white w-7 h-7" />
             </div>
-            <h3 className="text-[#15010D] text-2xl font-bold mb-6">Our Mission</h3>
-            <p className="text-[#15010D]/70 text-lg leading-relaxed max-w-[440px]">
+            <h3 className="text-[#15010D] text-xl font-bold mb-6">Our Mission</h3>
+            <p className="text-[#15010D]/70 text-base leading-relaxed max-w-[440px]">
               We exist to help aspiring Product Managers move from learning to real execution with the guidance, structure, and experience most programs lack.
             </p>
           </div>
@@ -29,8 +29,8 @@ const VisionMission: React.FC = () => {
             <div className="w-14 h-14 bg-[#6024D0] rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-purple-200">
               <Eye className="text-white w-7 h-7" />
             </div>
-            <h3 className="text-[#15010D] text-2xl font-bold mb-6">Our Vision</h3>
-            <p className="text-[#15010D]/70 text-lg leading-relaxed max-w-[440px]">
+            <h3 className="text-[#15010D] text-xl font-bold mb-6">Our Vision</h3>
+            <p className="text-[#15010D]/70 text-base leading-relaxed max-w-[440px]">
               We're building a world where product managers don't just learn. They build, contribute, and grow with confidence.
             </p>
           </div>

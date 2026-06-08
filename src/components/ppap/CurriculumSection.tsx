@@ -39,10 +39,10 @@ const CurriculumSection = () => {
     <section className="bg-[#FAF5FF] py-20 px-6 md:px-12 lg:px-24">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#1a1a1a] mb-4">
             What You'll Learn Inside <span className="text-[#6D28D9]">PPAP</span>
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-500 max-w-2xl mx-auto text-base">
             A strong foundation to help you understand Product Management and think like a Product Manager.
           </p>
         </div>
@@ -53,10 +53,10 @@ const CurriculumSection = () => {
               <div className="w-12 h-12 bg-[#6D28D9] rounded-2xl flex items-center justify-center mb-6 shadow-sm">
                 {module.icon}
               </div>
-              <h3 className="text-xl font-bold text-[#1a1a1a] mb-3">
+              <h3 className="text-lg font-bold text-[#1a1a1a] mb-3">
                 {module.title}
               </h3>
-              <p className="text-gray-500 text-[15px]">
+              <p className="text-gray-500 text-[13px]">
                 {module.description}
               </p>
             </div>

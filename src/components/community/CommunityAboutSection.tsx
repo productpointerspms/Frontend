@@ -29,15 +29,15 @@ const CommunityStandardsSection = () => {
 
         {/* Left Column: Long-Term Community */}
         <div className="flex flex-col items-start">
-          <div className="inline-block px-4 py-2 rounded-full border border-[#D8B4FE] bg-[#FDF4FF] text-[#6024D0] text-xs font-medium mb-8">
+          <div className="inline-block px-4 py-2 rounded-full border border-[#D8B4FE] bg-[#FAE1FF] text-[#6024D0] text-xs font-medium mb-8">
             Lifetime Alumni Access
           </div>
           
-          <h2 className="text-[#15010D] text-3xl md:text-[42px] font-bold leading-tight mb-8">
+          <h2 className="text-[#15010D] text-2xl md:text-[37px] font-bold leading-tight mb-8">
             A Long-Term Community Built For Continuous Growth
           </h2>
           
-          <p className="text-[#15010D]/60 text-lg leading-relaxed mb-10">
+          <p className="text-[#15010D]/60 text-base leading-relaxed mb-10">
             Once you gain access through any ProductPointers program, you become part 
             of a lifetime ecosystem designed to support your Product Management growth 
             through accountability, networking, mentorship, resources, and continuous development.
@@ -49,7 +49,7 @@ const CommunityStandardsSection = () => {
                 <div className="flex-shrink-0">
                   <Check className="text-[#22C55E] w-5 h-5" />
                 </div>
-                <span className="text-[#15010D] font-medium text-lg">{item}</span>
+                <span className="text-[#15010D] font-medium text-base">{item}</span>
               </div>
             ))}
           </div>
@@ -57,21 +57,21 @@ const CommunityStandardsSection = () => {
 
         {/* Right Column: Commitment Matters */}
         <div className="flex flex-col items-start">
-          <div className="inline-block px-4 py-2 rounded-full border border-[#D8B4FE] bg-[#FDF4FF] text-[#6024D0] text-xs font-medium mb-8">
+          <div className="inline-block px-4 py-2 rounded-full border border-[#D8B4FE] bg-[#FAE1FF] text-[#6024D0] text-xs font-medium mb-8">
             Community Standards
           </div>
           
-          <h2 className="text-[#15010D] text-3xl md:text-[42px] font-bold leading-tight mb-8">
+          <h2 className="text-[#15010D] text-2xl md:text-[37px] font-bold leading-tight mb-8">
             Commitment Matters Here
           </h2>
           
-          <p className="text-[#15010D]/60 text-lg leading-relaxed mb-6">
+          <p className="text-[#15010D]/60 text-base leading-relaxed mb-6">
             The ProductPointers Community is designed for active participation and 
             intentional growth. Members are expected to maintain at least 70% quarterly 
             engagement to retain access to the community.
           </p>
 
-          <p className="text-[#6024D0]/80 text-base leading-relaxed mb-10">
+          <p className="text-[#6024D0]/80 text-sm leading-relaxed mb-10">
             Members who lose access can rejoin through a yearly reactivation process, 
             provided they remain committed to community standards and participation 
             expectations moving forward.
@@ -83,7 +83,7 @@ const CommunityStandardsSection = () => {
                 <div className="flex-shrink-0">
                   <Check className="text-[#22C55E] w-5 h-5" />
                 </div>
-                <span className="text-[#15010D] font-medium text-lg">{item}</span>
+                <span className="text-[#15010D] font-medium text-base">{item}</span>
               </div>
             ))}
           </div>

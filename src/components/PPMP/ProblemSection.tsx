@@ -23,11 +23,11 @@ export default function ProblemSection() {
         {/* Left Column - Core Messaging and List Grid */}
         <div className="lg:col-span-7 flex flex-col items-start">
           {/* Section Header */}
-          <h2 className="text-3xl md:text-[44px] font-extrabold text-[#101828] mb-6 leading-tight text-left tracking-tight">
+          <h2 className="text-2xl md:text-[39px] font-extrabold text-[#101828] mb-6 leading-tight text-left tracking-tight">
             At Some Point, Being <span className="text-[#6024D0] italic font-serif font-normal">"Just A Product Manager"</span> Stops Being Enough.
           </h2>
           
-          <p className="text-[#475467] text-lg font-semibold mb-8 uppercase tracking-wider">
+          <p className="text-[#475467] text-base font-semibold mb-8 uppercase tracking-wider">
             You start to notice:
           </p>
           
@@ -39,7 +39,7 @@ export default function ProblemSection() {
                 className="flex items-center gap-4 bg-white px-6 py-5 rounded-2xl border border-[#E9D7FE]/60 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#6024D0]/30"
               >
                 <XCircle className="text-[#F04438] flex-shrink-0" size={24} strokeWidth={2.5} />
-                <span className="text-[#101828] font-bold text-base md:text-lg text-left">
+                <span className="text-[#101828] font-bold text-sm md:text-base text-left">
                   {point}
                 </span>
               </div>
@@ -48,9 +48,9 @@ export default function ProblemSection() {
           
           {/* Structural Emotional Pivot Subtext */}
           <div className="pt-6 border-t-2 border-[#E9D7FE]/50 w-full max-w-2xl">
-            <p className="text-2xl md:text-3xl font-extrabold text-[#6024D0] italic leading-snug text-left tracking-tight">
+            <p className="text-xl md:text-2xl font-extrabold text-[#6024D0] italic leading-snug text-left tracking-tight">
               You Feel Replaceable <br />
-              <span className="text-[#101828] not-italic font-bold text-xl md:text-2xl">And That’s The Real Problem.</span>
+              <span className="text-[#101828] not-italic font-bold text-lg md:text-xl">And That’s The Real Problem.</span>
             </p>
           </div>
         </div>

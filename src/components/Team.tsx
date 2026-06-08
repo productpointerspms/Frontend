@@ -30,6 +30,15 @@ const Team: React.FC = () => {
       },
     },
     {
+      name: "Mercy Adeniyi",
+      role: "Product Manager",
+      img: "/images/mercyy.png",
+      socials: {
+        linkedin: "http://www.linkedin.com/in/olubunmi-kehinde",
+        facebook: "https://www.facebook.com/kehindeolubunmifaithia",
+      },
+    },
+    {
       name: "Favour Osaro",
       role: "Project and Program Manager",
       img: "/images/Favour.png",
@@ -69,7 +78,11 @@ const Team: React.FC = () => {
 
   const icons: Record<string, React.ReactNode> = {
     linkedin: <FaLinkedin />,
-    facebook: <FaFacebookF />,
+    facebook: (
+      <span className="bg-[#1877F2] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+        <FaFacebookF />
+      </span>
+    ),
     instagram: <FaInstagram />,
     tiktok: <SiTiktok />,
     x: <SiX />,
@@ -79,7 +92,7 @@ const Team: React.FC = () => {
     <section className="w-full bg-[#FAF5FF] py-20 px-6 text-[#15010D] text-center">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">
           Meet the Team Behind ProductPointers
         </h2>
         <p className="text-[#15010D]/60 max-w-2xl mx-auto mb-16 leading-relaxed">
@@ -104,11 +117,11 @@ const Team: React.FC = () => {
               </div>
 
               {/* Text Content */}
-              <h3 className="text-2xl font-bold mb-1">{m.name}</h3>
-              <p className="text-[#15010D]/50 text-sm mb-6">{m.role}</p>
+              <h3 className="text-xl font-bold mb-1">{m.name}</h3>
+              <p className="text-[#15010D]/50 text-xs mb-6">{m.role}</p>
 
               {/* Social Icons - Navy Blue Color */}
-              <div className="flex justify-center gap-4 text-xl text-[#2D3182]">
+              <div className="flex justify-center gap-4 text-lg text-[#2D3182]">
                 {Object.entries(m.socials).map(([platform, url], idx) => (
                   <a
                     key={idx}

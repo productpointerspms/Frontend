@@ -95,10 +95,10 @@ export default function SuccessStories() {
 
                 {/* Header */}
                 <div className="mb-16 text-center">
-                    <h2 className="text-3xl font-extrabold text-[#1A0A1E] md:text-5xl">
+                    <h2 className="text-2xl font-extrabold text-[#1A0A1E] md:text-4xl">
                         Success Stories
                     </h2>
-                    <p className="mx-auto mt-4 max-w-2xl text-base text-[#4A3A4F] md:text-lg">
+                    <p className="mx-auto mt-4 max-w-2xl text-sm text-[#4A3A4F] md:text-base">
                         Real transformations from mentees who took the leap
                     </p>
                 </div>
@@ -124,10 +124,10 @@ export default function SuccessStories() {
                                         />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-bold text-[#1A0A1E]">
+                                        <h3 className="text-base font-bold text-[#1A0A1E]">
                                             {story.name}
                                         </h3>
-                                        <p className="text-sm font-medium text-[#6D28D9]">
+                                        <p className="text-xs font-medium text-[#6D28D9]">
                                             {story.role}
                                         </p>
                                     </div>
@@ -142,7 +142,7 @@ export default function SuccessStories() {
                             </div>
 
                             {/* Text Content */}
-                            <div className="space-y-4 text-base leading-relaxed text-[#4A3A4F]">
+                            <div className="space-y-4 text-sm leading-relaxed text-[#4A3A4F]">
                                 {story.text.map((paragraph, index) => (
                                     <p key={index}>{paragraph}</p>
                                 ))}
@@ -150,7 +150,7 @@ export default function SuccessStories() {
 
                             {/* Button */}
                             <div className="mt-8">
-                                <button className="rounded-full bg-[#6D28D9] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#5b21b6] cursor-pointer">
+                                <button className="rounded-full bg-[#6D28D9] px-6 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-[#5b21b6] cursor-pointer">
                                     {story.buttonText}
                                 </button>
                             </div>

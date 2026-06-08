@@ -29,10 +29,10 @@ const CommunityValues = () => {
     <section className="bg-[#F6E1FF] py-20 px-6 md:px-12 w-full min-h-screen flex flex-col items-center justify-center">
       <div className="max-w-6xl mx-auto text-center">
         {/* Header Section */}
-        <h2 className="text-[#000000] text-3xl md:text-5xl font-bold mb-6">
+        <h2 className="text-[#000000] text-2xl md:text-4xl font-bold mb-6">
           Why We Built The Community
         </h2>
-        <p className="text-[#000000]/60 text-lg md:text-xl max-w-4xl mx-auto mb-16 leading-relaxed">
+        <p className="text-[#000000]/60 text-base md:text-lg max-w-4xl mx-auto mb-16 leading-relaxed">
           Product Management growth doesn't stop after a program ends. The ProductPointers Community exists to help alumni stay consistent, supported, connected, and continuously improving long after graduation.
         </p>
 
@@ -49,12 +49,12 @@ const CommunityValues = () => {
               </div>
 
               {/* Title */}
-              <h3 className="text-[#000000] text-xl font-bold mb-4 leading-tight">
+              <h3 className="text-[#000000] text-lg font-bold mb-4 leading-tight">
                 {value.title}
               </h3>
 
               {/* Description */}
-              <p className="text-[#000000]/70 text-sm md:text-base leading-relaxed">
+              <p className="text-[#000000]/70 text-xs md:text-sm leading-relaxed">
                 {value.description}
               </p>
             </div>

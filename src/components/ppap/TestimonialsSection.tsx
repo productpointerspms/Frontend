@@ -38,13 +38,13 @@ const TestimonialsSection = () => {
             <img className="w-16 h-16 rounded-full border-4 border-white object-cover shadow-sm z-10" src={testimonials[2].image} alt="Mercy" />
           </div>
           
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
             You're Not Starting Alone
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-lg mb-6 leading-relaxed">
+          <p className="text-gray-500 max-w-2xl mx-auto text-base mb-6 leading-relaxed">
             Join <span className="text-[#6D28D9] font-semibold">300+</span> aspiring Product Managers who've already started their journey with ProductPointers.
           </p>
-          <p className="text-[#1a1a1a] text-lg font-medium">
+          <p className="text-[#1a1a1a] text-base font-medium">
             See how others started where you are and gained clarity through PPAP.
           </p>
         </div>
@@ -59,8 +59,8 @@ const TestimonialsSection = () => {
                   className="w-14 h-14 rounded-full object-cover border-2 border-purple-400"
                 />
                 <div>
-                  <h3 className="font-bold text-lg">{testimonial.name}</h3>
-                  <p className="text-purple-300 text-sm">{testimonial.role}</p>
+                  <h3 className="font-bold text-base">{testimonial.name}</h3>
+                  <p className="text-purple-300 text-xs">{testimonial.role}</p>
                 </div>
               </div>
               
@@ -70,7 +70,7 @@ const TestimonialsSection = () => {
                 ))}
               </div>
               
-              <p className="text-purple-100 italic leading-relaxed text-[15px] flex-1">
+              <p className="text-purple-100 italic leading-relaxed text-[13px] flex-1">
                 "{testimonial.content}"
               </p>
             </div>

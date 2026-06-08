@@ -71,10 +71,10 @@ export default function TestimonialSection() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-[1.1rem] min-[375px]:text-[1.3rem] sm:text-3xl md:text-4xl font-bold text-[#14010D] mb-4 whitespace-nowrap sm:whitespace-normal">
+          <h2 className="text-[0.96rem] min-[375px]:text-[1.14rem] sm:text-2xl md:text-3xl font-bold text-[#14010D] mb-4 whitespace-nowrap sm:whitespace-normal">
             Don’t Just Take Our Word For It
           </h2>
-          <p className="text-[#6D6D6D] text-[12px] min-[375px]:text-[14px] sm:text-lg md:text-xl font-normal max-w-3xl mx-auto leading-relaxed">
+          <p className="text-[#6D6D6D] text-[11px] min-[375px]:text-[12px] sm:text-base md:text-lg font-normal max-w-3xl mx-auto leading-relaxed">
             <span className="whitespace-nowrap sm:whitespace-normal">See how ProductPointers has helped aspiring Product</span><br className="block md:hidden" />
             <span className="whitespace-nowrap sm:whitespace-normal">Managers gain real experience and get job-ready</span>
           </p>
@@ -96,10 +96,10 @@ export default function TestimonialSection() {
                     className="w-14 h-14 rounded-full object-cover border-2 border-white/20"
                   />
                   <div>
-                    <h4 className="font-bold text-white text-lg">
+                    <h4 className="font-bold text-white text-base">
                       {testimonial.author.name}
                     </h4>
-                    <p className="text-sm text-white/70 font-normal">
+                    <p className="text-xs text-white/70 font-normal">
                       {testimonial.author.role}
                     </p>
                   </div>
@@ -116,7 +116,7 @@ export default function TestimonialSection() {
                 </div>
 
                 {/* Testimonial Text */}
-                <p className="text-white text-[15px] leading-[24px] font-normal">
+                <p className="text-white text-[13px] leading-[24px] font-normal">
                   {testimonial.text}
                 </p>
               </div>

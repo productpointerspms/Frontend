@@ -17,10 +17,10 @@ export default function Commitment() {
 
                 {/* Header */}
                 <div className="mb-12 text-center">
-                    <h2 className="text-3xl font-extrabold text-[#1A0A1E] md:text-5xl">
+                    <h2 className="text-2xl font-extrabold text-[#1A0A1E] md:text-4xl">
                         Commitment
                     </h2>
-                    <p className="mx-auto mt-4 max-w-2xl text-base text-[#4A3A4F] md:text-lg">
+                    <p className="mx-auto mt-4 max-w-2xl text-sm text-[#4A3A4F] md:text-base">
                         A small price for transformative career guidance
                     </p>
                 </div>
@@ -30,7 +30,7 @@ export default function Commitment() {
 
                     {/* Price */}
                     <div className="mb-10 text-center">
-                        <span className="text-6xl font-extrabold text-[#1A0A1E]">
+                        <span className="text-5xl font-extrabold text-[#1A0A1E]">
                             ₦ 70,000
                         </span>
                     </div>
@@ -42,13 +42,13 @@ export default function Commitment() {
                                 <div className="mt-1 flex h-6 w-6 flex-none items-center justify-center rounded-full">
                                     <Check className="h-6 w-6 text-[#6D28D9] stroke-[3]" />
                                 </div>
-                                <span className="text-lg text-[#3A2A3F]">{benefit}</span>
+                                <span className="text-base text-[#3A2A3F]">{benefit}</span>
                             </li>
                         ))}
                     </ul>
 
                     {/* CTA Button */}
-                    <button className="w-full rounded-xl bg-[#6D28D9] py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-[#5b21b6] cursor-pointer">
+                    <button className="w-full rounded-xl bg-[#6D28D9] py-4 text-base font-bold text-white shadow-lg transition-colors hover:bg-[#5b21b6] cursor-pointer">
                         Join the Mentorship
                     </button>
 

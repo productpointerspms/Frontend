@@ -43,10 +43,10 @@ const OurPillars: React.FC = () => {
   return (
     <section className="flex flex-col items-center justify-center w-full px-6 md:px-20 py-24 bg-gradient-to-b from-[#FAE1FF] to-[#FCF1FF]">
       <div className="text-center mb-16 max-w-3xl">
-        <h2 className="text-center font-montserrat text-[#15010D] font-bold capitalize text-[24px] md:text-4xl mb-4">
+        <h2 className="text-center font-montserrat text-[#15010D] font-bold capitalize text-[21px] md:text-3xl mb-4">
           Our Pillars
         </h2>
-        <p className="text-center font-montserrat text-[#15010D] font-normal text-[12px] leading-[20px] md:text-[20px] md:leading-[36px]">
+        <p className="text-center font-montserrat text-[#15010D] font-normal text-[11px] leading-[20px] md:text-[18px] md:leading-[36px]">
           The foundations that guide ProductPointers programs.
         </p>
       </div>

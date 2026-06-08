@@ -53,12 +53,12 @@ export default function TheNewFuture(): React.ReactElement {
       />
 
       {/* Title */}
-      <h1 className="text-white font-bold text-[42px] sm:text-[56px] md:text-[68px] leading-[1.15] max-w-4xl">
+      <h1 className="text-white font-bold text-[37px] sm:text-[49px] md:text-[60px] leading-[1.15] max-w-4xl">
         Shape the future with us
       </h1>
 
       {/* Description */}
-      <p className="text-white/90 text-[16px] sm:text-[18px] md:text-[20px] leading-[30px] max-w-2xl mt-6">
+      <p className="text-white/90 text-[14px] sm:text-[16px] md:text-[18px] leading-[30px] max-w-2xl mt-6">
         Join a community of ambitious product professionals who are building the
         future, one product at a time. Whether you&apos;re just starting out or ready
         to level up, your journey to product management excellence starts here.
@@ -87,7 +87,7 @@ export default function TheNewFuture(): React.ReactElement {
       </div>
 
       {/* Additional text */}
-      <p className="mt-6 text-white/80 text-sm flex items-center gap-2 tracking-wide">
+      <p className="mt-6 text-white/80 text-xs flex items-center gap-2 tracking-wide">
         🔒 Application review within 48 hours • 💰 Payment plans available
       </p>
     </section>

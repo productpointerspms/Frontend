@@ -14,11 +14,11 @@ const AboutNetworkSection = () => {
 
           {/* Text Content */}
           <div className="w-full lg:w-1/2 max-w-[630px]">
-            <h2 className="font-montserrat font-bold text-[#15010D] text-2xl sm:text-3xl lg:text-[40px] leading-tight">
+            <h2 className="font-montserrat font-bold text-[#15010D] text-xl sm:text-2xl lg:text-[35px] leading-tight">
               About The-Global’PM Network
             </h2>
 
-            <div className="mt-6 space-y-6 font-montserrat text-[#15010D] text-sm sm:text-base leading-relaxed sm:leading-[36px]">
+            <div className="mt-6 space-y-6 font-montserrat text-[#15010D] text-xs sm:text-sm leading-relaxed sm:leading-[36px]">
               <p>
                 The-Global’PM Network is a premium growth circle for professionals who want more clarity, confidence, and control over their personal and financial growth.
               </p>
@@ -33,16 +33,16 @@ const AboutNetworkSection = () => {
             {/* Stats */}
             <div className="mt-10 flex gap-10">
               <div>
-                <p className="text-[#6A2FF5] font-bold text-2xl">50+</p>
-                <p className="text-sm">Members</p>
+                <p className="text-[#6A2FF5] font-bold text-xl">50+</p>
+                <p className="text-xs">Members</p>
               </div>
               <div>
-                <p className="text-[#6A2FF5] font-bold text-2xl">7+</p>
-                <p className="text-sm">Countries</p>
+                <p className="text-[#6A2FF5] font-bold text-xl">7+</p>
+                <p className="text-xs">Countries</p>
               </div>
               <div>
-                <p className="text-[#6A2FF5] font-bold text-2xl">2025</p>
-                <p className="text-sm">Active since</p>
+                <p className="text-[#6A2FF5] font-bold text-xl">2025</p>
+                <p className="text-xs">Active since</p>
               </div>
             </div>
           </div>

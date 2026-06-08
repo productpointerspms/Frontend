@@ -46,10 +46,10 @@ const WhyJoinSection = () => {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="max-w-[901px] mx-auto text-center">
-          <h2 className="font-montserrat font-bold text-[#15010D] text-3xl sm:text-4xl lg:text-[48px] leading-tight lg:leading-[60px]">
+          <h2 className="font-montserrat font-bold text-[#15010D] text-2xl sm:text-3xl lg:text-[42px] leading-tight lg:leading-[60px]">
             Why Join The-Global’PM Network?
           </h2>
-          <p className="mt-4 font-montserrat text-[#15010D] text-base sm:text-lg lg:text-[20px] leading-relaxed">
+          <p className="mt-4 font-montserrat text-[#15010D] text-sm sm:text-base lg:text-[18px] leading-relaxed">
             Unlock exclusive benefits designed to accelerate your product management career
           </p>
         </div>
@@ -68,11 +68,11 @@ const WhyJoinSection = () => {
                   <Icon size={24} color="#ffffff" />
                 </div>
 
-                <h3 className="font-montserrat font-semibold text-[#15010D] text-lg sm:text-xl">
+                <h3 className="font-montserrat font-semibold text-[#15010D] text-base sm:text-lg">
                   {item.title}
                 </h3>
 
-                <p className="font-montserrat text-[#6B6B6B] text-sm sm:text-base leading-relaxed">
+                <p className="font-montserrat text-[#6B6B6B] text-xs sm:text-sm leading-relaxed">
                   {item.desc}
                 </p>
               </div>

@@ -25,10 +25,10 @@ function StepOne({ onNext }: { onNext: () => void }) {
     return (
         <div className="w-full max-w-4xl bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 mt-10">
             <div className="text-center mb-10">
-                <div className="inline-block px-4 py-1.5 rounded-full bg-[#F3E8FF] text-[#6024D0] font-semibold text-sm mb-6">
+                <div className="inline-block px-4 py-1.5 rounded-full bg-[#F3E8FF] text-[#6024D0] font-semibold text-xs mb-6">
                     PPCP Coaching
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                     Before You Apply...
                 </h1>
                 <p className="text-gray-600 max-w-2xl mx-auto">
@@ -49,7 +49,7 @@ function StepOne({ onNext }: { onNext: () => void }) {
                             <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#F3E8FF] text-[#6024D0]">
                                 <Check size={18} strokeWidth={3} />
                             </div>
-                            <span className="text-gray-700 font-medium text-sm md:text-base">{expectation}</span>
+                            <span className="text-gray-700 font-medium text-xs md:text-sm">{expectation}</span>
                         </div>
                     ))}
                 </div>
@@ -90,16 +90,16 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
         <div className="w-full max-w-3xl animate-in fade-in slide-in-from-right-8 duration-500">
             <Link
                 href="/ppcp"
-                className="inline-flex items-center text-[#6024D0] hover:underline font-medium mb-8 text-sm"
+                className="inline-flex items-center text-[#6024D0] hover:underline font-medium mb-8 text-xs"
             >
                 &larr; Back to PPCP | Coaching
             </Link>
 
             <div className="text-center mb-10">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
                     PPCP Application Form
                 </h1>
-                <div className="bg-[#F3E8FF] border border-[#E9D7FE] rounded-xl p-5 text-[#6024D0] text-sm md:text-base font-medium inline-block w-full">
+                <div className="bg-[#F3E8FF] border border-[#E9D7FE] rounded-xl p-5 text-[#6024D0] text-xs md:text-sm font-medium inline-block w-full">
                     We need to know a little bit about you to ensure we can support you best. All information provided will be kept strictly confidential.
                 </div>
             </div>
@@ -112,10 +112,10 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                 className="bg-white shadow-sm rounded-2xl p-6 md:p-10 space-y-8"
             >
                 <div className="space-y-6">
-                    <h2 className="text-lg font-semibold text-gray-900 border-b pb-2">Profile</h2>
+                    <h2 className="text-base font-semibold text-gray-900 border-b pb-2">Profile</h2>
                     
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
                             Full Name *
                         </label>
                         <input
@@ -127,7 +127,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
                             Email Address *
                         </label>
                         <input
@@ -139,7 +139,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
                             Phone Number (WhatsApp Preferred) *
                         </label>
                         <input
@@ -152,10 +152,10 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                 </div>
 
                 <div className="space-y-6 pt-6 border-t">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Background</h2>
+                    <h2 className="text-base font-semibold text-gray-900 mb-4">Background</h2>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-3">
+                        <label className="block text-xs font-medium text-gray-900 mb-3">
                             What best describes your current situation? *
                         </label>
                         <div className="space-y-3">
@@ -174,7 +174,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                                         value={spec}
                                         className="w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer"
                                     />
-                                    <span className="text-sm text-gray-700 group-hover:text-black">{spec}</span>
+                                    <span className="text-xs text-gray-700 group-hover:text-black">{spec}</span>
                                 </label>
                             ))}
                         </div>
@@ -182,10 +182,10 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                 </div>
 
                 <div className="space-y-6 pt-6 border-t">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Goals & Challenges</h2>
+                    <h2 className="text-base font-semibold text-gray-900 mb-4">Goals & Challenges</h2>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-3">
+                        <label className="block text-xs font-medium text-gray-900 mb-3">
                             What is your primary coaching goal? *
                         </label>
                         <div className="space-y-3">
@@ -204,14 +204,14 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                                         value={ans}
                                         className="w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer"
                                     />
-                                    <span className="text-sm text-gray-700 group-hover:text-black">{ans}</span>
+                                    <span className="text-xs text-gray-700 group-hover:text-black">{ans}</span>
                                 </label>
                             ))}
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                        <label className="block text-xs font-medium text-gray-900 mb-2">
                             What is your biggest challenge right now? *
                         </label>
                         <textarea
@@ -223,7 +223,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                        <label className="block text-xs font-medium text-gray-900 mb-2">
                             What do you specifically hope to get out of this coaching? *
                         </label>
                         <textarea
@@ -236,10 +236,10 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                 </div>
 
                 <div className="space-y-6 pt-6 border-t">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Commitment & Logistics</h2>
+                    <h2 className="text-base font-semibold text-gray-900 mb-4">Commitment & Logistics</h2>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-3">
+                        <label className="block text-xs font-medium text-gray-900 mb-3">
                             This program requires active participation, dedication, and accountability. Are you ready to commit to this? *
                         </label>
                         <div className="space-y-3">
@@ -252,14 +252,14 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                                         value={ans}
                                         className="w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer"
                                     />
-                                    <span className="text-sm text-gray-700 group-hover:text-black">{ans}</span>
+                                    <span className="text-xs text-gray-700 group-hover:text-black">{ans}</span>
                                 </label>
                             ))}
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-3">
+                        <label className="block text-xs font-medium text-gray-900 mb-3">
                             What coaching format are you interested in? *
                         </label>
                         <div className="space-y-3">
@@ -272,14 +272,14 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                                         value={ans}
                                         className="w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer"
                                     />
-                                    <span className="text-sm text-gray-700 group-hover:text-black">{ans}</span>
+                                    <span className="text-xs text-gray-700 group-hover:text-black">{ans}</span>
                                 </label>
                             ))}
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-3">
+                        <label className="block text-xs font-medium text-gray-900 mb-3">
                             When are you looking to start? *
                         </label>
                         <div className="space-y-3">
@@ -292,7 +292,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                                         value={ans}
                                         className="w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer"
                                     />
-                                    <span className="text-sm text-gray-700 group-hover:text-black">{ans}</span>
+                                    <span className="text-xs text-gray-700 group-hover:text-black">{ans}</span>
                                 </label>
                             ))}
                         </div>
@@ -311,7 +311,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
                     <button
                         type="button"
                         onClick={onBack}
-                        className="mt-6 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                        className="mt-6 text-xs text-gray-500 hover:text-gray-900 transition-colors"
                     >
                         Go Back
                     </button>
@@ -328,7 +328,7 @@ function StepThree() {
                 <Check size={40} className="text-white" strokeWidth={3} />
             </div>
             
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Your Application Has Been Received
             </h1>
             <p className="text-gray-600 mb-12">
@@ -341,7 +341,7 @@ function StepThree() {
                         <Check size={20} className="text-[#6024D0]" />
                     </div>
                     <h3 className="font-bold text-gray-900 mb-2">Application Review</h3>
-                    <p className="text-sm text-gray-500">Our team will review your application closely.</p>
+                    <p className="text-xs text-gray-500">Our team will review your application closely.</p>
                 </div>
                 
                 <div className="p-6 border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow">
@@ -349,7 +349,7 @@ function StepThree() {
                         <Check size={20} className="text-[#6024D0]" />
                     </div>
                     <h3 className="font-bold text-gray-900 mb-2">Email Notification</h3>
-                    <p className="text-sm text-gray-500">You'll receive an email on next steps.</p>
+                    <p className="text-xs text-gray-500">You'll receive an email on next steps.</p>
                 </div>
 
                 <div className="p-6 border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow">
@@ -357,7 +357,7 @@ function StepThree() {
                         <Check size={20} className="text-[#6024D0]" />
                     </div>
                     <h3 className="font-bold text-gray-900 mb-2">Payment Process</h3>
-                    <p className="text-sm text-gray-500">You'll be directed to proceed with payment.</p>
+                    <p className="text-xs text-gray-500">You'll be directed to proceed with payment.</p>
                 </div>
 
                 <div className="p-6 border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow">
@@ -365,7 +365,7 @@ function StepThree() {
                         <Check size={20} className="text-[#6024D0]" />
                     </div>
                     <h3 className="font-bold text-gray-900 mb-2">Selection Process</h3>
-                    <p className="text-sm text-gray-500">Final selection is based on commitment and availability.</p>
+                    <p className="text-xs text-gray-500">Final selection is based on commitment and availability.</p>
                 </div>
             </div>
 

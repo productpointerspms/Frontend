@@ -6,10 +6,10 @@ const MentorshipSection = () => {
     <section className="bg-[#FAF5FF] py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
             This Is Just the Beginning
           </h2>
-          <p className="text-gray-500 max-w-3xl mx-auto text-lg leading-relaxed">
+          <p className="text-gray-500 max-w-3xl mx-auto text-base leading-relaxed">
             PPAP gives you the foundation. From here, you can continue building real experience and move closer to becoming a job-ready Product Manager.
           </p>
         </div>
@@ -21,10 +21,10 @@ const MentorshipSection = () => {
               <div className="w-14 h-14 bg-[#6D28D9] rounded-2xl flex items-center justify-center shadow-sm">
                 <Users className="w-7 h-7 text-white" />
               </div>
-              <span className="text-gray-400 font-medium text-sm mt-2">Step 2</span>
+              <span className="text-gray-400 font-medium text-xs mt-2">Step 2</span>
             </div>
             
-            <h3 className="text-2xl font-bold text-[#1a1a1a] mb-3 pr-4">
+            <h3 className="text-xl font-bold text-[#1a1a1a] mb-3 pr-4">
               ProductPointers Mentorship Program
             </h3>
             
@@ -43,10 +43,10 @@ const MentorshipSection = () => {
               <div className="w-14 h-14 bg-[#6D28D9] rounded-2xl flex items-center justify-center shadow-sm">
                 <Briefcase className="w-7 h-7 text-white" />
               </div>
-              <span className="text-gray-400 font-medium text-sm mt-2">Step 3</span>
+              <span className="text-gray-400 font-medium text-xs mt-2">Step 3</span>
             </div>
             
-            <h3 className="text-2xl font-bold text-[#1a1a1a] mb-3 pr-4">
+            <h3 className="text-xl font-bold text-[#1a1a1a] mb-3 pr-4">
               ProductPointers Internship Program
             </h3>
             

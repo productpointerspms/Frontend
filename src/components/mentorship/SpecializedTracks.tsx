@@ -138,14 +138,14 @@ export default function SpecializedTracks() {
                 {/* Section Header */}
                 <div className="mb-20 text-center">
                     <div className="mb-6 flex justify-center">
-                        <span className="rounded-full bg-[#6D28D9] px-5 py-2 text-sm font-medium text-white shadow-lg">
+                        <span className="rounded-full bg-[#6D28D9] px-5 py-2 text-xs font-medium text-white shadow-lg">
                             WHY A SPECIALIZED TRACK?
                         </span>
                     </div>
-                    <h2 className="text-4xl font-extrabold text-[#1A0A1E] md:text-5xl">
+                    <h2 className="text-3xl font-extrabold text-[#1A0A1E] md:text-4xl">
                         Specialized Mentorship Tracks
                     </h2>
-                    <p className="mx-auto mt-6 max-w-2xl text-lg text-[#3A2A3F]">
+                    <p className="mx-auto mt-6 max-w-2xl text-base text-[#3A2A3F]">
                         Master critical product management domains through expert-led,
                         personalized learning paths
                     </p>
@@ -184,12 +184,12 @@ export default function SpecializedTracks() {
                                         <div className={`flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-lg ${track.color}`}>
                                             <Icon className="h-6 w-6" />
                                         </div>
-                                        <h3 className="text-2xl font-bold text-[#1A0A1E] md:text-3xl">
+                                        <h3 className="text-xl font-bold text-[#1A0A1E] md:text-2xl">
                                             {track.title}
                                         </h3>
                                     </div>
 
-                                    <p className="text-lg leading-relaxed text-[#3A2A3F]">
+                                    <p className="text-base leading-relaxed text-[#3A2A3F]">
                                         {track.description}
                                     </p>
 

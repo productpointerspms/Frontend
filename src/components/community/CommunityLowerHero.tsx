@@ -16,12 +16,12 @@ export default function FinalCTA() {
     >
       <div className="max-w-4xl mx-auto">
         {/* Main Heading */}
-        <h2 className="text-white text-3xl md:text-[40px] font-bold mb-6 leading-tight">
+        <h2 className="text-white text-2xl md:text-[35px] font-bold mb-6 leading-tight md:whitespace-nowrap">
           Your Product Management Journey Shouldn’t End Alone
         </h2>
 
         {/* Supporting Description */}
-        <p className="text-white/90 text-lg md:text-xl font-light mb-12 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-white/90 text-base md:text-lg font-light mb-12 leading-relaxed max-w-3xl mx-auto">
           Join a long-term ecosystem of Product Managers committed to continuous 
           growth, accountability, mentorship, and meaningful progress long after 
           completing their programs.
@@ -30,13 +30,13 @@ export default function FinalCTA() {
         {/* Dual Button CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* Primary Button */}
-          <button className="bg-white text-[#6024D0] px-8 py-4 rounded-2xl font-semibold flex items-center gap-2 hover:bg-white/90 transition-all text-base md:text-lg w-full sm:w-auto justify-center shadow-lg cursor-pointer">
+          <button className="bg-white text-[#6024D0] px-8 py-4 rounded-2xl font-semibold flex items-center gap-2 hover:bg-white/90 transition-all text-sm md:text-base w-full sm:w-auto justify-center shadow-lg cursor-pointer">
             Join the Community
             <ArrowRight size={20} />
           </button>
 
           {/* Secondary Outline Button */}
-          <button className="bg-transparent text-white border-2 border-white/40 px-8 py-4 rounded-2xl font-semibold hover:bg-white/10 transition-all text-base md:text-lg w-full sm:w-auto justify-center cursor-pointer">
+          <button className="bg-transparent text-white border-2 border-white/40 px-8 py-4 rounded-2xl font-semibold hover:bg-white/10 transition-all text-sm md:text-base w-full sm:w-auto justify-center cursor-pointer">
             Explore Programs
           </button>
         </div>

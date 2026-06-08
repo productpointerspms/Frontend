@@ -60,10 +60,10 @@ const ProductPointersJourney: React.FC = () => {
       <div className="max-w-[1280px] mx-auto flex flex-col items-center">
         
         {/* Header */}
-        <h2 className="text-[#1A1A1A] text-[1.35rem] min-[375px]:text-2xl sm:text-3xl md:text-[33px] font-bold mb-4 text-center tracking-tight">
+        <h2 className="text-[#1A1A1A] text-[1.18rem] min-[375px]:text-xl sm:text-2xl md:text-[29px] font-bold mb-4 text-center tracking-tight">
           Your Step-By-Step Path<br className="block md:hidden" /> To Becoming A Product Manager
         </h2>
-        <p className="text-gray-500 text-base md:text-[20px] text-center mb-24 max-w-3xl font-medium">
+        <p className="text-gray-500 text-sm md:text-[18px] text-center mb-24 max-w-3xl font-medium">
           We don't leave you guessing. Here's exactly how you go from learning to landing a role.
         </p>
 
@@ -85,9 +85,9 @@ const ProductPointersJourney: React.FC = () => {
                 )}
               </div>
 
-              <h3 className="text-[#1A1A1A] font-bold text-[22px] mb-1">{step.acronym}</h3>
-              <h4 className="text-gray-800 font-semibold text-[15px] mb-3">{step.title}</h4>
-              <p className="text-gray-500 text-[14px] leading-relaxed pr-0 md:pr-4">
+              <h3 className="text-[#1A1A1A] font-bold text-[19px] mb-1">{step.acronym}</h3>
+              <h4 className="text-gray-800 font-semibold text-[13px] mb-3">{step.title}</h4>
+              <p className="text-gray-500 text-[12px] leading-relaxed pr-0 md:pr-4">
                 {step.description}
               </p>
             </div>
@@ -96,10 +96,10 @@ const ProductPointersJourney: React.FC = () => {
 
         {/* CTA */}
         <div className="flex flex-col items-center mt-4">
-          <p className="text-[#4D5246] font-medium text-lg md:text-[20px] mb-6">
+          <p className="text-[#4D5246] font-medium text-base md:text-[18px] mb-6">
             Not sure where to start? We'll guide you.
           </p>
-          <button className="bg-[#5C1CC5] hover:bg-[#4a15a0] text-white text-base font-medium px-8 py-4 rounded-xl transition-all flex items-center gap-2 shadow-lg cursor-pointer">
+          <button className="bg-[#5C1CC5] hover:bg-[#4a15a0] text-white text-sm font-medium px-8 py-4 rounded-xl transition-all flex items-center gap-2 shadow-lg cursor-pointer">
             Find the Right Program for You <ArrowRight className="w-5 h-5 ml-1" />
           </button>
         </div>

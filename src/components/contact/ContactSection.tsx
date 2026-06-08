@@ -14,8 +14,8 @@ const ContactSection = () => {
         
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">How Can We Help?</h2>
-          <p className="text-gray-500 text-lg max-w-3xl mx-auto leading-relaxed">
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-4">How Can We Help?</h2>
+          <p className="text-gray-500 text-base max-w-3xl mx-auto leading-relaxed">
             Reach out to the ProductPointers team for guidance, questions, mentorship support, 
             partnerships, or community-related inquiries
           </p>
@@ -30,7 +30,7 @@ const ContactSection = () => {
               <div className="w-10 h-10 bg-[#5C1CC5] rounded-lg flex items-center justify-center mb-4">
                 <Mail className="text-white w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-black mb-4">Email Support</h3>
+              <h3 className="text-lg font-bold text-black mb-4">Email Support</h3>
               <p className="text-[#5C1CC5] font-medium">support@productpointers.com</p>
             </div>
 
@@ -39,7 +39,7 @@ const ContactSection = () => {
               <div className="w-10 h-10 bg-[#5C1CC5] rounded-lg flex items-center justify-center mb-4">
                 <Phone className="text-white w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-black mb-4">Phone</h3>
+              <h3 className="text-lg font-bold text-black mb-4">Phone</h3>
               <p className="text-[#5C1CC5] font-medium">+234 800 129 3456</p>
             </div>
 
@@ -48,7 +48,7 @@ const ContactSection = () => {
               <div className="w-10 h-10 bg-[#5C1CC5] rounded-lg flex items-center justify-center mb-4">
                 <Phone className="text-white w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-black mb-4">Follow Us</h3>
+              <h3 className="text-lg font-bold text-black mb-4">Follow Us</h3>
               <div className="flex gap-3">
                 {[Linkedin, Instagram, Twitter].map((Icon, idx) => (
                   <div key={idx} className="w-10 h-10 bg-[#F4EBFF] rounded-lg flex items-center justify-center cursor-pointer hover:bg-[#E9D7FE] transition-colors">
@@ -61,7 +61,7 @@ const ContactSection = () => {
 
           {/* Right Column: Form */}
           <div className="lg:col-span-8 bg-white p-10 md:p-12 rounded-[32px] shadow-sm">
-            <h3 className="text-2xl md:text-3xl font-bold text-black mb-8">Send us a message</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-black mb-8">Send us a message</h3>
             
             <form className="space-y-6">
               <div>

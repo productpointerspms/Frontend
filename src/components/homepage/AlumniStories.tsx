@@ -59,10 +59,10 @@ export default function TestimonialSlider() {
     <div
       className={`${montserrat.className} md:bg-[#FCF1FF] bg-linear-to-b from-[#FAE1FF] to-[#FCF1FF] px-4 md:px-0 overflow-hidden`}
     >
-      <h3 className="text-center md:text-[#14010D] text-[#15010D] md:hidden block font-bold text-2xl pt-14 md:pt-0 md:text-5xl md:leading-12 leading-normal pb-4 md:pb-6">
+      <h3 className="text-center md:text-[#14010D] text-[#15010D] md:hidden block font-bold text-xl pt-14 md:pt-0 md:text-4xl md:leading-12 leading-normal pb-4 md:pb-6">
         Alumni Success Stories
       </h3>
-      <p className="text-[#364153] mx-auto text-center md:hidden block text-[12px] md:text-[20px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] pb-[84px] ">
+      <p className="text-[#364153] mx-auto text-center md:hidden block text-[11px] md:text-[18px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] pb-[84px] ">
         Our alumni are now leading product teams at the world's most innovative
         companies. Here are just a few of their incredible journeys.
       </p>
@@ -82,22 +82,22 @@ export default function TestimonialSlider() {
               {/* Right side - Content */}
               <div className="px-6 py-4 flex flex-col justify-between">
                 <div className="flex-1">
-                  <h2 className="text-[24px] font-bold text-[#14010D] leading-8 md:pt-10 pt-0 mb-2">
+                  <h2 className="text-[21px] font-bold text-[#14010D] leading-8 md:pt-10 pt-0 mb-2">
                     {activeTestimonial.name}
                   </h2>
-                  <p className=" text-[#5C1CC5] font-bold  text-[16px] leading-6 mb-[18px]">
+                  <p className=" text-[#5C1CC5] font-bold  text-[14px] leading-6 mb-[18px]">
                     {activeTestimonial.role}
                   </p>
-                  <p className=" text-[#000000] font-normal  text-[16px] leading-6 mb-4">
+                  <p className=" text-[#000000] font-normal  text-[14px] leading-6 mb-4">
                     {activeTestimonial.company}
                   </p>
                   <div className="inline-block mb-6">
-                    <span className="rounded-[57384700px] bg-[rgba(92,28,197,0.30)] text-[#5C1CC5] px-3 py-2 text-sm font-normal leading-5">
+                    <span className="rounded-[57384700px] bg-[rgba(92,28,197,0.30)] text-[#5C1CC5] px-3 py-2 text-xs font-normal leading-5">
                       {activeTestimonial.badge}
                     </span>
                   </div>
 
-                  <p className="text-[#000000] text-[16px] font-light leading-[29.25px] italic">
+                  <p className="text-[#000000] text-[14px] font-light leading-[29.25px] italic">
                     {activeTestimonial.quote}
                   </p>
                 </div>

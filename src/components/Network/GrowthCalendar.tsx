@@ -28,13 +28,13 @@ const GrowthCalendarSection: React.FC = () => {
     <section className="w-full py-20 bg-white">
       {/* ===================== HEADING ===================== */}
       <div className="max-w-[882px] mx-auto text-center px-4">
-        <h2 className="font-montserrat font-bold text-[#15010D] text-3xl sm:text-4xl lg:text-[48px] leading-tight lg:leading-[60px]">
+        <h2 className="font-montserrat font-bold text-[#15010D] text-2xl sm:text-3xl lg:text-[42px] leading-tight lg:leading-[60px]">
           Take a Look at How Our
           <br />
           Professionals Are Growing
         </h2>
 
-        <p className="mt-4 text-[#15010D]/70 text-base sm:text-lg">
+        <p className="mt-4 text-[#15010D]/70 text-sm sm:text-base">
           Every week, our network hosts exclusive events, training, and growth
           sessions. Here’s what’s coming up!
         </p>
@@ -48,30 +48,30 @@ const GrowthCalendarSection: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
               {/* Left */}
               <div>
-                <h3 className="text-2xl font-semibold">Growth Calendar</h3>
-                <p className="text-sm opacity-90">
+                <h3 className="text-xl font-semibold">Growth Calendar</h3>
+                <p className="text-xs opacity-90">
                   Your personalized PM development schedule
                 </p>
 
                 {/* Tabs */}
                 <div className="mt-4 flex gap-3">
-                  <button className="px-4 py-2 bg-white text-[#5C1CC5] rounded-lg text-sm font-medium cursor-pointer">
+                  <button className="px-4 py-2 bg-white text-[#5C1CC5] rounded-lg text-xs font-medium cursor-pointer">
                     This Week
                   </button>
-                  <button className="px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-sm cursor-pointer">
+                  <button className="px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-xs cursor-pointer">
                     Month View
                   </button>
-                  <button className="px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-sm cursor-pointer">
+                  <button className="px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-xs cursor-pointer">
                     My Goals
                   </button>
                 </div>
               </div>
 
               {/* Right */}
-              <div className="flex items-center gap-4 text-sm">
-                <button className="text-white text-xl cursor-pointer">‹</button>
+              <div className="flex items-center gap-4 text-xs">
+                <button className="text-white text-lg cursor-pointer">‹</button>
                 <span className="font-medium">October 2025</span>
-                <button className="text-white text-xl cursor-pointer">›</button>
+                <button className="text-white text-lg cursor-pointer">›</button>
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@ const GrowthCalendarSection: React.FC = () => {
           {/* ===================== CALENDAR BODY ===================== */}
           <div className="p-6">
             {/* Days */}
-            <div className="grid grid-cols-7 text-center text-sm text-gray-500 mb-4">
+            <div className="grid grid-cols-7 text-center text-xs text-gray-500 mb-4">
               <span>Mon</span>
               <span>Tue</span>
               <span>Wed</span>
@@ -98,7 +98,7 @@ const GrowthCalendarSection: React.FC = () => {
                 return (
                   <div
                     key={day}
-                    className="min-h-[120px] rounded-xl bg-[#FAE1FF] p-3 text-sm flex flex-col"
+                    className="min-h-[120px] rounded-xl bg-[#FAE1FF] p-3 text-xs flex flex-col"
                   >
                     {/* Date */}
                     <span className="text-[#15010D] font-medium">{day}</span>

@@ -39,8 +39,8 @@ export default function HowItWorks() {
             <div className="relative z-10 container mx-auto px-6">
                 {/* Header */}
                 <div className="mb-16 text-center text-white">
-                    <h2 className="text-4xl font-extrabold md:text-5xl">How It Works</h2>
-                    <p className="mt-4 text-lg text-white/90 md:text-xl">
+                    <h2 className="text-3xl font-extrabold md:text-4xl">How It Works</h2>
+                    <p className="mt-4 text-base text-white/90 md:text-lg">
                         Getting started is simple and straightforward
                     </p>
                 </div>
@@ -53,15 +53,15 @@ export default function HowItWorks() {
                             className="group relative flex flex-col items-start rounded-2xl bg-white p-8 shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
                         >
                             {/* Large Number */}
-                            <span className="mb-4 text-6xl font-extrabold text-[#F3E8FF] transition-colors group-hover:text-[#E9D5FF]">
+                            <span className="mb-4 text-5xl font-extrabold text-[#F3E8FF] transition-colors group-hover:text-[#E9D5FF]">
                                 {step.number}
                             </span>
 
                             {/* Content */}
-                            <h3 className="mb-3 text-xl font-bold text-gray-900">
+                            <h3 className="mb-3 text-lg font-bold text-gray-900">
                                 {step.title}
                             </h3>
-                            <p className="text-base leading-relaxed text-gray-600">
+                            <p className="text-sm leading-relaxed text-gray-600">
                                 {step.description}
                             </p>
                         </div>

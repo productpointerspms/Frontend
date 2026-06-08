@@ -26,15 +26,15 @@ const ProgramCard: React.FC<ProgramCardProps> = ({ image, whoItsFor, outcome }) 
       {/* Content */}
       <div className="p-6 flex flex-col flex-grow text-left">
         <div className="mb-4 flex-grow">
-          <p className="text-sm leading-relaxed text-gray-700">
+          <p className="text-xs leading-relaxed text-gray-700">
             <span className="font-semibold text-gray-400">Who it's for:</span> {whoItsFor}
           </p>
-          <p className="text-sm leading-relaxed text-gray-700 mt-3">
+          <p className="text-xs leading-relaxed text-gray-700 mt-3">
             <span className="font-semibold text-gray-400">Outcome:</span> {outcome}
           </p>
         </div>
 
-        <button className="flex items-center text-[#4F46E5] font-semibold text-sm hover:underline mt-2 cursor-pointer">
+        <button className="flex items-center text-[#4F46E5] font-semibold text-xs hover:underline mt-2 cursor-pointer">
           Learn More <ArrowRight className="ml-2 w-4 h-4" />
         </button>
       </div>
@@ -75,10 +75,10 @@ export default function ExplorePrograms() {
     <div className="w-full bg-[#5C1CC5] py-20 px-6 md:px-12">
       {/* Section Header */}
       <div className="text-center mb-16 text-white">
-        <h2 className="text-[1.35rem] min-[375px]:text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+        <h2 className="text-[1.18rem] min-[375px]:text-xl sm:text-2xl md:text-3xl font-bold mb-4 tracking-tight">
           Explore The Program<br className="block md:hidden" /> That Fits Your Current Stage
         </h2>
-        <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
+        <p className="text-base md:text-lg opacity-90 max-w-2xl mx-auto">
           Whether you're just getting started or ready to gain real experience, there's a clear next step for you.
         </p>
       </div>
@@ -102,7 +102,7 @@ export default function ExplorePrograms() {
 
       {/* Footer CTA */}
       <div className="mt-20 text-center text-white">
-        <p className="text-lg mb-6 opacity-90 font-medium">Not sure which program is right for you?</p>
+        <p className="text-base mb-6 opacity-90 font-medium">Not sure which program is right for you?</p>
         <button className="bg-white text-[#5C1CC5] px-8 py-4 rounded-2xl font-bold flex items-center mx-auto hover:bg-gray-100 transition-colors cursor-pointer">
           Find the Right Program for You <ArrowRight className="ml-2 w-5 h-5" />
         </button>

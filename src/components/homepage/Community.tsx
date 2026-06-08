@@ -30,11 +30,11 @@ export default function Community() {
   return (
     <div className="pt-[168px] bg-[#FCF1FF] hidden md:block pb-20">
       <section className={`${montserrat.className} text-center px-4`}>
-        <h1 className="text-4xl md:text-5xl leading-12 font-bold text-[#14010D] mb-6">
+        <h1 className="text-3xl md:text-4xl leading-12 font-bold text-[#14010D] mb-6">
           Join Our Thriving Community
         </h1>
 
-        <p className="text-[20px] text-[#364153] font-normal mx-auto leading-7 md:pb-[76px] ">
+        <p className="text-[18px] text-[#364153] font-normal mx-auto leading-7 md:pb-[76px] ">
           Connect with like-minded product professionals from around the world.
           <br />
           Share knowledge, celebrate wins, and grow together.
@@ -61,22 +61,22 @@ export default function Community() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 font-[Arial] justify-center">
               {/* Active Members */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[14px] text-center  p-4 flex flex-col justify-center items-center">
-                <h3 className="text-[30px] font-bold text-[#FFFFFF] ">167+</h3>
-                <p className="text-[#FFFFFF] text-sm font-normal">
+                <h3 className="text-[26px] font-bold text-[#FFFFFF] ">167+</h3>
+                <p className="text-[#FFFFFF] text-xs font-normal">
                   Active Members
                 </p>
               </div>
 
               {/* Countries */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[14px] text-center  p-4  flex flex-col justify-center items-center">
-                <h3 className=" text-[30px] font-bold text-[#FFFFFF]">11+</h3>
-                <p className="text-[#FFFFFF] text-sm  font-normal">Countries</p>
+                <h3 className=" text-[26px] font-bold text-[#FFFFFF]">11+</h3>
+                <p className="text-[#FFFFFF] text-xs  font-normal">Countries</p>
               </div>
 
               {/* Career Growth */}
               <div className="bg-white/20 backdrop-blur-sm rounded-[14px] text-center  p-4  flex flex-col justify-center items-center">
-                <h3 className="text-[30px] font-bold text-[#FFFFFF]">97%</h3>
-                <p className="text-[#FFFFFF] text-base font-normal">
+                <h3 className="text-[26px] font-bold text-[#FFFFFF]">97%</h3>
+                <p className="text-[#FFFFFF] text-sm font-normal">
                   Career Growth
                 </p>
               </div>
@@ -101,10 +101,10 @@ export default function Community() {
                     className="object-contain"
                   />
                 </div>
-                <h3 className="text-[20px] font-bold text-[#14010D] leading-7 mb-2.5">
+                <h3 className="text-[18px] font-bold text-[#14010D] leading-7 mb-2.5">
                   {feature.title}
                 </h3>
-                <p className="text-[#6D6D6D] text-[16px] leading-6 font-normal  w-[320px]">
+                <p className="text-[#6D6D6D] text-[14px] leading-6 font-normal  w-[320px]">
                   {feature.description}
                 </p>
               </div>
@@ -112,16 +112,16 @@ export default function Community() {
           </div>
 
           <div className="flex justify-center pb-[135px]">
-            <button className="bg-[#5C1CC5] hover:border hover:border-[#5C1CC5] text-[18px] hover:bg-[#FAE1FF] cursor-pointer hover:text-[#5C1CC5]  text-white font-semibold px-7 py-2.5 rounded-sm transition-all duration-300 transform hover:scale-105 ease-in-out">
+            <button className="bg-[#5C1CC5] hover:border hover:border-[#5C1CC5] text-[16px] hover:bg-[#FAE1FF] cursor-pointer hover:text-[#5C1CC5]  text-white font-semibold px-7 py-2.5 rounded-sm transition-all duration-300 transform hover:scale-105 ease-in-out">
               Join Community
             </button>
           </div>
         </div>
       </section>
-      <h3 className="text-center md:text-[#14010D] text-[#15010D] hidden md:block font-bold text-2xl  md:text-5xl md:leading-12 leading-normal pb-4 md:pb-6">
+      <h3 className="text-center md:text-[#14010D] text-[#15010D] hidden md:block font-bold text-xl  md:text-4xl md:leading-12 leading-normal pb-4 md:pb-6">
         Alumni Success Stories
       </h3>
-      <p className="text-[#364153] mx-auto text-center hidden md:block text-[12px] md:text-[20px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] ">
+      <p className="text-[#364153] mx-auto text-center hidden md:block text-[11px] md:text-[18px] font-normal leading-5 md:leading-7 md:w-[750px] w-[340px] ">
         Our alumni are now leading product teams at the world&apos;s most innovative
         companies. Here are just a few of their incredible journeys.
       </p>
