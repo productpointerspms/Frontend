@@ -1,75 +1,104 @@
-import React from "react";
-import Image, { StaticImageData } from "next/image";
-import { ArrowRight } from "lucide-react";
+"use client";
 
-// Assuming you have these images or placeholders
-import imgPPAP from "@/assets/images/PPAP.png"; 
-import imgPPMP from "@/assets/images/PPMP.png";
-import imgPPIP from "@/assets/images/PPIP.png";
-import imgPPCP from "@/assets/images/PPCP.png";
-import imgPPTP from "@/assets/images/PPTP.png";
+import React, { useState } from "react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 
-interface ProgramCardProps {
-  image: string | StaticImageData;
+interface Program {
+  title: string;
   whoItsFor: string;
   outcome: string;
 }
 
-const ProgramCard: React.FC<ProgramCardProps> = ({ image, whoItsFor, outcome }) => {
+const programs: Program[] = [
+  {
+    title: "ProductPointers Accelerator Program (PPAP)",
+    whoItsFor:
+      "You are new to product or you've learned product basics but still feel lost and need structure",
+    outcome:
+      "Build a strong foundation and understand how to think like a product manager",
+  },
+  {
+    title: "ProductPointers Internship Program (PPIP)",
+    whoItsFor: "You need real world experience to confidently apply for roles",
+    outcome: "Work on real products and gain hands-on experience",
+  },
+  {
+    title: "ProductPointers Coaching Program (PPCP)",
+    whoItsFor:
+      "You want a one-on-one personalized guidance tailored towards your goal.",
+    outcome: "Structured guidance, growth and faster results.",
+  },
+  {
+    title: "ProductPointers Mentorship Program (PPMP)",
+    whoItsFor: "You are applying for jobs but no call-back",
+    outcome: "Stand out, apply confidently, and land product roles",
+  },
+  {
+    title: "ProductPointers Specialization Track Program (PPTP)",
+    whoItsFor:
+      "You are already a product manager but want to apply and stand out",
+    outcome:
+      "Become a high-impact, specialized product manager with deeper expertise",
+  },
+];
+
+const ProgramAccordion: React.FC<{
+  program: Program;
+  isOpen: boolean;
+  onToggle: () => void;
+}> = ({ program, isOpen, onToggle }) => {
   return (
-    <div className="bg-white rounded-[2rem] overflow-hidden flex flex-col h-full shadow-lg">
-      {/* Visual Header */}
-      <div className="relative w-full aspect-[4/5]">
-        <Image src={image} alt="Program Visual" fill className="object-cover" />
-      </div>
+    <div className="bg-[#FAE1FF] rounded-3xl overflow-hidden transition-all">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between gap-4 p-6 md:p-8 text-left cursor-pointer"
+      >
+        <h3 className="text-base md:text-lg font-bold text-[#1A1A1A]">
+          {program.title}
+        </h3>
+        <ChevronDown
+          className={`w-5 h-5 shrink-0 text-gray-600 transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
 
-      {/* Content */}
-      <div className="p-6 flex flex-col flex-grow text-left">
-        <div className="mb-4 flex-grow">
-          <p className="text-xs leading-relaxed text-gray-700">
-            <span className="font-semibold text-gray-400">Who it's for:</span> {whoItsFor}
-          </p>
-          <p className="text-xs leading-relaxed text-gray-700 mt-3">
-            <span className="font-semibold text-gray-400">Outcome:</span> {outcome}
-          </p>
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="px-6 md:px-8 pb-6 md:pb-8">
+            <p className="text-sm md:text-[15px] leading-relaxed text-gray-700 mb-3">
+              <span className="text-gray-400">Who it&apos;s for:</span>{" "}
+              {program.whoItsFor}
+            </p>
+            <p className="text-sm md:text-[15px] leading-relaxed text-gray-700 mb-5">
+              <span className="text-gray-400">Outcome:</span> {program.outcome}
+            </p>
+            <button className="inline-flex items-center text-[#3B448F] font-semibold text-sm hover:underline cursor-pointer">
+              Learn More <ArrowRight className="ml-2 w-4 h-4" />
+            </button>
+          </div>
         </div>
-
-        <button className="flex items-center text-[#4F46E5] font-semibold text-xs hover:underline mt-2 cursor-pointer">
-          Learn More <ArrowRight className="ml-2 w-4 h-4" />
-        </button>
       </div>
     </div>
   );
 };
 
 export default function ExplorePrograms() {
-  const programs = [
-    {
-      image: imgPPAP,
-      whoItsFor: "You've learned product basics but still feel lost and need structure",
-      outcome: "Build a strong foundation and understand how to think like a product manager",
-    },
-    {
-      image: imgPPMP,
-      whoItsFor: "You understand product concepts but struggle to apply them",
-      outcome: "Turn your knowledge into real product execution skills.",
-    },
-    {
-      image: imgPPIP,
-      whoItsFor: "You need real world experience to confidently apply for roles",
-      outcome: "Work on real products and gain hands-on experience",
-    },
-    {
-      image: imgPPCP,
-      whoItsFor: "You are close to job-ready but need positioning and confidence",
-      outcome: "Stand out, apply confidently, and land product roles",
-    },
-    {
-      image: imgPPTP,
-      whoItsFor: "You are already a product manager but want to apply and stand out",
-      outcome: "Become a high-impact, specialized product manager with deeper expertise",
-    },
-  ];
+  // All cards open by default (matching the design); each toggles independently.
+  const [openItems, setOpenItems] = useState<number[]>(
+    programs.map((_, i) => i)
+  );
+
+  const toggle = (index: number) =>
+    setOpenItems((prev) =>
+      prev.includes(index)
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
+    );
 
   return (
     <div className="w-full bg-[#5C1CC5] py-20 px-6 md:px-12">
@@ -83,21 +112,16 @@ export default function ExplorePrograms() {
         </p>
       </div>
 
-      {/* Cards Grid */}
-      <div className="max-w-7xl mx-auto flex flex-col items-center gap-10">
-        {/* Top Row: 3 Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-          {programs.slice(0, 3).map((p, i) => (
-            <ProgramCard key={i} {...p} />
-          ))}
-        </div>
-
-        {/* Bottom Row: 2 Cards centered */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full md:w-2/3">
-          {programs.slice(3, 5).map((p, i) => (
-            <ProgramCard key={i + 3} {...p} />
-          ))}
-        </div>
+      {/* Accordion List */}
+      <div className="max-w-4xl mx-auto flex flex-col gap-6">
+        {programs.map((program, i) => (
+          <ProgramAccordion
+            key={i}
+            program={program}
+            isOpen={openItems.includes(i)}
+            onToggle={() => toggle(i)}
+          />
+        ))}
       </div>
 
       {/* Footer CTA */}

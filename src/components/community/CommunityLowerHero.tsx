@@ -16,7 +16,7 @@ export default function FinalCTA() {
     >
       <div className="max-w-4xl mx-auto">
         {/* Main Heading */}
-        <h2 className="text-white text-2xl md:text-[35px] font-bold mb-6 leading-tight md:whitespace-nowrap">
+        <h2 className="text-white text-xl md:text-[28px] font-bold mb-6 leading-tight md:whitespace-nowrap">
           Your Product Management Journey Shouldn’t End Alone
         </h2>
 

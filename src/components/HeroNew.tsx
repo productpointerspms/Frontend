@@ -1,7 +1,13 @@
 import React from "react";
-import { ArrowRight, Briefcase } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Search,
+  BadgeCheck,
+  Eye,
+  Briefcase,
+} from "lucide-react";
 import { Montserrat } from "next/font/google";
-import img1 from "@/assets/images/about1.png"
 import user1 from "@/assets/images/eniola.png";
 import user2 from "@/assets/images/mercy.png";
 import user3 from "@/assets/images/udochukwu.png";
@@ -11,24 +17,29 @@ const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
 });
 
+const journey = [
+  { icon: BookOpen, label: "Learn PM" },
+  { icon: Search, label: "Work On Real Problems" },
+  { icon: BadgeCheck, label: "Build Verified Evidence" },
+  { icon: Eye, label: "Gain Recruiter Visibility" },
+  { icon: Briefcase, label: "Get Hired" },
+];
+
 const HeroNew: React.FC = () => {
   return (
     <section className={`${montserrat.className} bg-[#FDF4FF] min-h-screen pt-10 md:pt-15 pb-20 px-4 md:px-12 lg:px-24 flex items-center`}>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-x-16 lg:gap-y-16 items-center">
 
         {/* Left Content */}
         <div className="flex flex-col items-start text-left order-1 lg:order-1">
-          <h1 className="text-[#0C1115] text-[22px] md:text-[40px] font-extrabold leading-[1.2] md:leading-[52px] capitalize mb-8 max-w-[658px] text-left">
-            We Don't Just Teach <br />
-            Product Management <br />
-            We Build Product <br />
-            Managers
+          <h1 className="text-[#0C1115] text-[28px] md:text-[44px] font-extrabold leading-[1.15] md:leading-[52px] mb-8 max-w-[620px] text-left">
+            We&apos;re Building The Bridge Between Learning Product Management And Getting Hired.
           </h1>
 
           <p className="text-[#15010D] opacity-70 text-base md:text-lg max-w-[540px] leading-relaxed mb-10">
-            ProductPointers is a mentorship-first academy focused on helping you
-            gain real product experience, build confidence, and become
-            job-ready, not just certified.
+            Most aspiring Product Managers don&apos;t struggle because they lack
+            knowledge. They struggle because they lack trusted evidence that they
+            can do the work. ProductPointers exists to solve that problem.
           </p>
 
           {/* CTA Buttons */}
@@ -43,15 +54,28 @@ const HeroNew: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Image Grid */}
-        <div className="relative h-[240px] sm:h-[320px] lg:h-[420px] xl:h-[500px] w-full order-2 lg:order-2">
-          {/* Main Large Image (Left) */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] rounded-[40px] overflow-hidden shadow-xl">
-            <img
-              src={img1.src}
-              alt="Team collaboration"
-              className="w-full h-full object-cover"
-            />
+        {/* Right: Journey Timeline */}
+        <div className="w-full order-2 lg:order-2 border border-[#EBD9F7] rounded-3xl p-6 md:p-8 bg-white/30">
+          <div className="relative">
+            {/* Connecting vertical line */}
+            <div className="absolute left-6 top-8 bottom-8 w-[2px] bg-[#E4CCF5] -translate-x-1/2" />
+
+            <div className="space-y-6">
+              {journey.map(({ icon: Icon, label }, i) => (
+                <div key={i} className="relative flex items-center gap-4">
+                  {/* Icon circle */}
+                  <div className="relative z-10 shrink-0 w-12 h-12 rounded-full bg-[#FAE1FF] border-2 border-[#E4CCF5] flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-[#6024D0]" />
+                  </div>
+                  {/* Label card */}
+                  <div className="flex-1 bg-white border border-gray-100 shadow-sm rounded-xl px-5 py-4">
+                    <span className="text-sm md:text-base font-medium text-[#1A1A1A]">
+                      {label}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
