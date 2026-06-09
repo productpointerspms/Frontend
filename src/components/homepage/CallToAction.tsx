@@ -14,12 +14,12 @@ const CallToAction: React.FC = () => {
     >
       <div className="max-w-4xl mx-auto">
         {/* Main Heading */}
-        <h2 className="text-[0.92rem] min-[375px]:text-base sm:text-2xl md:text-[37px] font-bold text-[#15010D] mb-6 tracking-tight leading-tight whitespace-nowrap sm:whitespace-normal">
+        <h2 className="text-[0.85rem] min-[375px]:text-sm sm:text-xl md:text-[30px] font-bold text-[#15010D] mb-6 tracking-tight leading-tight whitespace-nowrap sm:whitespace-normal">
           Start Your Product Journey The Right Way
         </h2>
 
         {/* Subtext */}
-        <p className="text-[#15010D] opacity-60 text-[11px] min-[375px]:text-[13px] sm:text-base md:text-[19px] leading-relaxed md:leading-[34px] font-normal mb-12 max-w-3xl mx-auto">
+        <p className="text-[#15010D] opacity-60 text-[10px] min-[375px]:text-[11px] sm:text-sm md:text-[16px] leading-relaxed md:leading-[30px] font-normal mb-12 max-w-3xl mx-auto">
           <span className="whitespace-nowrap sm:whitespace-normal">Stop guessing your next step. Get the </span><br className="block md:hidden" />
           <span className="whitespace-nowrap sm:whitespace-normal">guidance, experience, and confidence you </span><br className="block md:hidden" />
           <span className="whitespace-nowrap sm:whitespace-normal">need to become a job-ready Product Manager.</span>

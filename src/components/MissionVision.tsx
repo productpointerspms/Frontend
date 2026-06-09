@@ -1,72 +1,109 @@
 import React from "react";
-import { XCircle } from "lucide-react";
+import { Check } from "lucide-react";
 import { Montserrat } from "next/font/google";
-import img from "@/assets/images/ProblemImage.png"
+import img from "@/assets/images/ProblemImage.png";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const ProblemSection: React.FC = () => {
-  const problems = [
-    "You take courses... but still feel stuck",
-    "You understand the theory, but can't execute",
-    "You don't have real product experience",
-    "You're not confident applying for roles",
-  ];
+const learnItems = [
+  "Take PM courses",
+  "Watch PM videos",
+  "Earn certificates",
+  "Complete bootcamps",
+];
 
+const confidenceItems = [
+  "Discover problems",
+  "Talk to users",
+  "Make product decisions",
+  "Collaborate effectively",
+  "Execute successfully",
+];
+
+const Pill: React.FC<{ children: React.ReactNode; full?: boolean }> = ({
+  children,
+  full,
+}) => (
+  <div
+    className={`bg-white rounded-2xl px-5 py-4 flex items-center gap-3 shadow-sm ${
+      full ? "w-full" : ""
+    }`}
+  >
+    <Check className="w-5 h-5 text-green-500 shrink-0" strokeWidth={3} />
+    <span className="text-[#1A1A1A] font-semibold text-sm md:text-base">
+      {children}
+    </span>
+  </div>
+);
+
+const CareerGapSection: React.FC = () => {
   return (
-    <section className={`${montserrat.className} bg-[#FDF4FF] py-20 px-6 md:px-12 lg:px-24`}>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        
-        {/* Left Content */}
-        <div className="flex flex-col">
-          <h2 className="text-[#15010D] text-2xl md:text-3xl lg:text-[28px] font-bold leading-tight mb-6">
-            The Problem With Learning <br className="hidden md:block" />
-            Product Management Today
-          </h2>
-          
-          <p className="text-[#15010D] opacity-60 text-base mb-10 max-w-lg">
-            Most people don't struggle because they can't learn. They struggle because they don't know how to apply what they've learned.
-          </p>
+    <section className={`${montserrat.className} bg-[#FAE1FF] py-20 px-6 md:px-12 lg:px-24`}>
+      <div className="max-w-7xl mx-auto">
+        {/* Top: 2-column */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Left Content */}
+          <div className="flex flex-col">
+            <h2 className="text-[#15010D] text-2xl md:text-[32px] font-bold leading-tight mb-4">
+              The Product Management Career Gap
+            </h2>
 
-          {/* Problem List */}
-          <div className="space-y-4 mb-10">
-            {problems.map((text, index) => (
-              <div 
-                key={index} 
-                className="bg-white rounded-2xl p-4 flex items-center gap-4 shadow-sm border border-transparent hover:border-[#E11D48]/10 transition-all max-w-md md:max-w-full"
-              >
-                <XCircle className="w-6 h-6 text-[#E11D48] shrink-0" />
-                <span className="text-[#15010D] font-medium text-sm md:text-base">
+            <p className="text-[#15010D] opacity-50 text-base mb-6">
+              Every year, thousands of people:
+            </p>
+
+            {/* Learn list */}
+            <div className="space-y-4">
+              {learnItems.map((text) => (
+                <Pill key={text} full>
                   {text}
-                </span>
-              </div>
-            ))}
+                </Pill>
+              ))}
+            </div>
+
+            {/* Emphasis */}
+            <p className="text-[#6024D0] italic font-medium leading-relaxed mt-8">
+              Yet Many Still Struggle To Secure Opportunities. Why? Because
+              Employers Don&apos;t Hire Knowledge. They Hire Confidence.
+            </p>
+
+            {/* Divider */}
+            <div className="h-px bg-[#15010D]/10 w-full mt-8" />
           </div>
 
-          <div className="h-[1px] bg-[#15010D]/10 w-full mb-10"></div>
-
-          <h3 className="text-[#6024D0] text-lg md:text-xl font-bold">
-            That's Why We Built ProductPointers.
-          </h3>
+          {/* Right Image */}
+          <div className="relative w-full aspect-square lg:aspect-auto lg:h-full lg:min-h-[560px] rounded-[28px] overflow-hidden shadow-xl">
+            <img
+              src={img.src}
+              alt="Stressed professional at laptop"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
 
-        {/* Right Image */}
-        <div className="relative w-full aspect-square md:aspect-auto md:h-[550px] rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl">
-          <img 
-            src={img.src}
-            alt="Stressed professional thinking" 
-            className="w-full h-full object-cover"
-          />
-          {/* Subtle overlay to match the warm image tone */}
-          <div className="absolute inset-0 bg-orange-900/10 pointer-events-none"></div>
+        {/* Confidence (full width) */}
+        <div className="mt-10">
+          <p className="text-[#15010D] opacity-50 text-base mb-5">
+            Confidence that someone can:
+          </p>
+          <div className="flex flex-wrap gap-4">
+            {confidenceItems.map((text) => (
+              <Pill key={text}>{text}</Pill>
+            ))}
+          </div>
         </div>
 
+        {/* Closing statement */}
+        <p className="text-center text-[#6024D0] text-base md:text-lg leading-relaxed max-w-4xl mx-auto mt-14">
+          Unfortunately, most aspiring Product Managers have no trusted way to
+          prove these capabilities. That&apos;s the gap we exist to close.
+        </p>
       </div>
     </section>
   );
 };
 
-export default ProblemSection;
+export default CareerGapSection;

@@ -49,7 +49,7 @@ const CommunityValues = () => {
               </div>
 
               {/* Title */}
-              <h3 className="text-[#000000] text-lg font-bold mb-4 leading-tight">
+              <h3 className="text-[#000000] text-base font-bold mb-4 leading-tight">
                 {value.title}
               </h3>
 
