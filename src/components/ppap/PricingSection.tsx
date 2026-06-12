@@ -3,9 +3,9 @@ import { Check, ChevronDown, ArrowRight } from 'lucide-react';
 
 const PricingSection = () => {
   return (
-    <section className="bg-[#FAF5FF] py-24 px-6 md:px-12 lg:px-24 flex justify-center">
+    <section className="bg-[#FCF1FF] py-24 px-6 md:px-12 lg:px-24 flex justify-center">
       <div className="max-w-4xl w-full text-center">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-4">
           Invest In Your Product Career
         </h2>
         <p className="text-gray-500 mb-16 max-w-2xl mx-auto text-base leading-relaxed">
@@ -65,8 +65,8 @@ const PricingSection = () => {
             Enroll Now <ArrowRight className="w-5 h-5" />
           </button>
 
-          <p className="text-xs text-gray-400 leading-relaxed max-w-[300px]">
-            We keep our cohorts small to ensure quality mentorship.<br />
+          <p className="text-xs text-gray-400 leading-relaxed max-w-[360px]">
+            We keep our cohorts small to ensure quality mentorship. <br />
             Limited spots available for the next intake.
           </p>
         </div>

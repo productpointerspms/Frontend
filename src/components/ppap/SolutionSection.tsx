@@ -5,7 +5,7 @@ import img1 from "@/assets/images/ppapimg2.png"
 
 const SolutionSection = () => {
   return (
-    <section className="bg-[#FAF5FF] py-20 px-6 md:px-12 lg:px-24">
+    <section className="bg-[#FCF1FF] py-20 px-6 md:px-12 lg:px-24">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-[#1a1a1a] mb-16">
           This Program Is For You If...
