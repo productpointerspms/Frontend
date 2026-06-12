@@ -36,7 +36,7 @@ const CurriculumSection = () => {
   ];
 
   return (
-    <section className="bg-[#FAF5FF] py-20 px-6 md:px-12 lg:px-24">
+    <section className="bg-[#FAE1FF] py-20 px-6 md:px-12 lg:px-24">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-3xl font-bold text-[#1a1a1a] mb-4">

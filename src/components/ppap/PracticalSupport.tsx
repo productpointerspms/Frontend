@@ -71,7 +71,7 @@ const PracticalSupport = () => {
 
         <div className="text-center">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
-            Most courses <span className="text-[#FACC15]">teach.</span> We <span className="text-green-500 underline decoration-4 underline-offset-8">Guide</span>
+            Most courses <span className="line-through text-[#B19856]">teach.</span> We <span className="text-green-500 underline decoration-4 underline-offset-8">Guide</span>
           </h2>
         </div>
       </div>
