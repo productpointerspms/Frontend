@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 import eniolaImg from "@/assets/images/eniola.png";
@@ -9,7 +10,7 @@ const HeroSection = () => {
   const avatars = [eniolaImg, udochukwuImg, mercyImg];
 
   return (
-    <section className="bg-[#FCF1FF] py-24 px-6 md:px-12 flex flex-col items-center justify-center text-center min-h-[80vh]">
+    <section className="bg-[#FCF1FF] py-15 px-6 md:px-12 flex flex-col items-center justify-center text-center min-h-[80vh]">
       <div className="max-w-4xl mx-auto flex flex-col items-center">
         {/* Badge */}
         <div className="inline-block bg-[#FAE1FF] px-4 py-1.5 border border-[#a855f7] bg-transparent text-[#a855f7] rounded-full text-xs font-medium mb-8">
@@ -30,9 +31,9 @@ const HeroSection = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-14 w-full sm:w-auto justify-center">
-          <button className="bg-[#5B21B6] text-white px-8 py-4 rounded-xl font-medium hover:bg-purple-800 transition-colors flex items-center justify-center gap-2 text-base cursor-pointer">
+          <Link href="/ppap/apply" className="bg-[#5B21B6] text-white px-8 py-4 rounded-xl font-medium hover:bg-purple-800 transition-colors flex items-center justify-center gap-2 text-base cursor-pointer">
             Join the Next Cohort <ArrowRight className="w-5 h-5" />
-          </button>
+          </Link>
           <button className="bg-transparent text-[#1a1a1a] border border-gray-400 px-8 py-4 rounded-xl font-medium hover:bg-gray-50 transition-colors text-base cursor-pointer">
             See Program Breakdown
           </button>

@@ -21,9 +21,10 @@ const Navbar = () => {
       href: "#",
       dropdown: [
         { name: "PPAP Program", href: "/ppap" },
-        { name: "PPMP Program", href: "/ppmp" },
-        { name: "PPCP Program", href: "/ppcp" },
-        { name: "PPTP Program", href: "/pptp" },
+        { name: "PPIP Program", href: "/ppip" },
+        // { name: "PPMP Program", href: "/ppmp" },
+        // { name: "PPCP Program", href: "/ppcp" },
+        // { name: "PPTP Program", href: "/pptp" },
       ],
     },
     { name: "Community", href: "/community" },
