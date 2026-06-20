@@ -28,18 +28,18 @@ const programs: Program[] = [
       "You want a one-on-one personalized guidance tailored towards your goal.",
     outcome: "Structured guidance, growth and faster results.",
   },
-  {
-    title: "ProductPointers Mentorship Program (PPMP)",
-    whoItsFor: "You are applying for jobs but no call-back",
-    outcome: "Stand out, apply confidently, and land product roles",
-  },
-  {
-    title: "ProductPointers Specialization Track Program (PPTP)",
-    whoItsFor:
-      "You are already a product manager but want to apply and stand out",
-    outcome:
-      "Become a high-impact, specialized product manager with deeper expertise",
-  },
+  // {
+  //   title: "ProductPointers Mentorship Program (PPMP)",
+  //   whoItsFor: "You are applying for jobs but no call-back",
+  //   outcome: "Stand out, apply confidently, and land product roles",
+  // },
+  // {
+  //   title: "ProductPointers Specialization Track Program (PPTP)",
+  //   whoItsFor:
+  //     "You are already a product manager but want to apply and stand out",
+  //   outcome:
+  //     "Become a high-impact, specialized product manager with deeper expertise",
+  // },
 ];
 
 const ProgramAccordion: React.FC<{

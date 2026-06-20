@@ -15,12 +15,12 @@ const PathToCommunity = () => {
       description:
         "Helps you go from zero knowledge to thinking like a Product Manager with structure, mentorship, and hands-on learning.",
     },
-    {
-      badge: "Job-Ready PM Program",
-      title: "PPMP",
-      description:
-        "Helps you build real products, gain experience, and confidently apply for roles, with mentorship guiding every step.",
-    },
+    // {
+    //   badge: "Job-Ready PM Program",
+    //   title: "PPMP",
+    //   description:
+    //     "Helps you build real products, gain experience, and confidently apply for roles, with mentorship guiding every step.",
+    // },
     {
       badge: "Hands-On Internship Program",
       title: "PPIP",
@@ -33,12 +33,12 @@ const PathToCommunity = () => {
       description:
         "Designed to take you from beginner to a confident, job-ready Product Manager, with direct guidance every step of the way.",
     },
-    {
-      badge: "Advanced PM Specialization",
-      title: "PPTP",
-      description:
-        "Helps you specialize, deepen your expertise, and position yourself as a high-impact Product Manager in a competitive market.",
-    },
+    // {
+    //   badge: "Advanced PM Specialization",
+    //   title: "PPTP",
+    //   description:
+    //     "Helps you specialize, deepen your expertise, and position yourself as a high-impact Product Manager in a competitive market.",
+    // },
   ];
 
   return (

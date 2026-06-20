@@ -10,6 +10,7 @@ import logo from "@/assets/images/logo.png";
 const Navbar = () => {
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -133,15 +134,29 @@ const Navbar = () => {
               {item.dropdown ? (
                 <>
                   <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center gap-1 text-base font-semibold text-[#15010D] cursor-pointer"
+                    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+                    className={`flex items-center gap-1 text-base font-semibold text-[#15010D] cursor-pointer ${
+                      active === item.name ? "text-[#6024D0]" : ""
+                    }`}
                   >
-                    {item.name} <ChevronDown size={18} />
+                    {item.name}{" "}
+                    <ChevronDown
+                      size={18}
+                      className={`transition-transform ${mobileDropdownOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
-                  {dropdownOpen && (
+                  {mobileDropdownOpen && (
                     <div className="flex flex-col items-center gap-3 mt-4 bg-white/50 w-full py-4">
                       {item.dropdown.map((sub) => (
-                        <Link key={sub.name} href={sub.href} onClick={() => setMobileMenuOpen(false)} className="text-[#15010D]/70 hover:text-[#6024D0]">
+                        <Link
+                          key={sub.name}
+                          href={sub.href}
+                          onClick={() => {
+                            setMobileDropdownOpen(false);
+                            setMobileMenuOpen(false);
+                          }}
+                          className="text-[#15010D]/70 hover:text-[#6024D0]"
+                        >
                           {sub.name}
                         </Link>
                       ))}

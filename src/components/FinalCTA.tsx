@@ -17,7 +17,7 @@ const FinalCTA: React.FC = () => {
         </h2>
 
         {/* Highlights */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mb-10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-center gap-4 sm:gap-8 mb-10 text-left">
           {highlights.map((text) => (
             <div key={text} className="flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">

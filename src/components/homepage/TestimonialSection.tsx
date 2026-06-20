@@ -80,12 +80,14 @@ export default function TestimonialSection() {
           </p>
         </div>
 
-        {/* Testimonials Horizontal Scroll Container */}
-        <div className="flex gap-6 overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory">
-          {testimonials.map((testimonial) => (
+        {/* Testimonials Auto-Scrolling Marquee */}
+        <div className="relative w-full overflow-hidden marquee-mask">
+          <div className="flex w-max marquee-track">
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
             <div
-              key={testimonial.id}
-              className="bg-[#5C1CC5] min-w-[320px] md:min-w-[400px] rounded-[24px] p-8 snap-center flex flex-col justify-between"
+              key={`${testimonial.id}-${index}`}
+              aria-hidden={index >= testimonials.length}
+              className="bg-[#5C1CC5] w-[320px] md:w-[400px] shrink-0 mr-6 rounded-[24px] p-8 flex flex-col justify-between"
             >
               <div>
                 {/* Author Info at top */}
@@ -122,18 +124,9 @@ export default function TestimonialSection() {
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
-
-      <style jsx global>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </div>
   );
 }

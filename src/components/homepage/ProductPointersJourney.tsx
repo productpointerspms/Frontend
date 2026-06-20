@@ -68,28 +68,39 @@ const ProductPointersJourney: React.FC = () => {
         </p>
 
         {/* Steps Container */}
-        <div className="flex flex-col md:flex-row items-start w-full relative mb-20 gap-10 md:gap-0">
+        <div className="flex flex-col md:flex-row md:items-start w-full relative mb-20 gap-0">
           {steps.map((step, index) => (
-            <div key={index} className="flex flex-col items-center md:items-start text-center md:text-left flex-1 relative px-2">
-              
-              <div className="flex items-center justify-center md:justify-start w-full mb-6 relative">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center ${step.color} shrink-0 z-10 shadow-sm`}>
+            <div
+              key={index}
+              className="flex flex-row md:flex-col items-stretch md:items-start text-left flex-1 relative md:px-2"
+            >
+              {/* Icon + connector */}
+              <div className="flex flex-col md:flex-row items-center md:w-full mr-5 md:mr-0 md:mb-6 relative">
+                <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center ${step.color} shrink-0 z-10 shadow-sm`}>
                   {step.icon}
                 </div>
-                {/* Dashed Line Connector */}
+
                 {index !== steps.length - 1 && (
-                  <div className="hidden md:flex flex-1 items-center ml-4 mr-1 relative z-0">
-                     <div className="flex-1 border-b-[2px] border-dashed border-gray-800"></div>
-                     <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-gray-800 -ml-[1px]"></div>
-                  </div>
+                  <>
+                    {/* Mobile vertical connector */}
+                    <div className="md:hidden flex-1 border-l-[2px] border-dashed border-gray-400 my-2" />
+                    {/* Desktop horizontal connector */}
+                    <div className="hidden md:flex flex-1 items-center ml-4 mr-1 relative z-0">
+                      <div className="flex-1 border-b-[2px] border-dashed border-gray-800" />
+                      <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-gray-800 -ml-[1px]" />
+                    </div>
+                  </>
                 )}
               </div>
 
-              <h3 className="text-[#1A1A1A] font-bold text-[19px] mb-1">{step.acronym}</h3>
-              <h4 className="text-gray-800 font-semibold text-[13px] mb-3">{step.title}</h4>
-              <p className="text-gray-500 text-[12px] leading-relaxed pr-0 md:pr-4">
-                {step.description}
-              </p>
+              {/* Text */}
+              <div className="flex-1 pb-10 md:pb-0">
+                <h3 className="text-[#1A1A1A] font-bold text-[19px] mb-1">{step.acronym}</h3>
+                <h4 className="text-gray-800 font-semibold text-[13px] mb-3">{step.title}</h4>
+                <p className="text-gray-500 text-[13px] md:text-[12px] leading-relaxed md:pr-4">
+                  {step.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

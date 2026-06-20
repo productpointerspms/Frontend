@@ -31,9 +31,10 @@ const AboutPage: React.FC = () => {
         <CoreValues />
         {/* <RealStories /> */}
         <FounderStory />
+        
+        <HerJourney />
         <WhereWereGoing/>
-        {/* <HerJourney />
-        <Team /> */}
+        {/* <Team /> */}
         {/* <TheNewFuture /> */}
         {/* <AboutFaqSection /> */}
         {/* <CallToAction/> */}

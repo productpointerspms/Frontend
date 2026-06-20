@@ -28,7 +28,7 @@ const Founder: React.FC = () => {
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-16 lg:gap-24">
 
         {/* Left: Image with Border Accent */}
-        <div className="relative flex flex-col items-center shrink-0">
+        <div className="relative flex flex-col items-center shrink-0 order-2 lg:order-1">
           <div className="relative">
             {/* Purple Offset Background */}
             <div className="absolute -top-4 -left-4 w-full h-full bg-[#6024D0] rounded-[32px] z-0"></div>
@@ -54,9 +54,9 @@ const Founder: React.FC = () => {
         </div>
 
         {/* Right: Story */}
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col order-1 lg:order-2">
           {/* Quote Icon & Name */}
-          <div className="flex items-start gap-3 mb-10">
+          <div className="flex items-start gap-3 mb-10 order-2 lg:order-1">
             <Quote className="w-8 h-8 text-[#6024D0] rotate-180 fill-[#6024D0] shrink-0" />
             <div>
               <h3 className="text-xl md:text-2xl font-bold text-[#15010D]">Blessing Okomor</h3>
@@ -65,7 +65,7 @@ const Founder: React.FC = () => {
           </div>
 
           {/* Story Paragraphs */}
-          <div className="space-y-5">
+          <div className="space-y-5 mb-10 lg:mb-0 order-1 lg:order-2">
             {story.map((paragraph, index) => (
               <p key={index} className="text-[#15010D] opacity-60 leading-relaxed text-base md:text-lg">
                 {paragraph}

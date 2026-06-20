@@ -21,9 +21,9 @@ export default function Footer() {
             <h2 className="text-[28px] text-[#FFFFFF] font-semibold mb-4">
               ProductPointers
             </h2>
-            <p className="text-[#FFFFFF] text-[16px] font-normal leading-[27px] w-[346px] ">
-              Shaping the next wave of product leaders through mentorship,
-              coaching, and community.
+            <p className="text-[#FFFFFF] text-[16px] font-normal leading-[27px] w-full md:w-[346px]">
+              Build Visibility &amp; Become Job-Ready Through Our Structured
+              Program Pathway
             </p>
           </div>
 
@@ -43,18 +43,26 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/contact"
-                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/accelerator"
                   className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
                   Programs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/courses"
+                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
+                >
+                  Courses
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
+                >
+                  Contact
                 </Link>
               </li>
               <li>
@@ -115,16 +123,18 @@ export default function Footer() {
           {/* Newsletter */}
           <div className="md:-ml-16">
             <h3 className="text-[18px] font-semibold mb-4">Stay Updated</h3>
-            <p className="text-[#FFFFFF] text-xs mb-8 w-[175px]">
-              Get the latest insights and opportunities delivered to your inbox.
+            <p className="text-[#FFFFFF] text-xs mb-8 w-full md:w-[220px] leading-5">
+              Get Product Management insights, career opportunities, program
+              updates, and practical resources designed to help you grow and
+              become opportunity-ready.
             </p>
             <div className="flex flex-col sm:flex-row md:gap-2 gap-4">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-1 md:w-[210px] w-[194px] h-9 bg-transparent border leading-6  tracking-[0.5px] border-[#6B7280] rounded-t-sm text-[14px] text-[#6B7280] focus:outline-none focus:border-purple-500 transition-colors"
+                className="flex-1 px-4 py-1 w-full md:w-[210px] h-11 md:h-9 bg-transparent border leading-6  tracking-[0.5px] border-[#6B7280] rounded-lg md:rounded-t-sm text-[14px] text-[#6B7280] focus:outline-none focus:border-purple-500 transition-colors"
               />
-              <button className="px-7 w-[147px] group hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] cursor-pointer rounded h-9 font-medium text-base text-[#FFFFFF] transition-colors  duration-200 whitespace-nowrap">
+              <button className="px-7 w-full md:w-[147px] group hover:bg-[#370589] hover:border  hover:scale-105 active:bg-[#FAE1FF] active:border active:border-[#5B1CC5] bg-[#5C1CC5] active:scale-100 active:text-[#5C1CC5] cursor-pointer rounded-lg md:rounded h-11 md:h-9 font-medium text-base text-[#FFFFFF] transition-colors  duration-200 whitespace-nowrap">
                 Subscribe
               </button>
             </div>
