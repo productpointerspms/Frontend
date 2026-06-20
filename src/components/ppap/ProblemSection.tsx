@@ -12,7 +12,7 @@ const ProblemSection = () => {
   ];
 
   return (
-    <section className="bg-[#FAF5FF] py-20 px-6 md:px-12 lg:px-24">
+    <section className="bg-[#FCF1FF] py-20 px-6 md:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 lg:gap-20">
         <div className="flex-1 max-w-xl">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-2 leading-tight">

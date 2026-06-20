@@ -3,7 +3,7 @@ import { Target, Eye } from 'lucide-react';
 
 const VisionMission: React.FC = () => {
   return (
-    <section className="py-24 bg-[#FDF4FF] w-full px-6">
+    <section className="py-24 bg-[#FAE1FF] w-full px-6">
       <div className="max-w-[1200px] mx-auto">
         {/* Section Heading */}
         <h2 className="text-center text-[#15010D] text-2xl md:text-3xl font-extrabold mb-16 tracking-tight">
@@ -20,7 +20,7 @@ const VisionMission: React.FC = () => {
             </div>
             <h3 className="text-[#15010D] text-xl font-bold mb-6">Our Mission</h3>
             <p className="text-[#15010D]/70 text-base leading-relaxed max-w-[440px]">
-              We exist to help aspiring Product Managers move from learning to real execution with the guidance, structure, and experience most programs lack.
+             To help aspiring Product Managers gain real-world experience, build verified evidence of their capabilities, and access meaningful career opportunities.
             </p>
           </div>
 
@@ -31,7 +31,7 @@ const VisionMission: React.FC = () => {
             </div>
             <h3 className="text-[#15010D] text-xl font-bold mb-6">Our Vision</h3>
             <p className="text-[#15010D]/70 text-base leading-relaxed max-w-[440px]">
-              We're building a world where product managers don't just learn. They build, contribute, and grow with confidence.
+              To become the world's most trusted infrastructure for discovering, verifying, and developing product talent. 
             </p>
           </div>
 

@@ -10,6 +10,10 @@ import TheNewFuture from "@/components/TheNewFuture";
 import AboutFaqSection from "@/components/AboutFaqSection";
 import CallToAction from "@/components/homepage/CallToAction";
 import MakingDifferent from "@/components/MakingDifferent";
+import HowItWorks from "@/components/HowItWorks";
+import WhoWeServe from "@/components/WhoWeServe";
+import ProveIt from "@/components/ProveIt";
+import WhereWereGoing from "@/components/WhereWereGoing";
 import VisionMission from "@/components/VisionMission";
 import FinalCTA from "@/components/FinalCTA";
 
@@ -20,15 +24,18 @@ const AboutPage: React.FC = () => {
        <HeroNew />
        <MissionVision />
        <MakingDifferent/>
-        
-        <RealStories />
-        <FounderStory />
-        <HerJourney />
-        <Team />
-        <VisionMission/>
+        <HowItWorks/>
+        <WhoWeServe/>
+        <ProveIt/>
+         <VisionMission/>
         <CoreValues />
+        {/* <RealStories /> */}
+        <FounderStory />
+        <WhereWereGoing/>
+        {/* <HerJourney />
+        <Team /> */}
         {/* <TheNewFuture /> */}
-        <AboutFaqSection />
+        {/* <AboutFaqSection /> */}
         {/* <CallToAction/> */}
         <FinalCTA/>
     </main>

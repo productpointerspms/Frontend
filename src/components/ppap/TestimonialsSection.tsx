@@ -17,13 +17,13 @@ const TestimonialsSection = () => {
     {
       name: "Udochukwu Success",
       role: "Product Manager",
-      image: udochukwuImg.src,
+      image: mercyImg.src,
       content: "The PPAP program gave me the clarity I was missing. I now understand what product management truly means and how it connects with project management. The lessons, assignments, and supportive community have helped me build a strong foundation and start my product management journey with direction and purpose. This program has helped me to grow in confidence and take real steps forward in my PM journey."
     },
     {
       name: "Mercy Okpara",
       role: "Product Manager",
-      image: mercyImg.src,
+      image: udochukwuImg.src,
       content: "Before PPAP, I was a timid, confused, and frustrated certified PM. The program, and especially Coach B's foundational storytelling lessons, changed everything. I am now a confident PM with great insights on how to manage projects and products effortlessly. The individual presentations were another huge confidence booster. Coach B is a truly great mentor."
     }
   ];

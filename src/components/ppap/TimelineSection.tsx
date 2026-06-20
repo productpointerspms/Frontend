@@ -49,10 +49,10 @@ const TimelineSection = () => {
   ];
 
   return (
-    <section className="bg-[#FAF5FF] py-20 px-6 md:px-12 lg:px-24">
+    <section className="bg-[#FCF1FF] py-20 px-6 md:px-12 lg:px-24">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-block px-4 py-1.5 border border-[#a855f7] bg-transparent text-[#a855f7] rounded-full text-xs font-semibold mb-6">
+          <div className="inline-block px-4 py-1.5 border border-[#a855f7] bg-transparent text-[#a855f7] bg-[#FAE1FF] rounded-full text-xs font-semibold mb-6">
             12-Week Structured Program
           </div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
@@ -65,25 +65,30 @@ const TimelineSection = () => {
 
         <div className="relative border-l-2 border-[#D8B4FE] ml-4 md:ml-12 space-y-8 mb-20 pb-4">
           {phases.map((item, index) => (
-            <div key={index} className="relative pl-10 md:pl-16">
-              <div className="absolute -left-[17px] top-4 w-8 h-8 md:w-8 md:h-8 bg-[#FAF5FF] rounded-full flex items-center justify-center">
-                <div className="w-8 h-8 md:w-8 md:h-8 bg-[#E9D5FF] text-[#6D28D9] rounded-full flex items-center justify-center font-bold text-xs">
+            <div key={index} className="relative pl-8 md:pl-12">
+              {/* Hollow ring on the timeline line */}
+              <div className="absolute -left-[11px] top-9 w-5 h-5 rounded-full border-[3px] border-[#a855f7] bg-[#FAF5FF]"></div>
+
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-50 flex gap-4">
+                {/* Number badge */}
+                <div className="shrink-0 w-9 h-9 bg-[#FAE1FF] text-[#6D28D9] rounded-lg flex items-center justify-center font-bold text-sm">
                   {index + 1}
                 </div>
-              </div>
-              
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-50">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="text-xs font-bold text-[#6D28D9] tracking-wider uppercase">{item.phase}</span>
-                  <span className="text-xs font-bold bg-[#F3E8FF] text-[#6D28D9] px-2 py-0.5 rounded-full">{item.weeks}</span>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <span className="text-xs text-[#6D28D9] tracking-wider uppercase">{item.phase}</span>
+                    <span className="text-xs bg-[#FAE1FF] text-[#6D28D9] px-2.5 py-0.5 rounded-full">{item.weeks}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-[#1a1a1a] mb-2">{item.title}</h3>
+                  <p className="text-gray-500 text-[13px] mb-6">{item.description}</p>
+
+                  <hr className="border-t border-gray-100 mb-4" />
+
+                  <div className="text-xs font-bold text-[#a855f7] tracking-wider mb-2">OUTCOME:</div>
+                  <p className="text-gray-500 text-xs">{item.outcome}</p>
                 </div>
-                <h3 className="text-lg font-bold text-[#1a1a1a] mb-2">{item.title}</h3>
-                <p className="text-gray-500 text-[13px] mb-6">{item.description}</p>
-                
-                <hr className="border-t border-gray-100 mb-6" />
-                
-                <div className="text-xs font-bold text-[#a855f7] tracking-wider mb-2">OUTCOME:</div>
-                <p className="text-gray-500 text-xs">{item.outcome}</p>
               </div>
             </div>
           ))}
