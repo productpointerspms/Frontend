@@ -88,10 +88,8 @@ const ProgramAccordion: React.FC<{
 };
 
 export default function ExplorePrograms() {
-  // All cards open by default (matching the design); each toggles independently.
-  const [openItems, setOpenItems] = useState<number[]>(
-    programs.map((_, i) => i)
-  );
+  // All cards closed by default; each toggles independently.
+  const [openItems, setOpenItems] = useState<number[]>([]);
 
   const toggle = (index: number) =>
     setOpenItems((prev) =>

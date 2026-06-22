@@ -71,9 +71,14 @@ const MentorshipVideo: React.FC = () => {
           )}
         </div>
 
-        <button className="bg-[#5C1CC5] hover:bg-[#4a15a0] text-white text-[13px] font-medium px-8 py-3.5 rounded-lg transition-all shadow-md cursor-pointer">
+        <a
+          href="https://www.youtube.com/@productpointerspms"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-[#5C1CC5] hover:bg-[#4a15a0] text-white text-[13px] font-medium px-8 py-3.5 rounded-lg transition-all shadow-md cursor-pointer"
+        >
           Watch the Full Walkthrough
-        </button>
+        </a>
 
       </div>
     </section>

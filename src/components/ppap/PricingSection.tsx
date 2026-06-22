@@ -1,27 +1,15 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { Check, ChevronDown, ArrowRight } from "lucide-react";
-
-type Currency = {
-  code: string;
-  symbol: string;
-  /** ISO country code for the flag image */
-  country: string;
-  /** NGN per 1 unit of this currency */
-  rate: number;
-};
-
-const currencies: Currency[] = [
-  { code: "NGN", symbol: "₦", country: "ng", rate: 1 },
-  { code: "USD", symbol: "$", country: "us", rate: 1600 },
-  { code: "GBP", symbol: "£", country: "gb", rate: 2000 },
-  { code: "EUR", symbol: "€", country: "eu", rate: 1750 },
-  { code: "GHS", symbol: "₵", country: "gh", rate: 110 },
-  { code: "KES", symbol: "KSh ", country: "ke", rate: 12 },
-  { code: "ZAR", symbol: "R", country: "za", rate: 88 },
-  { code: "CAD", symbol: "C$", country: "ca", rate: 1150 },
-];
+import {
+  currencies,
+  format,
+  PROGRAM_FEE_NGN,
+  ORIGINAL_FEE_NGN,
+  type Currency,
+} from "@/lib/pricing";
 
 const Flag = ({ country }: { country: string }) => (
   // eslint-disable-next-line @next/next/no-img-element
@@ -33,15 +21,6 @@ const Flag = ({ country }: { country: string }) => (
     className="w-5 h-auto rounded-sm shrink-0"
   />
 );
-
-// Base prices in NGN
-const PROGRAM_FEE_NGN = 100000;
-const ORIGINAL_FEE_NGN = 150000;
-
-const format = (ngnAmount: number, currency: Currency): string => {
-  const converted = Math.round(ngnAmount / currency.rate);
-  return `${currency.symbol}${converted.toLocaleString()}`;
-};
 
 const PricingSection = () => {
   const [currency, setCurrency] = useState<Currency>(currencies[0]);
@@ -137,9 +116,12 @@ const PricingSection = () => {
             )}
           </div>
 
-          <button className="w-full bg-[#6D28D9] text-white py-4 rounded-xl font-medium text-base hover:bg-[#5b21b6] transition-colors mb-4 flex items-center justify-center gap-2 cursor-pointer">
+          <Link
+            href={`/ppap/checkout?currency=${currency.code}`}
+            className="w-full bg-[#6D28D9] text-white py-4 rounded-xl font-medium text-base hover:bg-[#5b21b6] transition-colors mb-4 flex items-center justify-center gap-2 cursor-pointer"
+          >
             Enroll Now <ArrowRight className="w-5 h-5" />
-          </button>
+          </Link>
 
           <p className="text-xs text-gray-400 leading-relaxed max-w-[360px]">
             We keep our cohorts small to ensure quality mentorship. <br />

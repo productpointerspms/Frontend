@@ -77,7 +77,7 @@ const FreeResources: React.FC = () => {
 
         <div className="mt-12 flex justify-center">
           <a
-            href="https://youtube.com/@productpointerspms?si=EsFKXxA4qT8F53mm"
+            href="https://www.youtube.com/@The-GlobalPM"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white px-8 py-3 rounded-full font-semibold font-montserrat transition-colors text-xs md:text-sm cursor-pointer inline-block"

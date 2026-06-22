@@ -18,8 +18,8 @@ const HeroSection: React.FC = () => {
         
         {/* Main Heading */}
         <h1 className="text-[#1A1A1A] font-extrabold text-2xl sm:text-3xl md:text-[33px] lg:text-[40px] xl:text-[47px] leading-[1.2] mb-10 tracking-tight">
-          <span className="block md:whitespace-nowrap">Become a Confident Product Manager</span>
-          <span className="block"> And Get Hired</span>
+          <span className="block md:whitespace-nowrap">Become a Skilled and Confident Product</span>
+          <span className="block">Manager in 12 weeks</span>
         </h1>
 
         {/* Subheadings */}
