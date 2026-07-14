@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# accidentally-committed local downloads / large binaries
+/public/images/Downloads/
+*.exe
+*.msi
+*.aab
+*.mkv
+*.zip

@@ -1,0 +1,460 @@
+"use client";
+
+import React, { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  Layers,
+  Check,
+  Copy,
+  ArrowRight,
+  ShieldCheck,
+  Info,
+  Headphones,
+  Mail,
+  Tag,
+} from "lucide-react";
+import {
+  getCurrency,
+  format,
+  PROGRAM_FEE_NGN,
+  ORIGINAL_FEE_NGN,
+  SAVINGS_NGN,
+} from "@/lib/pricing";
+
+type PaymentMethod = "transfer" | "card";
+
+const summaryFeatures = [
+  "Structured Product Management Learning",
+  "Practical Assignments & Guided Exercises",
+  "Mentorship & Accountability Support",
+  "Community Access & Growth Resources",
+];
+
+const bankDetails = {
+  bankName: "Guaranty Trust Bank (GTB)",
+  accountName: "ProductPointers Growth Hub",
+  accountNumber: "4208456789",
+};
+
+const inputClass =
+  "w-full px-4 py-3 rounded-xl border border-[#EADCF7] bg-[#FCF8FF] text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6024D0]/40 focus:border-[#6024D0] transition";
+
+const labelClass = "block text-sm font-medium text-gray-700 mb-2";
+
+function CopyButton({ value, label }: { value: string; label: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard unavailable — no-op */
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      aria-label={`Copy ${label}`}
+      className="shrink-0 text-[#6024D0] hover:text-[#4d1ba8] transition-colors cursor-pointer"
+    >
+      {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+    </button>
+  );
+}
+
+/** mm:ss countdown for the transfer window. */
+function useCountdown(seconds: number) {
+  const [remaining, setRemaining] = useState(seconds);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRemaining((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
+  const ss = String(remaining % 60).padStart(2, "0");
+  return `${mm}:${ss}`;
+}
+
+export default function CheckoutClient() {
+  const searchParams = useSearchParams();
+  const currency = useMemo(
+    () => getCurrency(searchParams.get("currency")),
+    [searchParams]
+  );
+
+  const [method, setMethod] = useState<PaymentMethod>("transfer");
+  const countdown = useCountdown(15 * 60);
+
+  const totalDue = format(PROGRAM_FEE_NGN, currency);
+
+  return (
+    <div className="min-h-screen w-full bg-[#FCF1FF] py-12 px-4 sm:px-6 lg:px-10 font-montserrat">
+      {/* Heading */}
+      <div className="text-center mb-12">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-[#15010D] mb-4">
+          Complete Your Application
+        </h1>
+        <p className="text-gray-500 max-w-xl mx-auto text-sm md:text-base">
+          Secure your spot in the next ProductPointers cohort by completing your
+          payment below.
+        </p>
+      </div>
+
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,420px)] gap-8 items-start">
+        {/* ----------------------------- Left: Form ---------------------------- */}
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="bg-white rounded-[28px] shadow-sm p-6 sm:p-10"
+        >
+          {/* Contact Information */}
+          <h2 className="text-xl font-bold text-[#15010D]">
+            Contact Information
+          </h2>
+          <div className="h-px bg-gray-100 my-6" />
+
+          <div className="space-y-6">
+            <div>
+              <label className={labelClass}>
+                Full Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="Enter your full name"
+                className={inputClass}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label className={labelClass}>
+                  Email address <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="your.email@example.com"
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>
+                Phone number (WhatsApp preferred) * <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="+234 XXX XXX XXXX"
+                  className={inputClass}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Payment Method */}
+          <h2 className="text-xl font-bold text-[#15010D] mt-10">
+            Payment Method
+          </h2>
+          <div className="h-px bg-gray-100 my-6" />
+
+          <p className="text-sm font-semibold text-[#15010D] mb-4">Pay With:</p>
+          <div className="flex items-center gap-8 mb-6">
+            <RadioOption
+              label="Transfer"
+              checked={method === "transfer"}
+              onChange={() => setMethod("transfer")}
+            />
+            <RadioOption
+              label="Card"
+              checked={method === "card"}
+              onChange={() => setMethod("card")}
+            />
+          </div>
+
+          <div className="h-px bg-gray-100 mb-6" />
+
+          {/* Method-specific section */}
+          {method === "transfer" ? (
+            <TransferDetails amount={totalDue} countdown={countdown} />
+          ) : (
+            <CardDetails />
+          )}
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white py-4 rounded-xl font-semibold text-base mt-10 flex items-center justify-center gap-2 transition-colors cursor-pointer"
+          >
+            Complete Payment <ArrowRight className="w-5 h-5" />
+          </button>
+
+          <p className="flex items-center justify-center gap-1.5 text-xs text-[#10B981] mt-4">
+            <ShieldCheck className="w-4 h-4" />
+            Payments are secure and encrypted
+          </p>
+
+          {/* Footnote */}
+          <div className="mt-10 flex items-start gap-3 bg-[#F6EDFF] rounded-2xl px-5 py-4 max-w-md mx-auto">
+            <Info className="w-5 h-5 text-[#6024D0] shrink-0 mt-0.5" />
+            <p className="text-xs text-gray-600 leading-relaxed">
+              After successful payment, you&apos;ll receive onboarding
+              instructions and next-step details via email
+            </p>
+          </div>
+        </form>
+
+        {/* -------------------------- Right: Summary -------------------------- */}
+        <aside className="bg-white rounded-[28px] shadow-sm p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-[#15010D]">
+            Application Summary
+          </h2>
+          <div className="h-px bg-gray-100 my-6" />
+
+          {/* Program */}
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#F3E8FF] flex items-center justify-center shrink-0">
+              <Layers className="w-6 h-6 text-[#6024D0]" />
+            </div>
+            <div>
+              <h3 className="font-bold text-[#15010D] leading-snug">
+                ProductPointers Accelerator Program (PPAP)
+              </h3>
+              <p className="text-xs text-gray-400 mt-1">
+                Foundational Product Management Training
+              </p>
+              <span className="inline-block mt-2 bg-[#F3E8FF] text-[#6024D0] text-[11px] font-semibold px-3 py-1 rounded-full">
+                12 Weeks
+              </span>
+            </div>
+          </div>
+
+          <div className="h-px bg-gray-100 my-6" />
+
+          {/* Features */}
+          <ul className="space-y-4">
+            {summaryFeatures.map((feature) => (
+              <li key={feature} className="flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[#ECFDF3] flex items-center justify-center shrink-0">
+                  <Check className="w-3 h-3 text-[#10B981]" strokeWidth={3} />
+                </span>
+                <span className="text-sm text-gray-600">{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="h-px bg-gray-100 my-6" />
+
+          {/* Fee */}
+          <div>
+            <p className="text-sm text-gray-500 mb-1">Program Fee</p>
+            <p className="text-sm text-gray-400 line-through">
+              {format(ORIGINAL_FEE_NGN, currency)}
+            </p>
+            <div className="flex items-center gap-3 mt-1">
+              <span className="text-2xl font-extrabold text-[#15010D]">
+                {format(PROGRAM_FEE_NGN, currency)}
+              </span>
+              <span className="inline-flex items-center gap-1 bg-[#F3E8FF] text-[#6024D0] text-[11px] font-semibold px-2.5 py-1 rounded-full">
+                <Tag className="w-3 h-3" /> Early Bird
+              </span>
+            </div>
+            <p className="text-xs text-[#10B981] mt-1">
+              save {format(SAVINGS_NGN, currency)} on this offer
+            </p>
+          </div>
+
+          <div className="h-px bg-gray-100 my-6" />
+
+          {/* Total */}
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-base font-semibold text-[#15010D]">Total Due</p>
+              <p className="text-xs text-gray-400">
+                {method === "transfer" ? "Bank transfer" : "Bank Card"}
+              </p>
+            </div>
+            <span className="text-2xl font-extrabold text-[#15010D]">
+              {totalDue}
+            </span>
+          </div>
+
+          {/* Help */}
+          <div className="mt-8 flex items-start gap-3 bg-[#F6EDFF] rounded-2xl p-4">
+            <div className="w-9 h-9 rounded-full bg-[#E9D5FF] flex items-center justify-center shrink-0">
+              <Headphones className="w-4 h-4 text-[#6024D0]" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-[#15010D]">Need Help?</p>
+              <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">
+                Our team is available to help you with any enrollment or payment
+                questions.
+              </p>
+              <div className="flex items-center gap-4 mt-3 text-xs font-semibold">
+                <a
+                  href="mailto:support@productpointers.com"
+                  className="flex items-center gap-1.5 text-[#6024D0] hover:underline"
+                >
+                  <Mail className="w-3.5 h-3.5" /> Email Support
+                </a>
+                <span className="text-gray-300">|</span>
+                <a
+                  href="https://wa.me/+2348102567773"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-[#10B981] hover:underline"
+                >
+                  <WhatsappIcon /> Whatsapp
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------- Sub-parts ------------------------------- */
+
+function RadioOption({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <label className="flex items-center gap-2.5 cursor-pointer select-none">
+      <span
+        onClick={onChange}
+        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+          checked ? "border-[#6024D0]" : "border-gray-300"
+        }`}
+      >
+        {checked && <span className="w-2.5 h-2.5 rounded-full bg-[#6024D0]" />}
+      </span>
+      <span
+        onClick={onChange}
+        className={`text-sm ${checked ? "text-[#15010D] font-medium" : "text-gray-500"}`}
+      >
+        {label}
+      </span>
+    </label>
+  );
+}
+
+function TransferDetails({
+  amount,
+  countdown,
+}: {
+  amount: string;
+  countdown: string;
+}) {
+  return (
+    <div>
+      <div className="bg-[#F6EDFF] text-[#6024D0] text-xs font-medium rounded-lg px-4 py-3 inline-block mb-5">
+        Please transfer the total amount to the following account:
+      </div>
+
+      <p className="text-center text-sm text-gray-500 mb-5">
+        Account number expires in{" "}
+        <span className="text-[#6024D0] font-bold">{countdown}</span>
+      </p>
+
+      <div className="border-2 border-dashed border-[#A78BFA] rounded-2xl p-6 space-y-5">
+        <Field label="Bank Name" value={bankDetails.bankName} />
+        <Field label="Account Name" value={bankDetails.accountName} />
+        <Field
+          label="Account Number"
+          value={bankDetails.accountNumber}
+          copyable
+        />
+        <Field label="Amount" value={amount} copyable />
+      </div>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  value,
+  copyable = false,
+}: {
+  label: string;
+  value: string;
+  copyable?: boolean;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4">
+      <div>
+        <p className="text-xs text-gray-400 mb-1">{label}</p>
+        <p className="text-base font-semibold text-[#15010D]">{value}</p>
+      </div>
+      {copyable && <CopyButton value={value} label={label} />}
+    </div>
+  );
+}
+
+function CardDetails() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <label className={labelClass}>Card Number</label>
+        <input
+          type="text"
+          inputMode="numeric"
+          placeholder="0000 0000 0000 0000"
+          className={inputClass}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div>
+          <label className={labelClass}>Expiry Date</label>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="MM/YY"
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label className={labelClass}>CVV</label>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="123"
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className={labelClass}>PIN</label>
+        <input
+          type="password"
+          inputMode="numeric"
+          placeholder="Enter Card Pin"
+          className={inputClass}
+        />
+      </div>
+    </div>
+  );
+}
+
+function WhatsappIcon() {
+  return (
+    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  );
+}

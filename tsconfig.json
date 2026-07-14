@@ -33,6 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "src/app/accelerator/page.jsx",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
