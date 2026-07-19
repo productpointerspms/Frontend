@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Layers,
@@ -10,24 +10,48 @@ import {
   Check,
   ChevronRight,
   ArrowRight,
-  Search,
   Mail,
   CreditCard,
-  BookOpen,
+  Loader2,
+  AlertCircle,
   type LucideIcon,
 } from "lucide-react";
+import SurveyQuestions from "@/components/preregistration/SurveyQuestions";
+import { ppapQuestions } from "@/lib/programQuestions";
+import { submitApplication, type PaymentDetails } from "@/lib/application";
+
+interface SubmitResult {
+  applicationId: string;
+  payment: PaymentDetails;
+}
 
 export default function PPAPApplyPage() {
   const [step, setStep] = useState(1);
+  const [currency, setCurrency] = useState("NGN");
+  const [result, setResult] = useState<SubmitResult | null>(null);
 
-  const handleNext = () => setStep((prev) => prev + 1);
-  const handleBack = () => setStep((prev) => prev - 1);
+  // Read the preferred currency from the ?currency= query (set by pricing CTA).
+  useEffect(() => {
+    const c = new URLSearchParams(window.location.search).get("currency");
+    if (c) setCurrency(c.toUpperCase());
+  }, []);
 
   return (
     <div className="min-h-screen w-full bg-[#FCF1FF] py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center font-montserrat">
-      {step === 1 && <StepOne onNext={handleNext} />}
-      {step === 2 && <StepTwo onNext={handleNext} onBack={handleBack} />}
-      {step === 3 && <StepThree />}
+      {step === 1 && <StepOne onNext={() => setStep(2)} />}
+      {step === 2 && (
+        <StepTwo
+          currency={currency}
+          onBack={() => setStep(1)}
+          onComplete={(r) => {
+            setResult(r);
+            setStep(3);
+          }}
+        />
+      )}
+      {step === 3 && result && (
+        <PaymentStep result={result} currency={currency} />
+      )}
     </div>
   );
 }
@@ -110,32 +134,6 @@ function StepOne({ onNext }: { onNext: () => void }) {
 
 /* ---------------------------------- Step 2 --------------------------------- */
 
-const stageOptions = [
-  "Student",
-  "Recent graduate",
-  "Working professional (non-tech)",
-  "Working in tech (non-product role)",
-];
-
-const experienceOptions = [
-  "I'm completely new",
-  "I've watched/read a few resources",
-  "I've taken a course but still confused",
-  "I understand basics but need structure",
-];
-
-const challengeOptions = [
-  "I don't understand how PM works",
-  "I feel overwhelmed by too many resources",
-  "I don't know where to start",
-  "I lack structure and guidance",
-  "Other",
-];
-
-const commitmentOptions = ["Yes", "Not sure yet"];
-
-const referralOptions = ["LinkedIn", "Twitter (X)", "Referral", "WhatsApp", "Other"];
-
 function SectionCard({
   pill,
   children,
@@ -155,32 +153,39 @@ function SectionCard({
   );
 }
 
-function CheckboxGroup({ name, options }: { name: string; options: string[] }) {
-  return (
-    <div className="space-y-3">
-      {options.map((opt) => (
-        <label
-          key={opt}
-          className="flex items-center gap-3 cursor-pointer group"
-        >
-          <input
-            type="checkbox"
-            name={name}
-            value={opt}
-            className="w-4 h-4 rounded border-gray-300 text-[#6024D0] focus:ring-[#6024D0] cursor-pointer"
-          />
-          <span className="text-xs md:text-sm text-gray-700 group-hover:text-black">
-            {opt}
-          </span>
-        </label>
-      ))}
-    </div>
-  );
-}
+function StepTwo({
+  currency,
+  onBack,
+  onComplete,
+}: {
+  currency: string;
+  onBack: () => void;
+  onComplete: (result: SubmitResult) => void;
+}) {
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
   const inputClass =
-    "w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow";
+    "w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow";
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const result = await submitApplication(e.currentTarget, "PPAP", currency);
+      onComplete(result);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="w-full max-w-3xl animate-in fade-in slide-in-from-right-8 duration-500">
@@ -202,13 +207,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
         </div>
       </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onNext();
-        }}
-        className="space-y-6"
-      >
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Info */}
         <SectionCard pill="Basic Info">
           <div className="space-y-5">
@@ -218,6 +217,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
               </label>
               <input
                 type="text"
+                name="fullname"
                 required
                 placeholder="Enter your full name"
                 className={inputClass}
@@ -229,6 +229,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
               </label>
               <input
                 type="email"
+                name="email"
                 required
                 placeholder="your.email@example.com"
                 className={inputClass}
@@ -240,6 +241,7 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
               </label>
               <input
                 type="tel"
+                name="phoneNumber"
                 required
                 placeholder="+234 XXX XXX XXXX"
                 className={inputClass}
@@ -248,82 +250,39 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
           </div>
         </SectionCard>
 
-        {/* Background */}
-        <SectionCard pill="Background">
-          <p className="font-medium text-gray-900 mb-4 text-sm md:text-base">
-            Tell us about your current stage
-          </p>
-          <CheckboxGroup name="stage" options={stageOptions} />
-        </SectionCard>
+        {/* Survey questions (rendered from the shared program definitions) */}
+        <SurveyQuestions questions={ppapQuestions} />
 
-        {/* Experience */}
-        <SectionCard pill="Experience">
-          <p className="font-medium text-gray-900 mb-4 text-sm md:text-base">
-            What&apos;s your product management level experience?
-          </p>
-          <CheckboxGroup name="experience" options={experienceOptions} />
-        </SectionCard>
-
-        {/* Motivation */}
-        <SectionCard pill="Motivation">
-          <p className="font-medium text-gray-900 mb-4 text-sm md:text-base">
-            Why do you want to learn Product Management?
-          </p>
-          <textarea
-            rows={4}
-            placeholder="I want to become a PM because..."
-            className={`${inputClass} resize-none`}
-          />
-        </SectionCard>
-
-        {/* Challenge */}
-        <SectionCard pill="Challenge">
-          <p className="font-medium text-gray-900 mb-4 text-sm md:text-base">
-            What is your biggest challenge right now?
-          </p>
-          <CheckboxGroup name="challenge" options={challengeOptions} />
-        </SectionCard>
-
-        {/* Expectation */}
-        <SectionCard pill="Expectation">
-          <p className="font-medium text-gray-900 mb-4 text-sm md:text-base">
-            What do you hope to achieve from this program?
-          </p>
-          <textarea
-            rows={4}
-            placeholder="Tell us what you hope to achieve..."
-            className={`${inputClass} resize-none`}
-          />
-        </SectionCard>
-
-        {/* Commitment */}
-        <SectionCard pill="Commitment">
-          <p className="font-medium text-gray-900 mb-4 text-sm md:text-base">
-            Can you commit to attending sessions and completing assignments?
-          </p>
-          <CheckboxGroup name="commitment" options={commitmentOptions} />
-        </SectionCard>
-
-        {/* Referral */}
-        <SectionCard>
-          <p className="font-medium text-gray-900 mb-4 text-sm md:text-base">
-            How did you hear about ProductPointers?
-          </p>
-          <CheckboxGroup name="referral" options={referralOptions} />
-        </SectionCard>
+        {error && (
+          <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-5 py-4 text-sm">
+            <AlertCircle className="w-5 h-5 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
 
         <div className="pt-2 flex flex-col items-center">
           <button
             type="submit"
-            className="bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold py-4 px-10 rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            disabled={submitting}
+            className="bg-[#6024D0] hover:bg-[#4d1ba8] disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold py-4 px-10 rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
-            <span>Start My PM Journey</span>
-            <ArrowRight size={20} />
+            {submitting ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Submitting...</span>
+              </>
+            ) : (
+              <>
+                <span>Start My PM Journey</span>
+                <ArrowRight size={20} />
+              </>
+            )}
           </button>
           <button
             type="button"
             onClick={onBack}
-            className="mt-6 text-xs text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
+            disabled={submitting}
+            className="mt-6 text-xs text-gray-500 hover:text-gray-900 transition-colors cursor-pointer disabled:opacity-50"
           >
             Go Back
           </button>
@@ -335,82 +294,92 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
 
 /* ---------------------------------- Step 3 --------------------------------- */
 
-const nextSteps: { icon: LucideIcon; title: string; desc: string }[] = [
-  {
-    icon: Search,
-    title: "Application Review",
-    desc: "Our team will carefully review your application.",
-  },
-  {
-    icon: Mail,
-    title: "Email Notification",
-    desc: "You'll receive an email with the decision.",
-  },
-  {
-    icon: CreditCard,
-    title: "Payment Process",
-    desc: "Complete payment to secure your spot.",
-  },
-  {
-    icon: BookOpen,
-    title: "Onboarding Access",
-    desc: "Get access to the PPAP learning platform.",
-  },
-];
+function PaymentStep({
+  result,
+  currency,
+}: {
+  result: SubmitResult;
+  currency: string;
+}) {
+  const { payment } = result;
+  const payLink =
+    payment.paymentUrl ?? payment.checkoutUrl ?? payment.authorizationUrl;
+  const amount = payment.amount;
+  const displayCurrency = payment.currency ?? currency;
 
-function StepThree() {
   return (
-    <div className="w-full max-w-4xl bg-white rounded-[24px] shadow-sm p-8 md:p-16 animate-in fade-in zoom-in duration-500 text-center mt-6">
-      <div className="mx-auto w-20 h-20 bg-[#6024D0] rounded-full flex items-center justify-center mb-8">
+    <div className="w-full max-w-lg bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 text-center mt-6">
+      <div className="mx-auto w-20 h-20 bg-[#6024D0] rounded-full flex items-center justify-center mb-8 shadow-lg shadow-purple-200">
         <Check size={40} className="text-white" strokeWidth={3} />
       </div>
 
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
         Your Application Has Been Received
       </h1>
-      <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-        Thank you for applying to the ProductPointers Accelerator Program. Our
-        team will review your application and contact you with the next steps.
+      <p className="text-gray-500 mb-10">
+        Thank you for applying to the ProductPointers Accelerator Program.
+        Complete your commitment payment to secure your spot.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 text-left">
-        {nextSteps.map(({ icon: Icon, title, desc }) => (
-          <div
-            key={title}
-            className="p-6 border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+      {/* Payment card */}
+      <div className="rounded-2xl border border-[#EADCFB] bg-gradient-to-b from-[#FBF5FF] to-white p-6 md:p-7 text-left mb-8">
+        <div className="flex items-center gap-2 text-[#6024D0] mb-3">
+          <CreditCard className="w-5 h-5" />
+          <span className="text-sm font-semibold uppercase tracking-wide">
+            Commitment Fee
+          </span>
+        </div>
+
+        {amount != null ? (
+          <p className="text-4xl font-black text-[#1a1a1a] tracking-tight">
+            {displayCurrency} {amount.toLocaleString()}
+          </p>
+        ) : (
+          <p className="text-lg font-semibold text-[#1a1a1a]">
+            Amount will be confirmed shortly
+          </p>
+        )}
+
+        {payment.reference && (
+          <p className="text-xs text-gray-400 mt-2">
+            Reference:{" "}
+            <span className="font-medium text-gray-600">
+              {payment.reference}
+            </span>
+          </p>
+        )}
+
+        {payLink ? (
+          <a
+            href={payLink}
+            className="mt-6 w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
           >
-            <div className="w-10 h-10 bg-[#F3E8FF] rounded-lg flex items-center justify-center mb-4">
-              <Icon size={20} className="text-[#6024D0]" />
-            </div>
-            <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
-            <p className="text-xs text-gray-500">{desc}</p>
+            Proceed to Payment <ArrowRight className="w-5 h-5" />
+          </a>
+        ) : (
+          <div className="mt-6 flex items-start gap-2.5 bg-[#F3E8FF] rounded-xl px-4 py-3.5 text-[#6024D0]">
+            <Mail className="w-4 h-4 mt-0.5 shrink-0" />
+            <span className="text-xs md:text-sm font-medium">
+              Payment instructions will be sent to your email.
+            </span>
           </div>
-        ))}
+        )}
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
         <Link
           href="/ppap"
-          className="bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold py-3 px-8 rounded-xl transition-colors flex items-center space-x-2"
+          className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold text-sm py-3 px-8 rounded-xl transition-colors"
         >
-          <span>Explore ProductPointers</span>
-          <ChevronRight size={18} />
+          Explore ProductPointers
         </Link>
         <Link
           href="/"
-          className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold py-3 px-8 rounded-xl transition-colors"
+          className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold text-sm py-3 px-8 rounded-xl transition-colors"
         >
           Back to Home
         </Link>
       </div>
-
-      <p className="text-xs text-gray-400">
-        We&apos;re excited to have you start this journey. For enquiries{" "}
-        <Link href="/contact" className="text-[#6024D0] hover:underline">
-          click here
-        </Link>{" "}
-        to send us a message.
-      </p>
     </div>
   );
 }

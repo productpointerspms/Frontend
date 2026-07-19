@@ -1,27 +1,61 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Check, CheckCircle2, ChevronRight, ArrowRight } from "lucide-react";
+import {
+  Check,
+  CheckCircle2,
+  ChevronRight,
+  ArrowRight,
+  Loader2,
+  AlertCircle,
+  CreditCard,
+  Mail,
+} from "lucide-react";
+import SurveyQuestions from "@/components/preregistration/SurveyQuestions";
+import { ppipQuestions } from "@/lib/programQuestions";
+import { submitApplication, type PaymentDetails } from "@/lib/application";
+
+interface SubmitResult {
+  applicationId: string;
+  payment: PaymentDetails;
+}
 
 export default function PPIPApplyPage() {
   const [step, setStep] = useState(1);
+  const [currency, setCurrency] = useState("NGN");
+  const [result, setResult] = useState<SubmitResult | null>(null);
 
-  const handleNext = () => setStep((prev) => prev + 1);
-  const handleBack = () => setStep((prev) => prev - 1);
+  useEffect(() => {
+    const c = new URLSearchParams(window.location.search).get("currency");
+    if (c) setCurrency(c.toUpperCase());
+  }, []);
 
   return (
     <div className="min-h-screen w-full bg-[#FCF8FF] py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center font-montserrat">
-      {step === 1 && <StepOne onNext={handleNext} />}
-      {step === 2 && <StepTwo onNext={handleNext} onBack={handleBack} />}
-      {step === 3 && <StepThree />}
+      {step === 1 && <StepOne onNext={() => setStep(2)} />}
+      {step === 2 && (
+        <StepTwo
+          currency={currency}
+          onBack={() => setStep(1)}
+          onComplete={(r) => {
+            setResult(r);
+            setStep(3);
+          }}
+        />
+      )}
+      {step === 3 && result && (
+        <PaymentStep result={result} currency={currency} />
+      )}
     </div>
   );
 }
 
+/* ---------------------------------- Step 1 --------------------------------- */
+
 function StepOne({ onNext }: { onNext: () => void }) {
   return (
-    <div className="w-full max-w-4xl bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 mt-10">
+    <div className="w-full max-w-4xl bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 mt-6">
       <div className="text-center mb-10">
         <div className="inline-block px-4 py-1.5 rounded-full bg-[#F3E8FF] text-[#6024D0] font-semibold text-xs mb-6">
           PPIP Internship
@@ -45,9 +79,9 @@ function StepOne({ onNext }: { onNext: () => void }) {
             "Work weekly on real product tasks",
             "Participate in reviews, feedback, and collaboration",
             "Receive mentor verification of your work",
-          ].map((item, i) => (
+          ].map((item) => (
             <div
-              key={i}
+              key={item}
               className="flex items-center space-x-3 bg-[#FCF8FF] border border-[#F3E8FF] p-4 rounded-xl"
             >
               <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#F3E8FF] text-[#6024D0]">
@@ -90,10 +124,60 @@ function StepOne({ onNext }: { onNext: () => void }) {
   );
 }
 
-function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
-  // Conditional field: the "what role" detail only shows when the user answers
-  // "Yes" to currently working in a product-related role.
-  const [working, setWorking] = useState<string>("");
+/* ---------------------------------- Step 2 --------------------------------- */
+
+function SectionCard({
+  pill,
+  children,
+}: {
+  pill?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
+      {pill && (
+        <span className="inline-block bg-[#F3E8FF] text-[#6024D0] rounded-full px-3 py-1 text-xs font-medium mb-5">
+          {pill}
+        </span>
+      )}
+      {children}
+    </div>
+  );
+}
+
+function StepTwo({
+  currency,
+  onBack,
+  onComplete,
+}: {
+  currency: string;
+  onBack: () => void;
+  onComplete: (result: SubmitResult) => void;
+}) {
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const inputClass =
+    "w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow";
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const result = await submitApplication(e.currentTarget, "PPIP", currency);
+      onComplete(result);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="w-full max-w-3xl animate-in fade-in slide-in-from-right-8 duration-500">
@@ -114,223 +198,82 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
         </div>
       </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onNext();
-        }}
-        className="bg-white shadow-sm rounded-2xl p-6 md:p-10 space-y-8"
-      >
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Profile */}
-        <div className="space-y-6">
-          <h2 className="text-base font-semibold text-gray-900 border-b pb-2">
-            Profile
-          </h2>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">
-              Full Name *
-            </label>
-            <input
-              type="text"
-              required
-              placeholder="Enter your full name"
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">
-              Email Address *
-            </label>
-            <input
-              type="email"
-              required
-              placeholder="you@company.com"
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">
-              Phone Number (WhatsApp Preferred) *
-            </label>
-            <input
-              type="tel"
-              required
-              placeholder="+234 XXX XXX XXXX"
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow"
-            />
-          </div>
-        </div>
-
-        {/* Background */}
-        <div className="space-y-6 pt-6 border-t">
-          <h2 className="text-base font-semibold text-gray-900 mb-4">
-            Background
-          </h2>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-900 mb-3">
-              Which best describes your current situation? *
-            </label>
-            <div className="space-y-3">
-              {[
-                "Beginner (just exploring Product Management)",
-                "Completed a PM course / bootcamp",
-                "Entry-level Product Manager",
-                "Transitioning from another role into Product",
-              ].map((opt) => (
-                <label
-                  key={opt}
-                  className="flex items-center space-x-3 cursor-pointer group"
-                >
-                  <input
-                    type="radio"
-                    name="situation"
-                    required
-                    value={opt}
-                    className="w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer"
-                  />
-                  <span className="text-xs text-gray-700 group-hover:text-black">
-                    {opt}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-900 mb-2">
-              What is your biggest challenge right now? *
-            </label>
-            <textarea
-              required
-              rows={4}
-              placeholder="Type in your answer..."
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow resize-none"
-            ></textarea>
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-900 mb-2">
-              Why do you want to join the ProductPointers Internship Program? *
-            </label>
-            <textarea
-              required
-              rows={4}
-              placeholder="Type in your answer..."
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow resize-none"
-            ></textarea>
-          </div>
-        </div>
-
-        {/* Commitment */}
-        <div className="space-y-6 pt-6 border-t">
-          <h2 className="text-base font-semibold text-gray-900 mb-4">
-            Commitment
-          </h2>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-900 mb-3">
-              This is a 10-week internship. Can you commit your time and effort? *
-            </label>
-            <div className="space-y-3">
-              {["Yes, I'm ready to commit", "Not sure yet"].map((ans) => (
-                <label
-                  key={ans}
-                  className="flex items-center space-x-3 cursor-pointer group"
-                >
-                  <input
-                    type="radio"
-                    name="commitment"
-                    required
-                    value={ans}
-                    className="w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer"
-                  />
-                  <span className="text-xs text-gray-700 group-hover:text-black">
-                    {ans}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-900 mb-2">
-              What do you hope to achieve by the end of this internship? *
-            </label>
-            <textarea
-              required
-              rows={4}
-              placeholder="Type in your answer..."
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow resize-none"
-            ></textarea>
-          </div>
-        </div>
-
-        {/* Experience (with conditional reveal) */}
-        <div className="space-y-6 pt-6 border-t">
-          <h2 className="text-base font-semibold text-gray-900 mb-4">
-            Experience
-          </h2>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-900 mb-3">
-              Are you currently working in any product/project related role? *
-            </label>
-            <div className="space-y-3">
-              {["Yes", "No"].map((ans) => (
-                <label
-                  key={ans}
-                  className="flex items-center space-x-3 cursor-pointer group"
-                >
-                  <input
-                    type="radio"
-                    name="currentlyWorking"
-                    required
-                    value={ans}
-                    checked={working === ans}
-                    onChange={(e) => setWorking(e.target.value)}
-                    className="w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer"
-                  />
-                  <span className="text-xs text-gray-700 group-hover:text-black">
-                    {ans}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* This only reveals if the user selects "Yes" above */}
-          {working === "Yes" && (
-            <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-              <label className="block text-xs font-medium text-gray-900 mb-2">
-                Have you worked on any product/project before? Tell us about it. *
+        <SectionCard pill="Profile">
+          <div className="space-y-5">
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">
+                Full Name *
               </label>
-              <textarea
+              <input
+                type="text"
+                name="fullname"
                 required
-                rows={4}
-                placeholder="Briefly describe your role, the product/project, and your contribution..."
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow resize-none"
-              ></textarea>
+                placeholder="Enter your full name"
+                className={inputClass}
+              />
             </div>
-          )}
-        </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="you@company.com"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">
+                Phone Number (WhatsApp Preferred) *
+              </label>
+              <input
+                type="tel"
+                name="phoneNumber"
+                required
+                placeholder="+234 XXX XXX XXXX"
+                className={inputClass}
+              />
+            </div>
+          </div>
+        </SectionCard>
 
-        <div className="pt-8 flex flex-col items-center">
+        {/* Survey questions (rendered from the shared program definitions) */}
+        <SurveyQuestions questions={ppipQuestions} />
+
+        {error && (
+          <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-5 py-4 text-sm">
+            <AlertCircle className="w-5 h-5 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        <div className="pt-2 flex flex-col items-center">
           <button
             type="submit"
-            className="bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold py-4 px-10 rounded-xl transition-colors flex items-center justify-center space-x-2 w-full md:w-auto cursor-pointer"
+            disabled={submitting}
+            className="bg-[#6024D0] hover:bg-[#4d1ba8] disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold py-4 px-10 rounded-xl transition-colors flex items-center justify-center gap-2 w-full md:w-auto cursor-pointer"
           >
-            <span>Start My Internship Journey</span>
-            <ArrowRight size={20} />
+            {submitting ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Submitting...</span>
+              </>
+            ) : (
+              <>
+                <span>Start My Internship Journey</span>
+                <ArrowRight size={20} />
+              </>
+            )}
           </button>
-
           <button
             type="button"
             onClick={onBack}
-            className="mt-6 text-xs text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
+            disabled={submitting}
+            className="mt-6 text-xs text-gray-500 hover:text-gray-900 transition-colors cursor-pointer disabled:opacity-50"
           >
             Go Back
           </button>
@@ -340,73 +283,94 @@ function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void })
   );
 }
 
-function StepThree() {
+/* ---------------------------------- Step 3 --------------------------------- */
+
+function PaymentStep({
+  result,
+  currency,
+}: {
+  result: SubmitResult;
+  currency: string;
+}) {
+  const { payment } = result;
+  const payLink =
+    payment.paymentUrl ?? payment.checkoutUrl ?? payment.authorizationUrl;
+  const amount = payment.amount;
+  const displayCurrency = payment.currency ?? currency;
+
   return (
-    <div className="w-full max-w-4xl bg-white rounded-[24px] shadow-sm p-8 md:p-16 animate-in fade-in zoom-in duration-500 text-center mt-10">
-      <div className="mx-auto w-20 h-20 bg-[#6024D0] rounded-full flex items-center justify-center mb-8">
+    <div className="w-full max-w-lg bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 text-center mt-6">
+      <div className="mx-auto w-20 h-20 bg-[#6024D0] rounded-full flex items-center justify-center mb-8 shadow-lg shadow-purple-200">
         <Check size={40} className="text-white" strokeWidth={3} />
       </div>
 
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
         Your Application Has Been Received
       </h1>
-      <p className="text-gray-600 mb-12">
-        Thank you for applying to the ProductPointers Internship Program. Our
-        team will review your application and reach out with the next steps.
+      <p className="text-gray-500 mb-10">
+        Thank you for applying to the ProductPointers Internship Program.
+        Complete your commitment payment to secure your spot.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 text-left">
-        {[
-          {
-            title: "Application Review",
-            desc: "Our team will review your application closely.",
-          },
-          {
-            title: "Email Notification",
-            desc: "You'll receive an email on next steps.",
-          },
-          {
-            title: "Payment Process",
-            desc: "You'll be directed to proceed with the commitment fee.",
-          },
-          {
-            title: "Selection Process",
-            desc: "Final selection is based on commitment and availability.",
-          },
-        ].map((item) => (
-          <div
-            key={item.title}
-            className="p-6 border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+      {/* Payment card */}
+      <div className="rounded-2xl border border-[#EADCFB] bg-gradient-to-b from-[#FBF5FF] to-white p-6 md:p-7 text-left mb-8">
+        <div className="flex items-center gap-2 text-[#6024D0] mb-3">
+          <CreditCard className="w-5 h-5" />
+          <span className="text-sm font-semibold uppercase tracking-wide">
+            Commitment Fee
+          </span>
+        </div>
+
+        {amount != null ? (
+          <p className="text-4xl font-black text-[#1a1a1a] tracking-tight">
+            {displayCurrency} {amount.toLocaleString()}
+          </p>
+        ) : (
+          <p className="text-lg font-semibold text-[#1a1a1a]">
+            Amount will be confirmed shortly
+          </p>
+        )}
+
+        {payment.reference && (
+          <p className="text-xs text-gray-400 mt-2">
+            Reference:{" "}
+            <span className="font-medium text-gray-600">
+              {payment.reference}
+            </span>
+          </p>
+        )}
+
+        {payLink ? (
+          <a
+            href={payLink}
+            className="mt-6 w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
           >
-            <div className="w-10 h-10 bg-[#F3E8FF] rounded-lg flex items-center justify-center mb-4">
-              <Check size={20} className="text-[#6024D0]" />
-            </div>
-            <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-            <p className="text-xs text-gray-500">{item.desc}</p>
+            Proceed to Payment <ArrowRight className="w-5 h-5" />
+          </a>
+        ) : (
+          <div className="mt-6 flex items-start gap-2.5 bg-[#F3E8FF] rounded-xl px-4 py-3.5 text-[#6024D0]">
+            <Mail className="w-4 h-4 mt-0.5 shrink-0" />
+            <span className="text-xs md:text-sm font-medium">
+              Payment instructions will be sent to your email.
+            </span>
           </div>
-        ))}
+        )}
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
         <Link
           href="/ppip"
-          className="bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold py-3 px-8 rounded-xl transition-colors flex items-center space-x-2"
+          className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold text-sm py-3 px-8 rounded-xl transition-colors"
         >
-          <span>Explore ProductPointers</span>
-          <ChevronRight size={18} />
+          Explore ProductPointers
         </Link>
         <Link
           href="/"
-          className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold py-3 px-8 rounded-xl transition-colors"
+          className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold text-sm py-3 px-8 rounded-xl transition-colors"
         >
-          Go to Home
+          Back to Home
         </Link>
       </div>
-
-      <p className="text-xs text-gray-400">
-        We review applications as soon as we receive them. Please look out for a
-        response in your email.
-      </p>
     </div>
   );
 }
