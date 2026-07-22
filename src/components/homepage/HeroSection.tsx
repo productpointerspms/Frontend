@@ -9,28 +9,27 @@ import user3 from "@/assets/images/udochukwu.png";
 const HeroSection: React.FC = () => {
   return (
     <section className="relative min-h-[90vh] w-full bg-[#FCF1FF] flex items-center justify-center pt-10 pb-20 overflow-hidden font-montserrat">
-      <div className="container mx-auto px-6 max-w-5xl flex flex-col items-start md:items-center text-left md:text-center">
-        
+      <div className="container mx-auto px-6 max-w-5xl flex flex-col items-center text-center md:items-center md:text-center">
+
         {/* Top Badge */}
-        <span className="inline-block border border-[#D1B3FF] bg-[#FAE1FF] text-[#9747FF] text-[7px] min-[375px]:text-[8px] sm:text-[9px] md:text-xs font-medium px-3 min-[375px]:px-4 md:px-6 py-1.5 md:py-2 rounded-full mb-8 tracking-wide uppercase whitespace-nowrap sm:whitespace-normal">
-         FOR ASPIRING AND ENTRY-LEVEL PRODUCT MANAGERS
+        <span className="inline-block border border-[#D1B3FF] bg-[#FAE1FF] text-[#9747FF] text-[7px] min-[375px]:text-[8px] sm:text-[9px] md:text-xs font-medium px-3 min-[375px]:px-4 md:px-6 py-1.5 md:py-2 rounded-full mb-8 tracking-wide uppercase whitespace-nowrap sm:whitespace-normal text-center self-center md:self-auto">
+          FOR ASPIRING AND ENTRY-LEVEL PRODUCT MANAGERS
         </span>
-        
+
         {/* Main Heading */}
-        <h1 className="text-[#1A1A1A] font-extrabold text-2xl sm:text-3xl md:text-[33px] lg:text-[40px] xl:text-[47px] leading-[1.2] mb-10 tracking-tight">
-          <span className="block md:whitespace-nowrap">Become a Skilled and Confident Product</span>
-          <span className="block">Manager in 12 weeks</span>
+        <h1 className="text-[#1A1A1A] font-extrabold text-[24px] sm:text-2xl md:text-[28px] lg:text-[34px] xl:text-[40px] leading-[1.2] mb-10 tracking-tight text-center md:text-center">
+          <span className="block md:whitespace-nowrap">Become a Skilled, <span className="whitespace-nowrap">Confident and Job-Ready</span></span>
+          <span className="block">Product Manager in 12 Weeks</span>
         </h1>
 
         {/* Subheadings */}
-        <div className="space-y-6 mb-12 w-full flex flex-col items-start md:items-center">
-          <p className="text-gray-600 font-semibold text-sm md:text-[16px] px-2 text-left md:text-center lg:whitespace-nowrap">
-           We Help You Gain Real-World Experience, Build Visibility & Become <span className="font-bold text-[#6024D0] italic">Job-Ready</span> Through Our Structured Program 
+        <div className="space-y-6 mb-12 w-full flex flex-col items-center md:items-center">
+          <p className="text-gray-600 font-semibold text-sm md:text-[16px] max-w-xl mx-2 sm:mx-auto text-center md:text-center">
+            Build the skills, gain hands-on experience, and create the proof of work you need to <span className="font-bold text-[#6024D0] italic">stand out</span>.
           </p>
-          
-          <p className="text-gray-500 font-medium text-sm md:text-[16px] leading-relaxed px-2 text-left md:text-center flex flex-col items-start md:items-center">
-            <span className="lg:whitespace-nowrap">Whether you're transitioning into Product Management, struggling after a PM course, trying to gain practical experience,</span>
-            <span className="lg:whitespace-nowrap">or Looking to Get Your First Job. Our Programs Move You From a Confused Beginner to an Employed Product Manager.</span>
+
+          <p className="text-gray-500 font-medium text-sm md:text-[16px] leading-relaxed max-w-xl mx-2 sm:mx-auto text-center md:text-center">
+            Whether you're transitioning into Product Management or lack practical experience, our programs give you a clear path to your first opportunity.
           </p>
         </div>
 

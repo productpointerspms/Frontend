@@ -1,6 +1,9 @@
-import React from 'react';
-import { Mail, Phone, Linkedin, Instagram, Twitter } from 'lucide-react';
+'use client';
+
+import React, { useState } from 'react';
+import { AlertCircle, CheckCircle2, Mail, Phone, Linkedin, Instagram, Twitter } from 'lucide-react';
 import { Montserrat } from 'next/font/google';
+import { submitContactForm } from '@/lib/contact';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -8,6 +11,38 @@ const montserrat = Montserrat({
 });
 
 const ContactSection = () => {
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (submitting) return;
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    setSubmitting(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      await submitContactForm({
+        fullname: String(fd.get('fullname') ?? '').trim(),
+        email: String(fd.get('email') ?? '').trim(),
+        message: String(fd.get('message') ?? '').trim(),
+      });
+      setSuccess(true);
+      form.reset();
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div id="contact-section" className={`${montserrat.className} scroll-mt-24 bg-[#F9F5FF] min-h-screen py-20 px-6 md:px-20`}>
       <div className="max-w-6xl mx-auto">
@@ -63,39 +98,60 @@ const ContactSection = () => {
           <div className="lg:col-span-8 bg-white p-10 md:p-12 rounded-[32px] shadow-sm">
             <h3 className="text-xl md:text-2xl font-bold text-black mb-8">Send us a message</h3>
             
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-black font-semibold mb-2">Name</label>
-                <input 
-                  type="text" 
-                  placeholder="Enter your full name" 
-                  className="w-full px-4 py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all"
+                <input
+                  type="text"
+                  name="fullname"
+                  required
+                  placeholder="Enter your full name"
+                  className="w-full px-4 py-4 rounded-xl border border-gray-200 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all"
                 />
               </div>
 
               <div>
                 <label className="block text-black font-semibold mb-2">Email</label>
-                <input 
-                  type="email" 
-                  placeholder="you@example.com" 
-                  className="w-full px-4 py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all"
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-4 rounded-xl border border-gray-200 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all"
                 />
               </div>
 
               <div>
                 <label className="block text-black font-semibold mb-2">Message</label>
-                <textarea 
+                <textarea
                   rows={5}
-                  placeholder="How can we help you?" 
-                  className="w-full px-4 py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all resize-none"
+                  name="message"
+                  required
+                  placeholder="How can we help you?"
+                  className="w-full px-4 py-4 rounded-xl border border-gray-200 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all resize-none"
                 ></textarea>
               </div>
 
-              <button 
-                type="submit" 
-                className="w-full bg-[#5C1CC5] text-white font-bold py-4 rounded-xl hover:bg-[#4a169e] transition-colors mt-4 cursor-pointer"
+              {error && (
+                <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-5 py-4 text-sm">
+                  <AlertCircle className="w-5 h-5 shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              {success && (
+                <div className="flex items-center gap-2 bg-green-50 border border-green-100 text-green-700 rounded-xl px-5 py-4 text-sm">
+                  <CheckCircle2 className="w-5 h-5 shrink-0" />
+                  <span>Your message has been sent. We&apos;ll get back to you soon.</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full bg-[#5C1CC5] text-white font-bold py-4 rounded-xl hover:bg-[#4a169e] transition-colors mt-4 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Send Message
+                {submitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
