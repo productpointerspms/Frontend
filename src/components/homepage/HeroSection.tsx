@@ -19,24 +19,24 @@ const HeroSection: React.FC = () => {
         {/* Main Heading */}
         <h1 className="text-[#1A1A1A] font-extrabold text-[24px] sm:text-2xl md:text-[28px] lg:text-[34px] xl:text-[40px] leading-[1.2] mb-10 tracking-tight text-center md:text-center">
           <span className="block md:whitespace-nowrap">Become a Skilled, <span className="whitespace-nowrap">Confident and Job-Ready</span></span>
-          <span className="block">Product Manager in 12 Weeks</span>
+          <span className="block">Product Manager</span>
         </h1>
 
         {/* Subheadings */}
         <div className="space-y-6 mb-12 w-full flex flex-col items-center md:items-center">
           <p className="text-gray-600 font-semibold text-sm md:text-[16px] max-w-xl mx-2 sm:mx-auto text-center md:text-center">
-            Build the skills, gain hands-on experience, and create the proof of work you need to <span className="font-bold text-[#6024D0] italic">stand out</span>.
+            Build the skills, gain hands-on experience, and create the proof of work you need to <span className="font-bold text-[#6024D0] italic">stand out</span> in the Product Management job market.
           </p>
 
           <p className="text-gray-500 font-medium text-sm md:text-[16px] leading-relaxed max-w-xl mx-2 sm:mx-auto text-center md:text-center">
-            Whether you're transitioning into Product Management or lack practical experience, our programs give you a clear path to your first opportunity.
+            Whether you're transitioning into Product Management or lack practical experience, our programs give you a clear path to your first opportunity, our programs give you a clear path from learning the fundamentals to building the experience and proof of work to move forward.
           </p>
         </div>
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-16 self-center items-center w-full sm:w-auto">
           <button className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white font-medium text-sm px-8 py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg w-full sm:w-auto min-w-[220px] cursor-pointer">
-            Apply for Full Career Path <ArrowRight size={20} />
+            Apply Now <ArrowRight size={20} />
           </button>
           <button className="border border-gray-400 bg-transparent hover:bg-white text-[#1A1A1A] font-medium text-sm px-8 py-3.5 rounded-2xl transition-all w-full sm:w-auto min-w-[220px] cursor-pointer">
             Explore Programs
