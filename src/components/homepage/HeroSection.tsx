@@ -25,7 +25,7 @@ const HeroSection: React.FC = () => {
         {/* Subheadings */}
         <div className="space-y-6 mb-12 w-full flex flex-col items-center md:items-center">
           <p className="text-gray-600 font-semibold text-sm md:text-[16px] max-w-xl mx-2 sm:mx-auto text-center md:text-center">
-            Build the skills, gain hands-on experience, and create the proof of work you need to <span className="font-bold text-[#6024D0] italic">stand out</span> in the Product Management job market.
+           We help you build the skills, gain hands-on experience, and create the proof of work you need to <span className="font-bold text-[#6024D0] italic">stand out</span> in the Product Management job market.
           </p>
 
           <p className="text-gray-500 font-medium text-sm md:text-[16px] leading-relaxed max-w-xl mx-2 sm:mx-auto text-center md:text-center">
