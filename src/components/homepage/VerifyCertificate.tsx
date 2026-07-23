@@ -1,31 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowRight, XCircle, Info, BadgeCheck } from "lucide-react";
+import { ArrowRight, XCircle, Info, BadgeCheck, AlertCircle } from "lucide-react";
+import { getCertificate, type CertificateRecord } from "@/lib/certificate";
 
-type Status = "completed" | "incomplete";
-
-interface CertRecord {
-  name: string;
-  program: string;
-  status: Status;
-}
-
-// Mock certificate records. Replace with a real API lookup when available.
-const RECORDS: Record<string, CertRecord> = {
-  "PPAP-2025-00812": {
-    name: "Favour Oseh",
-    program: "ProductPointers Accelerator Program (PPAP)",
-    status: "completed",
-  },
-  "PPAP-2025-00777": {
-    name: "Favour Oseh",
-    program: "ProductPointers Accelerator Program (PPAP)",
-    status: "incomplete",
-  },
-};
-
-type Result = CertRecord | "notfound" | null;
+type Result = CertificateRecord | "notfound" | null;
 
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
   <div className="mb-6 last:mb-0">
@@ -37,11 +16,26 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
 const VerifyCertificate = () => {
   const [id, setId] = useState("");
   const [result, setResult] = useState<Result>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleVerify = () => {
-    const key = id.trim().toUpperCase();
-    if (!key) return;
-    setResult(RECORDS[key] ?? "notfound");
+  const handleVerify = async () => {
+    const key = id.trim();
+    if (!key || loading) return;
+
+    setLoading(true);
+    setError(null);
+    try {
+      const record = await getCertificate(key);
+      setResult(record ?? "notfound");
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+      setResult(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,12 +62,20 @@ const VerifyCertificate = () => {
         />
         <button
           onClick={handleVerify}
-          className="w-full sm:w-auto bg-[#6A25D2] hover:bg-[#5b1cb8] text-white px-8 py-4 rounded-xl font-medium flex items-center justify-center transition-colors cursor-pointer"
+          disabled={loading}
+          className="w-full sm:w-auto bg-[#6A25D2] hover:bg-[#5b1cb8] text-white px-8 py-4 rounded-xl font-medium flex items-center justify-center transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Verify Certificate
-          <ArrowRight className="ml-2 w-5 h-5" />
+          {loading ? "Verifying..." : "Verify Certificate"}
+          {!loading && <ArrowRight className="ml-2 w-5 h-5" />}
         </button>
       </div>
+
+      {error && (
+        <div className="w-full max-w-2xl mt-6 flex items-center gap-3 bg-red-50 border border-red-100 text-red-600 rounded-xl px-5 py-4 text-sm">
+          <AlertCircle className="w-5 h-5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
 
       {/* Result Card */}
       {result && (
