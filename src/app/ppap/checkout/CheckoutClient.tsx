@@ -12,14 +12,23 @@ import {
   Headphones,
   Mail,
   Tag,
+  AlertCircle,
+  Loader2,
 } from "lucide-react";
 import {
   getCurrency,
+  convert,
   format,
   PROGRAM_FEE_NGN,
   ORIGINAL_FEE_NGN,
   SAVINGS_NGN,
 } from "@/lib/pricing";
+import { registerApplication } from "@/lib/application";
+import {
+  createPaymentLink,
+  createDynamicVirtualAccount,
+  type VirtualAccount,
+} from "@/lib/payment";
 
 type PaymentMethod = "transfer" | "card";
 
@@ -29,12 +38,6 @@ const summaryFeatures = [
   "Mentorship & Accountability Support",
   "Community Access & Growth Resources",
 ];
-
-const bankDetails = {
-  bankName: "Guaranty Trust Bank (GTB)",
-  accountName: "ProductPointers Growth Hub",
-  accountNumber: "4208456789",
-};
 
 const inputClass =
   "w-full px-4 py-3 rounded-xl border border-[#EADCF7] bg-[#FCF8FF] text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6024D0]/40 focus:border-[#6024D0] transition";
@@ -66,16 +69,21 @@ function CopyButton({ value, label }: { value: string; label: string }) {
   );
 }
 
-/** mm:ss countdown for the transfer window. */
-function useCountdown(seconds: number) {
-  const [remaining, setRemaining] = useState(seconds);
+/** mm:ss countdown until the given target time. */
+function useCountdown(target: Date | null) {
+  const [remaining, setRemaining] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setRemaining((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+    if (!target) {
+      setRemaining(0);
+      return;
+    }
+    const tick = () =>
+      setRemaining(Math.max(0, Math.floor((target.getTime() - Date.now()) / 1000)));
+    tick();
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [target]);
 
   const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
   const ss = String(remaining % 60).padStart(2, "0");
@@ -89,8 +97,67 @@ export default function CheckoutClient() {
     [searchParams]
   );
 
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [method, setMethod] = useState<PaymentMethod>("transfer");
-  const countdown = useCountdown(15 * 60);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [virtualAccount, setVirtualAccount] = useState<VirtualAccount | null>(null);
+  const [transferExpiry, setTransferExpiry] = useState<Date | null>(null);
+  const countdown = useCountdown(transferExpiry);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (loading) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const amount = convert(PROGRAM_FEE_NGN, currency);
+      const application = await registerApplication({
+        fullname,
+        email,
+        phoneNumber: phone,
+        programCode: "PPAP",
+        responses: [],
+      });
+
+      if (method === "card") {
+        const { paymentUrl } = await createPaymentLink({
+          applicationId: application.applicationId,
+          amount,
+          currency: currency.code,
+          email,
+          fullname,
+        });
+        window.location.href = paymentUrl;
+        return;
+      }
+
+      const account = await createDynamicVirtualAccount({
+        applicationId: application.applicationId,
+        amount,
+        currency: currency.code,
+        email,
+        fullname,
+      });
+      setVirtualAccount(account);
+      setTransferExpiry(
+        account.expiresAt
+          ? new Date(account.expiresAt)
+          : new Date(Date.now() + 15 * 60 * 1000)
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const totalDue = format(PROGRAM_FEE_NGN, currency);
 
@@ -110,7 +177,7 @@ export default function CheckoutClient() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,420px)] gap-8 items-start">
         {/* ----------------------------- Left: Form ---------------------------- */}
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="bg-white rounded-[28px] shadow-sm p-6 sm:p-10"
         >
           {/* Contact Information */}
@@ -127,6 +194,8 @@ export default function CheckoutClient() {
               <input
                 type="text"
                 required
+                value={fullname}
+                onChange={(e) => setFullname(e.target.value)}
                 placeholder="Enter your full name"
                 className={inputClass}
               />
@@ -140,6 +209,8 @@ export default function CheckoutClient() {
                 <input
                   type="email"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="your.email@example.com"
                   className={inputClass}
                 />
@@ -151,6 +222,8 @@ export default function CheckoutClient() {
                 <input
                   type="tel"
                   required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   placeholder="+234 XXX XXX XXXX"
                   className={inputClass}
                 />
@@ -182,17 +255,38 @@ export default function CheckoutClient() {
 
           {/* Method-specific section */}
           {method === "transfer" ? (
-            <TransferDetails amount={totalDue} countdown={countdown} />
+            <TransferDetails
+              amount={totalDue}
+              countdown={countdown}
+              account={virtualAccount}
+              loading={loading}
+            />
           ) : (
-            <CardDetails />
+            <CardNotice />
+          )}
+
+          {error && (
+            <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-5 py-4 text-sm mt-6">
+              <AlertCircle className="w-5 h-5 shrink-0" />
+              <span>{error}</span>
+            </div>
           )}
 
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white py-4 rounded-xl font-semibold text-base mt-10 flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            disabled={loading}
+            className="w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white py-4 rounded-xl font-semibold text-base mt-10 flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Complete Payment <ArrowRight className="w-5 h-5" />
+            {loading ? (
+              <>
+                Processing <Loader2 className="w-5 h-5 animate-spin" />
+              </>
+            ) : (
+              <>
+                Complete Payment <ArrowRight className="w-5 h-5" />
+              </>
+            )}
           </button>
 
           <p className="flex items-center justify-center gap-1.5 text-xs text-[#10B981] mt-4">
@@ -355,10 +449,32 @@ function RadioOption({
 function TransferDetails({
   amount,
   countdown,
+  account,
+  loading,
 }: {
   amount: string;
   countdown: string;
+  account: VirtualAccount | null;
+  loading: boolean;
 }) {
+  if (!account) {
+    return (
+      <div className="border-2 border-dashed border-[#A78BFA] rounded-2xl p-6 text-center">
+        {loading ? (
+          <p className="flex items-center justify-center gap-2 text-sm text-[#6024D0] font-medium">
+            <Loader2 className="w-4 h-4 animate-spin" /> Generating your dedicated account number…
+          </p>
+        ) : (
+          <p className="text-sm text-gray-500">
+            Fill in your details above and click{" "}
+            <span className="font-semibold text-[#15010D]">Complete Payment</span> to
+            generate a dedicated account number for your transfer.
+          </p>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="bg-[#F6EDFF] text-[#6024D0] text-xs font-medium rounded-lg px-4 py-3 inline-block mb-5">
@@ -371,13 +487,9 @@ function TransferDetails({
       </p>
 
       <div className="border-2 border-dashed border-[#A78BFA] rounded-2xl p-6 space-y-5">
-        <Field label="Bank Name" value={bankDetails.bankName} />
-        <Field label="Account Name" value={bankDetails.accountName} />
-        <Field
-          label="Account Number"
-          value={bankDetails.accountNumber}
-          copyable
-        />
+        <Field label="Bank Name" value={account.bankName} />
+        <Field label="Account Name" value={account.accountName} />
+        <Field label="Account Number" value={account.accountNumber} copyable />
         <Field label="Amount" value={amount} copyable />
       </div>
     </div>
@@ -404,49 +516,14 @@ function Field({
   );
 }
 
-function CardDetails() {
+function CardNotice() {
   return (
-    <div className="space-y-6">
-      <div>
-        <label className={labelClass}>Card Number</label>
-        <input
-          type="text"
-          inputMode="numeric"
-          placeholder="0000 0000 0000 0000"
-          className={inputClass}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-          <label className={labelClass}>Expiry Date</label>
-          <input
-            type="text"
-            inputMode="numeric"
-            placeholder="MM/YY"
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label className={labelClass}>CVV</label>
-          <input
-            type="text"
-            inputMode="numeric"
-            placeholder="123"
-            className={inputClass}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className={labelClass}>PIN</label>
-        <input
-          type="password"
-          inputMode="numeric"
-          placeholder="Enter Card Pin"
-          className={inputClass}
-        />
-      </div>
+    <div className="flex items-start gap-3 bg-[#F6EDFF] rounded-2xl px-5 py-4">
+      <ShieldCheck className="w-5 h-5 text-[#6024D0] shrink-0 mt-0.5" />
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Click <span className="font-semibold text-[#15010D]">Complete Payment</span> and
+        you&apos;ll be redirected to a secure page to enter your card details.
+      </p>
     </div>
   );
 }

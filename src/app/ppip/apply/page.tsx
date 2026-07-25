@@ -10,15 +10,26 @@ import {
   Loader2,
   AlertCircle,
   CreditCard,
+  Copy,
   Mail,
 } from "lucide-react";
 import SurveyQuestions from "@/components/preregistration/SurveyQuestions";
 import { ppipQuestions } from "@/lib/programQuestions";
 import { submitApplication, type PaymentDetails } from "@/lib/application";
+import { getCurrency, convert } from "@/lib/pricing";
+import {
+  createPaymentLink,
+  createDynamicVirtualAccount,
+  type VirtualAccount,
+} from "@/lib/payment";
+
+const PPIP_COMMITMENT_FEE_NGN = 20000;
 
 interface SubmitResult {
   applicationId: string;
   payment: PaymentDetails;
+  fullname: string;
+  email: string;
 }
 
 export default function PPIPApplyPage() {
@@ -166,8 +177,11 @@ function StepTwo({
     setSubmitting(true);
     setError(null);
     try {
+      const fd = new FormData(e.currentTarget);
+      const fullname = String(fd.get("fullname") ?? "").trim();
+      const email = String(fd.get("email") ?? "").trim();
       const result = await submitApplication(e.currentTarget, "PPIP", currency);
-      onComplete(result);
+      onComplete({ ...result, fullname, email });
     } catch (err) {
       setError(
         err instanceof Error
@@ -285,6 +299,31 @@ function StepTwo({
 
 /* ---------------------------------- Step 3 --------------------------------- */
 
+type PayMethod = "transfer" | "card";
+
+function CopyButton({ value }: { value: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard unavailable — no-op */
+    }
+  };
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      aria-label="Copy"
+      className="shrink-0 text-[#6024D0] hover:text-[#4d1ba8] transition-colors cursor-pointer"
+    >
+      {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+    </button>
+  );
+}
+
 function PaymentStep({
   result,
   currency,
@@ -293,10 +332,44 @@ function PaymentStep({
   currency: string;
 }) {
   const { payment } = result;
-  const payLink =
-    payment.paymentUrl ?? payment.checkoutUrl ?? payment.authorizationUrl;
-  const amount = payment.amount;
   const displayCurrency = payment.currency ?? currency;
+  const amount =
+    payment.amount ?? convert(PPIP_COMMITMENT_FEE_NGN, getCurrency(displayCurrency));
+
+  const [method, setMethod] = useState<PayMethod>("transfer");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [virtualAccount, setVirtualAccount] = useState<VirtualAccount | null>(null);
+
+  const handlePay = async () => {
+    if (loading) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const payload = {
+        applicationId: result.applicationId,
+        amount,
+        currency: displayCurrency,
+        email: result.email,
+        fullname: result.fullname,
+      };
+
+      if (method === "card") {
+        const { paymentUrl } = await createPaymentLink(payload);
+        window.location.href = paymentUrl;
+        return;
+      }
+
+      const account = await createDynamicVirtualAccount(payload);
+      setVirtualAccount(account);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="w-full max-w-lg bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 text-center mt-6">
@@ -321,15 +394,9 @@ function PaymentStep({
           </span>
         </div>
 
-        {amount != null ? (
-          <p className="text-4xl font-black text-[#1a1a1a] tracking-tight">
-            {displayCurrency} {amount.toLocaleString()}
-          </p>
-        ) : (
-          <p className="text-lg font-semibold text-[#1a1a1a]">
-            Amount will be confirmed shortly
-          </p>
-        )}
+        <p className="text-4xl font-black text-[#1a1a1a] tracking-tight">
+          {displayCurrency} {amount.toLocaleString()}
+        </p>
 
         {payment.reference && (
           <p className="text-xs text-gray-400 mt-2">
@@ -340,21 +407,99 @@ function PaymentStep({
           </p>
         )}
 
-        {payLink ? (
-          <a
-            href={payLink}
-            className="mt-6 w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
-          >
-            Proceed to Payment <ArrowRight className="w-5 h-5" />
-          </a>
-        ) : (
-          <div className="mt-6 flex items-start gap-2.5 bg-[#F3E8FF] rounded-xl px-4 py-3.5 text-[#6024D0]">
-            <Mail className="w-4 h-4 mt-0.5 shrink-0" />
-            <span className="text-xs md:text-sm font-medium">
-              Payment instructions will be sent to your email.
-            </span>
+        {/* Method toggle */}
+        <div className="flex items-center gap-6 mt-6 mb-4">
+          <label className="flex items-center gap-2 text-sm cursor-pointer select-none">
+            <input
+              type="radio"
+              checked={method === "transfer"}
+              onChange={() => {
+                setMethod("transfer");
+                setVirtualAccount(null);
+                setError(null);
+              }}
+              className="accent-[#6024D0]"
+            />
+            Transfer
+          </label>
+          <label className="flex items-center gap-2 text-sm cursor-pointer select-none">
+            <input
+              type="radio"
+              checked={method === "card"}
+              onChange={() => {
+                setMethod("card");
+                setVirtualAccount(null);
+                setError(null);
+              }}
+              className="accent-[#6024D0]"
+            />
+            Card
+          </label>
+        </div>
+
+        {method === "transfer" && virtualAccount && (
+          <div className="border-2 border-dashed border-[#A78BFA] rounded-2xl p-5 space-y-4 mb-4">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs text-gray-400 mb-1">Bank Name</p>
+                <p className="text-sm font-semibold text-[#15010D]">
+                  {virtualAccount.bankName}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs text-gray-400 mb-1">Account Name</p>
+                <p className="text-sm font-semibold text-[#15010D]">
+                  {virtualAccount.accountName}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs text-gray-400 mb-1">Account Number</p>
+                <p className="text-sm font-semibold text-[#15010D]">
+                  {virtualAccount.accountNumber}
+                </p>
+              </div>
+              <CopyButton value={virtualAccount.accountNumber} />
+            </div>
           </div>
         )}
+
+        {error && (
+          <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-4 py-3 text-xs mb-4">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        {!(method === "transfer" && virtualAccount) && (
+          <button
+            type="button"
+            onClick={handlePay}
+            disabled={loading}
+            className="mt-2 w-full bg-[#6024D0] hover:bg-[#4d1ba8] disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" /> Processing
+              </>
+            ) : (
+              <>
+                {method === "card" ? "Proceed to Payment" : "Generate Account Number"}{" "}
+                <ArrowRight className="w-5 h-5" />
+              </>
+            )}
+          </button>
+        )}
+
+        <div className="mt-4 flex items-start gap-2.5 bg-[#F3E8FF] rounded-xl px-4 py-3.5 text-[#6024D0]">
+          <Mail className="w-4 h-4 mt-0.5 shrink-0" />
+          <span className="text-xs md:text-sm font-medium">
+            You&apos;ll also receive payment instructions via email.
+          </span>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
