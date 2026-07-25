@@ -117,7 +117,7 @@ const PricingSection = () => {
           </div>
 
           <Link
-            href={`/ppap/checkout?currency=${currency.code}`}
+            href={`/ppap/apply?currency=${currency.code}`}
             className="w-full bg-[#6D28D9] text-white py-4 rounded-xl font-medium text-base hover:bg-[#5b21b6] transition-colors mb-4 flex items-center justify-center gap-2 cursor-pointer"
           >
             Enroll Now <ArrowRight className="w-5 h-5" />

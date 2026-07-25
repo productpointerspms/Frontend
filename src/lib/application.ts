@@ -72,10 +72,8 @@ function detailsFromData(data: unknown): string {
 export async function registerApplication(
   payload: RegisterApplicationPayload
 ): Promise<RegisterApplicationResult> {
-  // The API expects `name`, not `fullname` — keep the public field name for
-  // callers and rename it here on the way to the wire.
-  const { fullname, ...rest } = payload;
-  const body = { name: fullname, ...rest };
+  // The API's validator requires both `name` and `fullname` on the payload.
+  const body = { ...payload, name: payload.fullname };
 
   const res = await fetch(`${API_BASE_URL}/application/register`, {
     method: "POST",
