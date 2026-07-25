@@ -63,6 +63,8 @@ export interface ApplicationPaymentStepProps {
   email: string;
   amount: number;
   currencyCode: string;
+  /** Set false for programs where payment only opens up after acceptance (e.g. PPIP). */
+  showPaymentButton?: boolean;
 }
 
 const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
@@ -71,6 +73,7 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
   applicationId,
   amount,
   currencyCode,
+  showPaymentButton = true,
 }) => {
   const [payLoading, setPayLoading] = useState(false);
   const [payError, setPayError] = useState<string | null>(null);
@@ -148,6 +151,12 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
           <div className="flex items-center justify-center gap-2.5 bg-[#ECFDF3] border border-[#A7F3D0] rounded-xl px-5 py-4 text-[#10B981] font-semibold text-sm">
             <PartyPopper className="w-5 h-5 shrink-0" />
             We&apos;ve received your payment — you&apos;re all set!
+          </div>
+        ) : !showPaymentButton ? (
+          <div className="flex items-center justify-center gap-2.5 bg-[#F3E8FF] rounded-xl px-5 py-4 text-[#6024D0] text-sm font-medium">
+            <Mail className="w-4 h-4 shrink-0" />
+            You&apos;ll receive payment instructions by email once your
+            application is reviewed.
           </div>
         ) : (
           <>

@@ -321,6 +321,7 @@ function PaymentStep({
       email={result.email}
       amount={amount}
       currencyCode={currencyObj.code}
+      showPaymentButton={false}
     />
   );
 }
