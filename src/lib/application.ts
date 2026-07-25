@@ -1,7 +1,7 @@
 // API client for ProductPointers application registration + payment details.
 //   POST /application/register
-//   GET  /application/payment-details/{applicationId}/{currency}
-//   GET  /application/{applicationId}
+//   GET  /application/payment-details/{applicationId}/{currency} — payment details for the user to pay
+//   GET  /application/{applicationId} — application/payment status lookup
 
 import {
   PROGRAMS,
@@ -36,6 +36,13 @@ export interface ApplicationRecord {
   email: string;
   phoneNumber: string;
   programCode?: string;
+  programName?: string;
+  /** Program fee in NGN, from `program.fee`. */
+  fee?: number;
+  /** Application review status, e.g. "PENDING". */
+  status: string;
+  /** Raw `transaction` object from the API — null until a payment exists. */
+  transaction: unknown;
 }
 
 export interface PaymentDetails {
@@ -131,6 +138,16 @@ export async function getPaymentDetails(
   return (data?.data ?? data) as PaymentDetails;
 }
 
+/** Best-effort extraction of `fullname` from the stringified `request` JSON. */
+function fullnameFromRequest(request: unknown): string {
+  if (typeof request !== "string") return "";
+  try {
+    return String(JSON.parse(request)?.fullname ?? "").trim();
+  } catch {
+    return "";
+  }
+}
+
 export async function getApplicationById(
   applicationId: string
 ): Promise<ApplicationRecord> {
@@ -144,16 +161,27 @@ export async function getApplicationById(
   }
 
   const data = await res.json().catch(() => ({}));
-  const inner = (data?.data ?? data) as Record<string, unknown>;
+  const app = (data?.data ?? data) as Record<string, unknown>;
+  const user = (app.user ?? {}) as Record<string, unknown>;
+  const program = (app.program ?? {}) as Record<string, unknown>;
+
+  const firstName = String(user.firstName ?? "").trim();
+  const lastName = String(user.lastName ?? "").trim();
+  const fullname =
+    String(user.fullName ?? "").trim() ||
+    [firstName, lastName].filter(Boolean).join(" ") ||
+    fullnameFromRequest(app.request);
 
   return {
-    applicationId: String(inner.applicationId ?? inner.id ?? applicationId),
-    fullname: String(inner.fullname ?? inner.name ?? ""),
-    email: String(inner.email ?? ""),
-    phoneNumber: String(
-      inner.phoneNumber ?? inner.phone_number ?? inner.phone ?? ""
-    ),
-    programCode: inner.programCode != null ? String(inner.programCode) : undefined,
+    applicationId: String(app.id ?? applicationId),
+    fullname,
+    email: String(user.email ?? ""),
+    phoneNumber: String(user.phoneNumber ?? ""),
+    programCode: program.code != null ? String(program.code) : undefined,
+    programName: program.title != null ? String(program.title) : undefined,
+    fee: program.fee != null ? Number(program.fee) : undefined,
+    status: String(app.status ?? ""),
+    transaction: app.transaction ?? null,
   };
 }
 
