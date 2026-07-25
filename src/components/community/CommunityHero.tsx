@@ -34,9 +34,9 @@ const CommunityHero = () => {
             <a href="#path-to-community" onClick={handleScrollToPath} className="bg-[#6024D0] text-white px-6 py-4 sm:px-8 sm:py-5 rounded-2xl font-bold flex items-center justify-center gap-2 w-full sm:w-auto hover:gap-4 transition-all text-xs sm:text-base whitespace-nowrap">
               Unlock Community Access <ArrowRight size={20} />
             </a>
-            <button className="border border-[#15010D] text-[#15010D] px-6 py-4 sm:px-10 sm:py-5 rounded-2xl font-bold w-full sm:w-auto hover:bg-white transition-all cursor-pointer text-xs sm:text-base whitespace-nowrap">
+            <a href="#path-to-community" onClick={handleScrollToPath} className="border border-[#15010D] text-[#15010D] px-6 py-4 sm:px-10 sm:py-5 rounded-2xl font-bold w-full sm:w-auto hover:bg-white transition-all cursor-pointer text-xs sm:text-base whitespace-nowrap flex items-center justify-center">
               Explore Programs
-            </button>
+            </a>
           </div>
 
           <div className="flex items-center gap-3">

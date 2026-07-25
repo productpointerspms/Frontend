@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Eye, Compass, MapPin, ArrowRight } from 'lucide-react';
 
 const FinalCTA = () => {
@@ -47,9 +48,9 @@ const FinalCTA = () => {
           </div>
         </div>
 
-        <button className="bg-[#6D28D9] text-white px-8 py-4 rounded-xl font-medium text-base hover:bg-[#5b21b6] transition-colors inline-flex items-center gap-2">
+        <Link href="/ppap/apply" className="bg-[#6D28D9] text-white px-8 py-4 rounded-xl font-medium text-base hover:bg-[#5b21b6] transition-colors inline-flex items-center gap-2">
           Join the Next Cohort <ArrowRight className="w-5 h-5" />
-        </button>
+        </Link>
       </div>
     </section>
   );

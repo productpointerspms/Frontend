@@ -37,9 +37,12 @@ const HeroSection: React.FC = () => {
             Apply Now
             <ArrowRight className="w-5 h-5" />
           </Link>
-          <button className="border border-gray-400 text-[#1a1a1a] px-8 py-4 rounded-xl font-medium hover:bg-white transition-colors">
+          <a
+            href="#how-it-works"
+            className="border border-gray-400 text-[#1a1a1a] px-8 py-4 rounded-xl font-medium hover:bg-white transition-colors inline-flex items-center justify-center"
+          >
             See How It Works
-          </button>
+          </a>
         </div>
 
         <p className="text-sm text-gray-500 mb-8">

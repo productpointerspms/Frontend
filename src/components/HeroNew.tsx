@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
@@ -44,13 +45,19 @@ const HeroNew: React.FC = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-12 w-full sm:w-auto justify-start">
-            <button className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white px-8 py-4 rounded-xl font-semibold text-base flex items-center justify-center gap-2 transition-all cursor-pointer w-full sm:w-auto">
+            <Link
+              href="/#upcoming-programs"
+              className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white px-8 py-4 rounded-xl font-semibold text-base flex items-center justify-center gap-2 transition-all cursor-pointer w-full sm:w-auto"
+            >
               Apply Now
               <ArrowRight className="w-5 h-5" />
-            </button>
-            <button className="bg-transparent border border-[#15010D]/20 hover:bg-[#F9E5FF] text-[#15010D] px-8 py-4 rounded-xl font-medium text-base transition-all cursor-pointer w-full sm:w-auto">
+            </Link>
+            <Link
+              href="/#upcoming-programs"
+              className="bg-transparent border border-[#15010D]/20 hover:bg-[#F9E5FF] text-[#15010D] px-8 py-4 rounded-xl font-medium text-base transition-all cursor-pointer w-full sm:w-auto flex items-center justify-center"
+            >
               Find Your Program
-            </button>
+            </Link>
           </div>
         </div>
 

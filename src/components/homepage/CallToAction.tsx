@@ -28,15 +28,21 @@ const CallToAction: React.FC = () => {
         {/* Button Container */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
           {/* Apply Now Button */}
-          <button className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white px-10 py-5 rounded-2xl font-semibold text-base flex items-center justify-center gap-2 transition-all min-w-[200px] cursor-pointer">
+          <a
+            href="#upcoming-programs"
+            className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white px-10 py-5 rounded-2xl font-semibold text-base flex items-center justify-center gap-2 transition-all min-w-[200px] cursor-pointer"
+          >
             Apply Now
             <ArrowRight className="w-5 h-5" />
-          </button>
+          </a>
 
           {/* Outline Button */}
-          <button className="bg-white border border-[#15010D]/20 hover:bg-gray-50 text-[#15010D] px-10 py-5 rounded-2xl font-medium text-base transition-all min-w-[200px] cursor-pointer">
+          <a
+            href="#upcoming-programs"
+            className="bg-white border border-[#15010D]/20 hover:bg-gray-50 text-[#15010D] px-10 py-5 rounded-2xl font-medium text-base flex items-center justify-center transition-all min-w-[200px] cursor-pointer"
+          >
             Find the Right Program for You
-          </button>
+          </a>
         </div>
       </div>
     </section>

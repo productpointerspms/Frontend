@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Send, ChevronDown } from 'lucide-react';
 import { Montserrat } from 'next/font/google';
 import img from "@/assets/images/contact.png"
@@ -15,6 +16,8 @@ const HeroSection = () => {
   const scrollToContact = () => {
     document.getElementById("contact-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+
 
   return (
     <div className={`${montserrat.className} min-h-screen bg-[#FDF2FF]`}>
@@ -44,9 +47,9 @@ const HeroSection = () => {
             <button onClick={scrollToContact} className="bg-[#6024D0] text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-[#4d1ba8] transition-all shadow-lg shadow-[#6024D0]/20 cursor-pointer">
               Send Us a Message <Send size={20} className="rotate-[-15deg]" />
             </button>
-            <button className="bg-white border border-black text-black px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all cursor-pointer">
+            <Link href="/#upcoming-programs" className="bg-white border border-black text-black px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all cursor-pointer flex items-center justify-center">
               Explore Programs
-            </button>
+            </Link>
           </div>
         </div>
 

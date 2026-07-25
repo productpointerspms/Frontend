@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
 import { Calendar, MapPin, Users } from "lucide-react";
 import imgPPAP from "@/assets/images/count1.jpg";
@@ -12,6 +13,7 @@ interface UpcomingProgram {
   location: string;
   availability: string;
   countdown: { days: string; hours: string; minutes: string };
+  href: string;
 }
 
 const programs: UpcomingProgram[] = [
@@ -24,6 +26,7 @@ const programs: UpcomingProgram[] = [
     location: "Virtual",
     availability: "Limited spots Available",
     countdown: { days: "06", hours: "23", minutes: "39" },
+    href: "/ppap",
   },
   {
     image: imgPPIP,
@@ -34,6 +37,7 @@ const programs: UpcomingProgram[] = [
     location: "Virtual",
     availability: "Limited spots Available",
     countdown: { days: "06", hours: "23", minutes: "39" },
+    href: "/ppip",
   },
 ];
 
@@ -89,16 +93,19 @@ const ProgramCard: React.FC<{ program: UpcomingProgram }> = ({ program }) => (
         </div>
       </div>
 
-      <button className="mt-auto bg-[#6024D0] hover:bg-[#4F1AB0] text-white font-semibold px-8 py-3 rounded-xl transition-colors cursor-pointer mx-auto">
+      <Link
+        href={program.href}
+        className="mt-auto bg-[#6024D0] hover:bg-[#4F1AB0] text-white font-semibold px-8 py-3 rounded-xl transition-colors cursor-pointer mx-auto"
+      >
         Save Your Spot
-      </button>
+      </Link>
     </div>
   </div>
 );
 
 const CountdownSection: React.FC = () => {
   return (
-    <section className="bg-[#3B448F] w-full py-20 px-6 flex flex-col items-center text-white font-sans">
+    <section id="upcoming-programs" className="bg-[#3B448F] w-full py-20 px-6 flex flex-col items-center text-white font-sans scroll-mt-10">
       {/* Header */}
       <div className="max-w-3xl text-center mb-14">
         <h2 className="text-xl md:text-3xl font-bold mb-6 tracking-tight">

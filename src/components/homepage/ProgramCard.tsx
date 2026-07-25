@@ -99,7 +99,7 @@ export default function ExplorePrograms() {
     );
 
   return (
-    <div className="w-full bg-[#5C1CC5] py-20 px-6 md:px-12">
+    <div id="explore-programs" className="w-full bg-[#5C1CC5] py-20 px-6 md:px-12 scroll-mt-10">
       {/* Section Header */}
       <div className="text-center mb-16 text-white">
         <h2 className="text-[1.18rem] min-[375px]:text-xl sm:text-2xl md:text-3xl font-bold mb-4 tracking-tight">
@@ -125,9 +125,12 @@ export default function ExplorePrograms() {
       {/* Footer CTA */}
       <div className="mt-20 text-center text-white">
         <p className="text-base mb-6 opacity-90 font-medium">Not sure which program is right for you?</p>
-        <button className="bg-white text-[#5C1CC5] px-8 py-4 rounded-2xl font-bold flex items-center mx-auto hover:bg-gray-100 transition-colors cursor-pointer">
+        <a
+          href="#upcoming-programs"
+          className="bg-white text-[#5C1CC5] px-8 py-4 rounded-2xl font-bold flex items-center justify-center mx-auto hover:bg-gray-100 transition-colors cursor-pointer w-fit"
+        >
           Find the Right Program for You <ArrowRight className="ml-2 w-5 h-5" />
-        </button>
+        </a>
       </div>
     </div>
   );

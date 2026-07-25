@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Montserrat } from "next/font/google";
 import { ArrowRight } from "lucide-react";
 
@@ -30,15 +31,21 @@ export default function FinalCTA() {
         {/* Dual Button CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* Primary Button */}
-          <button className="bg-white text-[#6024D0] px-8 py-4 rounded-2xl font-semibold flex items-center gap-2 hover:bg-white/90 transition-all text-sm md:text-base w-full sm:w-auto justify-center shadow-lg cursor-pointer">
+          <Link
+            href="/community#path-to-community"
+            className="bg-white text-[#6024D0] px-8 py-4 rounded-2xl font-semibold flex items-center gap-2 hover:bg-white/90 transition-all text-sm md:text-base w-full sm:w-auto justify-center shadow-lg cursor-pointer"
+          >
             Join the Community
             <ArrowRight size={20} />
-          </button>
+          </Link>
 
           {/* Secondary Outline Button */}
-          <button className="bg-transparent text-white border-2 border-white/40 px-8 py-4 rounded-2xl font-semibold hover:bg-white/10 transition-all text-sm md:text-base w-full sm:w-auto justify-center cursor-pointer">
+          <Link
+            href="/community#path-to-community"
+            className="bg-transparent text-white border-2 border-white/40 px-8 py-4 rounded-2xl font-semibold hover:bg-white/10 transition-all text-sm md:text-base w-full sm:w-auto flex items-center justify-center cursor-pointer"
+          >
             Explore Programs
-          </button>
+          </Link>
         </div>
       </div>
     </section>

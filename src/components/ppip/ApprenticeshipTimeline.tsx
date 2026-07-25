@@ -83,7 +83,8 @@ const weeks: Week[] = [
 const ApprenticeshipTimeline: React.FC = () => {
   return (
     <section
-      className={`${montserrat.className} bg-[#FCF1FF] py-20 px-6 md:px-12 lg:px-24`}
+      id="how-it-works"
+      className={`${montserrat.className} bg-[#FCF1FF] py-20 px-6 md:px-12 lg:px-24 scroll-mt-10`}
     >
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">

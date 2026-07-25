@@ -1,6 +1,13 @@
 import React from "react";
+import Link from "next/link";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Montserrat } from "next/font/google";
+
+const PROGRAM_HREFS: Record<string, string> = {
+  PPAP: "/ppap",
+  PPIP: "/ppip",
+  PPCP: "/ppcp",
+};
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -97,9 +104,12 @@ const ProgramCard = ({ badge, title, description }: { badge: string; title: stri
     </p>
 
     {/* Link */}
-    <button className="flex items-center gap-2 text-[#6024D0] font-semibold hover:gap-4 transition-all cursor-pointer">
+    <Link
+      href={PROGRAM_HREFS[title] ?? "/"}
+      className="flex items-center gap-2 text-[#6024D0] font-semibold hover:gap-4 transition-all cursor-pointer"
+    >
       View Program <ArrowRight size={18} />
-    </button>
+    </Link>
   </div>
 );
 

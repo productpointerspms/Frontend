@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { MoveRight, Check } from "lucide-react";
 
 const highlights = [
@@ -31,15 +32,21 @@ const FinalCTA: React.FC = () => {
         {/* Button Group */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* Primary Action */}
-          <button className="bg-[#FDF4FF] text-[#6024D0] px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-white transition-colors w-full sm:w-auto justify-center cursor-pointer">
+          <Link
+            href="/#upcoming-programs"
+            className="bg-[#FDF4FF] text-[#6024D0] px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-white transition-colors w-full sm:w-auto justify-center cursor-pointer"
+          >
             Apply for Full Career Path
             <MoveRight className="w-5 h-5" />
-          </button>
+          </Link>
 
           {/* Secondary Action */}
-          <button className="border border-white/40 text-white px-8 py-4 rounded-2xl font-medium hover:bg-white/10 transition-colors w-full sm:w-auto justify-center cursor-pointer">
+          <Link
+            href="/#explore-programs"
+            className="border border-white/40 text-white px-8 py-4 rounded-2xl font-medium hover:bg-white/10 transition-colors w-full sm:w-auto justify-center cursor-pointer flex items-center"
+          >
             Explore Programs
-          </button>
+          </Link>
         </div>
       </div>
     </section>

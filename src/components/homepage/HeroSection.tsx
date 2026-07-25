@@ -35,12 +35,18 @@ const HeroSection: React.FC = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-16 self-center items-center w-full sm:w-auto">
-          <button className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white font-medium text-sm px-8 py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg w-full sm:w-auto min-w-[220px] cursor-pointer">
+          <a
+            href="#upcoming-programs"
+            className="bg-[#6024D0] hover:bg-[#4F1AB0] text-white font-medium text-sm px-8 py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg w-full sm:w-auto min-w-[220px] cursor-pointer"
+          >
             Apply Now <ArrowRight size={20} />
-          </button>
-          <button className="border border-gray-400 bg-transparent hover:bg-white text-[#1A1A1A] font-medium text-sm px-8 py-3.5 rounded-2xl transition-all w-full sm:w-auto min-w-[220px] cursor-pointer">
+          </a>
+          <a
+            href="#explore-programs"
+            className="border border-gray-400 bg-transparent hover:bg-white text-[#1A1A1A] font-medium text-sm px-8 py-3.5 rounded-2xl transition-all w-full sm:w-auto min-w-[220px] cursor-pointer flex items-center justify-center"
+          >
             Explore Programs
-          </button>
+          </a>
         </div>
 
         {/* Social Proof */}
