@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import {
   Layers,
   Check,
-  Copy,
   ArrowRight,
   ShieldCheck,
   Info,
@@ -14,89 +13,34 @@ import {
   Tag,
   AlertCircle,
   Loader2,
+  PartyPopper,
 } from "lucide-react";
+import { getCurrency, format } from "@/lib/pricing";
+import { getProgramInfo } from "@/lib/programs";
 import {
-  getCurrency,
-  convert,
-  format,
-  PROGRAM_FEE_NGN,
-  ORIGINAL_FEE_NGN,
-  SAVINGS_NGN,
-} from "@/lib/pricing";
-import { registerApplication, getApplicationById } from "@/lib/application";
-import {
-  createPaymentLink,
-  createDynamicVirtualAccount,
-  type VirtualAccount,
-} from "@/lib/payment";
-
-type PaymentMethod = "transfer" | "card";
-
-const summaryFeatures = [
-  "Structured Product Management Learning",
-  "Practical Assignments & Guided Exercises",
-  "Mentorship & Accountability Support",
-  "Community Access & Growth Resources",
-];
+  registerApplication,
+  getApplicationById,
+  getPaymentDetails,
+  type PaymentDetails,
+} from "@/lib/application";
+import { usePaymentStatus } from "@/lib/usePaymentStatus";
+import { PaymentDetailsCard } from "@/components/preregistration/PaymentDetailsCard";
 
 const inputClass =
   "w-full px-4 py-3 rounded-xl border border-[#EADCF7] bg-[#FCF8FF] text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6024D0]/40 focus:border-[#6024D0] transition";
 
 const labelClass = "block text-sm font-medium text-gray-700 mb-2";
 
-function CopyButton({ value, label }: { value: string; label: string }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      /* clipboard unavailable — no-op */
-    }
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={handleCopy}
-      aria-label={`Copy ${label}`}
-      className="shrink-0 text-[#6024D0] hover:text-[#4d1ba8] transition-colors cursor-pointer"
-    >
-      {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-    </button>
-  );
-}
-
-/** mm:ss countdown until the given target time. */
-function useCountdown(target: Date | null) {
-  const [remaining, setRemaining] = useState(0);
-
-  useEffect(() => {
-    if (!target) {
-      setRemaining(0);
-      return;
-    }
-    const tick = () =>
-      setRemaining(Math.max(0, Math.floor((target.getTime() - Date.now()) / 1000)));
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, [target]);
-
-  const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
-  const ss = String(remaining % 60).padStart(2, "0");
-  return `${mm}:${ss}`;
-}
-
+/**
+ * Shared checkout for every program — which program is driven entirely by
+ * `?program=<code>` (e.g. PPAP, PPIP), resolved via `getProgramInfo`.
+ */
 export default function CheckoutClient() {
   const searchParams = useSearchParams();
   const currency = useMemo(
     () => getCurrency(searchParams.get("currency")),
     [searchParams]
   );
-
   const applicationIdParam = searchParams.get("id");
 
   const [fullname, setFullname] = useState("");
@@ -104,15 +48,34 @@ export default function CheckoutClient() {
   const [phone, setPhone] = useState("");
   const [applicationId, setApplicationId] = useState<string | null>(null);
 
+  // The application's own program (title, code, fee) — set once we've
+  // fetched it via ?id=. Takes priority over ?program= since it's the
+  // authoritative source for that specific application.
+  const [applicationProgram, setApplicationProgram] = useState<{
+    code?: string;
+    title?: string;
+    feeNgn?: number;
+  } | null>(null);
+
+  const program = useMemo(() => {
+    const base = getProgramInfo(applicationProgram?.code ?? searchParams.get("program"));
+    return {
+      ...base,
+      title: applicationProgram?.title ?? base.title,
+      feeNgn: applicationProgram?.feeNgn ?? base.feeNgn,
+    };
+  }, [applicationProgram, searchParams]);
+
   const [loadingApplication, setLoadingApplication] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  const [method, setMethod] = useState<PaymentMethod>("transfer");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [virtualAccount, setVirtualAccount] = useState<VirtualAccount | null>(null);
-  const [transferExpiry, setTransferExpiry] = useState<Date | null>(null);
-  const countdown = useCountdown(transferExpiry);
+  const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
+
+  // Once we have an applicationId, keep checking in the background so we can
+  // let the user know the moment their payment is confirmed.
+  const { isPaid } = usePaymentStatus(applicationId, applicationId != null);
 
   // Pre-fill contact details from an existing application, if ?id= is present.
   useEffect(() => {
@@ -129,6 +92,11 @@ export default function CheckoutClient() {
         setEmail(app.email);
         setPhone(app.phoneNumber);
         setApplicationId(app.applicationId);
+        setApplicationProgram({
+          code: app.programCode,
+          title: app.programName,
+          feeNgn: app.fee,
+        });
       })
       .catch((err) => {
         if (cancelled) return;
@@ -155,8 +123,6 @@ export default function CheckoutClient() {
     setError(null);
 
     try {
-      const amount = convert(PROGRAM_FEE_NGN, currency);
-
       // Reuse the existing application (from ?id=) instead of registering a
       // duplicate one when we already resolved it.
       const resolvedApplicationId =
@@ -166,36 +132,15 @@ export default function CheckoutClient() {
             fullname,
             email,
             phoneNumber: phone,
-            programCode: "PPAP",
+            programCode: program.code,
             responses: [],
           })
         ).applicationId;
 
-      if (method === "card") {
-        const { paymentUrl } = await createPaymentLink({
-          applicationId: resolvedApplicationId,
-          amount,
-          currency: currency.code,
-          email,
-          fullname,
-        });
-        window.location.href = paymentUrl;
-        return;
-      }
+      setApplicationId(resolvedApplicationId);
 
-      const account = await createDynamicVirtualAccount({
-        applicationId: resolvedApplicationId,
-        amount,
-        currency: currency.code,
-        email,
-        fullname,
-      });
-      setVirtualAccount(account);
-      setTransferExpiry(
-        account.expiresAt
-          ? new Date(account.expiresAt)
-          : new Date(Date.now() + 15 * 60 * 1000)
-      );
+      const details = await getPaymentDetails(resolvedApplicationId, currency.code);
+      setPaymentDetails(details);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Something went wrong. Please try again."
@@ -205,7 +150,9 @@ export default function CheckoutClient() {
     }
   };
 
-  const totalDue = format(PROGRAM_FEE_NGN, currency);
+  const totalDue = format(program.feeNgn, currency);
+  const savingsNgn =
+    program.originalFeeNgn != null ? program.originalFeeNgn - program.feeNgn : null;
 
   return (
     <div className="min-h-screen w-full bg-[#FCF1FF] py-12 px-4 sm:px-6 lg:px-10 font-montserrat">
@@ -294,63 +241,64 @@ export default function CheckoutClient() {
             </div>
           </div>
 
-          {/* Payment Method */}
+          {/* Payment */}
           <h2 className="text-xl font-bold text-[#15010D] mt-10">
-            Payment Method
+            Payment
           </h2>
           <div className="h-px bg-gray-100 my-6" />
 
-          <p className="text-sm font-semibold text-[#15010D] mb-4">Pay With:</p>
-          <div className="flex items-center gap-8 mb-6">
-            <RadioOption
-              label="Transfer"
-              checked={method === "transfer"}
-              onChange={() => setMethod("transfer")}
-            />
-            <RadioOption
-              label="Card"
-              checked={method === "card"}
-              onChange={() => setMethod("card")}
-            />
-          </div>
-
-          <div className="h-px bg-gray-100 mb-6" />
-
-          {/* Method-specific section */}
-          {method === "transfer" ? (
-            <TransferDetails
-              amount={totalDue}
-              countdown={countdown}
-              account={virtualAccount}
-              loading={loading}
-            />
-          ) : (
-            <CardNotice />
-          )}
-
-          {error && (
-            <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-5 py-4 text-sm mt-6">
-              <AlertCircle className="w-5 h-5 shrink-0" />
-              <span>{error}</span>
+          {isPaid ? (
+            <div className="flex items-center gap-2.5 bg-[#ECFDF3] border border-[#A7F3D0] rounded-xl px-5 py-4 text-[#10B981] font-semibold text-sm">
+              <PartyPopper className="w-5 h-5 shrink-0" />
+              We&apos;ve received your payment — you&apos;re all set!
             </div>
-          )}
+          ) : (
+            <>
+              <PaymentDetailsCard
+                details={paymentDetails}
+                loading={loading}
+                amountLabel={totalDue}
+                idleMessage={
+                  <>
+                    Fill in your details above and click{" "}
+                    <span className="font-semibold text-[#15010D]">Complete Payment</span>{" "}
+                    to see your payment details.
+                  </>
+                }
+              />
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white py-4 rounded-xl font-semibold text-base mt-10 flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <>
-                Processing <Loader2 className="w-5 h-5 animate-spin" />
-              </>
-            ) : (
-              <>
-                Complete Payment <ArrowRight className="w-5 h-5" />
-              </>
-            )}
-          </button>
+              {paymentDetails && (
+                <p className="flex items-center justify-center gap-1.5 text-xs text-gray-400 mt-4">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  We&apos;ll update this page automatically once your payment is confirmed.
+                </p>
+              )}
+
+              {error && (
+                <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-5 py-4 text-sm mt-6">
+                  <AlertCircle className="w-5 h-5 shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white py-4 rounded-xl font-semibold text-base mt-10 flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <>
+                    Processing <Loader2 className="w-5 h-5 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Complete Payment <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
+              </button>
+            </>
+          )}
 
           <p className="flex items-center justify-center gap-1.5 text-xs text-[#10B981] mt-4">
             <ShieldCheck className="w-4 h-4" />
@@ -381,13 +329,11 @@ export default function CheckoutClient() {
             </div>
             <div>
               <h3 className="font-bold text-[#15010D] leading-snug">
-                ProductPointers Accelerator Program (PPAP)
+                {program.title}
               </h3>
-              <p className="text-xs text-gray-400 mt-1">
-                Foundational Product Management Training
-              </p>
+              <p className="text-xs text-gray-400 mt-1">{program.description}</p>
               <span className="inline-block mt-2 bg-[#F3E8FF] text-[#6024D0] text-[11px] font-semibold px-3 py-1 rounded-full">
-                12 Weeks
+                {program.durationLabel}
               </span>
             </div>
           </div>
@@ -396,7 +342,7 @@ export default function CheckoutClient() {
 
           {/* Features */}
           <ul className="space-y-4">
-            {summaryFeatures.map((feature) => (
+            {program.features.map((feature) => (
               <li key={feature} className="flex items-center gap-3">
                 <span className="w-5 h-5 rounded-full bg-[#ECFDF3] flex items-center justify-center shrink-0">
                   <Check className="w-3 h-3 text-[#10B981]" strokeWidth={3} />
@@ -411,20 +357,26 @@ export default function CheckoutClient() {
           {/* Fee */}
           <div>
             <p className="text-sm text-gray-500 mb-1">Program Fee</p>
-            <p className="text-sm text-gray-400 line-through">
-              {format(ORIGINAL_FEE_NGN, currency)}
-            </p>
+            {program.originalFeeNgn != null && (
+              <p className="text-sm text-gray-400 line-through">
+                {format(program.originalFeeNgn, currency)}
+              </p>
+            )}
             <div className="flex items-center gap-3 mt-1">
               <span className="text-2xl font-extrabold text-[#15010D]">
-                {format(PROGRAM_FEE_NGN, currency)}
+                {totalDue}
               </span>
-              <span className="inline-flex items-center gap-1 bg-[#F3E8FF] text-[#6024D0] text-[11px] font-semibold px-2.5 py-1 rounded-full">
-                <Tag className="w-3 h-3" /> Early Bird
-              </span>
+              {program.originalFeeNgn != null && (
+                <span className="inline-flex items-center gap-1 bg-[#F3E8FF] text-[#6024D0] text-[11px] font-semibold px-2.5 py-1 rounded-full">
+                  <Tag className="w-3 h-3" /> Early Bird
+                </span>
+              )}
             </div>
-            <p className="text-xs text-[#10B981] mt-1">
-              save {format(SAVINGS_NGN, currency)} on this offer
-            </p>
+            {savingsNgn != null && savingsNgn > 0 && (
+              <p className="text-xs text-[#10B981] mt-1">
+                save {format(savingsNgn, currency)} on this offer
+              </p>
+            )}
           </div>
 
           <div className="h-px bg-gray-100 my-6" />
@@ -433,9 +385,6 @@ export default function CheckoutClient() {
           <div className="flex items-end justify-between">
             <div>
               <p className="text-base font-semibold text-[#15010D]">Total Due</p>
-              <p className="text-xs text-gray-400">
-                {method === "transfer" ? "Bank transfer" : "Bank Card"}
-              </p>
             </div>
             <span className="text-2xl font-extrabold text-[#15010D]">
               {totalDue}
@@ -479,117 +428,6 @@ export default function CheckoutClient() {
 }
 
 /* -------------------------------- Sub-parts ------------------------------- */
-
-function RadioOption({
-  label,
-  checked,
-  onChange,
-}: {
-  label: string;
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <label className="flex items-center gap-2.5 cursor-pointer select-none">
-      <span
-        onClick={onChange}
-        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-          checked ? "border-[#6024D0]" : "border-gray-300"
-        }`}
-      >
-        {checked && <span className="w-2.5 h-2.5 rounded-full bg-[#6024D0]" />}
-      </span>
-      <span
-        onClick={onChange}
-        className={`text-sm ${checked ? "text-[#15010D] font-medium" : "text-gray-500"}`}
-      >
-        {label}
-      </span>
-    </label>
-  );
-}
-
-function TransferDetails({
-  amount,
-  countdown,
-  account,
-  loading,
-}: {
-  amount: string;
-  countdown: string;
-  account: VirtualAccount | null;
-  loading: boolean;
-}) {
-  if (!account) {
-    return (
-      <div className="border-2 border-dashed border-[#A78BFA] rounded-2xl p-6 text-center">
-        {loading ? (
-          <p className="flex items-center justify-center gap-2 text-sm text-[#6024D0] font-medium">
-            <Loader2 className="w-4 h-4 animate-spin" /> Generating your dedicated account number…
-          </p>
-        ) : (
-          <p className="text-sm text-gray-500">
-            Fill in your details above and click{" "}
-            <span className="font-semibold text-[#15010D]">Complete Payment</span> to
-            generate a dedicated account number for your transfer.
-          </p>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <div className="bg-[#F6EDFF] text-[#6024D0] text-xs font-medium rounded-lg px-4 py-3 inline-block mb-5">
-        Please transfer the total amount to the following account:
-      </div>
-
-      <p className="text-center text-sm text-gray-500 mb-5">
-        Account number expires in{" "}
-        <span className="text-[#6024D0] font-bold">{countdown}</span>
-      </p>
-
-      <div className="border-2 border-dashed border-[#A78BFA] rounded-2xl p-6 space-y-5">
-        <Field label="Bank Name" value={account.bankName} />
-        <Field label="Account Name" value={account.accountName} />
-        <Field label="Account Number" value={account.accountNumber} copyable />
-        <Field label="Amount" value={amount} copyable />
-      </div>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  value,
-  copyable = false,
-}: {
-  label: string;
-  value: string;
-  copyable?: boolean;
-}) {
-  return (
-    <div className="flex items-start justify-between gap-4">
-      <div>
-        <p className="text-xs text-gray-400 mb-1">{label}</p>
-        <p className="text-base font-semibold text-[#15010D]">{value}</p>
-      </div>
-      {copyable && <CopyButton value={value} label={label} />}
-    </div>
-  );
-}
-
-function CardNotice() {
-  return (
-    <div className="flex items-start gap-3 bg-[#F6EDFF] rounded-2xl px-5 py-4">
-      <ShieldCheck className="w-5 h-5 text-[#6024D0] shrink-0 mt-0.5" />
-      <p className="text-sm text-gray-600 leading-relaxed">
-        Click <span className="font-semibold text-[#15010D]">Complete Payment</span> and
-        you&apos;ll be redirected to a secure page to enter your card details.
-      </p>
-    </div>
-  );
-}
 
 function WhatsappIcon() {
   return (

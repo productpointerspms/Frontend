@@ -13,14 +13,13 @@ import {
 import SurveyQuestions from "@/components/preregistration/SurveyQuestions";
 import ApplicationPaymentStep from "@/components/preregistration/ApplicationPaymentStep";
 import { ppipQuestions, validateRequiredAnswers } from "@/lib/programQuestions";
-import { submitApplication, type PaymentDetails } from "@/lib/application";
+import { submitApplication } from "@/lib/application";
 import { getCurrency, convert } from "@/lib/pricing";
 
 const PPIP_COMMITMENT_FEE_NGN = 20000;
 
 interface SubmitResult {
   applicationId: string;
-  payment: PaymentDetails;
   fullname: string;
   email: string;
 }
@@ -40,7 +39,6 @@ export default function PPIPApplyPage() {
       {step === 1 && <StepOne onNext={() => setStep(2)} />}
       {step === 2 && (
         <StepTwo
-          currency={currency}
           onBack={() => setStep(1)}
           onComplete={(r) => {
             setResult(r);
@@ -150,11 +148,9 @@ function SectionCard({
 }
 
 function StepTwo({
-  currency,
   onBack,
   onComplete,
 }: {
-  currency: string;
   onBack: () => void;
   onComplete: (result: SubmitResult) => void;
 }) {
@@ -180,7 +176,7 @@ function StepTwo({
     try {
       const fullname = String(fd.get("fullname") ?? "").trim();
       const email = String(fd.get("email") ?? "").trim();
-      const result = await submitApplication(e.currentTarget, "PPIP", currency);
+      const result = await submitApplication(e.currentTarget, "PPIP");
       onComplete({ ...result, fullname, email });
     } catch (err) {
       setError(
@@ -307,7 +303,7 @@ function PaymentStep({
   currency: string;
 }) {
   const currencyObj = getCurrency(currency);
-  const amount = result.payment.amount ?? convert(PPIP_COMMITMENT_FEE_NGN, currencyObj);
+  const amount = convert(PPIP_COMMITMENT_FEE_NGN, currencyObj);
 
   return (
     <ApplicationPaymentStep
@@ -317,8 +313,7 @@ function PaymentStep({
       fullname={result.fullname}
       email={result.email}
       amount={amount}
-      currencyCode={result.payment.currency ?? currencyObj.code}
-      reference={result.payment.reference}
+      currencyCode={currencyObj.code}
     />
   );
 }

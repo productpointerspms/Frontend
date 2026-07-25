@@ -66,7 +66,12 @@ const ContactSection = () => {
                 <Mail className="text-white w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-black mb-4">Email Support</h3>
-              <p className="text-[#5C1CC5] font-medium">support@productpointers.com</p>
+              <a
+                href="mailto:support@productpointers.com"
+                className="text-[#5C1CC5] font-medium hover:underline"
+              >
+                support@productpointers.com
+              </a>
             </div>
 
             {/* Phone Card */}
@@ -75,7 +80,12 @@ const ContactSection = () => {
                 <Phone className="text-white w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-black mb-4">Phone</h3>
-              <p className="text-[#5C1CC5] font-medium">+234 800 129 3456</p>
+              <a
+                href="tel:+2348001293456"
+                className="text-[#5C1CC5] font-medium hover:underline"
+              >
+                +234 800 129 3456
+              </a>
             </div>
 
             {/* Socials Card */}

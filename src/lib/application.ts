@@ -30,6 +30,23 @@ export interface RegisterApplicationResult {
   [key: string]: unknown;
 }
 
+// transaction.status codes.
+export const TRANSACTION_STATUS = {
+  PENDING: "03",
+  COMPLETED: "00",
+} as const;
+
+export interface TransactionRecord {
+  id: string;
+  amount: string;
+  currency: string;
+  reference: string;
+  /** See TRANSACTION_STATUS — "00" completed, "03" pending. */
+  status: string;
+  paymentMethod?: string;
+  processor?: string;
+}
+
 export interface ApplicationRecord {
   applicationId: string;
   fullname: string;
@@ -41,19 +58,21 @@ export interface ApplicationRecord {
   fee?: number;
   /** Application review status, e.g. "PENDING". */
   status: string;
-  /** Raw `transaction` object from the API — null until a payment exists. */
-  transaction: unknown;
+  /** Null until a payment attempt exists; check `.status` to see if it completed. */
+  transaction: TransactionRecord | null;
+}
+
+export interface BankTransferDetails {
+  accountNumber: string;
+  accountName: string;
+  bankName: string;
 }
 
 export interface PaymentDetails {
-  amount?: number;
-  currency?: string;
-  reference?: string;
-  /** Hosted checkout / payment link, if the API returns one. */
-  paymentUrl?: string;
-  checkoutUrl?: string;
-  authorizationUrl?: string;
-  [key: string]: unknown;
+  /** Hosted card checkout link, or null if card payment isn't available for this currency. */
+  link: string | null;
+  /** Dedicated bank transfer account, or null if transfer isn't available for this currency. */
+  transfer: BankTransferDetails | null;
 }
 
 async function parseError(res: Response, fallback: string): Promise<string> {
@@ -135,7 +154,21 @@ export async function getPaymentDetails(
   }
 
   const data = await res.json().catch(() => ({}));
-  return (data?.data ?? data) as PaymentDetails;
+  const inner = (data?.data ?? data) as Record<string, unknown>;
+  // The API nests link/transfer under `paymentDetails`, not on `data` itself.
+  const details = (inner.paymentDetails ?? inner) as Record<string, unknown>;
+  const transfer = details.transfer as Record<string, unknown> | null | undefined;
+
+  return {
+    link: details.link != null ? String(details.link) : null,
+    transfer: transfer
+      ? {
+          accountNumber: String(transfer.accountNumber ?? ""),
+          accountName: String(transfer.accountName ?? ""),
+          bankName: String(transfer.bankName ?? ""),
+        }
+      : null,
+  };
 }
 
 /** Best-effort extraction of `fullname` from the stringified `request` JSON. */
@@ -172,6 +205,23 @@ export async function getApplicationById(
     [firstName, lastName].filter(Boolean).join(" ") ||
     fullnameFromRequest(app.request);
 
+  const rawTransaction = app.transaction as Record<string, unknown> | null | undefined;
+  const transaction: TransactionRecord | null = rawTransaction
+    ? {
+        id: String(rawTransaction.id ?? ""),
+        amount: String(rawTransaction.amount ?? ""),
+        currency: String(rawTransaction.currency ?? ""),
+        reference: String(rawTransaction.reference ?? ""),
+        status: String(rawTransaction.status ?? ""),
+        paymentMethod:
+          rawTransaction.paymentMethod != null
+            ? String(rawTransaction.paymentMethod)
+            : undefined,
+        processor:
+          rawTransaction.processor != null ? String(rawTransaction.processor) : undefined,
+      }
+    : null;
+
   return {
     applicationId: String(app.id ?? applicationId),
     fullname,
@@ -181,7 +231,7 @@ export async function getApplicationById(
     programName: program.title != null ? String(program.title) : undefined,
     fee: program.fee != null ? Number(program.fee) : undefined,
     status: String(app.status ?? ""),
-    transaction: app.transaction ?? null,
+    transaction,
   };
 }
 
@@ -208,15 +258,15 @@ export function buildResponses(
 }
 
 /**
- * High-level submit: reads the form, registers the application, then fetches
- * payment details for the chosen currency. Field names expected on the form:
- * `fullname`, `email`, `phoneNumber`, plus one per question id.
+ * High-level submit: reads the form and registers the application. Payment
+ * details are fetched separately once the user chooses to pay. Field names
+ * expected on the form: `fullname`, `email`, `phoneNumber`, plus one per
+ * question id.
  */
 export async function submitApplication(
   form: HTMLFormElement,
-  program: ProgramCode,
-  currency: string
-): Promise<{ applicationId: string; payment: PaymentDetails }> {
+  program: ProgramCode
+): Promise<{ applicationId: string }> {
   const fd = new FormData(form);
   const config = PROGRAMS[program];
 
@@ -229,6 +279,5 @@ export async function submitApplication(
   };
 
   const result = await registerApplication(payload);
-  const payment = await getPaymentDetails(result.applicationId, currency);
-  return { applicationId: result.applicationId, payment };
+  return { applicationId: result.applicationId };
 }
