@@ -1,6 +1,7 @@
 // API client for ProductPointers application registration + payment details.
 //   POST /application/register
 //   GET  /application/payment-details/{applicationId}/{currency}
+//   GET  /application/{applicationId}
 
 import {
   PROGRAMS,
@@ -27,6 +28,14 @@ export interface RegisterApplicationPayload {
 export interface RegisterApplicationResult {
   applicationId: string;
   [key: string]: unknown;
+}
+
+export interface ApplicationRecord {
+  applicationId: string;
+  fullname: string;
+  email: string;
+  phoneNumber: string;
+  programCode?: string;
 }
 
 export interface PaymentDetails {
@@ -120,6 +129,32 @@ export async function getPaymentDetails(
 
   const data = await res.json().catch(() => ({}));
   return (data?.data ?? data) as PaymentDetails;
+}
+
+export async function getApplicationById(
+  applicationId: string
+): Promise<ApplicationRecord> {
+  const res = await fetch(
+    `${API_BASE_URL}/application/${encodeURIComponent(applicationId)}`,
+    { method: "GET", headers: { Accept: "application/json" } }
+  );
+
+  if (!res.ok) {
+    throw new Error(await parseError(res, "Could not load application"));
+  }
+
+  const data = await res.json().catch(() => ({}));
+  const inner = (data?.data ?? data) as Record<string, unknown>;
+
+  return {
+    applicationId: String(inner.applicationId ?? inner.id ?? applicationId),
+    fullname: String(inner.fullname ?? inner.name ?? ""),
+    email: String(inner.email ?? ""),
+    phoneNumber: String(
+      inner.phoneNumber ?? inner.phone_number ?? inner.phone ?? ""
+    ),
+    programCode: inner.programCode != null ? String(inner.programCode) : undefined,
+  };
 }
 
 /**

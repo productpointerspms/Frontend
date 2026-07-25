@@ -81,6 +81,7 @@ export const ppapQuestions: QuestionDef[] = [
     pill: "Challenge",
     content: "What is your biggest challenge right now?",
     type: "MULTIPLE_OPTION",
+    required: true,
     options: [
       "I don't understand how PM works",
       "I feel overwhelmed by too many resources",
@@ -174,6 +175,7 @@ export const ppipQuestions: QuestionDef[] = [
     category: "EXPERIENCE",
     content: "Have you worked on any product/project before? Tell us about it.",
     type: "TEXT",
+    required: true,
     placeholder:
       "Briefly describe your role, the product/project, and your contribution...",
     dependsOn: { id: "currentlyWorking", value: "Yes" },
@@ -184,6 +186,31 @@ export interface ProgramConfig {
   /** programCode sent to the register endpoint (confirm the exact cohort code). */
   programCode: string;
   questions: QuestionDef[];
+}
+
+/**
+ * Checks that every required question (visible per its `dependsOn`) has at
+ * least one answer. Native `required` already covers text fields and
+ * single-select radios; this fills the gap for multi-select checkbox groups,
+ * which can't express "at least one checked" with the `required` attribute.
+ */
+export function validateRequiredAnswers(
+  questions: QuestionDef[],
+  formData: FormData
+): string | null {
+  for (const q of questions) {
+    if (!q.required) continue;
+    if (q.dependsOn && formData.get(q.dependsOn.id) !== q.dependsOn.value) {
+      continue;
+    }
+    const answered = formData
+      .getAll(q.id)
+      .some((v) => String(v).trim().length > 0);
+    if (!answered) {
+      return "Please answer all required questions before submitting.";
+    }
+  }
+  return null;
 }
 
 export const PROGRAMS: Record<ProgramCode, ProgramConfig> = {

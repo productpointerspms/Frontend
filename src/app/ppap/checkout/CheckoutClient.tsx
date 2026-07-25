@@ -23,7 +23,7 @@ import {
   ORIGINAL_FEE_NGN,
   SAVINGS_NGN,
 } from "@/lib/pricing";
-import { registerApplication } from "@/lib/application";
+import { registerApplication, getApplicationById } from "@/lib/application";
 import {
   createPaymentLink,
   createDynamicVirtualAccount,
@@ -97,9 +97,15 @@ export default function CheckoutClient() {
     [searchParams]
   );
 
+  const applicationIdParam = searchParams.get("id");
+
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [applicationId, setApplicationId] = useState<string | null>(null);
+
+  const [loadingApplication, setLoadingApplication] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const [method, setMethod] = useState<PaymentMethod>("transfer");
   const [loading, setLoading] = useState(false);
@@ -107,6 +113,39 @@ export default function CheckoutClient() {
   const [virtualAccount, setVirtualAccount] = useState<VirtualAccount | null>(null);
   const [transferExpiry, setTransferExpiry] = useState<Date | null>(null);
   const countdown = useCountdown(transferExpiry);
+
+  // Pre-fill contact details from an existing application, if ?id= is present.
+  useEffect(() => {
+    if (!applicationIdParam) return;
+
+    let cancelled = false;
+    setLoadingApplication(true);
+    setLoadError(null);
+
+    getApplicationById(applicationIdParam)
+      .then((app) => {
+        if (cancelled) return;
+        setFullname(app.fullname);
+        setEmail(app.email);
+        setPhone(app.phoneNumber);
+        setApplicationId(app.applicationId);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setLoadError(
+          err instanceof Error
+            ? err.message
+            : "Could not load your application details."
+        );
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingApplication(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [applicationIdParam]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -117,17 +156,24 @@ export default function CheckoutClient() {
 
     try {
       const amount = convert(PROGRAM_FEE_NGN, currency);
-      const application = await registerApplication({
-        fullname,
-        email,
-        phoneNumber: phone,
-        programCode: "PPAP",
-        responses: [],
-      });
+
+      // Reuse the existing application (from ?id=) instead of registering a
+      // duplicate one when we already resolved it.
+      const resolvedApplicationId =
+        applicationId ??
+        (
+          await registerApplication({
+            fullname,
+            email,
+            phoneNumber: phone,
+            programCode: "PPAP",
+            responses: [],
+          })
+        ).applicationId;
 
       if (method === "card") {
         const { paymentUrl } = await createPaymentLink({
-          applicationId: application.applicationId,
+          applicationId: resolvedApplicationId,
           amount,
           currency: currency.code,
           email,
@@ -138,7 +184,7 @@ export default function CheckoutClient() {
       }
 
       const account = await createDynamicVirtualAccount({
-        applicationId: application.applicationId,
+        applicationId: resolvedApplicationId,
         amount,
         currency: currency.code,
         email,
@@ -186,6 +232,20 @@ export default function CheckoutClient() {
           </h2>
           <div className="h-px bg-gray-100 my-6" />
 
+          {loadingApplication && (
+            <div className="flex items-center gap-2 bg-[#F6EDFF] text-[#6024D0] rounded-xl px-4 py-3 text-sm mb-6">
+              <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+              <span>Loading your application details…</span>
+            </div>
+          )}
+
+          {loadError && (
+            <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-4 py-3 text-sm mb-6">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{loadError}</span>
+            </div>
+          )}
+
           <div className="space-y-6">
             <div>
               <label className={labelClass}>
@@ -194,10 +254,11 @@ export default function CheckoutClient() {
               <input
                 type="text"
                 required
+                disabled={loadingApplication}
                 value={fullname}
                 onChange={(e) => setFullname(e.target.value)}
                 placeholder="Enter your full name"
-                className={inputClass}
+                className={`${inputClass} disabled:opacity-60`}
               />
             </div>
 
@@ -209,10 +270,11 @@ export default function CheckoutClient() {
                 <input
                   type="email"
                   required
+                  disabled={loadingApplication}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your.email@example.com"
-                  className={inputClass}
+                  className={`${inputClass} disabled:opacity-60`}
                 />
               </div>
               <div>
@@ -222,10 +284,11 @@ export default function CheckoutClient() {
                 <input
                   type="tel"
                   required
+                  disabled={loadingApplication}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+234 XXX XXX XXXX"
-                  className={inputClass}
+                  className={`${inputClass} disabled:opacity-60`}
                 />
               </div>
             </div>

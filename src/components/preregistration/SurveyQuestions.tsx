@@ -16,6 +16,7 @@ const isMultiType = (type: string) =>
  */
 const SurveyQuestions: React.FC<{ questions: QuestionDef[] }> = ({ questions }) => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [otherSelected, setOtherSelected] = useState<Record<string, boolean>>({});
 
   const inputClass =
     "w-full px-4 py-3 rounded-lg border border-gray-200 bg-[#FCF8FF] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6024D0] transition-shadow";
@@ -51,30 +52,49 @@ const SurveyQuestions: React.FC<{ questions: QuestionDef[] }> = ({ questions }) 
             ) : (
               <div className="space-y-3">
                 {q.options?.map((opt, i) => (
-                  <label
-                    key={opt}
-                    className="flex items-center gap-3 cursor-pointer group"
-                  >
-                    <input
-                      type={multi ? "checkbox" : "radio"}
-                      name={q.id}
-                      value={opt}
-                      // `required` on a radio group requires a selection; skip
-                      // for checkboxes so it doesn't force every box checked.
-                      required={q.required && !multi && i === 0}
-                      onChange={() => {
-                        if (!multi) {
-                          setAnswers((prev) => ({ ...prev, [q.id]: opt }));
-                        }
-                      }}
-                      className={`w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer ${
-                        multi ? "rounded" : ""
-                      }`}
-                    />
-                    <span className="text-xs md:text-sm text-gray-700 group-hover:text-black">
-                      {opt}
-                    </span>
-                  </label>
+                  <React.Fragment key={opt}>
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <input
+                        type={multi ? "checkbox" : "radio"}
+                        name={q.id}
+                        value={opt}
+                        // `required` on a radio group requires a selection; skip
+                        // for checkboxes so it doesn't force every box checked
+                        // (enforced separately via validateRequiredAnswers).
+                        required={q.required && !multi && i === 0}
+                        onChange={(e) => {
+                          if (!multi) {
+                            setAnswers((prev) => ({ ...prev, [q.id]: opt }));
+                            setOtherSelected((prev) => ({
+                              ...prev,
+                              [q.id]: opt === "Other",
+                            }));
+                          } else if (opt === "Other") {
+                            setOtherSelected((prev) => ({
+                              ...prev,
+                              [q.id]: e.target.checked,
+                            }));
+                          }
+                        }}
+                        className={`w-4 h-4 text-[#6024D0] border-gray-300 focus:ring-[#6024D0] cursor-pointer ${
+                          multi ? "rounded" : ""
+                        }`}
+                      />
+                      <span className="text-xs md:text-sm text-gray-700 group-hover:text-black">
+                        {opt}
+                      </span>
+                    </label>
+
+                    {opt === "Other" && otherSelected[q.id] && (
+                      <input
+                        type="text"
+                        name={q.id}
+                        required
+                        placeholder="Please specify..."
+                        className={`${inputClass} mt-1`}
+                      />
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
             )}

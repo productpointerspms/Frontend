@@ -10,19 +10,21 @@ import {
   Check,
   ChevronRight,
   ArrowRight,
-  Mail,
-  CreditCard,
   Loader2,
   AlertCircle,
   type LucideIcon,
 } from "lucide-react";
 import SurveyQuestions from "@/components/preregistration/SurveyQuestions";
-import { ppapQuestions } from "@/lib/programQuestions";
+import ApplicationPaymentStep from "@/components/preregistration/ApplicationPaymentStep";
+import { ppapQuestions, validateRequiredAnswers } from "@/lib/programQuestions";
 import { submitApplication, type PaymentDetails } from "@/lib/application";
+import { getCurrency, convert, PROGRAM_FEE_NGN } from "@/lib/pricing";
 
 interface SubmitResult {
   applicationId: string;
   payment: PaymentDetails;
+  fullname: string;
+  email: string;
 }
 
 export default function PPAPApplyPage() {
@@ -171,11 +173,21 @@ function StepTwo({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting) return;
+
+    const fd = new FormData(e.currentTarget);
+    const validationError = validateRequiredAnswers(ppapQuestions, fd);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
     try {
+      const fullname = String(fd.get("fullname") ?? "").trim();
+      const email = String(fd.get("email") ?? "").trim();
       const result = await submitApplication(e.currentTarget, "PPAP", currency);
-      onComplete(result);
+      onComplete({ ...result, fullname, email });
     } catch (err) {
       setError(
         err instanceof Error
@@ -301,85 +313,19 @@ function PaymentStep({
   result: SubmitResult;
   currency: string;
 }) {
-  const { payment } = result;
-  const payLink =
-    payment.paymentUrl ?? payment.checkoutUrl ?? payment.authorizationUrl;
-  const amount = payment.amount;
-  const displayCurrency = payment.currency ?? currency;
+  const currencyObj = getCurrency(currency);
+  const amount = result.payment.amount ?? convert(PROGRAM_FEE_NGN, currencyObj);
 
   return (
-    <div className="w-full max-w-lg bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 text-center mt-6">
-      <div className="mx-auto w-20 h-20 bg-[#6024D0] rounded-full flex items-center justify-center mb-8 shadow-lg shadow-purple-200">
-        <Check size={40} className="text-white" strokeWidth={3} />
-      </div>
-
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-        Your Application Has Been Received
-      </h1>
-      <p className="text-gray-500 mb-10">
-        Thank you for applying to the ProductPointers Accelerator Program.
-        Complete your commitment payment to secure your spot.
-      </p>
-
-      {/* Payment card */}
-      <div className="rounded-2xl border border-[#EADCFB] bg-gradient-to-b from-[#FBF5FF] to-white p-6 md:p-7 text-left mb-8">
-        <div className="flex items-center gap-2 text-[#6024D0] mb-3">
-          <CreditCard className="w-5 h-5" />
-          <span className="text-sm font-semibold uppercase tracking-wide">
-            Commitment Fee
-          </span>
-        </div>
-
-        {amount != null ? (
-          <p className="text-4xl font-black text-[#1a1a1a] tracking-tight">
-            {displayCurrency} {amount.toLocaleString()}
-          </p>
-        ) : (
-          <p className="text-lg font-semibold text-[#1a1a1a]">
-            Amount will be confirmed shortly
-          </p>
-        )}
-
-        {payment.reference && (
-          <p className="text-xs text-gray-400 mt-2">
-            Reference:{" "}
-            <span className="font-medium text-gray-600">
-              {payment.reference}
-            </span>
-          </p>
-        )}
-
-        {payLink ? (
-          <a
-            href={payLink}
-            className="mt-6 w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
-          >
-            Proceed to Payment <ArrowRight className="w-5 h-5" />
-          </a>
-        ) : (
-          <div className="mt-6 flex items-start gap-2.5 bg-[#F3E8FF] rounded-xl px-4 py-3.5 text-[#6024D0]">
-            <Mail className="w-4 h-4 mt-0.5 shrink-0" />
-            <span className="text-xs md:text-sm font-medium">
-              Payment instructions will be sent to your email.
-            </span>
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-        <Link
-          href="/ppap"
-          className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold text-sm py-3 px-8 rounded-xl transition-colors"
-        >
-          Explore ProductPointers
-        </Link>
-        <Link
-          href="/"
-          className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold text-sm py-3 px-8 rounded-xl transition-colors"
-        >
-          Back to Home
-        </Link>
-      </div>
-    </div>
+    <ApplicationPaymentStep
+      programName="ProductPointers Accelerator Program (PPAP)"
+      programPath="/ppap"
+      applicationId={result.applicationId}
+      fullname={result.fullname}
+      email={result.email}
+      amount={amount}
+      currencyCode={result.payment.currency ?? currencyObj.code}
+      reference={result.payment.reference}
+    />
   );
 }
