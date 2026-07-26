@@ -68,9 +68,19 @@ export interface BankTransferDetails {
   bankName: string;
 }
 
+export interface PaymentLinkDetails {
+  reference: string;
+  /** The actual hosted checkout URL to send the user to. */
+  paymentLink: string;
+  /** See TRANSACTION_STATUS — "00" completed, "03" pending. */
+  status: string;
+  amount?: number;
+  currency?: string;
+}
+
 export interface PaymentDetails {
-  /** Hosted card checkout link, or null if card payment isn't available for this currency. */
-  link: string | null;
+  /** Card checkout details, or null if card payment isn't available for this currency. */
+  link: PaymentLinkDetails | null;
   /** Dedicated bank transfer account, or null if transfer isn't available for this currency. */
   transfer: BankTransferDetails | null;
 }
@@ -157,10 +167,21 @@ export async function getPaymentDetails(
   const inner = (data?.data ?? data) as Record<string, unknown>;
   // The API nests link/transfer under `paymentDetails`, not on `data` itself.
   const details = (inner.paymentDetails ?? inner) as Record<string, unknown>;
+  const rawLink = details.link as Record<string, unknown> | null | undefined;
   const transfer = details.transfer as Record<string, unknown> | null | undefined;
 
+  const link: PaymentLinkDetails | null = rawLink
+    ? {
+        reference: String(rawLink.reference ?? ""),
+        paymentLink: String(rawLink.payment_link ?? ""),
+        status: String(rawLink.status ?? ""),
+        amount: rawLink.amount != null ? Number(rawLink.amount) : undefined,
+        currency: rawLink.currency != null ? String(rawLink.currency) : undefined,
+      }
+    : null;
+
   return {
-    link: details.link != null ? String(details.link) : null,
+    link,
     transfer: transfer
       ? {
           accountNumber: String(transfer.accountNumber ?? ""),

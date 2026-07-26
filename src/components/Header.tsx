@@ -113,7 +113,7 @@ const Navbar = () => {
 
       {/* Desktop Buttons matching Hero.jpg styles */}
       <div className="hidden md:flex items-center gap-4">
-        <Link href="/" className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg font-bold hover:bg-[#4c1da3] transition shadow-sm">
+        <Link href="/#upcoming-programs" className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg font-bold hover:bg-[#4c1da3] transition shadow-sm">
           Apply Now
         </Link>
         {/* <Link href="/login" className="border border-[#6024D0] text-[#6024D0] px-7 py-2.5 rounded-lg font-bold hover:bg-purple-50 transition">
@@ -175,7 +175,7 @@ const Navbar = () => {
             </div>
           ))}
           <div className="flex flex-col w-full px-10 gap-4 mt-4">
-            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="w-full text-center bg-[#6024D0] text-white py-4 rounded-xl font-bold">
+            <Link href="/#upcoming-programs" onClick={() => setMobileMenuOpen(false)} className="w-full text-center bg-[#6024D0] text-white py-4 rounded-xl font-bold">
               Apply Now
             </Link>
           </div>

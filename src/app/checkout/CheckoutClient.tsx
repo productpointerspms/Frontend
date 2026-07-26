@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   Layers,
@@ -77,7 +77,29 @@ export default function CheckoutClient() {
   // let the user know the moment their payment is confirmed.
   const { isPaid } = usePaymentStatus(applicationId, applicationId != null);
 
-  // Pre-fill contact details from an existing application, if ?id= is present.
+  // Fetches transfer + card details together — no per-method button needed,
+  // the tabs in PaymentDetailsCard let the user switch between whichever
+  // methods come back.
+  const fetchPaymentDetails = useCallback(
+    async (id: string) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const details = await getPaymentDetails(id, currency.code);
+        setPaymentDetails(details);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Something went wrong. Please try again."
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [currency.code]
+  );
+
+  // Pre-fill contact details from an existing application, if ?id= is
+  // present, then fetch its payment details right away.
   useEffect(() => {
     if (!applicationIdParam) return;
 
@@ -97,6 +119,7 @@ export default function CheckoutClient() {
           title: app.programName,
           feeNgn: app.fee,
         });
+        fetchPaymentDetails(app.applicationId);
       })
       .catch((err) => {
         if (cancelled) return;
@@ -113,39 +136,35 @@ export default function CheckoutClient() {
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applicationIdParam]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (loading) return;
 
+    // Already have an application (from ?id=) — just retry the fetch.
+    if (applicationId) {
+      fetchPaymentDetails(applicationId);
+      return;
+    }
+
     setLoading(true);
     setError(null);
-
     try {
-      // Reuse the existing application (from ?id=) instead of registering a
-      // duplicate one when we already resolved it.
-      const resolvedApplicationId =
-        applicationId ??
-        (
-          await registerApplication({
-            fullname,
-            email,
-            phoneNumber: phone,
-            programCode: program.code,
-            responses: [],
-          })
-        ).applicationId;
-
-      setApplicationId(resolvedApplicationId);
-
-      const details = await getPaymentDetails(resolvedApplicationId, currency.code);
-      setPaymentDetails(details);
+      const result = await registerApplication({
+        fullname,
+        email,
+        phoneNumber: phone,
+        programCode: program.code,
+        responses: [],
+      });
+      setApplicationId(result.applicationId);
+      await fetchPaymentDetails(result.applicationId);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Something went wrong. Please try again."
       );
-    } finally {
       setLoading(false);
     }
   };
@@ -281,22 +300,24 @@ export default function CheckoutClient() {
                 </div>
               )}
 
-              {/* Submit */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white py-4 rounded-xl font-semibold text-base mt-10 flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <>
-                    Processing <Loader2 className="w-5 h-5 animate-spin" />
-                  </>
-                ) : (
-                  <>
-                    Complete Payment <ArrowRight className="w-5 h-5" />
-                  </>
-                )}
-              </button>
+              {/* Submit — hidden once details are already loaded (e.g. via ?id=) */}
+              {!paymentDetails && (
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white py-4 rounded-xl font-semibold text-base mt-10 flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <>
+                      Processing <Loader2 className="w-5 h-5 animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Complete Payment <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+              )}
             </>
           )}
 

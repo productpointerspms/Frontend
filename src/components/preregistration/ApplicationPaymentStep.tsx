@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Check,
@@ -87,21 +87,36 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
     true
   );
 
-  const handleCompletePayment = async () => {
-    if (payLoading) return;
+  // Fetch payment details automatically as soon as the page can show them —
+  // no button click required.
+  useEffect(() => {
+    if (!showPaymentButton) return;
+
+    let cancelled = false;
     setPayLoading(true);
     setPayError(null);
-    try {
-      const details = await getPaymentDetails(applicationId, currencyCode);
-      setPaymentDetails(details);
-    } catch (err) {
-      setPayError(
-        err instanceof Error ? err.message : "Could not load payment details. Please try again."
-      );
-    } finally {
-      setPayLoading(false);
-    }
-  };
+
+    getPaymentDetails(applicationId, currencyCode)
+      .then((details) => {
+        if (!cancelled) setPaymentDetails(details);
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setPayError(
+            err instanceof Error
+              ? err.message
+              : "Could not load payment details. Please try again."
+          );
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setPayLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [applicationId, currencyCode, showPaymentButton]);
 
   return (
     <div className="w-full max-w-2xl bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 text-center mt-6">
@@ -159,47 +174,27 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
             application is reviewed.
           </div>
         ) : (
-          <>
-            {!paymentDetails && (
-              <button
-                type="button"
-                onClick={handleCompletePayment}
-                disabled={payLoading}
-                className="bg-[#6024D0] hover:bg-[#4d1ba8] disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 px-8 rounded-xl transition-colors inline-flex items-center justify-center gap-2 cursor-pointer mb-5"
-              >
-                {payLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" /> Loading payment details
-                  </>
-                ) : (
-                  <>
-                    Complete Payment <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-            )}
-
-            {payError && (
+          <div className="text-left">
+            {payError ? (
               <p className="flex items-center justify-center gap-1.5 text-xs text-red-500 mb-5">
                 <AlertCircle className="w-3.5 h-3.5" /> {payError}
               </p>
+            ) : (
+              <PaymentDetailsCard
+                details={paymentDetails}
+                loading={payLoading}
+                amountLabel={`${currencyCode} ${amount.toLocaleString()}`}
+                idleMessage="Fetching your payment details…"
+              />
             )}
 
             {paymentDetails && (
-              <div className="text-left">
-                <PaymentDetailsCard
-                  details={paymentDetails}
-                  loading={payLoading}
-                  amountLabel={`${currencyCode} ${amount.toLocaleString()}`}
-                  idleMessage="Click Complete Payment to see your payment details."
-                />
-                <p className="flex items-center justify-center gap-1.5 text-xs text-gray-400 mt-4">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  We&apos;ll update this page automatically once your payment is confirmed.
-                </p>
-              </div>
+              <p className="flex items-center justify-center gap-1.5 text-xs text-gray-400 mt-4">
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                We&apos;ll update this page automatically once your payment is confirmed.
+              </p>
             )}
-          </>
+          </div>
         )}
       </div>
 
