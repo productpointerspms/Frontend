@@ -1,26 +1,31 @@
+"use client";
+
 import React from "react";
 import { Users, UserCheck, Globe, GraduationCap } from "lucide-react";
+import { useProgramStats } from "@/lib/useProgramStats";
 
 const StatsSection: React.FC = () => {
+  const liveStats = useProgramStats();
+
   const stats = [
     {
       icon: <Users className="text-purple-600 font-montserrat " size={24} />,
-      value: "300+",
+      value: liveStats.professionalsTrained,
       label: "Professionals Trained",
     },
     {
       icon: <UserCheck className="text-purple-600 font-montserrat " size={24} />,
-      value: "15+",
+      value: liveStats.expertMentors,
       label: "Expert Mentors",
     },
     {
       icon: <Globe className="text-purple-600 font-montserrat " size={24} />,
-      value: "13+",
+      value: liveStats.countriesReached,
       label: "Countries Reached",
     },
     {
       icon: <GraduationCap className="text-purple-600 font-montserrat " size={24} />,
-      value: "97%",
+      value: liveStats.careerAdvancementRate,
       label: "Career Advancement Rate",
     },
   ];

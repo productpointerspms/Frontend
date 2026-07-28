@@ -4,15 +4,10 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Montserrat } from "next/font/google";
-import {
-  currencies,
-  format,
-  type Currency,
-} from "@/lib/pricing";
+import { useLiveRates, currencies } from "@/lib/useLiveRates";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
-const PPIP_ORIGINAL_FEE_NGN = 100000;
 const PPIP_COMMITMENT_FEE_NGN = 20000;
 
 const Flag = ({ country }: { country: string }) => (
@@ -27,7 +22,16 @@ const Flag = ({ country }: { country: string }) => (
 );
 
 const PricingSection: React.FC = () => {
-  const [currency, setCurrency] = useState<Currency>(currencies[0]);
+  const {
+    currency,
+    setCurrency,
+    formatLive,
+    getLiveAmount,
+    loading,
+    error,
+    isLive,
+    priceKey,
+  } = useLiveRates(PPIP_COMMITMENT_FEE_NGN);
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +54,7 @@ const PricingSection: React.FC = () => {
           Invest In Your Product Career
         </h2>
         <p className="text-gray-500 max-w-2xl mx-auto mt-4 mb-12">
-          A 10-week execution-focused internship where you move from learning
+          A 12-week execution-focused internship where you move from learning
           about Product Management to building, launching, and documenting a real
           MVP you can showcase with confidence.
         </p>
@@ -69,49 +73,93 @@ const PricingSection: React.FC = () => {
             an acceptance email and are required to pay a commitment fee.
           </p>
 
-          <p className="text-gray-400 line-through text-lg font-medium mb-5">
-            {format(PPIP_ORIGINAL_FEE_NGN, currency)} Program Fee
-          </p>
-
           {/* Currency selector */}
-          <div className="relative mb-6" ref={dropdownRef}>
-            <button
-              type="button"
-              onClick={() => setOpen((prev) => !prev)}
-              className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-1.5 text-sm font-semibold text-[#1a1a1a] shadow-sm cursor-pointer hover:bg-gray-50"
-            >
-              <Flag country={currency.country} />
-              {currency.code}
-              <ChevronDown
-                className={`w-4 h-4 text-gray-500 transition-transform ${open ? "rotate-180" : ""}`}
-              />
-            </button>
-
-            {open && (
-              <div className="absolute z-20 mt-2 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-xl shadow-lg w-48 py-2 max-h-64 overflow-auto text-left">
-                {currencies.map((c) => (
-                  <button
-                    key={c.code}
-                    type="button"
-                    onClick={() => {
-                      setCurrency(c);
-                      setOpen(false);
-                    }}
-                    className={`w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-purple-50 transition-colors ${
-                      c.code === currency.code ? "text-[#6024D0] font-semibold" : "text-gray-700"
-                    }`}
-                  >
-                    <Flag country={c.country} />
-                    <span>{c.code}</span>
-                    <span className="text-gray-400 ml-auto">{c.symbol.trim()}</span>
-                  </button>
-                ))}
-              </div>
+          <div className="flex items-center gap-2 mb-6">
+            {/* Status badges */}
+            {loading && (
+              <span className="inline-flex items-center gap-1 text-[10px] text-[#6024D0] font-medium bg-[#F3E8FF] px-2.5 py-1 rounded-full animate-pulse">
+                <ArrowRight className="w-2.5 h-2.5 animate-spin" />
+                Live rates loading…
+              </span>
             )}
+            {!loading && isLive && (
+              <span className="inline-flex items-center gap-1 text-[10px] text-[#10B981] font-semibold bg-[#ECFDF3] px-2.5 py-1 rounded-full">
+                Live rate
+              </span>
+            )}
+            {!loading && error && currency.code !== "NGN" && (
+              <span className="text-[10px] text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full font-medium">
+                Est. rate
+              </span>
+            )}
+
+            <div className="relative" ref={dropdownRef}>
+              <button
+                type="button"
+                onClick={() => setOpen((prev) => !prev)}
+                className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-1.5 text-sm font-semibold text-[#1a1a1a] shadow-sm cursor-pointer hover:bg-gray-50"
+              >
+                <Flag country={currency.country} />
+                {currency.code}
+                <ChevronDown
+                  className={`w-4 h-4 text-gray-500 transition-transform ${open ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {open && (
+                <div className="absolute z-30 mt-2 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-xl shadow-lg w-52 py-2 max-h-64 overflow-auto text-left">
+                  <div className="px-4 pb-2 border-b border-gray-100 mb-1">
+                    <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">
+                      Select Currency
+                    </p>
+                  </div>
+                  {currencies.map((c) => {
+                    const liveAmt = getLiveAmount(c);
+                    return (
+                      <button
+                        key={c.code}
+                        type="button"
+                        onClick={() => {
+                          setCurrency(c);
+                          setOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-purple-50 transition-colors ${
+                          c.code === currency.code ? "text-[#6024D0] bg-[#F3E8FF] font-semibold" : "text-gray-700"
+                        }`}
+                      >
+                        <Flag country={c.country} />
+                        <div className="flex flex-col items-start flex-1 min-w-0">
+                          <span className="font-semibold">{c.code}</span>
+                          {liveAmt ? (
+                            <span className={`text-[10px] truncate ${
+                              c.code === currency.code ? "text-[#6024D0]/70" : "text-gray-400"
+                            }`}>
+                              {liveAmt}
+                            </span>
+                          ) : loading ? (
+                            <span className="text-[10px] text-gray-300">Loading…</span>
+                          ) : null}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="text-5xl md:text-6xl font-black text-[#1a1a1a] mb-8">
-            {format(PPIP_COMMITMENT_FEE_NGN, currency)}
+          <div className="mb-8 min-h-[4rem] flex items-center justify-center">
+            {loading && currency.code !== "NGN" ? (
+              <span className="inline-block h-12 w-40 rounded-xl bg-gray-200 animate-pulse" />
+            ) : (
+              <div
+                key={`price-${priceKey}-${currency.code}`}
+                className="text-5xl md:text-6xl font-black text-[#1a1a1a]"
+                style={{ animation: "fadeInUp 0.3s ease" }}
+              >
+                {formatLive(PPIP_COMMITMENT_FEE_NGN)}
+              </div>
+            )}
           </div>
 
           <Link

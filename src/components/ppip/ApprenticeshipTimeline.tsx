@@ -89,10 +89,10 @@ const ApprenticeshipTimeline: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <span className="border border-[#a855f7] text-[#a855f7] bg-[#FAE1FF] rounded-full px-4 py-1.5 text-xs font-semibold mb-6 inline-block">
-            10-Weeks Structured Program
+            12-weeks Structured Program
           </span>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a]">
-            A Structured 10-Week Product Apprenticeship
+            A Structured 12-week Product Apprenticeship
           </h2>
         </div>
 

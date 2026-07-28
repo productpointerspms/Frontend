@@ -129,7 +129,7 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
       </h1>
       <p className="text-gray-500 mb-4 max-w-md mx-auto">
         Thank you for applying to the {programName}. We&apos;ll be in touch
-        with payment and onboarding instructions via email.
+        with payment and onboarding instructions if you are Shortlisted.
       </p>
 
       {/* Application / payment status */}

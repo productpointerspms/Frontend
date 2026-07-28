@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   Layers,
   Check,
+  ChevronDown,
   ArrowRight,
   ShieldCheck,
   Info,
@@ -14,8 +15,17 @@ import {
   AlertCircle,
   Loader2,
   PartyPopper,
+  RefreshCw,
+  Zap,
 } from "lucide-react";
-import { getCurrency, format } from "@/lib/pricing";
+import {
+  currencies,
+  getCurrency,
+  format,
+  getConversionRates,
+  type Currency,
+  type LiveRates,
+} from "@/lib/pricing";
 import { getProgramInfo } from "@/lib/programs";
 import {
   registerApplication,
@@ -31,16 +41,46 @@ const inputClass =
 
 const labelClass = "block text-sm font-medium text-gray-700 mb-2";
 
+/** Read-only contact field — used when the application has already been submitted. */
+function ReadOnlyField({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">
+        {label}
+      </p>
+      <p className="px-4 py-3 rounded-xl border border-[#EADCF7] bg-[#F6EDFF]/40 text-sm font-medium text-[#15010D] select-all">
+        {value || "—"}
+      </p>
+    </div>
+  );
+}
+
 /**
  * Shared checkout for every program — which program is driven entirely by
  * `?program=<code>` (e.g. PPAP, PPIP), resolved via `getProgramInfo`.
  */
 export default function CheckoutClient() {
   const searchParams = useSearchParams();
-  const currency = useMemo(
-    () => getCurrency(searchParams.get("currency")),
-    [searchParams]
+  // User-switchable — seeded from ?currency= but changeable via the dropdown below.
+  const [currency, setCurrency] = useState<Currency>(() =>
+    getCurrency(searchParams.get("currency"))
   );
+  const [currencyMenuOpen, setCurrencyMenuOpen] = useState(false);
+  const currencyDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        currencyDropdownRef.current &&
+        !currencyDropdownRef.current.contains(event.target as Node)
+      ) {
+        setCurrencyMenuOpen(false);
+      }
+    };
+    if (currencyMenuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [currencyMenuOpen]);
+
   const applicationIdParam = searchParams.get("id");
 
   const [fullname, setFullname] = useState("");
@@ -68,6 +108,70 @@ export default function CheckoutClient() {
 
   const [loadingApplication, setLoadingApplication] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+
+  // Live converted amounts for program.feeNgn, from /transaction/rates/{amount}.
+  // Falls back to the static rate table in lib/pricing.ts if the request fails.
+  const [liveRates, setLiveRates] = useState<LiveRates | null>(null);
+  const [ratesLoading, setRatesLoading] = useState(false);
+  const [ratesError, setRatesError] = useState(false);
+  // Tracks when the displayed price last changed so we can animate it.
+  const [priceKey, setPriceKey] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLiveRates(null);
+    setRatesLoading(true);
+    setRatesError(false);
+    getConversionRates(program.feeNgn)
+      .then((rates) => {
+        if (!cancelled) {
+          setLiveRates(rates);
+          setPriceKey((k) => k + 1);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setRatesError(true);
+        /* silently fall back to the static rate table */
+      })
+      .finally(() => {
+        if (!cancelled) setRatesLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [program.feeNgn]);
+
+  // Formats an NGN amount in the selected currency, preferring the live rate.
+  // Non-fee amounts (e.g. the strikethrough original price) are scaled by the
+  // same live rate ratio so they stay consistent with the fee's live figure.
+  const formatLive = (ngnAmount: number) => {
+    if (currency.code === "NGN") {
+      return `${currency.symbol}${Math.round(ngnAmount).toLocaleString()}`;
+    }
+    const liveFeeAmount = liveRates?.[currency.code];
+    if (liveFeeAmount != null && program.feeNgn > 0) {
+      const scaled = (liveFeeAmount / program.feeNgn) * ngnAmount;
+      return `${currency.symbol}${Math.round(scaled).toLocaleString()}`;
+    }
+    return format(ngnAmount, currency);
+  };
+
+  /** Returns the live-rate converted amount for a given currency (fee only). */
+  const getLiveAmount = (c: Currency): string | null => {
+    if (c.code === "NGN") return `₦${Math.round(program.feeNgn).toLocaleString()}`;
+    const live = liveRates?.[c.code];
+    if (live != null) return `${c.symbol.trim()}${Math.round(live).toLocaleString()}`;
+    return null;
+  };
+
+  // Track when currency changes to animate the price.
+  const handleCurrencyChange = (c: Currency) => {
+    setCurrency(c);
+    setCurrencyMenuOpen(false);
+    setPriceKey((k) => k + 1);
+  };
+
+  const isUsingLiveRate = liveRates != null && currency.code !== "NGN";
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -97,6 +201,15 @@ export default function CheckoutClient() {
     },
     [currency.code]
   );
+
+  // Re-fetch transfer/card details if the user switches currency after
+  // they're already showing, so they match the newly selected currency.
+  useEffect(() => {
+    if (applicationId && paymentDetails) {
+      fetchPaymentDetails(applicationId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currency.code]);
 
   // Pre-fill contact details from an existing application, if ?id= is
   // present, then fetch its payment details right away.
@@ -169,7 +282,7 @@ export default function CheckoutClient() {
     }
   };
 
-  const totalDue = format(program.feeNgn, currency);
+  const totalDue = formatLive(program.feeNgn);
   const savingsNgn =
     program.originalFeeNgn != null ? program.originalFeeNgn - program.feeNgn : null;
 
@@ -190,7 +303,7 @@ export default function CheckoutClient() {
         {/* ----------------------------- Left: Form ---------------------------- */}
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-[28px] shadow-sm p-6 sm:p-10"
+          className="order-2 lg:order-1 bg-white rounded-[28px] shadow-sm p-6 sm:p-10"
         >
           {/* Contact Information */}
           <h2 className="text-xl font-bold text-[#15010D]">
@@ -213,51 +326,70 @@ export default function CheckoutClient() {
           )}
 
           <div className="space-y-6">
-            <div>
-              <label className={labelClass}>
-                Full Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                required
-                disabled={loadingApplication}
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-                placeholder="Enter your full name"
-                className={`${inputClass} disabled:opacity-60`}
-              />
-            </div>
+            {/* When an application already exists the fields are locked —
+                the user submitted these details in the apply flow; they
+                should not be changed here. */}
+            {applicationIdParam ? (
+              <>
+                <ReadOnlyField label="Full Name" value={fullname} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <ReadOnlyField label="Email address" value={email} />
+                  <ReadOnlyField label="Phone number" value={phone} />
+                </div>
+                <p className="flex items-center gap-1.5 text-xs text-[#6024D0] bg-[#F3E8FF] rounded-xl px-4 py-2.5">
+                  <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+                  Your details are locked from your submitted application.
+                </p>
+              </>
+            ) : (
+              <>
+                <div>
+                  <label className={labelClass}>
+                    Full Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    disabled={loadingApplication}
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
+                    placeholder="Enter your full name"
+                    className={`${inputClass} disabled:opacity-60`}
+                  />
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className={labelClass}>
-                  Email address <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  required
-                  disabled={loadingApplication}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your.email@example.com"
-                  className={`${inputClass} disabled:opacity-60`}
-                />
-              </div>
-              <div>
-                <label className={labelClass}>
-                Phone number (WhatsApp preferred) * <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="tel"
-                  required
-                  disabled={loadingApplication}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+234 XXX XXX XXXX"
-                  className={`${inputClass} disabled:opacity-60`}
-                />
-              </div>
-            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className={labelClass}>
+                      Email address <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      disabled={loadingApplication}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="your.email@example.com"
+                      className={`${inputClass} disabled:opacity-60`}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>
+                      Phone number (WhatsApp preferred) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      disabled={loadingApplication}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="+234 XXX XXX XXXX"
+                      className={`${inputClass} disabled:opacity-60`}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Payment */}
@@ -337,7 +469,7 @@ export default function CheckoutClient() {
         </form>
 
         {/* -------------------------- Right: Summary -------------------------- */}
-        <aside className="bg-white rounded-[28px] shadow-sm p-6 sm:p-8">
+        <aside className="order-1 lg:order-2 bg-white rounded-[28px] shadow-sm p-6 sm:p-8">
           <h2 className="text-xl font-bold text-[#15010D]">
             Application Summary
           </h2>
@@ -377,27 +509,101 @@ export default function CheckoutClient() {
 
           {/* Fee */}
           <div>
-            <p className="text-sm text-gray-500 mb-1">Program Fee</p>
-            {program.originalFeeNgn != null && (
-              <p className="text-sm text-gray-400 line-through">
-                {format(program.originalFeeNgn, currency)}
-              </p>
-            )}
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-gray-500">Program Fee</p>
+                {/* Live rate indicator */}
+                {ratesLoading && (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-[#6024D0] font-medium bg-[#F3E8FF] px-2 py-0.5 rounded-full animate-pulse">
+                    <RefreshCw className="w-2.5 h-2.5 animate-spin" />
+                    Fetching live rates…
+                  </span>
+                )}
+                {!ratesLoading && isUsingLiveRate && (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-[#10B981] font-semibold bg-[#ECFDF3] px-2 py-0.5 rounded-full">
+                    <Zap className="w-2.5 h-2.5" />
+                    Live rate
+                  </span>
+                )}
+                {!ratesLoading && ratesError && currency.code !== "NGN" && (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-amber-600 font-medium bg-amber-50 px-2 py-0.5 rounded-full">
+                    Est. rate
+                  </span>
+                )}
+              </div>
+
+              {/* Currency selector */}
+              <div className="relative" ref={currencyDropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setCurrencyMenuOpen((prev) => !prev)}
+                  className="flex items-center gap-1.5 border border-gray-200 rounded-full pl-2 pr-2.5 py-1 text-xs font-semibold text-gray-700 shadow-sm hover:bg-gray-50 cursor-pointer transition-colors"
+                >
+                  <Flag country={currency.country} />
+                  {currency.code}
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-gray-500 transition-transform ${
+                      currencyMenuOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {currencyMenuOpen && (
+                  <div className="absolute z-20 mt-2 right-0 bg-white border border-gray-200 rounded-2xl shadow-xl w-52 py-2 max-h-72 overflow-auto">
+                    {/* Header */}
+                    <div className="px-4 pb-2 border-b border-gray-100 mb-1">
+                      <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Select Currency</p>
+                    </div>
+                    {currencies.map((c) => {
+                      const liveAmt = getLiveAmount(c);
+                      return (
+                        <button
+                          key={c.code}
+                          type="button"
+                          onClick={() => handleCurrencyChange(c)}
+                          className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs transition-colors cursor-pointer ${
+                            c.code === currency.code
+                              ? "bg-[#F3E8FF] text-[#6024D0] font-semibold"
+                              : "text-gray-700 hover:bg-purple-50"
+                          }`}
+                        >
+                          <Flag country={c.country} />
+                          <div className="flex flex-col items-start flex-1 min-w-0">
+                            <span className="font-semibold">{c.code}</span>
+                            {liveAmt ? (
+                              <span className={`text-[10px] truncate ${
+                                c.code === currency.code ? "text-[#6024D0]/70" : "text-gray-400"
+                              }`}>
+                                {liveAmt}
+                              </span>
+                            ) : ratesLoading ? (
+                              <span className="text-[10px] text-gray-300">Loading…</span>
+                            ) : null}
+                          </div>
+                          {c.code === currency.code && (
+                            <Check className="w-3.5 h-3.5 text-[#6024D0] shrink-0" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
             <div className="flex items-center gap-3 mt-1">
-              <span className="text-2xl font-extrabold text-[#15010D]">
-                {totalDue}
-              </span>
-              {program.originalFeeNgn != null && (
-                <span className="inline-flex items-center gap-1 bg-[#F3E8FF] text-[#6024D0] text-[11px] font-semibold px-2.5 py-1 rounded-full">
-                  <Tag className="w-3 h-3" /> Early Bird
+              {/* Price with shimmer while loading */}
+              {ratesLoading && currency.code !== "NGN" ? (
+                <span className="inline-block h-8 w-28 rounded-lg bg-gray-200 animate-pulse" />
+              ) : (
+                <span
+                  key={`price-${priceKey}-${currency.code}`}
+                  className="text-2xl font-extrabold text-[#15010D] transition-all"
+                  style={{ animation: "fadeInUp 0.3s ease" }}
+                >
+                  {totalDue}
                 </span>
               )}
             </div>
-            {savingsNgn != null && savingsNgn > 0 && (
-              <p className="text-xs text-[#10B981] mt-1">
-                save {format(savingsNgn, currency)} on this offer
-              </p>
-            )}
           </div>
 
           <div className="h-px bg-gray-100 my-6" />
@@ -406,10 +612,23 @@ export default function CheckoutClient() {
           <div className="flex items-end justify-between">
             <div>
               <p className="text-base font-semibold text-[#15010D]">Total Due</p>
+              {isUsingLiveRate && !ratesLoading && (
+                <p className="text-[10px] text-gray-400 mt-0.5">
+                  Converted at live market rate
+                </p>
+              )}
             </div>
-            <span className="text-2xl font-extrabold text-[#15010D]">
-              {totalDue}
-            </span>
+            {ratesLoading && currency.code !== "NGN" ? (
+              <span className="inline-block h-8 w-28 rounded-lg bg-gray-200 animate-pulse" />
+            ) : (
+              <span
+                key={`total-${priceKey}-${currency.code}`}
+                className="text-2xl font-extrabold text-[#15010D]"
+                style={{ animation: "fadeInUp 0.3s ease" }}
+              >
+                {totalDue}
+              </span>
+            )}
           </div>
 
           {/* Help */}
@@ -449,6 +668,19 @@ export default function CheckoutClient() {
 }
 
 /* -------------------------------- Sub-parts ------------------------------- */
+
+function Flag({ country }: { country: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`https://flagcdn.com/24x18/${country}.png`}
+      alt=""
+      width={18}
+      height={13}
+      className="w-4 h-auto rounded-sm shrink-0"
+    />
+  );
+}
 
 function WhatsappIcon() {
   return (

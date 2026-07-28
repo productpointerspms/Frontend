@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "./application";
+
 export type Currency = {
   code: string;
   symbol: string;
@@ -34,3 +36,23 @@ export const convert = (ngnAmount: number, currency: Currency): number =>
 /** Format an NGN amount as a localized string in the target currency. */
 export const format = (ngnAmount: number, currency: Currency): string =>
   `${currency.symbol}${convert(ngnAmount, currency).toLocaleString()}`;
+
+/** Live converted amounts for an NGN amount, keyed by currency code (NGN itself is omitted). */
+export interface LiveRates {
+  [currencyCode: string]: number;
+}
+
+/** GET /transaction/rates/{amount} — live converted amounts for an NGN amount. */
+export async function getConversionRates(amountNgn: number): Promise<LiveRates> {
+  const res = await fetch(`${API_BASE_URL}/transaction/rates/${amountNgn}`, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Could not load exchange rates (${res.status})`);
+  }
+
+  const data = await res.json().catch(() => ({}));
+  return (data?.data ?? {}) as LiveRates;
+}

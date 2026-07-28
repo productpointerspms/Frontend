@@ -126,6 +126,15 @@ export const ppipQuestions: QuestionDef[] = [
     ],
   },
   {
+    id: "foundationalTraining",
+    category: "EXPERIENCE",
+    content:
+      "Have you completed any foundational training in Product Management?",
+    type: "SINGLE_OPTION",
+    required: true,
+    options: ["Yes", "No"],
+  },
+  {
     id: "biggestChallenge",
     category: "CHALLENGE",
     pill: "Challenge",
@@ -148,7 +157,7 @@ export const ppipQuestions: QuestionDef[] = [
     category: "COMMITMENT",
     pill: "Commitment",
     content:
-      "This is a 10-week internship. Can you commit your time and effort?",
+      "This is a 12-week internship. Can you commit your time and effort?",
     type: "SINGLE_OPTION",
     required: true,
     options: ["Yes, I'm ready to commit", "Not sure yet"],

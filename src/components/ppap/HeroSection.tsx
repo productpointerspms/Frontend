@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
@@ -5,9 +7,12 @@ import { ArrowRight } from 'lucide-react';
 import eniolaImg from "@/assets/images/eniola.png";
 import udochukwuImg from "@/assets/images/udochukwu.png";
 import mercyImg from "@/assets/images/mercy.png";
+import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
 
 const HeroSection = () => {
   const avatars = [eniolaImg, udochukwuImg, mercyImg];
+  const { startTime, endTime } = useProgramDates("PPAP");
+  const durationLabel = formatDurationWeeks(startTime, endTime);
 
   return (
     <section className="bg-[#FCF1FF] py-15 px-6 md:px-12 flex flex-col items-center justify-center text-center min-h-[80vh]">
@@ -38,6 +43,16 @@ const HeroSection = () => {
             Download Brochure
           </button>
         </div>
+
+        <p className="text-sm text-gray-500 mb-8">
+          Date: {formatDateRange(startTime, endTime)}
+          {durationLabel && (
+            <>
+              {" "}
+              • <br /> Duration: {durationLabel}
+            </>
+          )}
+        </p>
 
         {/* Social Proof */}
         <div className="flex items-center gap-4">

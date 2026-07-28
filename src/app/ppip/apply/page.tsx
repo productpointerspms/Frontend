@@ -66,7 +66,7 @@ function StepOne({ onNext }: { onNext: () => void }) {
           Before You Apply...
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          The ProductPointers Internship Program (PPIP) is a 10-week hands-on
+          The ProductPointers Internship Program (PPIP) is a 12-week hands-on
           internship, not a passive learning program.
         </p>
       </div>
@@ -103,7 +103,7 @@ function StepOne({ onNext }: { onNext: () => void }) {
           {[
             "You have foundational Product Management knowledge",
             "You are ready to do real, hands-on product work",
-            "You can commit to the full 10-week program",
+            "You can commit to the full 12-week program",
           ].map((item) => (
             <div key={item} className="flex items-center space-x-3">
               <CheckCircle2 size={20} className="text-[#10B981]" />

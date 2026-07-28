@@ -35,6 +35,14 @@ export default function Footer() {
             <ul className="space-y-4">
               <li>
                 <Link
+                  href="/"
+                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/about"
                   className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
@@ -43,26 +51,18 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/accelerator"
+                  href="/ppap"
                   className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
-                  Programs
+                  PPAP Program
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/courses"
+                  href="/ppip"
                   className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
-                  Courses
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
-                >
-                  Contact
+                  PPIP Program
                 </Link>
               </li>
               <li>
@@ -71,6 +71,14 @@ export default function Footer() {
                   className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
                 >
                   Community
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-[#FFFFFF] hover:text-white transition-colors text-xs"
+                >
+                  Contact
                 </Link>
               </li>
             </ul>

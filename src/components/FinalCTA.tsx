@@ -36,7 +36,7 @@ const FinalCTA: React.FC = () => {
             href="/#upcoming-programs"
             className="bg-[#FDF4FF] text-[#6024D0] px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-white transition-colors w-full sm:w-auto justify-center cursor-pointer"
           >
-            Apply for Full Career Path
+            Apply NowCareer Path
             <MoveRight className="w-5 h-5" />
           </Link>
 

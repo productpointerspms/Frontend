@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -5,19 +7,23 @@ import { Montserrat } from "next/font/google";
 import eniolaImg from "@/assets/images/eniola.png";
 import udochukwuImg from "@/assets/images/udochukwu.png";
 import mercyImg from "@/assets/images/mercy.png";
+import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
 
 const avatars = [eniolaImg, udochukwuImg, mercyImg];
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const HeroSection: React.FC = () => {
+  const { startTime, endTime } = useProgramDates("PPIP");
+  const durationLabel = formatDurationWeeks(startTime, endTime);
+
   return (
     <section
       className={`${montserrat.className} bg-[#FCF1FF] py-15 px-6 md:px-12 lg:px-24 min-h-[80vh] flex flex-col items-center justify-center text-center`}
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         <span className="border border-[#a855f7] text-[#a855f7] bg-[#FAE1FF] rounded-full px-4 py-1.5 text-xs font-semibold mb-8">
-          10-Week Product Internship
+          12-week Product Internship
         </span>
 
         <h1 className="text-2xl md:text-4xl lg:text-5xl font-black text-[#1a1a1a] leading-[1.15] mb-6 ">
@@ -46,7 +52,13 @@ const HeroSection: React.FC = () => {
         </div>
 
         <p className="text-sm text-gray-500 mb-8">
-          Date: July 8th – October 14th, 2026  • <br /> Duration: 10 Weeks
+          Date: {formatDateRange(startTime, endTime)}
+          {durationLabel && (
+            <>
+              {" "}
+              • <br /> Duration: {durationLabel}
+            </>
+          )}
         </p>
 
         <div className="flex items-center gap-4 justify-center">
