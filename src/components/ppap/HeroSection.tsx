@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 import eniolaImg from "@/assets/images/eniola.png";
@@ -36,9 +35,9 @@ const HeroSection = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-14 w-full sm:w-auto justify-center">
-          <Link href="/ppap/apply" className="bg-[#5B21B6] text-white px-8 py-4 rounded-xl font-medium hover:bg-purple-800 transition-colors flex items-center justify-center gap-2 text-base cursor-pointer">
+          <a href="#pricing" className="bg-[#5B21B6] text-white px-8 py-4 rounded-xl font-medium hover:bg-purple-800 transition-colors flex items-center justify-center gap-2 text-base cursor-pointer">
             Join the Next Cohort <ArrowRight className="w-5 h-5" />
-          </Link>
+          </a>
           <button className="bg-transparent text-[#1a1a1a] border border-gray-400 px-8 py-4 rounded-xl font-medium hover:bg-gray-50 transition-colors text-base cursor-pointer">
             Download Brochure
           </button>

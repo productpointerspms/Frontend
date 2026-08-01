@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -9,21 +9,15 @@ import {
   ClipboardList,
   Lightbulb,
   Check,
-  ChevronDown,
   ChevronRight,
   ArrowRight,
   Loader2,
   AlertCircle,
-  Zap,
-  RefreshCw,
   type LucideIcon,
 } from "lucide-react";
 import SurveyQuestions from "@/components/preregistration/SurveyQuestions";
 import { ppapQuestions, validateRequiredAnswers } from "@/lib/programQuestions";
 import { submitApplication } from "@/lib/application";
-import { PROGRAM_FEE_NGN, ORIGINAL_FEE_NGN } from "@/lib/pricing";
-import { useLiveRates, currencies } from "@/lib/useLiveRates";
-import { getLiveProgramFeeNgn } from "@/lib/programs";
 
 interface SubmitResult {
   applicationId: string;
@@ -33,9 +27,9 @@ interface SubmitResult {
 
 export default function PPAPApplyPage() {
   const router = useRouter();
-  const [step, setStep] = useState(0);
-  // Lifted here so all steps share one source of truth, and we pass the final
-  // value into the checkout URL when the application is submitted.
+  const [step, setStep] = useState(1);
+  // The pricing section on the landing page already let the user pick a
+  // currency and pass it along via ?currency=; we carry it through to checkout.
   const [currencyCode, setCurrencyCode] = useState("NGN");
   const [redirecting, setRedirecting] = useState(false);
 
@@ -58,13 +52,6 @@ export default function PPAPApplyPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#FCF1FF] py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center font-montserrat">
-      {step === 0 && (
-        <StepPricing
-          initialCurrencyCode={currencyCode}
-          onCurrencyChange={setCurrencyCode}
-          onNext={() => setStep(1)}
-        />
-      )}
       {step === 1 && <StepOne onNext={() => setStep(2)} />}
       {step === 2 && (
         <StepTwo
@@ -77,232 +64,6 @@ export default function PPAPApplyPage() {
           }}
         />
       )}
-    </div>
-  );
-}
-
-/* ---------------------------------- Step 0 --------------------------------- */
-
-const pricingFeatures = [
-  "Full access to all sessions",
-  "Mentorship support",
-  "Assignments & resources",
-  "Community access & growth resources",
-];
-
-const Flag = ({ country }: { country: string }) => (
-  // eslint-disable-next-line @next/next/no-img-element
-  <img
-    src={`https://flagcdn.com/24x18/${country}.png`}
-    alt=""
-    width={20}
-    height={15}
-    className="w-5 h-auto rounded-sm shrink-0"
-  />
-);
-
-function StepPricing({
-  initialCurrencyCode,
-  onCurrencyChange,
-  onNext,
-}: {
-  initialCurrencyCode: string;
-  onCurrencyChange: (code: string) => void;
-  onNext: () => void;
-}) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Fetch the real live fee from the API first — this is the authoritative
-  // NGN amount that will also appear in checkout, so both pages stay in sync.
-  const [liveFeeNgn, setLiveFeeNgn] = useState<number | null>(null);
-  useEffect(() => {
-    getLiveProgramFeeNgn("PPAP").then(setLiveFeeNgn);
-  }, []);
-
-  const {
-    currency,
-    setCurrency,
-    formatLive,
-    getLiveAmount,
-    loading,
-    error,
-    isLive,
-    priceKey,
-  } = useLiveRates(liveFeeNgn ?? 0, initialCurrencyCode);
-
-  // Sync the lifted currency code upward whenever the user picks a new one.
-  useEffect(() => {
-    onCurrencyChange(currency.code);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currency.code]);
-
-  // Close dropdown on outside click.
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-    if (dropdownOpen) document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [dropdownOpen]);
-
-  // Scale the original (strikethrough) price using the same ratio as the
-  // static constants: ORIGINAL_FEE_NGN / PROGRAM_FEE_NGN × live fee.
-  const originalFeeNgn =
-    liveFeeNgn != null
-      ? Math.round(liveFeeNgn * (ORIGINAL_FEE_NGN / PROGRAM_FEE_NGN))
-      : null;
-
-  const feeDisplay = liveFeeNgn != null ? formatLive(liveFeeNgn) : null;
-  const originalDisplay = originalFeeNgn != null ? formatLive(originalFeeNgn) : null;
-
-  // Loading: either the fee hasn't come back yet, or the rates are still in-flight.
-  const isLoading = liveFeeNgn === null || loading;
-
-  return (
-    <div className="w-full max-w-2xl bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 mt-6 text-center">
-      <span className="inline-block bg-[#F3E8FF] text-[#6024D0] rounded-full px-4 py-1.5 text-xs font-semibold mb-6">
-        PPAP Application
-      </span>
-
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-        Invest In Your Product Career
-      </h1>
-      <p className="text-gray-500 max-w-lg mx-auto mb-6">
-        A structured 12-week program designed to give you clarity, direction,
-        and confidence in Product Management.
-      </p>
-
-      {/* Strikethrough original */}
-      {/* {originalDisplay && (
-        <p className="text-gray-400 line-through text-sm font-medium mb-1">
-          {originalDisplay}
-        </p>
-      )} */}
-
-      {/* Currency selector row */}
-      <div className="flex items-center justify-center gap-2 mb-4">
-        {/* Status badges */}
-        {isLoading && (
-          <span className="inline-flex items-center gap-1 text-[10px] text-[#6024D0] font-medium bg-[#F3E8FF] px-2.5 py-1 rounded-full animate-pulse">
-            <RefreshCw className="w-2.5 h-2.5 animate-spin" />
-            Fetching live rates…
-          </span>
-        )}
-        {!isLoading && isLive && (
-          <span className="inline-flex items-center gap-1 text-[10px] text-[#10B981] font-semibold bg-[#ECFDF3] px-2.5 py-1 rounded-full">
-            <Zap className="w-2.5 h-2.5" />
-            Live rate
-          </span>
-        )}
-        {!isLoading && error && currency.code !== "NGN" && (
-          <span className="text-[10px] text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full font-medium">
-            Est. rate
-          </span>
-        )}
-
-        {/* Dropdown */}
-        <div className="relative" ref={dropdownRef}>
-          <button
-            type="button"
-            onClick={() => setDropdownOpen((p) => !p)}
-            className="flex items-center gap-2 border border-gray-200 rounded-full px-4 py-1.5 text-xs font-semibold text-gray-700 shadow-sm cursor-pointer hover:bg-gray-50 transition-colors"
-          >
-            <Flag country={currency.country} />
-            {currency.code}
-            <ChevronDown
-              className={`w-3.5 h-3.5 text-gray-500 transition-transform ${
-                dropdownOpen ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-
-          {dropdownOpen && (
-            <div className="absolute z-30 mt-2 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-2xl shadow-xl w-52 py-2 max-h-72 overflow-auto">
-              <div className="px-4 pb-2 border-b border-gray-100 mb-1">
-                <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">
-                  Select Currency
-                </p>
-              </div>
-              {currencies.map((c) => {
-                const liveAmt = getLiveAmount(c);
-                return (
-                  <button
-                    key={c.code}
-                    type="button"
-                    onClick={() => {
-                      setCurrency(c);
-                      setDropdownOpen(false);
-                    }}
-                    className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs transition-colors cursor-pointer ${
-                      c.code === currency.code
-                        ? "bg-[#F3E8FF] text-[#6024D0] font-semibold"
-                        : "text-gray-700 hover:bg-purple-50"
-                    }`}
-                  >
-                    <Flag country={c.country} />
-                    <div className="flex flex-col items-start flex-1 min-w-0">
-                      <span className="font-semibold">{c.code}</span>
-                      {liveAmt ? (
-                        <span
-                          className={`text-[10px] truncate ${
-                            c.code === currency.code
-                              ? "text-[#6024D0]/70"
-                              : "text-gray-400"
-                          }`}
-                        >
-                          {liveAmt}
-                        </span>
-                      ) : loading ? (
-                        <span className="text-[10px] text-gray-300">Loading…</span>
-                      ) : null}
-                    </div>
-                    {c.code === currency.code && (
-                      <Check className="w-3.5 h-3.5 text-[#6024D0] shrink-0" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Main price */}
-      <div className="mb-10 min-h-[4rem] flex items-center justify-center">
-        {isLoading ? (
-          <span className="inline-block h-14 w-44 rounded-xl bg-gray-200 animate-pulse" />
-        ) : (
-          <span
-            key={`price-${priceKey}-${currency.code}`}
-            className="text-4xl md:text-5xl font-black text-gray-900"
-            style={{ animation: "fadeInUp 0.3s ease" }}
-          >
-            {feeDisplay}
-          </span>
-        )}
-      </div>
-
-      <div className="space-y-4 mb-10 max-w-md mx-auto text-left">
-        {pricingFeatures.map((item) => (
-          <div key={item} className="flex items-center gap-3">
-            <span className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center shrink-0">
-              <Check className="w-3.5 h-3.5 text-purple-600" strokeWidth={3} />
-            </span>
-            <span className="text-gray-600 text-sm">{item}</span>
-          </div>
-        ))}
-      </div>
-
-      <button
-        onClick={onNext}
-        disabled={isLoading}
-        className="bg-[#6024D0] hover:bg-[#4d1ba8] disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold py-4 px-10 rounded-xl transition-colors inline-flex items-center justify-center gap-2 cursor-pointer"
-      >
-        Continue <ArrowRight size={20} />
-      </button>
     </div>
   );
 }

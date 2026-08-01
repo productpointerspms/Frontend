@@ -299,11 +299,11 @@ export default function CheckoutClient() {
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,420px)] gap-8 items-start">
-        {/* ----------------------------- Left: Form ---------------------------- */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,420px)_1fr] gap-8 items-start">
+        {/* ----------------------------- Right: Form ---------------------------- */}
         <form
           onSubmit={handleSubmit}
-          className="order-2 lg:order-1 bg-white rounded-[28px] shadow-sm p-6 sm:p-10"
+          className="order-2 bg-white rounded-[28px] shadow-sm p-6 sm:p-10"
         >
           {/* Contact Information */}
           <h2 className="text-xl font-bold text-[#15010D]">
@@ -468,8 +468,8 @@ export default function CheckoutClient() {
           </div>
         </form>
 
-        {/* -------------------------- Right: Summary -------------------------- */}
-        <aside className="order-1 lg:order-2 bg-white rounded-[28px] shadow-sm p-6 sm:p-8">
+        {/* -------------------------- Left: Summary -------------------------- */}
+        <aside className="order-1 bg-white rounded-[28px] shadow-sm p-6 sm:p-8">
           <h2 className="text-xl font-bold text-[#15010D]">
             Application Summary
           </h2>

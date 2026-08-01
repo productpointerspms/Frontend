@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Check,
   Copy,
@@ -9,9 +10,75 @@ import {
   CreditCard,
   ShieldCheck,
   Loader2,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import type { PaymentDetails } from "@/lib/application";
+
+/** Renders the Paystack checkout URL in an in-page modal instead of a new tab. */
+function CheckoutModal({ url, onClose }: { url: string; onClose: () => void }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [onClose]);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div
+        className="absolute inset-0 bg-black/50"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg h-[85vh] max-h-[720px] flex flex-col overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
+          <div className="flex items-center gap-2 text-sm font-semibold text-[#15010D]">
+            <ShieldCheck className="w-4 h-4 text-[#6024D0]" />
+            Secure Checkout
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close checkout"
+            className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <iframe
+          src={url}
+          title="Secure checkout"
+          className="flex-1 w-full border-0"
+        />
+
+        <div className="px-5 py-3 border-t border-gray-100 text-center shrink-0">
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-[#6024D0] hover:underline"
+          >
+            Having trouble? Open in a new tab <ExternalLink className="w-3 h-3" />
+          </a>
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+}
 
 function CopyButton({ value, label }: { value: string; label: string }) {
   const [copied, setCopied] = useState(false);
@@ -118,6 +185,7 @@ export function PaymentDetailsCard({
   const hasCard = !!details?.link?.paymentLink;
 
   const [tab, setTab] = useState<"transfer" | "card">("transfer");
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   // Land on whichever method is actually available once details arrive.
   useEffect(() => {
@@ -217,17 +285,16 @@ export function PaymentDetailsCard({
 
           <div className="bg-white px-6 py-6 text-center">
             <p className="text-sm text-gray-500 mb-5 leading-relaxed">
-              You&apos;ll be redirected to a secure Paystack checkout page to
-              enter your card details and complete payment.
+              Enter your card details on the secure Paystack checkout to
+              complete payment — without leaving this page.
             </p>
-            <a
-              href={details.link.paymentLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold text-sm py-4 rounded-xl transition-colors"
+            <button
+              type="button"
+              onClick={() => setCheckoutOpen(true)}
+              className="w-full flex items-center justify-center gap-2 bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold text-sm py-4 rounded-xl transition-colors cursor-pointer"
             >
               Proceed to Secure Checkout <ExternalLink className="w-4 h-4" />
-            </a>
+            </button>
           </div>
 
           <div className="flex items-center justify-center gap-2 bg-[#F6EDFF] px-6 py-3 text-[#6024D0]">
@@ -235,6 +302,13 @@ export function PaymentDetailsCard({
             <p className="text-xs">Secured by Paystack</p>
           </div>
         </div>
+      )}
+
+      {checkoutOpen && details?.link && (
+        <CheckoutModal
+          url={details.link.paymentLink}
+          onClose={() => setCheckoutOpen(false)}
+        />
       )}
     </div>
   );

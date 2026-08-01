@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { Check, ChevronDown, ArrowRight, Zap, RefreshCw } from "lucide-react";
 import { useLiveRates, currencies } from "@/lib/useLiveRates";
-import { PROGRAM_FEE_NGN } from "@/lib/pricing";
+import { getLiveProgramFeeNgn } from "@/lib/programs";
 
 const Flag = ({ country }: { country: string }) => (
   // eslint-disable-next-line @next/next/no-img-element
@@ -27,6 +27,13 @@ const PricingSection = () => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Fetch the real live fee from the API first — this is the authoritative
+  // NGN amount that will also appear at checkout, so both pages stay in sync.
+  const [liveFeeNgn, setLiveFeeNgn] = useState<number | null>(null);
+  useEffect(() => {
+    getLiveProgramFeeNgn("PPAP").then(setLiveFeeNgn);
+  }, []);
+
   const {
     currency,
     setCurrency,
@@ -36,7 +43,7 @@ const PricingSection = () => {
     error,
     isLive,
     priceKey,
-  } = useLiveRates(PROGRAM_FEE_NGN);
+  } = useLiveRates(liveFeeNgn ?? 0);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -48,10 +55,15 @@ const PricingSection = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
-  const feeDisplay = formatLive(PROGRAM_FEE_NGN);
+  // Loading: either the fee hasn't come back yet, or the rates are still in-flight.
+  const isLoading = liveFeeNgn === null || loading;
+  const feeDisplay = liveFeeNgn != null ? formatLive(liveFeeNgn) : null;
 
   return (
-    <section className="bg-[#FCF1FF] py-24 px-6 md:px-12 lg:px-24 flex justify-center">
+    <section
+      id="pricing"
+      className="bg-[#FCF1FF] py-24 px-6 md:px-12 lg:px-24 flex justify-center scroll-mt-10"
+    >
       <div className="max-w-4xl w-full text-center">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-4">
           Invest In Your Product Career
@@ -67,19 +79,19 @@ const PricingSection = () => {
           {/* Currency selector + live rate badge */}
           <div className="flex items-center gap-2 mb-6">
             {/* Live/loading badge */}
-            {loading && (
+            {isLoading && (
               <span className="inline-flex items-center gap-1 text-[10px] text-[#6024D0] font-medium bg-[#F3E8FF] px-2.5 py-1 rounded-full animate-pulse">
                 <RefreshCw className="w-2.5 h-2.5 animate-spin" />
                 Live rates loading…
               </span>
             )}
-            {!loading && isLive && (
+            {!isLoading && isLive && (
               <span className="inline-flex items-center gap-1 text-[10px] text-[#10B981] font-semibold bg-[#ECFDF3] px-2.5 py-1 rounded-full">
                 <Zap className="w-2.5 h-2.5" />
                 Live rate
               </span>
             )}
-            {!loading && error && currency.code !== "NGN" && (
+            {!isLoading && error && currency.code !== "NGN" && (
               <span className="text-[10px] text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full font-medium">
                 Est. rate
               </span>
@@ -155,7 +167,7 @@ const PricingSection = () => {
 
           {/* Main price */}
           <div className="mb-8 min-h-[3.5rem] flex items-center justify-center">
-            {loading && currency.code !== "NGN" ? (
+            {isLoading ? (
               <span className="inline-block h-12 w-40 rounded-xl bg-gray-200 animate-pulse" />
             ) : (
               <span
