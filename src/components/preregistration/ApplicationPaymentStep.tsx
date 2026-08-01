@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import {
   Check,
@@ -14,32 +14,34 @@ import {
   PartyPopper,
   type LucideIcon,
 } from "lucide-react";
-import { getPaymentDetails, type PaymentDetails } from "@/lib/application";
 import { usePaymentStatus } from "@/lib/usePaymentStatus";
-import { PaymentDetailsCard } from "./PaymentDetailsCard";
 
-const infoCards: { icon: LucideIcon; title: string; desc: string }[] = [
-  {
-    icon: Search,
-    title: "Application Review",
-    desc: "Our team reviews every application to confirm your enrollment details.",
-  },
-  {
-    icon: Mail,
-    title: "Email Notification",
-    desc: "You'll receive a confirmation email with onboarding details.",
-  },
-  {
-    icon: CreditCard,
-    title: "Payment Process",
-    desc: "We'll send you payment instructions by email to secure your spot.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Program Onboarding",
-    desc: "Once payment is confirmed, you'll get access to your cohort and resources.",
-  },
-];
+function getInfoCards(showContinueButton: boolean): { icon: LucideIcon; title: string; desc: string }[] {
+  return [
+    {
+      icon: Search,
+      title: "Application Review",
+      desc: "Our team reviews every application to confirm your enrollment details.",
+    },
+    {
+      icon: Mail,
+      title: "Email Notification",
+      desc: "You'll receive a confirmation email with onboarding details.",
+    },
+    {
+      icon: CreditCard,
+      title: "Payment Process",
+      desc: showContinueButton
+        ? "Continue below to securely complete your payment and secure your spot."
+        : "We'll email you a secure checkout link once your application is reviewed.",
+    },
+    {
+      icon: ClipboardCheck,
+      title: "Program Onboarding",
+      desc: "Once payment is confirmed, you'll get access to your cohort and resources.",
+    },
+  ];
+}
 
 function InfoCard({ icon: Icon, title, desc }: { icon: LucideIcon; title: string; desc: string }) {
   return (
@@ -58,27 +60,22 @@ export interface ApplicationPaymentStepProps {
   programName: string;
   /** Landing page path, e.g. "/ppap". */
   programPath: string;
+  /** Program code the shared checkout expects, e.g. "PPAP". */
+  programCode: string;
   applicationId: string;
-  fullname: string;
-  email: string;
-  amount: number;
   currencyCode: string;
-  /** Set false for programs where payment only opens up after acceptance (e.g. PPIP). */
-  showPaymentButton?: boolean;
+  /** Set false for programs where a checkout link is emailed after review instead (e.g. PPIP). */
+  showContinueButton?: boolean;
 }
 
 const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
   programName,
   programPath,
+  programCode,
   applicationId,
-  amount,
   currencyCode,
-  showPaymentButton = true,
+  showContinueButton = true,
 }) => {
-  const [payLoading, setPayLoading] = useState(false);
-  const [payError, setPayError] = useState<string | null>(null);
-  const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
-
   // Keeps polling GET /application/{id} in the background from the moment
   // this page loads, so we notice a payment even if it was completed via a
   // link sent by email rather than the button below.
@@ -87,36 +84,9 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
     true
   );
 
-  // Fetch payment details automatically as soon as the page can show them —
-  // no button click required.
-  useEffect(() => {
-    if (!showPaymentButton) return;
-
-    let cancelled = false;
-    setPayLoading(true);
-    setPayError(null);
-
-    getPaymentDetails(applicationId, currencyCode)
-      .then((details) => {
-        if (!cancelled) setPaymentDetails(details);
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          setPayError(
-            err instanceof Error
-              ? err.message
-              : "Could not load payment details. Please try again."
-          );
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setPayLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [applicationId, currencyCode, showPaymentButton]);
+  const checkoutHref = `/checkout?program=${encodeURIComponent(
+    programCode
+  )}&currency=${encodeURIComponent(currencyCode)}&id=${encodeURIComponent(applicationId)}`;
 
   return (
     <div className="w-full max-w-2xl bg-white rounded-[24px] shadow-sm p-8 md:p-12 animate-in fade-in zoom-in duration-500 text-center mt-6">
@@ -128,8 +98,10 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
         Your Application Has Been Received
       </h1>
       <p className="text-gray-500 mb-4 max-w-md mx-auto">
-        Thank you for applying to the {programName}. We&apos;ll be in touch
-        with payment and onboarding instructions if you are Shortlisted.
+        Thank you for applying to the {programName}.{" "}
+        {showContinueButton
+          ? "Continue below to secure your spot with payment."
+          : "We'll be in touch with next steps once your application is reviewed."}
       </p>
 
       {/* Application / payment status */}
@@ -156,7 +128,7 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
 
       {/* What happens next */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 text-left">
-        {infoCards.map((card) => (
+        {getInfoCards(showContinueButton).map((card) => (
           <InfoCard key={card.title} {...card} />
         ))}
       </div>
@@ -167,33 +139,23 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
             <PartyPopper className="w-5 h-5 shrink-0" />
             We&apos;ve received your payment — you&apos;re all set!
           </div>
-        ) : !showPaymentButton ? (
+        ) : showContinueButton ? (
+          <>
+            <Link
+              href={checkoutHref}
+              className="bg-[#6024D0] hover:bg-[#4d1ba8] text-white font-semibold text-sm py-3.5 px-10 rounded-xl transition-colors inline-flex items-center justify-center gap-2"
+            >
+              Continue to Payment <ArrowRight className="w-4 h-4" />
+            </Link>
+            <p className="text-xs text-gray-400 mt-3">
+              You&apos;ll securely complete your payment on the next page.
+            </p>
+          </>
+        ) : (
           <div className="flex items-center justify-center gap-2.5 bg-[#F3E8FF] rounded-xl px-5 py-4 text-[#6024D0] text-sm font-medium">
             <Mail className="w-4 h-4 shrink-0" />
-            You&apos;ll receive payment instructions by email once your
+            A secure checkout link will be sent to your email once your
             application is reviewed.
-          </div>
-        ) : (
-          <div className="text-left">
-            {payError ? (
-              <p className="flex items-center justify-center gap-1.5 text-xs text-red-500 mb-5">
-                <AlertCircle className="w-3.5 h-3.5" /> {payError}
-              </p>
-            ) : (
-              <PaymentDetailsCard
-                details={paymentDetails}
-                loading={payLoading}
-                amountLabel={`${currencyCode} ${amount.toLocaleString()}`}
-                idleMessage="Fetching your payment details…"
-              />
-            )}
-
-            {paymentDetails && (
-              <p className="flex items-center justify-center gap-1.5 text-xs text-gray-400 mt-4">
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                We&apos;ll update this page automatically once your payment is confirmed.
-              </p>
-            )}
           </div>
         )}
       </div>

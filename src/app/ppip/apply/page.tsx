@@ -14,9 +14,6 @@ import SurveyQuestions from "@/components/preregistration/SurveyQuestions";
 import ApplicationPaymentStep from "@/components/preregistration/ApplicationPaymentStep";
 import { ppipQuestions, validateRequiredAnswers } from "@/lib/programQuestions";
 import { submitApplication } from "@/lib/application";
-import { getCurrency, convert } from "@/lib/pricing";
-
-const PPIP_COMMITMENT_FEE_NGN = 20000;
 
 interface SubmitResult {
   applicationId: string;
@@ -302,19 +299,14 @@ function PaymentStep({
   result: SubmitResult;
   currency: string;
 }) {
-  const currencyObj = getCurrency(currency);
-  const amount = convert(PPIP_COMMITMENT_FEE_NGN, currencyObj);
-
   return (
     <ApplicationPaymentStep
       programName="ProductPointers Internship Program (PPIP)"
       programPath="/ppip"
+      programCode="PPIP"
       applicationId={result.applicationId}
-      fullname={result.fullname}
-      email={result.email}
-      amount={amount}
-      currencyCode={currencyObj.code}
-      showPaymentButton={false}
+      currencyCode={currency}
+      showContinueButton={false}
     />
   );
 }

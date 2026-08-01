@@ -89,6 +89,16 @@ export default function CallbackClient() {
   const transactionId = searchParams.get("transaction_id");
   const gatewayStatus = normalizeGatewayStatus(searchParams.get("status"));
 
+  // The gateway checkout is opened in an in-page modal (an iframe), so its
+  // final redirect back to us also lands inside that iframe by default. Bust
+  // out to the top-level window so this result page always shows full-page,
+  // never trapped in the small modal frame.
+  useEffect(() => {
+    if (window.top && window.top !== window.self) {
+      window.top.location.href = window.location.href;
+    }
+  }, []);
+
   const applicationId = useMemo(() => extractApplicationId(txRef), [txRef]);
 
   // Authoritative confirmation: keep polling our own backend regardless of

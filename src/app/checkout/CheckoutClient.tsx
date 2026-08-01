@@ -409,6 +409,7 @@ export default function CheckoutClient() {
                 details={paymentDetails}
                 loading={loading}
                 amountLabel={totalDue}
+                currencyCode={currency.code}
                 idleMessage={
                   <>
                     Fill in your details above and click{" "}

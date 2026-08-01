@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   Layers,
   Users,
@@ -16,6 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import SurveyQuestions from "@/components/preregistration/SurveyQuestions";
+import ApplicationPaymentStep from "@/components/preregistration/ApplicationPaymentStep";
 import { ppapQuestions, validateRequiredAnswers } from "@/lib/programQuestions";
 import { submitApplication } from "@/lib/application";
 
@@ -26,29 +26,17 @@ interface SubmitResult {
 }
 
 export default function PPAPApplyPage() {
-  const router = useRouter();
   const [step, setStep] = useState(1);
+  const [result, setResult] = useState<SubmitResult | null>(null);
   // The pricing section on the landing page already let the user pick a
   // currency and pass it along via ?currency=; we carry it through to checkout.
   const [currencyCode, setCurrencyCode] = useState("NGN");
-  const [redirecting, setRedirecting] = useState(false);
 
   // Seed from ?currency= if the user came from the pricing section.
   useEffect(() => {
     const c = new URLSearchParams(window.location.search).get("currency");
     if (c) setCurrencyCode(c.toUpperCase());
   }, []);
-
-  if (redirecting) {
-    return (
-      <div className="min-h-screen w-full bg-[#FCF1FF] py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-montserrat">
-        <div className="w-full max-w-md bg-white rounded-[24px] shadow-sm p-12 text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-[#6024D0] mx-auto mb-4" />
-          <p className="text-gray-600 font-medium">Redirecting you to checkout…</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen w-full bg-[#FCF1FF] py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center font-montserrat">
@@ -57,11 +45,18 @@ export default function PPAPApplyPage() {
         <StepTwo
           onBack={() => setStep(1)}
           onComplete={(r) => {
-            setRedirecting(true);
-            router.push(
-              `/checkout?program=PPAP&currency=${currencyCode}&id=${r.applicationId}`
-            );
+            setResult(r);
+            setStep(3);
           }}
+        />
+      )}
+      {step === 3 && result && (
+        <ApplicationPaymentStep
+          programName="ProductPointers Accelerator Program (PPAP)"
+          programPath="/ppap"
+          programCode="PPAP"
+          applicationId={result.applicationId}
+          currencyCode={currencyCode}
         />
       )}
     </div>

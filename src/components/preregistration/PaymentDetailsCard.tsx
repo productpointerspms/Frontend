@@ -173,6 +173,8 @@ export interface PaymentDetailsCardProps {
   amountLabel: string;
   /** Shown before a fetch has happened. */
   idleMessage: React.ReactNode;
+  /** Selected currency code, e.g. "NGN". Bank transfer is Nigeria-only, regardless of what the API returns. */
+  currencyCode: string;
 }
 
 export function PaymentDetailsCard({
@@ -180,8 +182,9 @@ export function PaymentDetailsCard({
   loading,
   amountLabel,
   idleMessage,
+  currencyCode,
 }: PaymentDetailsCardProps) {
-  const hasTransfer = !!details?.transfer;
+  const hasTransfer = !!details?.transfer && currencyCode.toUpperCase() === "NGN";
   const hasCard = !!details?.link?.paymentLink;
 
   const [tab, setTab] = useState<"transfer" | "card">("transfer");
