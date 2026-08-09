@@ -66,6 +66,8 @@ export interface ApplicationPaymentStepProps {
   currencyCode: string;
   /** Set false for programs where a checkout link is emailed after review instead (e.g. PPIP). */
   showContinueButton?: boolean;
+  /** Set false to hide the "What happens next" info cards. */
+  showInfoCards?: boolean;
 }
 
 const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
@@ -75,6 +77,7 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
   applicationId,
   currencyCode,
   showContinueButton = true,
+  showInfoCards = true,
 }) => {
   // Keeps polling GET /application/{id} in the background from the moment
   // this page loads, so we notice a payment even if it was completed via a
@@ -127,11 +130,13 @@ const ApplicationPaymentStep: React.FC<ApplicationPaymentStepProps> = ({
       </div>
 
       {/* What happens next */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 text-left">
-        {getInfoCards(showContinueButton).map((card) => (
-          <InfoCard key={card.title} {...card} />
-        ))}
-      </div>
+      {showInfoCards && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 text-left">
+          {getInfoCards(showContinueButton).map((card) => (
+            <InfoCard key={card.title} {...card} />
+          ))}
+        </div>
+      )}
 
       <div className="mb-10">
         {isPaid ? (

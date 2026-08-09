@@ -1,4 +1,6 @@
 import React from "react";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import HeroNew from "@/components/HeroNew";
 import MissionVision from "@/components/MissionVision";
 import CoreValues from "@/components/CoreValues";
@@ -17,6 +19,12 @@ import WhereWereGoing from "@/components/WhereWereGoing";
 import VisionMission from "@/components/VisionMission";
 import FinalCTA from "@/components/FinalCTA";
 
+export const metadata: Metadata = buildMetadata({
+  title: "About Us",
+  description:
+    "We're building the bridge between learning Product Management and getting hired — helping aspiring PMs gain trusted, real-world evidence of their skills.",
+  path: "/about",
+});
 
 const AboutPage: React.FC = () => {
   return (

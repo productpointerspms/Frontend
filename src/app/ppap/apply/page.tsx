@@ -57,6 +57,7 @@ export default function PPAPApplyPage() {
           programCode="PPAP"
           applicationId={result.applicationId}
           currencyCode={currencyCode}
+          showInfoCards={false}
         />
       )}
     </div>

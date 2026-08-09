@@ -1,5 +1,3 @@
-
-"use client";
 import ConnectFounder from "@/components/homepage/ConnectFounder";
 import Community from "@/components/homepage/Community";
 import CommunityMobile from "@/components/homepage/CommunityMobile";
@@ -22,6 +20,9 @@ import CountdownSection from "@/components/homepage/Countdown";
 import CallToAction from "@/components/homepage/CallToAction";
 import VerifyCertificate from "@/components/homepage/VerifyCertificate";
 
+// No page-specific metadata here — "/" inherits the root layout's default
+// title/description as-is, avoiding double "ProductPointers" branding from
+// the title template (`%s | ProductPointers`) that other pages opt into.
 
 export default function Home() {
   return (

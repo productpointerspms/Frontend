@@ -1,4 +1,6 @@
 import { Montserrat } from "next/font/google";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import CommunityAboutSection from "@/components/community/CommunityAboutSection";
 import AlumniGains from "@/components/community/AlumniGains";
 import AlumniGrowthStories from "@/components/community/AlumniGrowthStories";
@@ -14,6 +16,13 @@ import CommunityActivities from "@/components/community/CommunityActivities";
 //   subsets: ["latin"],
 //   weight: ["400", "500", "600", "700"],
 // });
+
+export const metadata: Metadata = buildMetadata({
+  title: "Community",
+  description:
+    "The ProductPointers Community is a private, lifetime ecosystem for alumni to keep growing through accountability, networking, mentorship, and resources.",
+  path: "/community",
+});
 
 export default function CommunityPage() {
   return (

@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import HeroSection from '@/components/ppap/HeroSection';
 import ProblemSection from '@/components/ppap/ProblemSection';
 import SolutionSection from '@/components/ppap/SolutionSection';
@@ -12,6 +14,13 @@ import PricingSection from '@/components/ppap/PricingSection';
 import CTASection from '@/components/ppap/CTASection';
 import FAQSection from '@/components/ppap/FAQSection';
 import FinalCTA from '@/components/ppap/FinalCTA';
+
+export const metadata: Metadata = buildMetadata({
+  title: "ProductPointers Accelerator Program (PPAP)",
+  description:
+    "Build a strong foundation and learn to think like a Product Manager. A structured, mentor-led 12-week program for aspiring PMs who need clarity and direction.",
+  path: "/ppap",
+});
 
 export default function PPAPPage() {
   return (
