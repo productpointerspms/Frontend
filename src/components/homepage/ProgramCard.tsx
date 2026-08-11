@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 
 interface Program {
   title: string;
   whoItsFor: string;
   outcome: string;
+  landingPath: string;
 }
 
 const programs: Program[] = [
@@ -16,18 +18,20 @@ const programs: Program[] = [
       "You are new to product or you've learned product basics but still feel lost and need structure",
     outcome:
       "Build a strong foundation and understand how to think like a product manager",
+    landingPath: "/ppap",
   },
   {
     title: "ProductPointers Internship Program (PPIP)",
     whoItsFor: "You need real world experience to confidently apply for roles",
     outcome: "Work on real products and gain hands-on experience",
+    landingPath: "/ppip",
   },
-  {
-    title: "ProductPointers Coaching Program (PPCP)",
-    whoItsFor:
-      "You want a one-on-one personalized guidance tailored towards your goal.",
-    outcome: "Structured guidance, growth and faster results.",
-  },
+  // {
+  //   title: "ProductPointers Coaching Program (PPCP)",
+  //   whoItsFor:
+  //     "You want a one-on-one personalized guidance tailored towards your goal.",
+  //   outcome: "Structured guidance, growth and faster results.",
+  // },
   // {
   //   title: "ProductPointers Mentorship Program (PPMP)",
   //   whoItsFor: "You are applying for jobs but no call-back",
@@ -77,9 +81,12 @@ const ProgramAccordion: React.FC<{
             <p className="text-sm md:text-[15px] leading-relaxed text-gray-700 mb-5">
               <span className="text-gray-400">Outcome:</span> {program.outcome}
             </p>
-            <button className="inline-flex items-center text-[#3B448F] font-semibold text-sm hover:underline cursor-pointer">
+            <Link
+              href={program.landingPath}
+              className="inline-flex items-center text-[#3B448F] font-semibold text-sm hover:underline cursor-pointer"
+            >
               Learn More <ArrowRight className="ml-2 w-4 h-4" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
