@@ -12,7 +12,6 @@ const ROUTES: {
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/ppap", changeFrequency: "weekly", priority: 0.9 },
   { path: "/ppip", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/about", changeFrequency: "monthly", priority: 0.6 },
   { path: "/community", changeFrequency: "monthly", priority: 0.6 },
   { path: "/contact", changeFrequency: "yearly", priority: 0.4 },
 ];

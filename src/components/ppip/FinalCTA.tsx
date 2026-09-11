@@ -1,39 +1,89 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Bricolage_Grotesque } from "next/font/google";
 
-const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+// Variable font — covers the full 200–800 weight range used by the header.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+
+/**
+ * Where the photo sits inside its fixed frame — pan it without touching layout.
+ * Second value is the vertical focal point: "0%" pins the top of the image,
+ * "50%" centres it, "100%" pins the bottom. The frame never changes size.
+ */
+const PHOTO_POSITION = "left 30%";
 
 const FinalCTA: React.FC = () => {
   return (
     <section
-      className={`${montserrat.className} bg-white py-20 px-6 md:px-12 lg:px-24 flex flex-col items-center text-center`}
+      id="ppip-final-cta"
+      className={`${montserrat.className} relative overflow-hidden bg-white`}
     >
-      <div className="max-w-3xl mx-auto flex flex-col items-center">
-        <h2 className="text-2xl md:text-3xl lg:text-2xl font-bold text-[#1a1a1a] leading-snug">
-          The PM Job Market Doesn&apos;t Reward Learning Alone.
-          <br />
-          <span className="text-[#6024D0] italic">It Rewards Proof.</span>
-        </h2>
+      {/* =====================================================
+          PHOTO — anchored to the right edge, sitting slightly
+          proud of the card above and below it.
+      ====================================================== */}
+      <div className="absolute inset-y-[90px] left-[44%] right-0 hidden overflow-hidden rounded-l-[16px] lg:block">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/ppip/but.png"
+          alt="A ProductPointers apprentice at work"
+          style={{ objectPosition: PHOTO_POSITION }}
+          className="h-full w-full object-cover"
+        />
+      </div>
 
-        <p className="text-gray-500 mt-6 mb-10 max-w-2xl">
-          Join the ProductPointers Product Apprenticeship and build the
-          experience, evidence, and visibility needed to stand out.
-        </p>
+      {/* =====================================================
+          CARD
+      ====================================================== */}
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 py-[90px] sm:px-10 lg:px-[250px] lg:py-[160px]">
+        <div className="max-w-[720px] rounded-[12px] bg-[#5818D0] p-12 text-center text-white sm:p-14 sm:text-left lg:ml-0 lg:mr-auto">
+          <p
+            className={`${bricolage.className}
+              mb-5
+              text-[12px]
+              font-bold
+              uppercase
+              tracking-[0.15em]
+              text-[#F81CA0]
+            `}
+          >
+            READY TO DO THE WORK?
+          </p>
 
-        <Link
-          href="/ppip/apply"
-          className="bg-[#6024D0] hover:bg-[#4d1ba8] text-white px-8 py-4 rounded-2xl font-semibold inline-flex items-center gap-2 transition-colors"
-        >
-          Apply for PPIP Batch 3
-          <ArrowRight className="w-5 h-5" />
-        </Link>
+          <h2
+            className={`${bricolage.className}
+              text-[25px]
+              font-extrabold
+              leading-[1.15]
+              tracking-[-0.04em]
+              text-white
+              sm:text-[38px]
+              lg:text-[36px]
+            `}
+          >
+            Build the Experience Your Next
+            <br className="hidden sm:block" />
+            Opportunity Will Ask You About.
+          </h2>
 
-        <p className="text-gray-400 text-sm mt-10">
-          Limited Cohort Size <span className="mx-2">•</span> Real Stakeholder
-          Projects <span className="mx-2">•</span> Verified Product Experience
-        </p>
+          <p className="mt-6 text-[15px] leading-[1.7] text-white/90">
+            Stop wondering how to get Product Management experience.
+            <br className="hidden sm:block" />
+            Start building it.
+          </p>
+
+          <Link
+            href="/ppip/apply"
+            className="mt-9 inline-flex items-center justify-center rounded-md bg-[#F81CA0] px-9 py-[18px] text-[16px] font-semibold text-white transition-colors hover:bg-[#d9158a]"
+          >
+            Apply for the Apprenticeship
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -1,83 +1,187 @@
+"use client";
+
 import React from "react";
-import { Montserrat } from "next/font/google";
-import { Search, Lightbulb, Settings, Shield, Eye, type LucideIcon } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  BarChart3,
+  FileText,
+  Scale,
+  UsersRound,
+  MessageSquare,
+  type LucideIcon,
+} from "lucide-react";
+import { Montserrat, Bricolage_Grotesque } from "next/font/google";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-type Outcome = {
+// Variable font — covers the full 200–800 weight range used by the header.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+
+type Skill = {
   icon: LucideIcon;
   title: string;
-  points: string[];
+  description: string;
 };
 
-const outcomes: Outcome[] = [
+const skills: Skill[] = [
   {
-    icon: Search,
-    title: "Verified Discovery Evidence",
-    points: ["User interviews", "Research reports", "Validation findings"],
+    icon: BriefcaseBusiness,
+    title: "Conduct User Research",
+    description:
+      "Speak with users, uncover pain points and learn how to turn conversations into useful insights.",
   },
   {
-    icon: Lightbulb,
-    title: "Verified Product Thinking",
-    points: ["PRD", "Roadmap", "Prioritization decisions", "Strategy documents"],
+    icon: BarChart3,
+    title: "Analyse Product Problems",
+    description:
+      "Break down existing products, identify gaps and understand what is really worth solving.",
   },
   {
-    icon: Settings,
-    title: "Verified Execution",
-    points: ["Working MVP", "Demo recording", "Launch assets", "Public product"],
+    icon: FileText,
+    title: "Write Product Requirements",
+    description:
+      "Turn validated insights into clear, structured product requirements.",
   },
   {
-    icon: Shield,
-    title: "Verified Reputation",
-    points: [
-      "Mentor reviews",
-      "Stakeholder testimonial",
-      "Public presentation",
-      "Talent profile",
-    ],
+    icon: Scale,
+    title: "Prioritise What Matters",
+    description:
+      "Learn how to evaluate opportunities and make product decisions based on evidence.",
   },
   {
-    icon: Eye,
-    title: "Recruiter Visibility",
-    points: ["Talent showcase", "Demo day", "Talent directory listing"],
+    icon: UsersRound,
+    title: "Work Through Product Challenges",
+    description:
+      "Collaborate with your team to solve realistic product problems from discovery to solution.",
+  },
+  {
+    icon: MessageSquare,
+    title: "Present and Defend Your Thinking",
+    description:
+      "Communicate your decisions, explain your reasoning and present your work like a Product Manager.",
   },
 ];
 
 const OutcomesSection: React.FC = () => {
   return (
     <section
-      className={`${montserrat.className} bg-[#FAE1FF] py-20 px-6 md:px-12 lg:px-24`}
+      className={`${montserrat.className} bg-white px-6 py-[78px] text-[#100B1D] md:px-12 lg:px-[80px]`}
     >
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] text-center mb-14">
-          By The End Of PPIP, You&apos;ll Have More Than Experience
-        </h2>
+      <div className="mx-auto max-w-[1280px]">
+        {/* ================= HEADER ================= */}
+        <div className="mb-[44px] max-w-[500px]">
+          <p
+            className={`${bricolage.className}
+              mb-5
+              text-[11px]
+              font-bold
+              uppercase
+              tracking-[0.15em]
+              text-[#6424E8]
+            `}
+          >
+            THE WORK
+          </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {outcomes.map((outcome) => {
-            const Icon = outcome.icon;
+          <h2
+            className={`${bricolage.className}
+              text-[27px]
+              font-extrabold
+              leading-[1.25]
+              tracking-[-0.04em]
+              text-[#100B1D]
+              sm:text-[38px]
+              lg:text-[38px]
+            `}
+          >
+            Build the Skills by Doing
+            <br />
+            What Product Managers
+            <br />
+            Do.
+          </h2>
+        </div>
+
+        {/* ================= SKILLS GRID ================= */}
+        <div
+          className="
+            grid
+            grid-cols-1
+            gap-8
+            md:grid-cols-2
+            lg:grid-cols-3
+            lg:gap-x-8
+            lg:gap-y-8
+          "
+        >
+          {skills.map((skill) => {
+            const Icon = skill.icon;
+
             return (
-              <div
-                key={outcome.title}
-                className="bg-white rounded-3xl p-8 shadow-sm border border-gray-50 text-left flex flex-col h-full"
+              <article
+                key={skill.title}
+                className="
+                  min-h-[202px]
+                  rounded-[9px]
+                  border
+                  border-[#C9C9C9]
+                  bg-white
+                  px-6
+                  py-6
+                  transition-colors
+                  duration-200
+                  hover:border-[#A98AE8]
+                "
               >
-                <div className="w-11 h-11 rounded-xl bg-[#6024D0] flex items-center justify-center shadow-md shadow-purple-200">
-                  <Icon className="w-5 h-5 text-white" />
+                {/* Icon */}
+                <div
+                  className="
+                    flex
+                    h-[40px]
+                    w-[40px]
+                    items-center
+                    justify-center
+                    rounded-[10px]
+                    bg-[#F2ECFF]
+                  "
+                >
+                  <Icon
+                    className="h-[18px] w-[18px] text-[#6324E8]"
+                    strokeWidth={1.8}
+                  />
                 </div>
-                <h3 className="text-xl font-bold text-[#1a1a1a] mt-7 mb-5 leading-snug">
-                  {outcome.title}
+
+                {/* Title */}
+                <h3
+                  className={`${bricolage.className}
+                    mt-[17px]
+                    text-[15px]
+                    font-bold
+                    leading-[1.3]
+                    tracking-[-0.02em]
+                    text-[#100B1D]
+                  `}
+                >
+                  {skill.title}
                 </h3>
-                <div className="space-y-2.5">
-                  {outcome.points.map((point) => (
-                    <p key={point} className="text-gray-500 text-sm md:text-base">
-                      {point}
-                    </p>
-                  ))}
-                </div>
-              </div>
+
+                {/* Description */}
+                <p
+                  className="
+                    mt-[10px]
+                    max-w-[275px]
+                    text-[13px]
+                    font-medium
+                    leading-[1.65]
+                    text-[#77727D]
+                  "
+                >
+                  {skill.description}
+                </p>
+              </article>
             );
           })}
         </div>

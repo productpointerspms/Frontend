@@ -16,21 +16,25 @@ const Navbar = () => {
 
   const menuItems = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
     {
       name: "Programs",
       href: "#",
       dropdown: [
-        { name: "PPAP Program", href: "/ppap" },
-        { name: "PPIP Program", href: "/ppip" },
-        // { name: "PPMP Program", href: "/ppmp" },
-        // { name: "PPCP Program", href: "/ppcp" },
-        // { name: "PPTP Program", href: "/pptp" },
+        { name: "ProductPointers Accelerator Program", href: "/ppap" },
+        { name: "ProductPointers Internship Program", href: "/ppip" },
+        { name: "ProductPointers Track Program", href: "/pptp" },
+        { name: "101 Coaching", href: "/ppcp" },
       ],
     },
+    // TODO: confirm destinations — neither has a page of its own yet.
+    { name: "Courses", href: "/#upcoming-programs" },
+    { name: "Scholarships", href: "/ppip" },
     { name: "Community", href: "/community" },
     { name: "Contact", href: "/contact" },
   ];
+
+  // Routes whose hero is dark — the overlaying bar needs light text there.
+  const onDarkHero = pathname === "/ppip";
 
   const active =
     menuItems.find((item) => {
@@ -53,23 +57,38 @@ const Navbar = () => {
   }, [dropdownOpen]);
 
   return (
-    <nav className="w-full bg-[#FCF1FF] flex items-center justify-between px-6 md:px-12 py-5 relative z-[100]">
+    <nav className="absolute top-0 left-0 w-full bg-transparent flex items-center justify-between px-6 md:px-12 py-5 z-[100]">
       {/* Logo Section matching Hero.jpg */}
       <div className="flex items-center gap-2 cursor-pointer">
         <div className=" p-1.5 rounded-lg">
           
-            <Image src={logo} alt="logo" width={150} height={50} />
+            <Image
+              src={logo}
+              alt="logo"
+              width={150}
+              height={50}
+              className={onDarkHero ? "brightness-0 invert" : ""}
+            />
        
         </div>
        
       </div>
 
       {/* Desktop Menu */}
-      <ul className="hidden md:flex items-center gap-10 text-[13px] text-[#15010D] font-medium">
+      <ul
+        className={`hidden md:flex items-center gap-10 text-[13px] font-medium ${
+          onDarkHero ? "text-white" : "text-[#15010D]"
+        }`}
+      >
         {menuItems.map((item) => (
           <li key={item.name} className="relative">
             {item.dropdown ? (
-              <div className="relative" ref={dropdownRef}>
+              <div
+                className="relative"
+                ref={dropdownRef}
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className={`flex items-center gap-1 transition cursor-pointer ${
@@ -80,19 +99,21 @@ const Navbar = () => {
                   <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {dropdownOpen && (
-                  <ul className="absolute top-8 left-0 bg-white border border-purple-100 rounded-xl shadow-xl w-48 p-2 z-50">
-                    {item.dropdown.map((sub) => (
-                      <li key={sub.name}>
-                        <Link
-                          href={sub.href}
-                          onClick={() => setDropdownOpen(false)}
-                          className="block px-4 py-2.5 text-xs text-gray-700 hover:text-[#6024D0] hover:bg-purple-50 rounded-lg transition"
-                        >
-                          {sub.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="absolute left-0 top-full z-50 pt-3">
+                    <ul className="bg-white border border-purple-100 rounded-xl shadow-xl w-[262px] p-2">
+                      {item.dropdown.map((sub) => (
+                        <li key={sub.name}>
+                          <Link
+                            href={sub.href}
+                            onClick={() => setDropdownOpen(false)}
+                            className="block px-3.5 py-2 text-[12px] text-gray-700 hover:text-[#6024D0] hover:bg-purple-50 rounded-lg transition"
+                          >
+                            {sub.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
             ) : (
@@ -122,7 +143,10 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu Toggle */}
-      <button className="md:hidden text-[#15010D] cursor-pointer" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+      <button
+        className={`md:hidden cursor-pointer ${onDarkHero ? "text-white" : "text-[#15010D]"}`}
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
         {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
 

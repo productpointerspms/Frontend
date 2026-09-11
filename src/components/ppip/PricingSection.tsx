@@ -2,13 +2,18 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import { Montserrat } from "next/font/google";
+import { Check, ChevronDown } from "lucide-react";
+import { Montserrat, Bricolage_Grotesque } from "next/font/google";
 import { useLiveRates, currencies } from "@/lib/useLiveRates";
+import { getPrograms, getProgramInfo } from "@/lib/programs";
 
-const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
-const PPIP_COMMITMENT_FEE_NGN = 20000;
+// Variable font — covers the full 200–800 weight range used by the header.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const Flag = ({ country }: { country: string }) => (
   // eslint-disable-next-line @next/next/no-img-element
@@ -21,17 +26,28 @@ const Flag = ({ country }: { country: string }) => (
   />
 );
 
-const PricingSection: React.FC = () => {
+type Plan = {
+  eyebrow: string;
+  title: string;
+  /** Live NGN fee from the API; null while it loads. */
+  feeNgn: number | null;
+  features: string[];
+  ctaLabel: string;
+  /** Apply route; the selected currency is appended. */
+  applyPath: string;
+  variant: "light" | "purple";
+  badge?: string;
+};
+
+const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
   const {
     currency,
     setCurrency,
     formatLive,
     getLiveAmount,
     loading,
-    error,
-    isLive,
     priceKey,
-  } = useLiveRates(PPIP_COMMITMENT_FEE_NGN);
+  } = useLiveRates(plan.feeNgn ?? 0);
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -45,135 +61,285 @@ const PricingSection: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
+  const isPurple = plan.variant === "purple";
+  // The fee hasn't arrived yet, or the conversion rates are still in-flight.
+  const isLoading = plan.feeNgn === null || loading;
+
+  return (
+    <div
+      className={`flex flex-col p-8 ${
+        isPurple
+          ? // Scholarship leads on mobile; side-by-side order returns at sm.
+            "order-first bg-[#5A17D6] text-white sm:order-none"
+          : "border border-gray-200 bg-white"
+      }`}
+    >
+      {/* Eyebrow + recommended badge */}
+      <div className="flex items-start justify-between gap-3">
+        <p
+          className={`text-[13px] font-medium ${
+            isPurple ? "text-white" : "text-[#4A4458]"
+          }`}
+        >
+          {plan.eyebrow}
+        </p>
+        {plan.badge && (
+          <span className="rounded-[3px] bg-[#FDB913] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-[#10091A]">
+            {plan.badge}
+          </span>
+        )}
+      </div>
+
+      {/* Title */}
+      <h3
+        className={`${bricolage.className} mt-[26px] text-[18px] font-bold tracking-[-0.02em] ${
+          isPurple ? "text-white" : "text-[#10091A]"
+        }`}
+      >
+        {plan.title}
+      </h3>
+
+      {/* Price */}
+      <div className="mt-[18px] flex min-h-[42px] items-center justify-center">
+        {isLoading || plan.feeNgn === null ? (
+          <span
+            className={`inline-block h-9 w-36 rounded-lg ${
+              isPurple ? "bg-white/20" : "bg-gray-200"
+            } animate-pulse`}
+          />
+        ) : (
+          <span
+            key={`price-${priceKey}-${currency.code}`}
+            className={`${bricolage.className} text-[30px] font-extrabold tracking-[-0.02em] ${
+              isPurple ? "text-white" : "text-[#10091A]"
+            }`}
+          >
+            {formatLive(plan.feeNgn)}
+          </span>
+        )}
+      </div>
+
+      {/* Currency selector */}
+      <div className="mt-[14px] flex justify-center">
+        <div className="relative" ref={dropdownRef}>
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-[14px] font-semibold cursor-pointer transition-colors ${
+              isPurple
+                ? "border-white/50 text-white hover:bg-white/10"
+                : "border-gray-300 text-[#10091A] hover:bg-gray-50"
+            }`}
+          >
+            <Flag country={currency.country} />
+            {currency.code}
+            <ChevronDown
+              className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""} ${
+                isPurple ? "text-white/80" : "text-gray-500"
+              }`}
+            />
+          </button>
+
+          {open && (
+            <div className="absolute left-1/2 z-30 mt-2 max-h-64 w-52 -translate-x-1/2 overflow-auto rounded-xl border border-gray-200 bg-white py-2 text-left shadow-lg">
+              <div className="mb-1 border-b border-gray-100 px-4 pb-2">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+                  Select Currency
+                </p>
+              </div>
+              {currencies.map((c) => {
+                const liveAmt = getLiveAmount(c);
+                return (
+                  <button
+                    key={c.code}
+                    type="button"
+                    onClick={() => {
+                      setCurrency(c);
+                      setOpen(false);
+                    }}
+                    className={`flex w-full items-center gap-2 px-4 py-2.5 text-xs transition-colors hover:bg-purple-50 ${
+                      c.code === currency.code
+                        ? "bg-[#F3E8FF] font-semibold text-[#6024D0]"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    <Flag country={c.country} />
+                    <div className="flex min-w-0 flex-1 flex-col items-start">
+                      <span className="font-semibold">{c.code}</span>
+                      {liveAmt ? (
+                        <span
+                          className={`truncate text-[10px] ${
+                            c.code === currency.code
+                              ? "text-[#6024D0]/70"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          {liveAmt}
+                        </span>
+                      ) : loading ? (
+                        <span className="text-[10px] text-gray-300">Loading…</span>
+                      ) : null}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Features */}
+      <ul className="mt-[28px] space-y-3">
+        {plan.features.map((feature) => (
+          <li
+            key={feature}
+            className={`flex gap-2.5 text-[13px] leading-[1.5] ${
+              isPurple ? "text-white" : "text-[#4A4458]"
+            }`}
+          >
+            {isPurple ? (
+              /* Keeps the copy aligned with the checked list in the light card. */
+              <span aria-hidden="true" className="w-[14px] shrink-0" />
+            ) : (
+              <Check className="mt-[3px] h-[14px] w-[14px] shrink-0 text-[#8E86A0]" strokeWidth={2.5} />
+            )}
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* Divider + CTA */}
+      <div
+        className={`mt-auto border-t pt-6 ${
+          isPurple ? "border-white/30" : "border-gray-200"
+        }`}
+      >
+        <Link
+          href={`${plan.applyPath}?currency=${currency.code}`}
+          className={`flex w-full items-center justify-center rounded-md py-3.5 text-[14px] font-semibold transition-colors ${
+            isPurple
+              ? "bg-[#FDB913] text-[#4A11B0] hover:bg-[#e9a90c]"
+              : "bg-[#6024D0] text-white hover:bg-[#4d1ba8]"
+          }`}
+        >
+          {plan.ctaLabel}
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+const PricingSection: React.FC = () => {
+  // One request for the whole section — both fees come from the same
+  // /program/programs payload, so the cards can never disagree with checkout.
+  const [fees, setFees] = useState<{ ppap: number | null; ppip: number | null }>({
+    ppap: null,
+    ppip: null,
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const feeFor = (list: Awaited<ReturnType<typeof getPrograms>>, code: string) =>
+      list.find((p) => p.code.toUpperCase() === code)?.fee ??
+      getProgramInfo(code).feeNgn;
+
+    getPrograms()
+      .then((list) => {
+        if (!cancelled) {
+          setFees({ ppap: feeFor(list, "PPAP"), ppip: feeFor(list, "PPIP") });
+        }
+      })
+      .catch(() => {
+        // Fall back to the static catalog so the cards still render a price.
+        if (!cancelled) {
+          setFees({
+            ppap: getProgramInfo("PPAP").feeNgn,
+            ppip: getProgramInfo("PPIP").feeNgn,
+          });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const plans: Plan[] = [
+    {
+      eyebrow: "One-Time Payment",
+      title: "Full Program Fee",
+      feeNgn: fees.ppap,
+      features: [
+        "Complete access to the full program",
+        "One-time payment, no hidden fees",
+        "Invest in the skills that move your career forward",
+      ],
+      ctaLabel: "Apply Now",
+      applyPath: "/ppap/apply",
+      variant: "light",
+    },
+    {
+      eyebrow: "Scholarship",
+      title: "Apply for a Scholarship",
+      feeNgn: fees.ppip,
+      features: [
+        "Open to promising African applicants",
+        "Support based on merit and financial need",
+        "Limited scholarships available each cohort",
+      ],
+      ctaLabel: "Apply for Scholarship",
+      applyPath: "/ppip/apply",
+      variant: "purple",
+      badge: "Recommended",
+    },
+  ];
+
   return (
     <section
-      className={`${montserrat.className} bg-[#FCF1FF] py-20 px-6 md:px-12 lg:px-24`}
+      className={`${montserrat.className} bg-white px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a]">
-          Invest In Your Product Career
-        </h2>
-        <p className="text-gray-500 max-w-2xl mx-auto mt-4 mb-12">
-          A 12-week execution-focused internship where you move from learning
-          about Product Management to building, launching, and documenting a real
-          MVP you can showcase with confidence.
+      <div className="mx-auto max-w-[1280px]">
+        {/* =====================================================
+            HEADER
+        ====================================================== */}
+        <p
+          className={`${bricolage.className}
+            mb-5
+            text-[11px]
+            font-bold
+            uppercase
+            tracking-[0.15em]
+            text-[#6424E8]
+          `}
+        >
+          INVEST IN YOUR GROWTH
         </p>
 
-        <div className="max-w-md mx-auto bg-white rounded-3xl shadow-sm border border-gray-50 p-8 text-center flex flex-col items-center">
-          <span className="inline-block bg-[#F3E8FF] text-[#6024D0] rounded-full px-4 py-1.5 text-xs font-medium mb-6">
-            Scholarship-Based Program
-          </span>
+        <h2
+          className={`${bricolage.className}
+            max-w-[650px]
+            text-[22px]
+            font-extrabold
+            leading-[1.15]
+            tracking-[-0.04em]
+            text-[#10091A]
+            sm:text-[32px]
+            lg:text-[30px]
+          `}
+        >
+          Choose the Payment Plan
+          <br className="hidden sm:block" />
+          That Works for You.
+        </h2>
 
-          <h3 className="text-xl font-bold text-[#1a1a1a] mb-3">
-            Apply For The Internship
-          </h3>
-
-          <p className="text-gray-500 text-sm mb-6 leading-relaxed">
-            The internship is free to apply for. Selected applicants will receive
-            an acceptance email and are required to pay a commitment fee.
-          </p>
-
-          {/* Currency selector */}
-          <div className="flex items-center gap-2 mb-6">
-            {/* Status badges */}
-            {loading && (
-              <span className="inline-flex items-center gap-1 text-[10px] text-[#6024D0] font-medium bg-[#F3E8FF] px-2.5 py-1 rounded-full animate-pulse">
-                <ArrowRight className="w-2.5 h-2.5 animate-spin" />
-                Live rates loading…
-              </span>
-            )}
-            {!loading && isLive && (
-              <span className="inline-flex items-center gap-1 text-[10px] text-[#10B981] font-semibold bg-[#ECFDF3] px-2.5 py-1 rounded-full">
-                Live rate
-              </span>
-            )}
-            {!loading && error && currency.code !== "NGN" && (
-              <span className="text-[10px] text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full font-medium">
-                Est. rate
-              </span>
-            )}
-
-            <div className="relative" ref={dropdownRef}>
-              <button
-                type="button"
-                onClick={() => setOpen((prev) => !prev)}
-                className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-1.5 text-sm font-semibold text-[#1a1a1a] shadow-sm cursor-pointer hover:bg-gray-50"
-              >
-                <Flag country={currency.country} />
-                {currency.code}
-                <ChevronDown
-                  className={`w-4 h-4 text-gray-500 transition-transform ${open ? "rotate-180" : ""}`}
-                />
-              </button>
-
-              {open && (
-                <div className="absolute z-30 mt-2 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-xl shadow-lg w-52 py-2 max-h-64 overflow-auto text-left">
-                  <div className="px-4 pb-2 border-b border-gray-100 mb-1">
-                    <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">
-                      Select Currency
-                    </p>
-                  </div>
-                  {currencies.map((c) => {
-                    const liveAmt = getLiveAmount(c);
-                    return (
-                      <button
-                        key={c.code}
-                        type="button"
-                        onClick={() => {
-                          setCurrency(c);
-                          setOpen(false);
-                        }}
-                        className={`w-full flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-purple-50 transition-colors ${
-                          c.code === currency.code ? "text-[#6024D0] bg-[#F3E8FF] font-semibold" : "text-gray-700"
-                        }`}
-                      >
-                        <Flag country={c.country} />
-                        <div className="flex flex-col items-start flex-1 min-w-0">
-                          <span className="font-semibold">{c.code}</span>
-                          {liveAmt ? (
-                            <span className={`text-[10px] truncate ${
-                              c.code === currency.code ? "text-[#6024D0]/70" : "text-gray-400"
-                            }`}>
-                              {liveAmt}
-                            </span>
-                          ) : loading ? (
-                            <span className="text-[10px] text-gray-300">Loading…</span>
-                          ) : null}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="mb-8 min-h-[4rem] flex items-center justify-center">
-            {loading && currency.code !== "NGN" ? (
-              <span className="inline-block h-12 w-40 rounded-xl bg-gray-200 animate-pulse" />
-            ) : (
-              <div
-                key={`price-${priceKey}-${currency.code}`}
-                className="text-5xl md:text-6xl font-black text-[#1a1a1a]"
-                style={{ animation: "fadeInUp 0.3s ease" }}
-              >
-                {formatLive(PPIP_COMMITMENT_FEE_NGN)}
-              </div>
-            )}
-          </div>
-
-          <Link
-            href={`/ppip/apply?currency=${currency.code}`}
-            className="w-full bg-[#6024D0] hover:bg-[#4d1ba8] text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
-          >
-            Apply Now
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-
-          <p className="text-xs text-gray-400 mt-4 leading-relaxed">
-            Limited internship slots available. Payment is only required after
-            acceptance.
-          </p>
+        {/* =====================================================
+            PLANS
+        ====================================================== */}
+        <div className="mx-auto mt-[72px] grid max-w-[720px] grid-cols-1 sm:grid-cols-2">
+          {plans.map((plan) => (
+            <PlanCard key={plan.title} plan={plan} />
+          ))}
         </div>
       </div>
     </section>
