@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Montserrat } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Montserrat,
+  Bricolage_Grotesque,
+} from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -20,6 +25,12 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // add the weights you need
 });
 
 const Arial = {
@@ -89,7 +100,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${Arial.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${bricolage.variable} ${Arial.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased font-montserrat" suppressHydrationWarning>
