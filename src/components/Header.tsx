@@ -1,295 +1,255 @@
 "use client";
 
-import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { ChevronDown, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { ChevronDown, X, Menu } from "lucide-react";
+import Image from "next/image";
+import logo from "@/assets/images/logo.png";
 
-const navLinks = [
-  { label: "Home", href: "/" },
-  {
-    label: "Programs",
-    href: "/programs",
-    dropdown: [
-      {
-        label: "ProductPointers Accelerator Program",
-        href: "/programs/accelerator",
-      },
-      {
-        label: "ProductPointers Internship Program",
-        href: "/programs/internship",
-      },
-      { label: "ProductPointers Track Program", href: "/programs/track" },
-      { label: "101 Coaching", href: "/programs/101-coaching" },
-    ],
-  },
-  { label: "Courses", href: "/courses" },
-  { label: "Scholarship", href: "/scholarship" },
-  { label: "Community", href: "/community" },
-  { label: "Contact", href: "/contact" },
-];
+const Navbar = () => {
+  const pathname = usePathname();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
-export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [programsOpen, setProgramsOpen] = useState(false);
-  const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false);
+  const menuItems = [
+    { name: "Home", href: "/" },
+    {
+      name: "Programs",
+      href: "#",
+      dropdown: [
+        { name: "ProductPointers Accelerator Program", href: "/ppap" },
+        { name: "ProductPointers Internship Program", href: "/ppip" },
+        { name: "ProductPointers Track Program", href: "/pptp" },
+        { name: "101 Coaching", href: "/ppcp" },
+      ],
+    },
+    // TODO: confirm destinations — neither has a page of its own yet.
+    { name: "Courses", href: "/#upcoming-programs" },
+    { name: "Scholarships", href: "/ppip" },
+    { name: "Community", href: "/community" },
+    { name: "Contact", href: "/contact" },
+  ];
 
+  // Routes whose hero is dark — the overlaying bar needs light text there,
+  // until the bar turns white once the hero has scrolled away.
+  const onDarkHero = pathname === "/ppip" && !pastHero;
+
+  // The bar is fixed and transparent over the hero; once the hero's bottom edge
+  // passes under the bar it switches to a white background. The hero is the
+  // page's first block: walk down first children past nested <main>s and any
+  // wrapper too tall to be a hero (form pages wrap everything in one div).
   useEffect(() => {
-    const sentinel = document.getElementById("hero-sentinel");
-    if (!sentinel) return;
-
-    const HEADER_HEIGHT = 80;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const rootTop = entry.rootBounds?.top ?? 0;
-        setIsScrolled(
-          !entry.isIntersecting && entry.boundingClientRect.top < rootTop,
-        );
-      },
-      { rootMargin: `-${HEADER_HEIGHT}px 0px 0px 0px`, threshold: 0 },
-    );
-
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!mobileOpen) return;
-
-    const scrollY = window.scrollY;
-
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.overflow = "";
-      window.scrollTo(0, scrollY);
+    const findHero = () => {
+      let el = document.querySelector("main")?.firstElementChild ?? null;
+      while (
+        el?.firstElementChild &&
+        (el.tagName === "MAIN" || el.getBoundingClientRect().height > window.innerHeight * 1.5)
+      ) {
+        el = el.firstElementChild;
+      }
+      return el;
     };
-  }, [mobileOpen]);
 
-  // lock body scroll while the mobile drawer is open
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
+    const onScroll = () => {
+      const hero = findHero();
+      const barHeight = navRef.current?.offsetHeight ?? 0;
+      setPastHero(
+        hero
+          ? hero.getBoundingClientRect().bottom <= barHeight
+          : window.scrollY > barHeight
+      );
     };
-  }, [mobileOpen]);
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
+
+  const active =
+    menuItems.find((item) => {
+      if (item.dropdown) {
+        return item.dropdown.some((sub) => pathname === sub.href || pathname.startsWith(sub.href + "/"));
+      }
+      if (item.href === "/") return pathname === "/";
+      return pathname === item.href || pathname.startsWith(item.href + "/");
+    })?.name ?? "";
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    if (dropdownOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownOpen]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 bg-white transition-colors duration-300 ${
-        isScrolled ? "shadow-sm" : "shadow-sm md:bg-transparent md:shadow-none"
+    <nav
+      ref={navRef}
+      className={`fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 py-5 z-[100] transition-colors duration-300 ${
+        pastHero ? "bg-white shadow-[0_1px_12px_rgba(16,9,26,0.08)]" : "bg-transparent"
       }`}
     >
-      <nav className="flex max-w-7xl items-center px-6 py-4 lg:py-6 lg:px-18">
-        {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center">
-          {/* Mobile logo - always pp_logo2.png */}
-          <Image
-            src="/pp_logo2.png"
-            alt="ProductPointers"
-            width={160}
-            height={32}
-            priority
-            className="h-8 w-auto md:hidden"
-          />
-          {/* Desktop logo - swaps on scroll */}
-          <Image
-            src={isScrolled ? "/pp_logo2.png" : "/pp_logo.png"}
-            alt="ProductPointers"
-            width={160}
-            height={32}
-            priority
-            className="hidden h-8 w-auto md:block"
-          />
-        </Link>
+      {/* Logo Section matching Hero.jpg */}
+      <div className="flex items-center gap-2 cursor-pointer">
+        <div className=" p-1.5 rounded-lg">
+          
+            <Image
+              src={logo}
+              alt="logo"
+              width={150}
+              height={50}
+              className={onDarkHero ? "brightness-0 invert" : ""}
+            />
+       
+        </div>
+       
+      </div>
 
-        <ul className="ml-58 hidden items-center gap-8 md:flex">
-          {navLinks.map((link) =>
-            link.dropdown ? (
-              <li
-                key={link.href}
-                className="relative"
-                onMouseEnter={() => setProgramsOpen(true)}
-                onMouseLeave={() => setProgramsOpen(false)}
-              >
-                <button
-                  type="button"
-                  onClick={() => setProgramsOpen((open) => !open)}
-                  aria-expanded={programsOpen}
-                  className={`flex items-center gap-1 text-[13px] font-medium leading-5 tracking-[0.14px] transition-colors duration-300 ${
-                    isScrolled ? "text-black" : "text-white"
-                  } hover:text-[#5818D0]`}
-                >
-                  {link.label}
-                  <ChevronDown
-                    size={16}
-                    strokeWidth={2}
-                    className={`transition-transform duration-200 ${
-                      programsOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-
-                {programsOpen && (
-                  <div className="absolute left-0 top-full w-72 bg-white p-2 shadow-xl">
-                    {link.dropdown.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setProgramsOpen(false)}
-                        className="block rounded-md border border-transparent px-6 py-3 text-[12px] font-medium tracking-[-0.252px] text-[#0E0A1A] transition-colors duration-200 hover:border-(--primary,#5818D0) hover:bg-[rgba(88,24,208,0.10)] hover:text-(--primary,#5818D0)"
-                        style={{
-                          fontFamily: '"Bricolage Grotesque", sans-serif',
-                          lineHeight: "25.2px",
-                        }}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </li>
-            ) : (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`text-[13px] font-medium leading-5 tracking-[0.14px] transition-colors duration-300 ${
-                    isScrolled ? "text-black" : "text-white"
-                  } hover:text-[#5818D0]`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ),
-          )}
-        </ul>
-
-        <div className="flex-1 ml-10" />
-
-        {/* Sponsor button (desktop) */}
-        <Link
-          href="/program"
-          className="hidden shrink-0 md:inline-flex items-center justify-center gap-2 rounded-md cursor-pointer bg-(--primary,#5818D0) px-6 py-2 text-sm font-semibold leading-5 tracking-[0.14px] text-white transition-colors hover:bg-[#0A0718] hover:text-white font-[Montserrat]"
-        >
-          Apply
-        </Link>
-
-        <button
-          type="button"
-          onClick={() => setMobileOpen(true)}
-          aria-label="Open menu"
-          aria-expanded={mobileOpen}
-          className="relative z-50 ml-auto flex h-8 w-8 flex-col items-center justify-center gap-1.5 md:hidden"
-        >
-          <span className="h-0.5 w-6 bg-black transition-all duration-300" />
-          <span className="h-0.5 w-6 bg-black transition-all duration-300" />
-          <span className="h-0.5 w-6 bg-black transition-all duration-300" />
-        </button>
-      </nav>
-
-      {/* Overlay */}
-      <div
-        onClick={() => setMobileOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 md:hidden ${
-          mobileOpen ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-      />
-
-      {/* Mobile drawer - slides in from the right, doesn't cover full width */}
-      <div
-        className={`fixed inset-y-0 right-0 z-50 w-[85%] max-w-sm overflow-y-auto bg-white px-6 py-6 shadow-lg transition-transform duration-300 ease-in-out md:hidden ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
+      {/* Desktop Menu */}
+      <ul
+        className={`hidden md:flex items-center gap-10 text-[13px] font-medium ${
+          onDarkHero ? "text-white" : "text-[#15010D]"
         }`}
       >
-        <div className="mb-6 flex items-center justify-between">
-          <Image
-            src="/pp_logo2.png"
-            alt="ProductPointers"
-            width={140}
-            height={28}
-            className="h-7 w-auto"
-          />
-          <button
-            type="button"
-            onClick={() => setMobileOpen(false)}
-            aria-label="Close menu"
-            className="flex h-8 w-8 items-center justify-center text-black"
-          >
-            <X size={22} strokeWidth={2} />
-          </button>
-        </div>
-
-        <ul className="flex flex-col gap-5">
-          {navLinks.map((link) =>
-            link.dropdown ? (
-              <li key={link.href}>
+        {menuItems.map((item) => (
+          <li key={item.name} className="relative">
+            {item.dropdown ? (
+              <div
+                className="relative"
+                ref={dropdownRef}
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
                 <button
-                  type="button"
-                  onClick={() => setMobileProgramsOpen((open) => !open)}
-                  aria-expanded={mobileProgramsOpen}
-                  className="flex items-center gap-2 text-[14px] tracking-[0.14px] leading-5 font-medium text-[#0E0A1A] hover:text-[#5818D0]"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className={`flex items-center gap-1 transition cursor-pointer ${
+                    active === item.name ? "text-[#6024D0]" : "hover:text-[#6024D0]"
+                  }`}
                 >
-                  {link.label}
-                  <ChevronDown
-                    size={18}
-                    strokeWidth={2}
-                    className={`transition-transform duration-200 ${
-                      mobileProgramsOpen ? "rotate-180" : ""
-                    }`}
-                  />
+                  {item.name}
+                  <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
-
-                {mobileProgramsOpen && (
-                  <ul className="mt-3 flex flex-col gap-3 pl-4">
-                    {link.dropdown.map((item) => (
-                      <li key={item.href}>
-                        <Link
-                          href={item.href}
-                          onClick={() => {
-                            setMobileOpen(false);
-                            setMobileProgramsOpen(false);
-                          }}
-                          className="block text-[12px] font-medium text-[#0E0A1A] leading-5 hover:text-[#5818D0]"
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                {dropdownOpen && (
+                  <div className="absolute left-0 top-full z-50 pt-3">
+                    <ul className="bg-white border border-purple-100 rounded-xl shadow-xl w-[262px] p-2">
+                      {item.dropdown.map((sub) => (
+                        <li key={sub.name}>
+                          <Link
+                            href={sub.href}
+                            onClick={() => setDropdownOpen(false)}
+                            className="block px-3.5 py-2 text-[12px] text-gray-700 hover:text-[#6024D0] hover:bg-purple-50 rounded-lg transition"
+                          >
+                            {sub.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
-              </li>
+              </div>
             ) : (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block text-[14px] tracking-[0.14px] leading-5 font-medium text-[#0E0A1A] hover:text-[#5818D0]"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ),
-          )}
-        </ul>
+              <Link
+                href={item.href}
+                className={`transition relative pb-1 ${
+                  active === item.name
+                  ? "text-[#6024D0] border-b-2 border-[#6024D0]"
+                  : "hover:text-[#6024D0]"
+                }`}
+              >
+                {item.name}
+              </Link>
+            )}
+          </li>
+        ))}
+      </ul>
 
-        <Link
-          href="/program"
-          onClick={() => setMobileOpen(false)}
-          className="mt-6 flex items-center justify-center gap-2 rounded-md bg-(--primary,#5818D0) px-6 py-2 text-sm font-semibold leading-5 tracking-[0.14px] text-white transition-colors hover:bg-[#0A0718] font-[Montserrat]"
-        >
-          Apply
+      {/* Desktop Buttons matching Hero.jpg styles */}
+      <div className="hidden md:flex items-center gap-4">
+        <Link href="/#upcoming-programs" className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg font-bold hover:bg-[#4c1da3] transition shadow-sm">
+          Apply Now
         </Link>
+        {/* <Link href="/login" className="border border-[#6024D0] text-[#6024D0] px-7 py-2.5 rounded-lg font-bold hover:bg-purple-50 transition">
+          Log In
+        </Link> */}
       </div>
-    </header>
+
+      {/* Mobile Menu Toggle */}
+      <button
+        className={`md:hidden cursor-pointer ${onDarkHero ? "text-white" : "text-[#15010D]"}`}
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+      </button>
+
+      {/* Mobile Dropdown Menu */}
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-[#FAF5FF] flex flex-col items-center py-10 gap-6 shadow-2xl z-50 border-t border-purple-100">
+          {menuItems.map((item) => (
+            <div key={item.name} className="flex flex-col items-center w-full">
+              {item.dropdown ? (
+                <>
+                  <button
+                    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+                    className={`flex items-center gap-1 text-base font-semibold text-[#15010D] cursor-pointer ${
+                      active === item.name ? "text-[#6024D0]" : ""
+                    }`}
+                  >
+                    {item.name}{" "}
+                    <ChevronDown
+                      size={18}
+                      className={`transition-transform ${mobileDropdownOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  {mobileDropdownOpen && (
+                    <div className="flex flex-col items-center gap-3 mt-4 bg-white/50 w-full py-4">
+                      {item.dropdown.map((sub) => (
+                        <Link
+                          key={sub.name}
+                          href={sub.href}
+                          onClick={() => {
+                            setMobileDropdownOpen(false);
+                            setMobileMenuOpen(false);
+                          }}
+                          className="text-[#15010D]/70 hover:text-[#6024D0]"
+                        >
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <Link
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`text-base font-semibold transition ${active === item.name ? "text-[#6024D0]" : "text-[#15010D]"}`}
+                >
+                  {item.name}
+                </Link>
+              )}
+            </div>
+          ))}
+          <div className="flex flex-col w-full px-10 gap-4 mt-4">
+            <Link href="/#upcoming-programs" onClick={() => setMobileMenuOpen(false)} className="w-full text-center bg-[#6024D0] text-white py-4 rounded-xl font-bold">
+              Apply Now
+            </Link>
+          </div>
+        </div>
+      )}
+    </nav>
   );
-}
+};
+
+export default Navbar;
