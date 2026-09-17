@@ -37,7 +37,8 @@ const Navbar = () => {
 
   // Routes whose hero is dark — the overlaying bar needs light text there,
   // until the bar turns white once the hero has scrolled away.
-  const onDarkHero = pathname === "/ppip" && !pastHero;
+  const DARK_HERO_ROUTES = ["/", "/ppip"];
+  const onDarkHero = DARK_HERO_ROUTES.includes(pathname) && !pastHero;
 
   // The bar is fixed and transparent over the hero; once the hero's bottom edge
   // passes under the bar it switches to a white background. The hero is the
