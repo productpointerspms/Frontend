@@ -47,7 +47,7 @@ const AcceleratorCallout: React.FC = () => {
 
             <h2
               className={`${bricolage.className}
-                text-[22px]
+                text-[20px]
                 font-extrabold
                 leading-[1.15]
                 tracking-[-0.04em]
@@ -57,6 +57,7 @@ const AcceleratorCallout: React.FC = () => {
               `}
             >
               Build the Solid Foundation You
+              {" "}
               <br className="hidden sm:block" />
               Need to Grow Your PM Career.
             </h2>

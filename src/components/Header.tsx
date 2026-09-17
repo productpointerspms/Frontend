@@ -12,7 +12,9 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   const menuItems = [
     { name: "Home", href: "/" },
@@ -33,8 +35,44 @@ const Navbar = () => {
     { name: "Contact", href: "/contact" },
   ];
 
-  // Routes whose hero is dark — the overlaying bar needs light text there.
-  const onDarkHero = pathname === "/ppip";
+  // Routes whose hero is dark — the overlaying bar needs light text there,
+  // until the bar turns white once the hero has scrolled away.
+  const onDarkHero = pathname === "/ppip" && !pastHero;
+
+  // The bar is fixed and transparent over the hero; once the hero's bottom edge
+  // passes under the bar it switches to a white background. The hero is the
+  // page's first block: walk down first children past nested <main>s and any
+  // wrapper too tall to be a hero (form pages wrap everything in one div).
+  useEffect(() => {
+    const findHero = () => {
+      let el = document.querySelector("main")?.firstElementChild ?? null;
+      while (
+        el?.firstElementChild &&
+        (el.tagName === "MAIN" || el.getBoundingClientRect().height > window.innerHeight * 1.5)
+      ) {
+        el = el.firstElementChild;
+      }
+      return el;
+    };
+
+    const onScroll = () => {
+      const hero = findHero();
+      const barHeight = navRef.current?.offsetHeight ?? 0;
+      setPastHero(
+        hero
+          ? hero.getBoundingClientRect().bottom <= barHeight
+          : window.scrollY > barHeight
+      );
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
 
   const active =
     menuItems.find((item) => {
@@ -57,7 +95,12 @@ const Navbar = () => {
   }, [dropdownOpen]);
 
   return (
-    <nav className="absolute top-0 left-0 w-full bg-transparent flex items-center justify-between px-6 md:px-12 py-5 z-[100]">
+    <nav
+      ref={navRef}
+      className={`fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 py-5 z-[100] transition-colors duration-300 ${
+        pastHero ? "bg-white shadow-[0_1px_12px_rgba(16,9,26,0.08)]" : "bg-transparent"
+      }`}
+    >
       {/* Logo Section matching Hero.jpg */}
       <div className="flex items-center gap-2 cursor-pointer">
         <div className=" p-1.5 rounded-lg">

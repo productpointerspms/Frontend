@@ -77,7 +77,7 @@ const NotAnotherInternship: React.FC = () => {
             <h2
               className={`${bricolage.className}
                 max-w-[570px]
-                text-[28px]
+                text-[24px]
                 font-extrabold
                 leading-[1.12]
                 tracking-[-0.04em]

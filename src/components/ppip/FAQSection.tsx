@@ -55,11 +55,11 @@ const FAQSection: React.FC = () => {
     <section
       className={`${montserrat.className} bg-white px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-[120px]">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,380px)_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-[120px] lg:gap-y-0">
         {/* =====================================================
-            LEFT — HEADER + CONTACT
+            HEADER — top-left on desktop
         ====================================================== */}
-        <div>
+        <div className="lg:col-start-1 lg:row-start-1">
           <p
             className={`${bricolage.className}
               mb-5
@@ -75,7 +75,7 @@ const FAQSection: React.FC = () => {
 
           <h2
             className={`${bricolage.className}
-              text-[22px]
+              text-[20px]
               font-extrabold
               leading-[1.15]
               tracking-[-0.04em]
@@ -85,34 +85,16 @@ const FAQSection: React.FC = () => {
             `}
           >
             Everything You
+            {" "}
             <br className="hidden sm:block" />
             Need to Know.
           </h2>
-
-          <h3
-            className={`${bricolage.className} mt-[56px] text-[18px] font-bold tracking-[-0.02em] text-[#10091A]`}
-          >
-            Still have a question?
-          </h3>
-
-          <p className="mt-3 max-w-[380px] text-[14px] leading-[1.7] text-[#4A4458]">
-            If your question is not answered here, reach out using the contact
-            widget &mdash; we are happy to help you figure out if PPIP is the
-            right fit.
-          </p>
-
-          <a
-            href="mailto:support@productpointers.com"
-            className="mt-8 inline-flex items-center justify-center rounded-md bg-[#6024D0] px-8 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-[#4d1ba8]"
-          >
-            Send Message
-          </a>
         </div>
 
         {/* =====================================================
-            RIGHT — ACCORDION
+            ACCORDION — right column on desktop, spanning both rows
         ====================================================== */}
-        <div className="space-y-4">
+        <div className="space-y-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
@@ -145,6 +127,31 @@ const FAQSection: React.FC = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* =====================================================
+            CONTACT — after the questions on mobile, under the
+            header on desktop
+        ====================================================== */}
+        <div className="lg:col-start-1 lg:row-start-2 lg:mt-[56px]">
+          <h3
+            className={`${bricolage.className} text-[16px] sm:text-[18px] font-bold tracking-[-0.02em] text-[#10091A]`}
+          >
+            Still have a question?
+          </h3>
+
+          <p className="mt-3 max-w-[380px] text-[14px] leading-[1.7] text-[#4A4458]">
+            If your question is not answered here, reach out using the contact
+            widget &mdash; we are happy to help you figure out if PPIP is the
+            right fit.
+          </p>
+
+          <a
+            href="mailto:support@productpointers.com"
+            className="mt-8 inline-flex items-center justify-center rounded-md bg-[#6024D0] px-8 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-[#4d1ba8]"
+          >
+            Send Message
+          </a>
         </div>
       </div>
     </section>

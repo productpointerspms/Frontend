@@ -44,7 +44,7 @@ const GraduationVisibility: React.FC = () => {
 
           <h2
             className={`${bricolage.className}
-              text-[22px]
+              text-[20px]
               font-extrabold
               leading-[1.15]
               tracking-[-0.04em]
@@ -54,6 +54,7 @@ const GraduationVisibility: React.FC = () => {
             `}
           >
             You Don&apos;t Need More Theory. You
+            {" "}
             <br className="hidden sm:block" />
             Need the Chance to Practise.
           </h2>

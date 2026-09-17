@@ -88,7 +88,7 @@ const OutcomesSection: React.FC = () => {
 
           <h2
             className={`${bricolage.className}
-              text-[27px]
+              text-[24px]
               font-extrabold
               leading-[1.25]
               tracking-[-0.04em]
@@ -158,7 +158,7 @@ const OutcomesSection: React.FC = () => {
                 <h3
                   className={`${bricolage.className}
                     mt-[17px]
-                    text-[15px]
+                    text-[14px] sm:text-[15px]
                     font-bold
                     leading-[1.3]
                     tracking-[-0.02em]

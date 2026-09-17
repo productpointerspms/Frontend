@@ -50,7 +50,7 @@ const PublicRecord: React.FC = () => {
             {/* Heading */}
             <h2
               className={`${bricolage.className}
-                text-[27px]
+                text-[24px]
                 font-extrabold
                 leading-[1.08]
                 tracking-[-0.045em]
@@ -68,8 +68,10 @@ const PublicRecord: React.FC = () => {
             {/* Description */}
             <p className="mt-9 max-w-[320px] text-[14px] leading-[1.6] text-[#755E96] sm:text-[15px]">
               By the end of your apprenticeship, you
+              {" "}
               <br className="hidden sm:block" />
               won&apos;t just have completed another Product
+              {" "}
               <br className="hidden sm:block" />
               Management program.
               <br />

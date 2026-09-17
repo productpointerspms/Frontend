@@ -92,7 +92,7 @@ const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
 
       {/* Title */}
       <h3
-        className={`${bricolage.className} mt-[26px] text-[18px] font-bold tracking-[-0.02em] ${
+        className={`${bricolage.className} mt-[26px] text-[16px] sm:text-[18px] font-bold tracking-[-0.02em] ${
           isPurple ? "text-white" : "text-[#10091A]"
         }`}
       >
@@ -229,32 +229,43 @@ const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
   );
 };
 
+/**
+ * PPTP isn't in the static program catalog, so it needs its own fallback —
+ * kept in step with the fee shown on the PPTP page (components/pptp/PricingCard).
+ */
+const PPTP_FEE_NGN = 150000;
+
 const PricingSection: React.FC = () => {
   // One request for the whole section — both fees come from the same
   // /program/programs payload, so the cards can never disagree with checkout.
-  const [fees, setFees] = useState<{ ppap: number | null; ppip: number | null }>({
-    ppap: null,
+  const [fees, setFees] = useState<{ pptp: number | null; ppip: number | null }>({
+    pptp: null,
     ppip: null,
   });
 
   useEffect(() => {
     let cancelled = false;
 
-    const feeFor = (list: Awaited<ReturnType<typeof getPrograms>>, code: string) =>
-      list.find((p) => p.code.toUpperCase() === code)?.fee ??
-      getProgramInfo(code).feeNgn;
+    const feeFor = (
+      list: Awaited<ReturnType<typeof getPrograms>>,
+      code: string,
+      fallback: number
+    ) => list.find((p) => p.code.toUpperCase() === code)?.fee ?? fallback;
 
     getPrograms()
       .then((list) => {
         if (!cancelled) {
-          setFees({ ppap: feeFor(list, "PPAP"), ppip: feeFor(list, "PPIP") });
+          setFees({
+            pptp: feeFor(list, "PPTP", PPTP_FEE_NGN),
+            ppip: feeFor(list, "PPIP", getProgramInfo("PPIP").feeNgn),
+          });
         }
       })
       .catch(() => {
         // Fall back to the static catalog so the cards still render a price.
         if (!cancelled) {
           setFees({
-            ppap: getProgramInfo("PPAP").feeNgn,
+            pptp: PPTP_FEE_NGN,
             ppip: getProgramInfo("PPIP").feeNgn,
           });
         }
@@ -269,14 +280,14 @@ const PricingSection: React.FC = () => {
     {
       eyebrow: "One-Time Payment",
       title: "Full Program Fee",
-      feeNgn: fees.ppap,
+      feeNgn: fees.pptp,
       features: [
         "Complete access to the full program",
         "One-time payment, no hidden fees",
         "Invest in the skills that move your career forward",
       ],
       ctaLabel: "Apply Now",
-      applyPath: "/ppap/apply",
+      applyPath: "/pptp/apply",
       variant: "light",
     },
     {
@@ -319,7 +330,7 @@ const PricingSection: React.FC = () => {
         <h2
           className={`${bricolage.className}
             max-w-[650px]
-            text-[22px]
+            text-[20px]
             font-extrabold
             leading-[1.15]
             tracking-[-0.04em]
@@ -329,6 +340,7 @@ const PricingSection: React.FC = () => {
           `}
         >
           Choose the Payment Plan
+          {" "}
           <br className="hidden sm:block" />
           That Works for You.
         </h2>

@@ -27,7 +27,7 @@ const OpportunitySection: React.FC = () => {
           </p>
 
           {/* Heading */}
-          <h2 className={`${bricolage.className} text-[26px] sm:text-[38px] lg:text-[42px] font-extrabold leading-[1.12] tracking-[-0.03em] text-[#110C24]`}>
+          <h2 className={`${bricolage.className} text-[22px] sm:text-[38px] lg:text-[42px] font-extrabold leading-[1.12] tracking-[-0.03em] text-[#110C24]`}>
             You've Learned Product Management. Now You Need Experience to Show for It.
           </h2>
 

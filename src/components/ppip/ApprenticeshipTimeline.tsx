@@ -92,7 +92,7 @@ const ApprenticeshipTimeline: React.FC = () => {
             <h2
               className={`${bricolage.className}
                 max-w-[650px]
-                text-[27px]
+                text-[24px]
                 font-extrabold
                 leading-[1.15]
                 tracking-[-0.04em]
@@ -102,6 +102,7 @@ const ApprenticeshipTimeline: React.FC = () => {
               `}
             >
               12 Weeks. One Structured Path to
+              {" "}
               <br className="hidden sm:block" />
               Building Real Experience.
             </h2>
@@ -277,7 +278,7 @@ const ApprenticeshipTimeline: React.FC = () => {
               <h3
                 className={`${bricolage.className}
                   mt-1.5
-                  text-[12px]
+                  text-[11px]
                   font-bold
                   leading-[1.25]
                   tracking-[-0.02em]

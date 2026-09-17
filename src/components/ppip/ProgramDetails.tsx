@@ -57,7 +57,7 @@ const ProgramDetails: React.FC = () => {
 
           <h2
             className={`${bricolage.className}
-              text-[22px]
+              text-[20px]
               font-extrabold
               leading-[1.15]
               tracking-[-0.04em]
@@ -67,6 +67,7 @@ const ProgramDetails: React.FC = () => {
             `}
           >
             What You Need to Know Before
+            {" "}
             <br className="hidden sm:block" />
             Applying.
           </h2>

@@ -86,7 +86,7 @@ const HeroSection: React.FC = () => {
           className="
             mb-6
             max-w-[1080px]
-            text-[30px]
+            text-[26px]
             font-extrabold
             leading-[1.08]
             tracking-[-0.035em]
@@ -213,51 +213,49 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Feature Bar */}
+      {/* Bottom Feature Bar — scrolls continuously. The list is rendered
+          four times so each half of the track is wider than any screen,
+          letting the -50% marquee loop join up seamlessly. */}
       <div
         className="
           absolute inset-x-0 bottom-0 z-20
+          flex min-h-[98px] items-center
+          overflow-hidden
           border-t border-white/[0.08]
           bg-[#07010F]/75
           backdrop-blur-md
         "
       >
         <div
-          className="
-            mx-auto
-            flex min-h-[98px]
-            max-w-[1320px]
-            items-center
-            justify-between
-            gap-6
-            px-6
-            py-5
-            lg:px-10
-          "
+          className="marquee-track flex w-max items-center"
+          style={{ animationDuration: "60s" }}
         >
-          {features.map((feature, index) => (
-            <React.Fragment key={feature}>
-              <span
-                className="
-                  whitespace-nowrap
-                  text-center
-                  text-[10px]
-                  font-bold
-                  tracking-[0.13em]
-                  text-white/85
-                  sm:text-[11px]
-                  md:text-xs
-                "
-              >
-                {feature}
-              </span>
+          {[0, 1, 2, 3].map((copy) => (
+            <div
+              key={copy}
+              aria-hidden={copy > 0}
+              className="flex shrink-0 items-center"
+            >
+              {features.map((feature) => (
+                <React.Fragment key={feature}>
+                  <span
+                    className="
+                      whitespace-nowrap
+                      text-[10px]
+                      font-bold
+                      tracking-[0.13em]
+                      text-white/85
+                      sm:text-[11px]
+                      md:text-xs
+                    "
+                  >
+                    {feature}
+                  </span>
 
-              {index < features.length - 1 && (
-                <span className="hidden text-white/20 xl:block">
-                  •
-                </span>
-              )}
-            </React.Fragment>
+                  <span className="px-6 text-white/20 sm:px-10">•</span>
+                </React.Fragment>
+              ))}
+            </div>
           ))}
         </div>
       </div>

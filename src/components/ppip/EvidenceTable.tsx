@@ -149,7 +149,7 @@ const CaseStudyCard: React.FC<{ study: CaseStudy }> = ({ study }) => {
       <h3
         className={`${bricolage.className}
           mt-[22px]
-          text-[16px]
+          text-[14px] sm:text-[16px]
           font-bold
           leading-[1.35]
           tracking-[-0.02em]
@@ -194,7 +194,7 @@ const EvidenceTable: React.FC = () => {
             <h2
               className={`${bricolage.className}
                 max-w-[650px]
-                text-[22px]
+                text-[20px]
                 font-extrabold
                 leading-[1.15]
                 tracking-[-0.04em]
@@ -204,6 +204,7 @@ const EvidenceTable: React.FC = () => {
               `}
             >
               This Is What Happens When Learners Get
+              {" "}
               <br className="hidden sm:block" />
               the Chance to Do the Work.
             </h2>

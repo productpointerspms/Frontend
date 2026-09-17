@@ -23,7 +23,7 @@ const exploreLinks: FooterLink[] = [
   { name: "Upcoming Programs", href: "/#upcoming-programs" },
 ];
 
-// TODO: add the real Instagram and YouTube URLs.
+// TODO: confirm the real Instagram URL.
 const socials = [
   {
     label: "Instagram",
@@ -39,7 +39,7 @@ const socials = [
   },
   {
     label: "YouTube",
-    href: "https://www.youtube.com/@productpointers",
+    href: "https://www.youtube.com/@ProductPointersPms",
     icon: Youtube,
     className: "bg-[#FF0000]",
   },

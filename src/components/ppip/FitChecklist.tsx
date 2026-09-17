@@ -69,6 +69,7 @@ const mentors: Mentor[] = [
     role: "Product Lead, Translate",
     experience: "15+",
     image: "/images/ppip/frank.jpg",
+    linkedinUrl: "https://www.linkedin.com/in/frankanwana",
     // His head sits high in the frame — pull the crop up so it isn't clipped.
     imagePosition: "center 15%",
   },
@@ -122,7 +123,7 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
       </div>
 
       <h3
-        className={`${bricolage.className} mt-[14px] text-[15px] font-bold leading-[1.3] tracking-[-0.02em] text-[#10091A]`}
+        className={`${bricolage.className} mt-[14px] text-[14px] sm:text-[15px] font-bold leading-[1.3] tracking-[-0.02em] text-[#10091A]`}
       >
         {mentor.name}
       </h3>
@@ -183,7 +184,7 @@ const FitChecklist: React.FC = () => {
             <h2
               className={`${bricolage.className}
                 max-w-[650px]
-                text-[22px]
+                text-[20px]
                 font-extrabold
                 leading-[1.15]
                 tracking-[-0.04em]
@@ -193,6 +194,7 @@ const FitChecklist: React.FC = () => {
               `}
             >
               Get Feedback From People Who
+              {" "}
               <br className="hidden sm:block" />
               Understand the Work.
             </h2>

@@ -40,8 +40,8 @@ const FinalCTA: React.FC = () => {
       {/* =====================================================
           CARD
       ====================================================== */}
-      <div className="relative z-10 mx-auto max-w-[1280px] px-6 py-[90px] sm:px-10 lg:px-[250px] lg:py-[160px]">
-        <div className="max-w-[720px] rounded-[12px] bg-[#5818D0] p-12 text-center text-white sm:p-14 sm:text-left lg:ml-0 lg:mr-auto">
+      <div className="relative z-10 mx-auto max-w-[1280px] px-0 pb-0 pt-[90px] sm:px-10 sm:py-[90px] lg:px-[250px] lg:py-[160px]">
+        <div className="max-w-[720px] rounded-none bg-[#5818D0] px-6 py-14 text-center text-white sm:rounded-[12px] sm:p-14 sm:text-left lg:ml-0 lg:mr-auto">
           <p
             className={`${bricolage.className}
               mb-5
@@ -57,7 +57,7 @@ const FinalCTA: React.FC = () => {
 
           <h2
             className={`${bricolage.className}
-              text-[25px]
+              text-[22px]
               font-extrabold
               leading-[1.15]
               tracking-[-0.04em]
@@ -67,12 +67,14 @@ const FinalCTA: React.FC = () => {
             `}
           >
             Build the Experience Your Next
+            {" "}
             <br className="hidden sm:block" />
             Opportunity Will Ask You About.
           </h2>
 
           <p className="mt-6 text-[15px] leading-[1.7] text-white/90">
             Stop wondering how to get Product Management experience.
+            {" "}
             <br className="hidden sm:block" />
             Start building it.
           </p>
