@@ -1,48 +1,100 @@
-import React from 'react';
-import { Signpost, Users, BriefcaseBusiness } from 'lucide-react';
+import React from "react";
+import { Bricolage_Grotesque } from "next/font/google";
+
+// Headings share the PPIP display face — variable weight covers 200-800.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+
 
 const ProgramOverview = () => {
+  const steps = [
+    {
+      number: "01",
+      title: "Learn the Concept",
+      description:
+        "Structured lessons introduce each area of product thinking clearly.",
+    },
+    {
+      number: "02",
+      title: "Apply What You've Learned",
+      description:
+        "Exercises and assignments put the concepts into practice immediately.",
+    },
+    {
+      number: "03",
+      title: "Get Feedback",
+      description:
+        "Receive structured input from mentors and coaches on your work.",
+    },
+    {
+      number: "04",
+      title: "Strengthen Your Understanding",
+      description:
+        "Refine your thinking and build real confidence in the material.",
+    },
+  ];
+
   return (
-    <section className="bg-[#FCF1FF] py-20 px-6 md:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-        <div className="flex-1 max-w-xl">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-6 leading-tight">
-            PPAP Gives You What Most Beginners Lack: <span className="text-[#6D28D9]">Clarity</span>
-          </h2>
+    <section className="w-full bg-[#F3EFFC] text-white">
+      <div className="mx-auto max-w-[1440px] px-6 py-20 md:px-12 lg:px-20 lg:py-[82px]">
+        
+        {/* Top content */}
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24">
           
-          <p className="text-gray-500 text-base mb-6 leading-relaxed">
-            Instead of random learning, you'll follow a structured path designed to help you understand Product Management from the ground up.
-          </p>
-          
-          <p className="text-[#1a1a1a] text-base mb-10 leading-relaxed font-medium">
-            With mentorship, practical assignments, and guided learning, you won't just "learn", you'll start <span className="text-[#6D28D9]">thinking like a Product Manager.</span>
-          </p>
-          
-          <div className="flex flex-wrap gap-3">
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-50">
-              <Signpost className="w-3.5 h-3.5 text-[#6D28D9]" />
-              <span className="font-medium text-[#1a1a1a] text-xs">Structured Path</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-50">
-              <Users className="w-3.5 h-3.5 text-[#6D28D9]" />
-              <span className="font-medium text-[#1a1a1a] text-xs">Mentorship</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-50">
-              <BriefcaseBusiness className="w-3.5 h-3.5 text-[#6D28D9]" />
-              <span className="font-medium text-[#1a1a1a] text-xs">Practical Work</span>
-            </div>
+          {/* Left */}
+          <div>
+            <p className="mb-5 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#6A22F4]">
+              Learning By Doing
+            </p>
+
+            <h2 className={`${bricolage.className} max-w-[610px] text-[20px] font-extrabold leading-[1.18] tracking-[-0.04em] text-[#171022] sm:text-[38px] lg:text-[40px]`}>
+              Don&apos;t Just Learn the{" "}
+              <br className="hidden lg:block" />
+              Concepts. Start Putting Them{" "}
+              <br className="hidden lg:block" />
+              Into Practice.
+            </h2>
+          </div>
+
+          {/* Right */}
+          <div className="lg:pt-[5px]">
+            <p className="max-w-[500px] text-[14px] leading-[1.6] text-[#5E5B63]">
+              You&apos;ll learn the foundations of Product Management and apply
+              your learning through practical exercises and assignments
+              designed to help you understand how the work comes together.
+            </p>
           </div>
         </div>
 
-        <div className="flex-[1.2] w-full flex justify-center">
-          <div className="aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-200 relative w-full max-w-[440px] shadow-lg">
-             {/* Fallback image for sticky notes */}
-             <img 
-               src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1000&auto=format&fit=crop" 
-               alt="Person writing on sticky notes on glass" 
-               className="w-full h-full object-cover"
-             />
-          </div>
+        {/* Steps */}
+        <div className="mt-[48px] grid grid-cols-2 gap-x-5 gap-y-9 sm:gap-x-8 sm:gap-y-10 lg:grid-cols-4 lg:gap-8">
+          {steps.map((step, index) => (
+            <div key={step.number} className="relative">
+              
+              {/* Number and line */}
+              <div className="flex items-center">
+                <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full bg-[#5B18E6] text-[11px] font-bold text-white sm:h-[34px] sm:w-[34px] sm:text-[12px]">
+                  {step.number}
+                </div>
+
+                <div
+                  className={`ml-2 h-px flex-1 bg-[#5B18E6] ${
+                    index === steps.length - 1 ? "lg:hidden" : ""
+                  }`}
+                />
+              </div>
+
+              {/* Content */}
+              <div className="mt-3">
+                <h3 className={`${bricolage.className} text-[13px] font-semibold leading-[1.35] text-[#18121F] sm:text-[14px] sm:leading-[1.4]`}>
+                  {step.title}
+                </h3>
+
+                <p className="mt-1 max-w-[250px] text-[11px] leading-[1.45] text-[#5E5A62] sm:text-[12px]">
+                  {step.description}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

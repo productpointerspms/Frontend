@@ -1,56 +1,156 @@
-import React from 'react';
-import Link from 'next/link';
-import { Eye, Compass, MapPin, ArrowRight } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import { Bricolage_Grotesque } from "next/font/google";
+
+// Headings share the PPIP display face — variable weight covers 200-800.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+
 
 const FinalCTA = () => {
   return (
-    <section className="bg-[#FAE1FF] py-24 px-6 md:px-12 lg:px-24">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-2">
-          You Don't Need More Courses
-        </h2>
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#6D28D9] italic mb-6">
-          You Need Clarity
-        </h3>
-        <p className="text-gray-500 mb-16 max-w-3xl mx-auto text-base leading-relaxed">
-          PPAP isn't about overwhelming you with more content. It's about giving you a clear starting point, direction, and the confidence to move forward in Product Management.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 text-left">
-          <div className="bg-white p-8 lg:p-10 rounded-[2rem] shadow-sm border border-gray-50">
-            <div className="w-12 h-12 bg-[#6D28D9] rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-              <Eye className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="font-bold text-[#1a1a1a] text-lg mb-3">Clarity</h3>
-            <p className="text-gray-500 leading-relaxed">
-              Understand what Product Management really is and what matters
-            </p>
-          </div>
-          
-          <div className="bg-white p-8 lg:p-10 rounded-[2rem] shadow-sm border border-gray-50">
-            <div className="w-12 h-12 bg-[#6D28D9] rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-              <Compass className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="font-bold text-[#1a1a1a] text-lg mb-3">Direction</h3>
-            <p className="text-gray-500 leading-relaxed">
-              Know what to focus on and how to move forward
-            </p>
-          </div>
-          
-          <div className="bg-white p-8 lg:p-10 rounded-[2rem] shadow-sm border border-gray-50">
-            <div className="w-12 h-12 bg-[#6D28D9] rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-              <MapPin className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="font-bold text-[#1a1a1a] text-lg mb-3 pr-4">A Starting Point That Makes Sense</h3>
-            <p className="text-gray-500 leading-relaxed">
-              Stop guessing and start with a structured path
-            </p>
-          </div>
+    <section className="w-full bg-white px-0 pt-16 pb-0 sm:px-6 sm:pb-16 md:px-12 lg:px-16 lg:py-20">
+      <div className="relative mx-auto max-w-[1280px]">
+        
+        {/* IMAGE BLOCK */}
+        <div className="ml-auto hidden w-full overflow-hidden rounded-[28px] lg:block lg:w-[58%]">
+          <img
+            src="/images/ppip/but.png"
+            alt="ProductPointers mentor"
+            className="h-[420px] w-full object-cover object-[center_35%] md:h-[500px] lg:h-[478px]"
+          />
         </div>
 
-        <Link href="/ppap/apply" className="bg-[#6D28D9] text-white px-8 py-4 rounded-xl font-medium text-base hover:bg-[#5b21b6] transition-colors inline-flex items-center gap-2">
-          Join the Next Cohort <ArrowRight className="w-5 h-5" />
-        </Link>
+        {/* PURPLE CTA PANEL */}
+        <div
+          className="
+            relative
+            z-10
+            w-full
+            rounded-none
+            bg-[#5818D0]
+            px-7
+            py-10
+            text-center
+            sm:rounded-[10px]
+            md:px-12
+            lg:text-left
+            lg:absolute
+            lg:left-[20%]
+            lg:top-1/2
+            lg:mt-0
+            lg:w-[52%]
+            lg:-translate-y-1/2
+            lg:px-[56px]
+            lg:py-[58px]
+          "
+        >
+          {/* EYEBROW */}
+          <p
+            className="
+              mb-5
+              text-[13px]
+              font-semibold
+              uppercase
+              tracking-[0.18em]
+              text-[#FF19BD]
+            "
+          >
+            Start Here
+          </p>
+
+          {/* HEADING */}
+          <h2
+            className={`${bricolage.className}
+              mx-auto
+              max-w-[610px]
+              text-[19px]
+              lg:mx-0
+              font-extrabold
+              leading-[1.14]
+              tracking-[-0.04em]
+              text-white
+              sm:text-[38px]
+              lg:text-[40px]
+            `}
+          >
+            Ready to Build Your Product
+            {" "}
+            <br className="hidden sm:block" />
+            Management Foundation?
+          </h2>
+
+          {/* DESCRIPTION */}
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-[620px]
+              text-[13px]
+              lg:mx-0
+              sm:text-[14px]
+              leading-[1.55]
+              text-white/75
+              sm:text-[15px]
+            "
+          >
+            Stop trying to piece Product Management together on your own.
+            Start with a structured foundation and build the knowledge and
+            skills to take your next step with confidence.
+          </p>
+
+          {/* BUTTONS */}
+          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:items-stretch">
+            <Link
+              href="/ppap/apply"
+              className="
+                inline-flex
+                min-h-[46px]
+                w-full
+                max-w-[260px]
+                items-center
+                justify-center
+                rounded-[6px]
+                bg-[#FF00B8]
+                sm:w-auto
+                sm:max-w-none
+                px-8
+                text-[14px]
+                font-semibold
+                text-white
+                transition
+                hover:opacity-90
+              "
+            >
+              Apply for PPAP
+            </Link>
+
+            <Link
+              href="/ppap/apply?plan=scholarship"
+              className="
+                inline-flex
+                min-h-[46px]
+                w-full
+                max-w-[260px]
+                items-center
+                justify-center
+                rounded-[6px]
+                border
+                border-white
+                sm:w-auto
+                sm:max-w-none
+                bg-transparent
+                px-8
+                text-[14px]
+                font-semibold
+                text-white
+                transition
+                hover:bg-white/10
+              "
+            >
+              Apply for a Scholarship
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

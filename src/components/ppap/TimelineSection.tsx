@@ -1,5 +1,10 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import { Bricolage_Grotesque } from "next/font/google";
+
+// Headings share the PPIP display face — variable weight covers 200-800.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+
 
 const TimelineSection = () => {
   const phases = [
@@ -55,10 +60,10 @@ const TimelineSection = () => {
           <div className="inline-block px-4 py-1.5 border border-[#a855f7] bg-transparent text-[#a855f7] bg-[#FAE1FF] rounded-full text-xs font-semibold mb-6">
             12-Week Structured Program
           </div>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
+          <h2 className={`${bricolage.className} text-[22px] md:text-3xl lg:text-4xl font-extrabold text-[#1a1a1a] mb-4`}>
             A Clear Path From Beginner To Confident Product Manager
           </h2>
-          <p className="text-gray-500 text-base">
+          <p className="text-gray-500 text-[14px]">
             A 12-week guided journey designed to take you from beginner to confident Product Manager step by step. Each phase builds on the previous one, so you're never lost or overwhelmed.
           </p>
         </div>
@@ -81,7 +86,7 @@ const TimelineSection = () => {
                     <span className="text-xs text-[#6D28D9] tracking-wider uppercase">{item.phase}</span>
                     <span className="text-xs bg-[#FAE1FF] text-[#6D28D9] px-2.5 py-0.5 rounded-full">{item.weeks}</span>
                   </div>
-                  <h3 className="text-lg font-bold text-[#1a1a1a] mb-2">{item.title}</h3>
+                  <h3 className={`${bricolage.className} text-lg font-bold text-[#1a1a1a] mb-2`}>{item.title}</h3>
                   <p className="text-gray-500 text-[13px] mb-6">{item.description}</p>
 
                   <hr className="border-t border-gray-100 mb-4" />
@@ -95,7 +100,7 @@ const TimelineSection = () => {
         </div>
 
         <div className="max-w-3xl mx-auto border-t border-gray-200 pt-16">
-          <p className="text-center text-base md:text-lg font-medium text-gray-600 mb-10 leading-relaxed">
+          <p className="text-center text-[14px] md:text-lg font-medium text-gray-600 mb-10 leading-relaxed">
             By the end of the 12 weeks, you won't just understand Product Management... You'll understand how to think, structure, and approach real product work with confidence.
           </p>
           

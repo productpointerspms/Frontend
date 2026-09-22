@@ -1,65 +1,219 @@
-import React from 'react';
-import { BrainCircuit, Layers, RefreshCw, Puzzle, LayoutTemplate, Wrench } from 'lucide-react';
+import React from "react";
+import { Bricolage_Grotesque } from "next/font/google";
+
+// Headings share the PPIP display face — variable weight covers 200-800.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+
 
 const CurriculumSection = () => {
-  const modules = [
+  const curriculum = [
     {
-      icon: <BrainCircuit className="w-6 h-6 text-white" />,
-      title: "What Product Management Really Is",
-      description: "Beyond textbook definitions"
+      number: "01",
+      title: "Build Your Product Management Foundation",
+      description:
+        "Understand what Product Managers do, how products evolve and how to think through product problems.",
+      topics: [
+        "Product Fundamentals",
+        "Product Lifecycle",
+        "Product Value Fit",
+        "Product & Design Thinking",
+      ],
     },
     {
-      icon: <Layers className="w-6 h-6 text-white" />,
-      title: "How Products Are Built",
-      description: "Real-world product development"
+      number: "02",
+      title: "Find and Understand the Right Problems",
+      description:
+        "Learn how to research users, validate assumptions and identify problems worth solving.",
+      topics: [
+        "Product Discovery",
+        "User Research",
+        "User Personas",
+        "Problem Framing",
+        "User Thinking",
+      ],
     },
     {
-      icon: <RefreshCw className="w-6 h-6 text-white" />,
-      title: "Product Lifecycle & Thinking",
-      description: "From idea to iteration"
+      number: "03",
+      title: "Turn Ideas Into Product Work",
+      description:
+        "Learn how Product Managers define requirements, prioritise what matters and prepare work for delivery.",
+      topics: [
+        "PRDs",
+        "User Stories",
+        "Prioritisation",
+        "Agile",
+        "Scrum & Kanban",
+      ],
     },
     {
-      icon: <Puzzle className="w-6 h-6 text-white" />,
-      title: "Problem Breakdown & Solutions",
-      description: "Structured analytical thinking"
+      number: "04",
+      title: "Work With People and Manage Delivery",
+      description:
+        "Learn how to communicate with stakeholders, manage expectations and keep product work moving.",
+      topics: [
+        "Stakeholder Management",
+        "Communication",
+        "Reporting",
+        "Risk & Change Management",
+      ],
     },
     {
-      icon: <LayoutTemplate className="w-6 h-6 text-white" />,
-      title: "Core PM Responsibilities",
-      description: "What PMs actually do day-to-day"
+      number: "05",
+      title: "Measure, Improve and Launch Products",
+      description:
+        "Understand how Product Managers measure success, plan product direction and support product launches.",
+      topics: [
+        "Product Metrics",
+        "Metrics & KPIs",
+        "User Flows",
+        "A/B Experimentation",
+        "MVP",
+        "Road mapping",
+        "GTM",
+      ],
     },
-    {
-      icon: <Wrench className="w-6 h-6 text-white" />,
-      title: "Product Tools & Workflows",
-      description: "Essential tools introduction"
-    }
   ];
 
   return (
-    <section className="bg-[#FAE1FF] py-20 px-6 md:px-12 lg:px-24">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#1a1a1a] mb-4">
-            What You'll Learn Inside <span className="text-[#6D28D9]">PPAP</span>
+    <section className="w-full bg-white text-white">
+      <div
+        className="
+          mx-auto
+          grid
+          max-w-[1440px]
+          grid-cols-1
+          gap-16
+          px-6
+          py-20
+          md:px-12
+          lg:grid-cols-[0.95fr_1.05fr]
+          lg:gap-24
+          lg:px-20
+          lg:py-[110px]
+        "
+      >
+        {/* LEFT SIDE */}
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <p
+            className="
+              mb-5
+              text-[13px]
+              font-semibold
+              uppercase
+              tracking-[0.17em]
+              text-[#6D21F5]
+            "
+          >
+            Your 12-Week Journey
+          </p>
+
+          <h2
+            className={`${bricolage.className}
+              max-w-[560px]
+              text-[22px]
+              font-extrabold
+              leading-[1.16]
+              tracking-[-0.04em]
+              text-[#171020]
+              sm:text-[38px]
+              lg:text-[40px]
+            `}
+          >
+            From Learning the
+            <br />
+            Fundamentals to Solving Real
+            <br />
+            Product Problems.
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-base">
-            A strong foundation to help you understand Product Management and think like a Product Manager.
+
+          <p
+            className="
+              mt-9
+              max-w-[500px]
+              text-[14px]
+              leading-[1.6]
+              text-[#68646C]
+            "
+          >
+            Build your Product Management knowledge step by step, learning
+            how to understand problems, make product decisions, work with
+            teams and bring products to life.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {modules.map((module, index) => (
-            <div key={index} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-50 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-[#6D28D9] rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                {module.icon}
+        {/* RIGHT SIDE */}
+        <div className="flex flex-col gap-[52px]">
+          {curriculum.map((item) => (
+            <article
+              key={item.number}
+              className="grid grid-cols-[32px_1fr] gap-3"
+            >
+              {/* Number */}
+              <span
+                className="
+                  pt-[2px]
+                  text-[12px]
+                  font-bold
+                  text-[#6D21F5]
+                "
+              >
+                {item.number}
+              </span>
+
+              <div>
+                {/* Title */}
+                <h3
+                  className={`${bricolage.className}
+                    text-[14px]
+                    font-semibold
+                    leading-[1.4]
+                    text-[#171020]
+                  `}
+                >
+                  {item.title}
+                </h3>
+
+                {/* Description */}
+                <p
+                  className="
+                    mt-1
+                    max-w-[580px]
+                    text-[14px]
+                    leading-[1.55]
+                    text-[#666168]
+                  "
+                >
+                  {item.description}
+                </p>
+
+                {/* Tags */}
+                <div className="mt-5 flex flex-wrap gap-3">
+                  {item.topics.map((topic) => (
+                    <span
+  key={topic}
+  className="
+    inline-flex
+    min-h-[32px]
+    items-center
+    justify-center
+    rounded-[4px]
+    border
+    border-[#5818D0]
+    bg-[#5818D014]
+    px-4
+    py-2
+    text-[12px]
+    font-medium
+    leading-none
+    text-[#5818D0]
+  "
+>
+  {topic}
+</span>
+                  ))}
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-[#1a1a1a] mb-3">
-                {module.title}
-              </h3>
-              <p className="text-gray-500 text-[13px]">
-                {module.description}
-              </p>
-            </div>
+            </article>
           ))}
         </div>
       </div>
