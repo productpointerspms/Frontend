@@ -1,174 +1,175 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { AlertCircle, CheckCircle2, Mail, Phone, Linkedin, Instagram, Twitter } from 'lucide-react';
-import { Montserrat } from 'next/font/google';
-import { submitContactForm } from '@/lib/contact';
+import React from "react";
+import {
+  Mail,
+  Phone,
+  Instagram,
+  Linkedin,
+  Youtube,
+  MessageCircle,
+} from "lucide-react";
+import { Montserrat, Bricolage_Grotesque } from "next/font/google";
 
 const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
+// Headings share the PPAP display face — variable weight covers 200-800.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+
 const ContactSection = () => {
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (submitting) return;
-
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-
-    setSubmitting(true);
-    setError(null);
-    setSuccess(false);
-
-    try {
-      await submitContactForm({
-        fullname: String(fd.get('fullname') ?? '').trim(),
-        email: String(fd.get('email') ?? '').trim(),
-        message: String(fd.get('message') ?? '').trim(),
-      });
-      setSuccess(true);
-      form.reset();
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Something went wrong. Please try again.'
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
-    <div id="contact-section" className={`${montserrat.className} scroll-mt-24 bg-[#F9F5FF] min-h-screen py-20 px-6 md:px-20`}>
-      <div className="max-w-6xl mx-auto">
-        
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-4">How Can We Help?</h2>
-          <p className="text-gray-500 text-base max-w-3xl mx-auto leading-relaxed">
-            Reach out to the ProductPointers team for guidance, questions, mentorship support, 
-            partnerships, or community-related inquiries
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
-          {/* Left Column: Contact Cards */}
-          <div className="lg:col-span-4 space-y-6">
-            {/* Email Card */}
-            <div className="bg-white p-8 rounded-[24px] shadow-sm">
-              <div className="w-10 h-10 bg-[#5C1CC5] rounded-lg flex items-center justify-center mb-4">
-                <Mail className="text-white w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-black mb-4">Email Support</h3>
-              <a
-                href="mailto:support@productpointers.com"
-                className="text-[#5C1CC5] font-medium hover:underline"
-              >
-                support@productpointers.com
-              </a>
+    <section
+      id="contact-section"
+      className={`${montserrat.className} scroll-mt-24 bg-white px-6 py-10 md:px-10 lg:px-20`}
+    >
+      <div className="mx-auto max-w-[1440px]">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+          {/* =========================
+              DIRECT EMAIL
+          ========================== */}
+          <div className="flex min-h-[308px] flex-col rounded-[12px] border border-[#C9C9C9] bg-white px-6 py-6">
+            {/* Icon */}
+            <div className="flex h-[50px] w-[50px] items-center justify-center rounded-[11px] bg-[#F0E8FF]">
+              <Mail
+                size={30}
+                strokeWidth={1.7}
+                className="text-[#6024D0]"
+              />
             </div>
 
-            {/* Phone Card */}
-            <div className="bg-white p-8 rounded-[24px] shadow-sm">
-              <div className="w-10 h-10 bg-[#5C1CC5] rounded-lg flex items-center justify-center mb-4">
-                <Phone className="text-white w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-black mb-4">Phone</h3>
-              <a
-                href="tel:+2348102567773"
-                className="text-[#5C1CC5] font-medium hover:underline"
-              >
-                +234 810 256 7773
-              </a>
+            {/* Content */}
+            <div className="mt-8">
+              <h3 className={`${bricolage.className} text-[22px] font-bold tracking-[-0.03em] text-[#17131F]`}>
+                Direct Email
+              </h3>
+
+              <p className="mt-4 max-w-[360px] text-[13px] leading-[1.6] text-[#6E6A72]">
+                Send us a direct email for general questions, admissions
+                inquiries, or partnership discussions
+              </p>
             </div>
 
-            {/* Socials Card */}
-            <div className="bg-white p-8 rounded-[24px] shadow-sm">
-              <div className="w-10 h-10 bg-[#5C1CC5] rounded-lg flex items-center justify-center mb-4">
-                <Phone className="text-white w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-black mb-4">Follow Us</h3>
-              <div className="flex gap-3">
-                {[Linkedin, Instagram, Twitter].map((Icon, idx) => (
-                  <div key={idx} className="w-10 h-10 bg-[#F4EBFF] rounded-lg flex items-center justify-center cursor-pointer hover:bg-[#E9D7FE] transition-colors">
-                    <Icon className="text-[#5C1CC5] w-5 h-5" />
-                  </div>
-                ))}
-              </div>
+            {/* Bottom */}
+            <div className="mt-auto pt-7">
+              <div className="mb-5 h-px w-full bg-[#D0CDD2]" />
+
+              <a
+                href="mailto:support@productpointer.com"
+                className="text-[20px] font-medium text-[#6024D0] transition-opacity hover:opacity-70"
+              >
+                support@productpointer.com
+              </a>
             </div>
           </div>
 
-          {/* Right Column: Form */}
-          <div className="lg:col-span-8 bg-white p-10 md:p-12 rounded-[32px] shadow-sm">
-            <h3 className="text-xl md:text-2xl font-bold text-black mb-8">Send us a message</h3>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-black font-semibold mb-2">Name</label>
-                <input
-                  type="text"
-                  name="fullname"
-                  required
-                  placeholder="Enter your full name"
-                  className="w-full px-4 py-4 rounded-xl border border-gray-200 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all"
-                />
-              </div>
+          {/* =========================
+              PHONE
+          ========================== */}
+          <div className="flex min-h-[308px] flex-col rounded-[12px] border border-[#C9C9C9] bg-white px-6 py-6">
+            {/* Icon */}
+            <div className="flex h-[50px] w-[50px] items-center justify-center rounded-[11px] bg-[#F0E8FF]">
+              <Phone
+                size={28}
+                strokeWidth={1.5}
+                className="text-[#6024D0]"
+              />
+            </div>
 
-              <div>
-                <label className="block text-black font-semibold mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  placeholder="you@example.com"
-                  className="w-full px-4 py-4 rounded-xl border border-gray-200 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all"
-                />
-              </div>
+            {/* Content */}
+            <div className="mt-8">
+              <h3 className={`${bricolage.className} text-[22px] font-bold tracking-[-0.03em] text-[#17131F]`}>
+                Phone
+              </h3>
 
-              <div>
-                <label className="block text-black font-semibold mb-2">Message</label>
-                <textarea
-                  rows={5}
-                  name="message"
-                  required
-                  placeholder="How can we help you?"
-                  className="w-full px-4 py-4 rounded-xl border border-gray-200 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5C1CC5]/20 focus:border-[#5C1CC5] transition-all resize-none"
-                ></textarea>
-              </div>
+              <p className="mt-4 max-w-[360px] text-[13px] leading-[1.6] text-[#6E6A72]">
+                Send us a direct email for general questions, admissions
+                inquiries, or partnership discussions
+              </p>
+            </div>
 
-              {error && (
-                <div className="flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 rounded-xl px-5 py-4 text-sm">
-                  <AlertCircle className="w-5 h-5 shrink-0" />
-                  <span>{error}</span>
-                </div>
-              )}
+            {/* Bottom */}
+            <div className="mt-auto pt-7">
+              <div className="mb-5 h-px w-full bg-[#D0CDD2]" />
 
-              {success && (
-                <div className="flex items-center gap-2 bg-green-50 border border-green-100 text-green-700 rounded-xl px-5 py-4 text-sm">
-                  <CheckCircle2 className="w-5 h-5 shrink-0" />
-                  <span>Your message has been sent. We&apos;ll get back to you soon.</span>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full bg-[#5C1CC5] text-white font-bold py-4 rounded-xl hover:bg-[#4a169e] transition-colors mt-4 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+              <a
+                href="tel:+2348001293456"
+                className="text-[20px] font-medium text-[#6024D0] transition-opacity hover:opacity-70"
               >
-                {submitting ? 'Sending...' : 'Send Message'}
-              </button>
-            </form>
+                +234 800 129 3456
+              </a>
+            </div>
           </div>
 
+          {/* =========================
+              STAY CONNECTED
+          ========================== */}
+          <div className="flex min-h-[308px] flex-col rounded-[12px] border border-[#C9C9C9] bg-white px-6 py-6">
+            {/* Icon */}
+            <div className="flex h-[50px] w-[50px] items-center justify-center rounded-[11px] bg-[#F0E8FF]">
+              <Phone
+                size={28}
+                strokeWidth={1.5}
+                className="text-[#6024D0]"
+              />
+            </div>
+
+            {/* Content */}
+            <div className="mt-8">
+              <h3 className={`${bricolage.className} text-[22px] font-bold tracking-[-0.03em] text-[#17131F]`}>
+                Stay Connected
+              </h3>
+
+              <p className="mt-4 max-w-[370px] text-[13px] leading-[1.6] text-[#6E6A72]">
+                Follow ProductPointers for product management insights,
+                learning opportunities, program updates and community news.
+              </p>
+            </div>
+
+            {/* Socials */}
+            <div className="mt-auto flex items-center gap-14 pt-7">
+              {/* Instagram */}
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="flex h-[36px] w-[36px] items-center justify-center rounded-[8px] bg-gradient-to-br from-[#FFB347] via-[#F72585] to-[#5B2EFF] text-white shadow-sm transition-transform hover:-translate-y-0.5"
+              >
+                <Instagram size={22} strokeWidth={2.2} />
+              </a>
+
+              {/* LinkedIn */}
+              <a
+                href="#"
+                aria-label="LinkedIn"
+                className="flex h-[36px] w-[36px] items-center justify-center rounded-[8px] bg-[#0A66C2] text-white shadow-sm transition-transform hover:-translate-y-0.5"
+              >
+                <Linkedin size={22} strokeWidth={2.2} />
+              </a>
+
+              {/* YouTube */}
+              <a
+                href="#"
+                aria-label="YouTube"
+                className="flex h-[36px] w-[36px] items-center justify-center rounded-[8px] bg-[#FF0000] text-white shadow-sm transition-transform hover:-translate-y-0.5"
+              >
+                <Youtube size={23} strokeWidth={2.2} />
+              </a>
+
+              {/* WhatsApp */}
+              <a
+                href="#"
+                aria-label="WhatsApp"
+                className="flex h-[36px] w-[36px] items-center justify-center rounded-[8px] bg-[#17C936] text-white shadow-sm transition-transform hover:-translate-y-0.5"
+              >
+                <MessageCircle size={23} strokeWidth={2.2} />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

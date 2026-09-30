@@ -2,12 +2,15 @@
 
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Bricolage_Grotesque } from "next/font/google";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
+
+// Headings share the PPAP display face — variable weight covers 200-800.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 interface FAQItem {
   question: string;
@@ -16,83 +19,131 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
-    question: "Which ProductPointers program is right for me",
+    question: "Who is ProductPointers for?",
     answer:
-      "The best program depends on your current experience level and growth goals. Whether you’re starting from scratch, looking for mentorship, seeking hands-on execution experience, or ready to specialize deeply, ProductPointers has a program designed for your stage.",
+      "ProductPointers is designed for aspiring Product Managers, career switchers and early-career Product professionals. Whether you're trying to break into Product Management, gain practical experience or strengthen your Product skills, we have different learning paths designed to meet you where you are.",
   },
   {
-    question: "How does the internship application process work?",
+    question: "Which ProductPointers program is right for me?",
     answer:
-      "Interested applicants submit an application form for review. Selected candidates receive a follow-up email with the next steps, onboarding details, and commitment fee process where applicable.",
+      "The right program depends on your current experience, career goals and the type of support you need. Our learning paths cover mentorship, practical experience, internships and specialization tracks.",
   },
   {
-    question: "How long does it take to receive a response?",
+    question: "Do I need a background in Tech or Product Management to apply?",
     answer:
-      "We typically respond to inquiries within 24–48 business hours.",
+      "No. ProductPointers supports both beginners and people transitioning from other career paths. You can start without prior Product Management or technical experience.",
+  },
+  {
+    question: "Will I get practical experience, or is it just classroom learning?",
+    answer:
+      "Our programs are designed to combine structured learning with practical exercises, projects and real-world Product Management scenarios so you can build hands-on experience.",
+  },
+  {
+    question: "Are scholarships or sponsorship opportunities available?",
+    answer:
+      "Scholarship and sponsorship opportunities may be available for selected programs. Availability can vary, so we recommend checking the specific program details or contacting the ProductPointers team.",
+  },
+  {
+    question: "What happens after I complete a ProductPointers program?",
+    answer:
+      "After completing a program, you can continue building your portfolio, pursue more advanced learning tracks and apply your new skills to internships, entry-level roles and practical Product opportunities.",
   },
 ];
 
-const ContactFaqSection: React.FC = () => {
-  // Keep track of open state for each index independently, open by default
-  const [openStates, setOpenStates] = useState<Record<number, boolean>>({
-    0: true,
-    1: true,
-    2: true,
-  });
+const ContactFaqSection = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleAccordion = (index: number) => {
-    setOpenStates((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+    setOpenIndex((current) => (current === index ? null : index));
+  };
+
+  const scrollToContact = () => {
+    document
+      .getElementById("contact-section")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
-    <section className={`${montserrat.className} bg-[#FDF2FF] py-20 px-6 md:px-12 lg:px-24`}>
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-[#15010D] text-3xl md:text-[42px] font-bold mb-4 tracking-tight">
-            Frequently Asked Questions
+    <section
+      className={`${montserrat.className} w-full bg-white px-6 py-20 md:px-10 lg:px-20 lg:py-20`}
+    >
+      <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-14 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
+        {/* LEFT SIDE */}
+        <div className="flex flex-col">
+          {/* FAQ label */}
+          <span className="mb-5 text-[14px] font-semibold uppercase tracking-[0.08em] text-[#6024D0]">
+            FAQ
+          </span>
+
+          {/* Heading */}
+          <h2 className={`${bricolage.className} max-w-[430px] text-[34px] font-bold leading-[1.18] tracking-[-0.04em] text-[#17131F] sm:text-[38px] lg:text-[40px]`}>
+            Questions We Hear
+            <br />
+            Most Often
           </h2>
-          <p className="text-[#15010D]/60 text-base md:text-lg max-w-3xl mx-auto">
-            Quick answers to common questions about ProductPointers programs and experiences
-          </p>
+
+          {/* Secondary CTA block */}
+          <div className="mt-14 lg:mt-16">
+            <h3 className={`${bricolage.className} text-[18px] font-bold text-[#17131F]`}>
+              Still have a question?
+            </h3>
+
+            <p className="mt-3 max-w-[400px] text-[13px] font-normal leading-[1.7] text-[#737076]">
+              Cant find an answer to your question? send us a message and we
+              will get back to you as soon as possible
+            </p>
+
+            <button
+              onClick={scrollToContact}
+              className="mt-8 rounded-[6px] bg-[#5D1BD7] px-8 py-[14px] text-[13px] font-bold text-white transition-colors duration-200 hover:bg-[#4C13BB]"
+            >
+              Send Message
+            </button>
+          </div>
         </div>
 
-        {/* FAQ List */}
-        <div className="space-y-6">
+        {/* RIGHT SIDE FAQ */}
+        <div className="flex flex-col gap-4">
           {faqData.map((faq, index) => {
-            const isOpen = !!openStates[index];
+            const isOpen = openIndex === index;
+
             return (
               <div
-                key={index}
-                className="bg-[#FAE1FF] rounded-[24px] overflow-hidden transition-all duration-300 shadow-sm border border-[#F3D9FF]"
+                key={faq.question}
+                className="overflow-hidden rounded-[12px] bg-[#F0EAF9]"
               >
                 <button
+                  type="button"
                   onClick={() => toggleAccordion(index)}
-                  className="w-full px-8 py-6 flex items-center justify-between text-left cursor-pointer transition-colors hover:bg-[#F7D8FF]"
-                >
-                  <span className="text-[16px] md:text-[18px] font-bold text-[#15010D] tracking-tight">
-                    {faq.question}
-                  </span>
-                  <div className="shrink-0 ml-4">
-                    {isOpen ? (
-                      <ChevronUp className="w-5 h-5 text-[#15010D]/60" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-[#15010D]/60" />
-                    )}
-                  </div>
-                </button>
-
-                {/* Accordion Content with smooth height transition */}
-                <div
-                  className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                    isOpen ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
+                  aria-expanded={isOpen}
+                  className={`flex w-full items-center justify-between gap-6 px-4 text-left transition-all duration-300 sm:px-4 ${
+                    isOpen ? "pb-2 pt-4" : "py-[13px]"
                   }`}
                 >
-                  <div className="px-8 pb-8 text-[#15010D]/70 text-sm md:text-[16px] leading-relaxed font-medium">
-                    {faq.answer}
+                  <span className="text-[13px] font-semibold leading-[1.45] text-[#1D1925] sm:text-[14px]">
+                    {faq.question}
+                  </span>
+
+                  <span className="shrink-0 text-[#7E7A86]">
+                    {isOpen ? (
+                      <ChevronUp size={18} strokeWidth={1.8} />
+                    ) : (
+                      <ChevronDown size={18} strokeWidth={1.8} />
+                    )}
+                  </span>
+                </button>
+
+                <div
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                    isOpen
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-4 pb-3 text-[11px] font-normal leading-[2.05] text-[#88838E] sm:text-[12px]">
+                      {faq.answer}
+                    </div>
                   </div>
                 </div>
               </div>

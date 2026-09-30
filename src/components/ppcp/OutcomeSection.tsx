@@ -1,64 +1,103 @@
-import React from 'react';
-import { Check } from 'lucide-react';
-import img from "@/assets/images/ppcpim1.png"
+import React from "react";
 
 const OutcomeSection = () => {
-  const outcomes = [
-    "A clear path",
-    "Direct feedback",
-    "Accountability",
-    "Personalized guidance",
+  const steps = [
+    {
+      number: "01",
+      title: "Your Questions",
+      text: "No agenda except yours. Come with what you're working through and get focused answers and perspective.",
+    },
+    {
+      number: "02",
+      title: "Your Challenges",
+      text: "Work through the specific product or career challenge you're facing with someone who understands the context.",
+    },
+    {
+      number: "03",
+      title: "Your Growth",
+      text: "Walk away with practical clarity, honest feedback and a stronger sense of what to do next.",
+    },
   ];
 
   return (
-    <section className="bg-[#FAF7FD] py-24 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="bg-[#5B18DB] px-6 py-20 text-white sm:px-10 md:px-14 lg:px-20 lg:py-24 xl:px-24">
+      <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-16 lg:grid-cols-[1.05fr_1fr] lg:gap-20">
         
-        {/* Left Content */}
-        <div className="order-2 lg:order-1">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-8">
-            What If You Didn’t Have To <br /> Guess Your Next Step?
-          </h2>
-          
-          <p className="text-gray-500 mb-8 text-base">
-            With PPCP, you don’t just learn Product Management... <br /> You get:
+        {/* =====================================
+            LEFT CONTENT
+        ====================================== */}
+        <div>
+          {/* Eyebrow */}
+          <p className="mb-5 text-[13px] font-bold uppercase tracking-[0.14em] text-white/95">
+            Built Around Your Journey
           </p>
-          
-          <div className="space-y-4 mb-12">
-            {outcomes.map((item, i) => (
-              <div 
-                key={i} 
-                className="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border border-gray-50"
-              >
-                <div className="flex-shrink-0">
-                  <Check className="text-[#10B981] w-5 h-5" strokeWidth={3} />
+
+          {/* Heading */}
+          <h2 className="max-w-[650px] text-[26px] font-extrabold leading-[1.15] tracking-[-0.03em] sm:text-[32px] md:text-[36px] lg:text-[40px]">
+            Focused Guidance for Your
+            <br />
+            Goals, Challenges and Growth.
+          </h2>
+
+          {/* Description */}
+          <p className="mt-8 max-w-[640px] text-[16px] leading-[1.65] text-white/90 sm:text-[17px]">
+            One-on-one coaching gives you dedicated time with a Product
+            professional to ask questions, work through challenges, receive
+            feedback and gain practical perspective relevant to your journey.
+            <br />
+            Not a lecture. Not a course. A conversation built entirely around
+            you.
+          </p>
+
+          {/* Steps */}
+          <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-6">
+            {steps.map((step) => (
+              <div key={step.number}>
+                {/* Number + Line */}
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="text-[13px] font-bold text-white">
+                    {step.number}
+                  </span>
+
+                  <div className="relative h-[2px] flex-1 bg-[#F028D8]">
+                    <span className="absolute -left-[2px] top-1/2 h-[8px] w-[8px] -translate-y-1/2 rotate-45 bg-[#F028D8]" />
+                    <span className="absolute -right-[2px] top-1/2 h-[8px] w-[8px] -translate-y-1/2 rotate-45 bg-[#F028D8]" />
+                  </div>
                 </div>
-                <p className="text-gray-800 font-medium text-base">{item}</p>
+
+                {/* Step Title */}
+                <h3 className="mb-2 text-[16px] font-bold text-white">
+                  {step.title}
+                </h3>
+
+                {/* Step Text */}
+                <p className="max-w-[190px] text-[13px] leading-[1.45] text-white/80">
+                  {step.text}
+                </p>
               </div>
             ))}
           </div>
-
-          <div className="space-y-1">
-            <p className="text-lg md:text-xl font-bold text-gray-900">
-              This is not a <span className="text-[#FBBF24] italic underline decoration-2 underline-offset-4">course.</span>
-            </p>
-            <p className="text-lg md:text-xl font-bold text-[#10B981] italic">
-              This is a Guided Transformation.
-            </p>
-          </div>
         </div>
 
-        {/* Right Image */}
-        <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-          <div className="rounded-[3rem] overflow-hidden shadow-2xl w-full max-w-xl aspect-[4/5] lg:aspect-square">
-            <img 
-              src={img.src}
-              alt="Two women collaborating on a laptop" 
-              className="w-full h-full object-cover"
+        {/* =====================================
+            RIGHT IMAGE
+        ====================================== */}
+        <div className="relative">
+          {/* Decorative Shape */}
+          <div className="absolute -left-4 -top-4 z-0 h-[80px] w-[80px] rounded-[18px] bg-[#B71ED1]/80 sm:-left-5 sm:-top-4" />
+
+          {/* Image */}
+          <div className="relative z-10 overflow-hidden rounded-[12px]">
+            <img
+              src="/images/ppcp/img.jpg"
+              alt="One-on-one Product coaching conversation"
+              className="h-[420px] w-full object-cover object-center sm:h-[500px] lg:h-[455px] xl:h-[500px]"
             />
+
+            {/* Subtle image tint */}
+            <div className="absolute inset-0 bg-[#4A168F]/10" />
           </div>
         </div>
-
       </div>
     </section>
   );

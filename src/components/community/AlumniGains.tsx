@@ -1,90 +1,91 @@
 import React from "react";
-import { 
-  Share2, 
-  Target, 
-  MessageSquare, 
-  TrendingUp, 
-  BookOpen, 
-  BarChart3 
-} from "lucide-react";
-import { Montserrat } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+// Headings share the PPIP/PPAP display face — variable weight covers 200-800.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+
+const gains = [
+  {
+    number: "01",
+    title: "Continuous Growth",
+    description:
+      "Access curated product insights, frameworks, case study breakdowns, and resources that help you keep sharpening the skills you built during your program.",
+    highlighted: false,
+  },
+  {
+    number: "02",
+    title: "Alumni Networking",
+    description:
+      "Connect with fellow ProductPointers graduates across tech hubs and build meaningful, lifelong professional relationships rooted in shared experience.",
+    highlighted: true,
+  },
+  {
+    number: "03",
+    title: "Accountability",
+    description:
+      "Stay consistent with accountability partners, peer groups, and structured growth rituals that keep you progressing long after graduation.",
+    highlighted: true,
+  },
+  {
+    number: "04",
+    title: "Career Growth",
+    description:
+      "Access unadvertised roles, exclusive partner events, hiring manager sessions, and career pathways available only to ProductPointers alumni.",
+    highlighted: false,
+  },
+];
 
 const AlumniGains: React.FC = () => {
-  const gains = [
-    {
-      title: "Lifelong Product Network",
-      description: "Build meaningful relationships with aspiring and experienced Product Managers growing together within the ecosystem",
-      icon: <Share2 size={20} />,
-    },
-    {
-      title: "Accountability Support",
-      description: "Stay committed to your goals through accountability groups, growth tracking, and structured participation systems",
-      icon: <Target size={20} />,
-    },
-    {
-      title: "Continuous Mentorship",
-      description: "Continue receiving guidance, support, recommendations, and growth-focused mentorship after your program.",
-      icon: <MessageSquare size={20} />,
-    },
-    {
-      title: "Career Growth Opportunities",
-      description: "Access opportunities, insights, collaborations, and resources that support your long-term Product Management growth.",
-      icon: <TrendingUp size={20} />,
-    },
-    {
-      title: "Learning Resources",
-      description: "Gain access to curated frameworks, templates, recommendations, and growth materials shared within the community.",
-      icon: <BookOpen size={20} />,
-    },
-    {
-      title: "Structured Self-Development",
-      description: "Improve intentionally through monthly rituals, quarterly reviews, goal-setting systems, and continuous reflection.",
-      icon: <BarChart3 size={20} />,
-    },
-  ];
-
   return (
-    <div className={`${montserrat.className} bg-[#F6E1FF] py-20 px-6 md:px-12 lg:px-24`}>
-      <div className="max-w-7xl mx-auto text-center">
-        {/* Header Section */}
-        <h2 className="text-[#000000] text-2xl md:text-[35px] font-bold mb-6">
-          What Alumni Gain From The Community
-        </h2>
-        <p className="text-[#000000]/60 text-base md:text-lg max-w-4xl mx-auto mb-16 leading-relaxed">
-          The ProductPointers Community is designed to help alumni continue growing, stay 
-          accountable, build meaningful relationships, and access long-term support 
-          throughout their Product Management journey.
-        </p>
-
-        {/* Gains Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {gains.map((gain, index) => (
-            <div 
-              key={index} 
-              className="bg-white rounded-[32px] p-10 flex flex-col items-start text-left shadow-sm hover:shadow-md transition-shadow h-full"
+    <section
+      aria-labelledby="alumni-gains-heading"
+      className="bg-[#5818D0] px-6 py-16 text-white sm:px-10 md:px-14 lg:px-20 lg:pb-[90px] lg:pt-20"
+    >
+      <div className="mx-auto max-w-[1280px]">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
+          <div>
+            <p className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em]">
+              What Alumni Get
+            </p>
+            <h2
+              id="alumni-gains-heading"
+              className={`${bricolage.className} max-w-[560px] text-[22px] font-extrabold leading-[1.15] tracking-[-0.04em] sm:text-[38px] lg:text-[38px] xl:text-[40px]`}
             >
-              {/* Icon Container */}
-              <div className="bg-[#6024D0] text-white p-3 rounded-xl mb-8 shadow-lg shadow-purple-200">
-                {gain.icon}
-              </div>
+              More Than a Place to Connect.
+            </h2>
+          </div>
+          <p className="max-w-[440px] text-[15px] leading-6 lg:text-right">
+            Designed to support your continued growth as a ProductPointers
+            alumnus, long after your program ends.
+          </p>
+        </div>
 
-              {/* Content */}
-              <h3 className="text-[#000000] text-xl font-bold mb-6 leading-tight">
+        <ol className="mt-10 grid grid-cols-1 gap-y-6 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4 lg:gap-y-0">
+          {gains.map((gain, index) => (
+            <li
+              key={gain.number}
+              className={`px-6 py-6 ${
+                index > 0 ? "lg:border-l lg:border-white/20" : ""
+              } ${index % 2 === 1 ? "sm:border-l sm:border-white/20" : ""}`}
+            >
+              <p className="mb-6 text-[13px] font-semibold text-white/35">
+                {gain.number}
+              </p>
+              <h3
+                className={`mb-4 font-sans text-[20px] font-bold uppercase leading-6 ${
+                  gain.highlighted ? "text-[#FFBB1D]" : "text-white"
+                }`}
+              >
                 {gain.title}
               </h3>
-              <p className="text-[#000000]/70 text-sm leading-relaxed">
+              <p className="text-[14px] leading-6 text-white/80">
                 {gain.description}
               </p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
-    </div>
+    </section>
   );
 };
 

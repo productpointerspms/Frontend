@@ -1,60 +1,53 @@
-import React from 'react';
-import { XCircle } from 'lucide-react';
-import img from "@/assets/images/ppcpim.png"
+import React from "react";
 
 const PainPoints = () => {
-  const points = [
-    "They don't know what to focus on",
-    "They lack structure and direction",
-    "They get overwhelmed by too many resources",
-    "They don't have someone guiding them"
-  ];
-
   return (
-    <section className="py-24 px-6 bg-[#FAF7FD]">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* Left Content */}
-        <div className="order-2 lg:order-1">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-4">
-            Most People Don't Fail Because <br /> They're Not Capable.
-          </h2>
+    <section className="bg-white px-6 py-20 sm:px-10 md:px-14 lg:px-20 lg:py-24 xl:px-24">
+      <div className="mx-auto max-w-[1440px]">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
           
-          <p className="text-gray-400 mb-8 text-base">They struggle because:</p>
-          
-          <div className="space-y-4 mb-10">
-            {points.map((point, i) => (
-              <div 
-                key={i} 
-                className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border border-purple-50/50"
-              >
-                <div className="flex-shrink-0">
-                  <XCircle className="text-[#FF4D4D] w-5 h-5" />
-                </div>
-                <p className="text-gray-700 font-medium">{point}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="w-full h-[1px] bg-gray-200 mb-8"></div>
-
-          <div className="space-y-2">
-            <p className="text-[#6219D1] text-lg font-bold italic">
-              So They Stay Stuck.
+          {/* =====================================
+              LEFT CONTENT
+          ====================================== */}
+          <div className="max-w-[650px]">
+            {/* Eyebrow */}
+            <p className="mb-6 text-[13px] font-bold uppercase tracking-[0.18em] text-[#6219D1] sm:text-[14px]">
+              When General Advice Isn't Enough
             </p>
-            <p className="text-[#6219D1] text-lg font-bold italic opacity-80">
-              Not Because They Can't... But Because They're Doing It Alone.
+
+            {/* Heading */}
+            <h2 className="max-w-[620px] text-[28px] font-extrabold leading-[1.15] tracking-[-0.03em] text-[#12111F] sm:text-[34px] md:text-[40px] lg:text-[44px]">
+              Sometimes, You Need
+              <br />
+              Guidance That's Personal
+              <br />
+              to You.
+            </h2>
+
+            {/* Description */}
+            <p className="mt-10 max-w-[600px] text-[16px] leading-[1.7] text-[#686868] sm:text-[17px]">
+              Every Product career comes with different challenges. Whether
+              you're navigating a difficult product decision, building your
+              skills or figuring out your next career move, generic advice
+              doesn't always address where you are.
             </p>
           </div>
-        </div>
 
-        {/* Right Image */}
-        <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-          <div className="rounded-[3rem] overflow-hidden shadow-2xl w-full max-w-lg aspect-[4/5]">
-            <img 
-              src={img.src} 
-              alt="Professional looking stressed at desk" 
-              className="w-full h-full object-cover"
-            />
+          {/* =====================================
+              RIGHT QUOTE
+          ====================================== */}
+          <div className="flex items-start lg:justify-end lg:pt-10">
+            <div className="flex max-w-[520px] gap-8">
+              
+              {/* Purple Line */}
+              <div className="mt-1 h-[115px] w-[2px] shrink-0 bg-[#6219D1]" />
+
+              {/* Quote */}
+              <blockquote className="max-w-[450px] text-[24px] font-medium italic leading-[1.35] tracking-[-0.015em] text-[#181622] sm:text-[27px] lg:text-[29px]">
+                "One-on-one coaching gives you the space to focus on what matters
+                most to you."
+              </blockquote>
+            </div>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import ContactHero from "@/components/contact/ContactHero";
 import ContactSection from "@/components/contact/ContactSection";
 import ContactFaqSection from "@/components/contact/ContactFaqSection";
 import CommunityLowerHero from "@/components/community/CommunityLowerHero";
+import AdvisoryCTA from "@/components/contact/AdvisoryCTA";
 
 export const metadata: Metadata = buildMetadata({
   title: "Contact Us",
@@ -17,6 +18,7 @@ export default function ContactPage() {
     <div className="w-full min-h-screen overflow-x-hidden">
       <ContactHero />
       <ContactSection/>
+      <AdvisoryCTA/>
       <ContactFaqSection />
       <CommunityLowerHero/>
     </div>

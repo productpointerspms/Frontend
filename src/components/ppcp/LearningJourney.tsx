@@ -1,98 +1,65 @@
-import React from 'react';
-import { Check, Layout, Monitor } from 'lucide-react';
-import img from "@/assets/images/conn.png"
-import img1 from "@/assets/images/conn1.png"  
+import React from "react";
+import Image from "next/image";
+import { CircleCheck } from "lucide-react";
+
+const outcomes = [
+  "Clearer perspective on your challenge",
+  "Practical feedback on your work",
+  "Stronger Product thinking",
+  "Actionable next steps",
+  "Greater confidence in your decisions",
+  "A clearer direction for your growth",
+];
 
 const LearningJourney = () => {
   return (
-    <section className="bg-[#2D3E8B] py-24 px-6 font-sans">
-      <div className="max-w-6xl mx-auto text-center">
-        {/* Header Section */}
-        <h2 className="text-white text-2xl md:text-4xl font-black mb-4 leading-tight">
-          A clear, step-by-step journey from: Beginner to <br />
-          Job-ready Product Manager
-        </h2>
-        <p className="text-purple-200/80 text-base mb-16">No confusion. No guesswork.</p>
-
-        {/* Feature Cards Grid */}
-        <div className="relative flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
-          
-          {/* Connecting Line (Desktop Only) */}
-          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[100px] h-[1px] bg-white/20 z-0"></div>
-
-          {/* Card 1: Internship Experience */}
-          <div className="bg-white rounded-[2.5rem] overflow-hidden w-full max-w-sm shadow-2xl z-10 text-left">
-            <div className="h-52 overflow-hidden">
-              <img 
-                src={img.src}
-                alt="Product meeting" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="p-8">
-              <div className="bg-purple-50 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-                <Layout className="text-[#6219D1] w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Practical Experience (Internship)</h3>
-              <p className="text-gray-500 text-xs mb-6 font-medium">You will:</p>
-              
-              <div className="flex flex-wrap gap-2 mb-3">
-                <span className="flex items-center gap-2 bg-[#F0FDF4] px-4 py-2 rounded-full border border-[#DCFCE7]">
-                  <Check className="text-[#10B981] w-3.5 h-3.5" strokeWidth={4} />
-                  <span className="text-gray-700 text-xs font-semibold">Build</span>
-                </span>
-                <span className="flex items-center gap-2 bg-[#F0FDF4] px-4 py-2 rounded-full border border-[#DCFCE7]">
-                  <Check className="text-[#10B981] w-3.5 h-3.5" strokeWidth={4} />
-                  <span className="text-gray-700 text-xs font-semibold">Execute</span>
-                </span>
-              </div>
-              
-              <div className="flex items-center gap-2 bg-[#F0FDF4] px-4 py-2 rounded-full border border-[#DCFCE7] w-fit mb-10">
-                <Check className="text-[#10B981] w-3.5 h-3.5" strokeWidth={4} />
-                <span className="text-gray-700 text-xs font-semibold">Work on real product scenarios</span>
-              </div>
-
-              <div className="w-full h-[1px] bg-gray-100 mb-4"></div>
-              <p className="text-gray-400 text-[10px] italic font-medium">You gain real experience, not just knowledge</p>
-            </div>
+    <section
+      aria-labelledby="learning-journey-heading"
+      className="bg-[#5818D014] px-6 py-16 sm:px-10 md:px-14 lg:px-20 lg:py-20"
+    >
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 lg:grid-cols-[1.16fr_1fr] lg:gap-16 xl:gap-[108px]">
+        <div>
+          <p className="mb-4 text-[14px] font-bold uppercase tracking-[0.1em] text-[#6219D1]">
+            More Than a Conversation
+          </p>
+          <h2
+            id="learning-journey-heading"
+            className="text-[28px] font-extrabold leading-[1.25] tracking-[-0.03em] text-[#100B1A] sm:text-[32px] lg:text-[36px]"
+          >
+            Leave With Clarity You Can Act On.
+          </h2>
+          <p className="mt-8 text-[14px] font-semibold leading-[23px] text-[#595959]">
+            The goal isn’t simply to have a good conversation. It’s to help you
+            understand your situation more clearly and know what to do next.
+          </p>
+          <div className="relative mt-6 aspect-[630/366] overflow-hidden rounded-xl">
+            <Image
+              src="/images/ppcp/sol.png"
+              alt="A Product coach offering guidance during a one-on-one session"
+              fill
+              sizes="(min-width: 1440px) 630px, (min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
           </div>
-
-          {/* Card 2: Mentorship & Support */}
-          <div className="bg-white rounded-[2.5rem] overflow-hidden w-full max-w-sm shadow-2xl z-10 text-left">
-            <div className="h-52 overflow-hidden">
-              <img 
-                src={img1.src}
-                alt="Career guidance" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="p-8">
-              <div className="bg-purple-50 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-                <Monitor className="text-[#6219D1] w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Mentorship & Career Support</h3>
-              
-              <div className="space-y-3 mb-12">
-                {[
-                  "CV & portfolio optimization",
-                  "Job application guidance",
-                  "Interview preparation"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-[#F0FDF4] px-4 py-2 rounded-full border border-[#DCFCE7] w-fit">
-                    <Check className="text-[#10B981] w-3.5 h-3.5" strokeWidth={4} />
-                    <span className="text-gray-700 text-xs font-semibold">{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="w-full h-[1px] bg-gray-100 mb-4"></div>
-              <p className="text-gray-400 text-[10px] italic text-center font-medium">
-                You’re supported until you’re ready to land opportunities
-              </p>
-            </div>
-          </div>
-
         </div>
+
+        <ul className="grid gap-6">
+          {outcomes.map((outcome) => (
+            <li
+              key={outcome}
+              className="flex min-h-12 items-center gap-4 border-b border-white/80 pb-3 pt-3"
+            >
+              <CircleCheck
+                aria-hidden="true"
+                className="h-5 w-5 shrink-0 text-[#6219D1]"
+                strokeWidth={1.5}
+              />
+              <span className="text-[14px] font-medium leading-6 text-black">
+                {outcome}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

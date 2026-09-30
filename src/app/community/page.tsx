@@ -5,6 +5,7 @@ import CommunityAboutSection from "@/components/community/CommunityAboutSection"
 import AlumniGains from "@/components/community/AlumniGains";
 import AlumniGrowthStories from "@/components/community/AlumniGrowthStories";
 import PathToCommunity from "@/components/community/PathToCommunity";
+import CommunityCommitment from "@/components/community/CommunityCommitment";
 import PricingPlan from "@/components/community/PricingPlan";
 import CommunityLowerHero from "@/components/community/CommunityLowerHero";
 import CommunityHero from "@/components/community/CommunityHero";
@@ -29,13 +30,20 @@ export default function CommunityPage() {
     <main>
       <CommunityHero />
       <CommunityValues/>
+      <AlumniGains />
       <CommunityActivities/>
       <CommunityAboutSection />
-      <AlumniGains />
       <AlumniGrowthStories />
       <PathToCommunity />
+      <CommunityCommitment />
       {/* <PricingPlan /> */}
-      <CommunityLowerHero />
+      <CommunityLowerHero
+        eyebrow="Alumni Community"
+        title="Your Product Management Journey Shouldn’t End Alone"
+        description="Join a long-term ecosystem of Product Managers committed to continuous growth, accountability, mentorship, and meaningful progress long after completing their programs."
+        primaryAction={{ label: "Join the Alumni Community", href: "#path-to-community" }}
+        secondaryAction={{ label: "Explore Programs", href: "#path-to-community" }}
+      />
       {/* <FinalCTA/> */}
     </main>
   );

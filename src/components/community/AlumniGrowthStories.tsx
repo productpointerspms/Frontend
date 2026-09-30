@@ -1,20 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
-import { Users, TrendingUp, Check } from "lucide-react";
+import { Bricolage_Grotesque } from "next/font/google";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+// Headings share the PPIP/PPAP display face — variable weight covers 200-800.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const AlumniGrowthStories = () => {
-  const stats = [
-    { label: "Alumni Connected", value: "300+", icon: <Users className="text-[#6024D0]" size={24} /> },
-    { label: "Growth Sessions", value: "Monthly", icon: <TrendingUp className="text-[#6024D0]" size={24} /> },
-    { label: "Alumni Access", value: "Lifetime", icon: <Check className="text-[#6024D0]" size={24} /> },
-  ];
-
   const testimonials = [
     {
       name: "Mercy Adeniyi",
@@ -25,7 +16,7 @@ const AlumniGrowthStories = () => {
     {
       name: "Reuben Edosa",
       role: "Product Manager",
-      avatar: "/images/reuben.png", // Ensure this path exists
+      avatar: "/images/reuben.png",
       text: "Before joining the Community, I struggled to position myself as a product manager on LinkedIn. I wasn't fully aware of how to communicate my value, create engaging content or build a strong personal brand. But since joining, I've had a transformational experience! I've learned to optimize my profile, create impactful content, and craft a personal brand strategy. The book reading sessions helped me to develop a deeper understanding and practical application of product thinking. The community taught me I'm a brand and helped me gain clarity, confidence, and visibility in my product management journey. Thank you for building such an empowering and supportive community.",
     },
     {
@@ -37,71 +28,74 @@ const AlumniGrowthStories = () => {
   ];
 
   return (
-    <div className={`${montserrat.className} bg-white py-20 px-6 md:px-12 lg:px-24`}>
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Top Avatar Group */}
-        <div className="flex justify-center -space-x-4 mb-8">
-          {testimonials.map((t) => (
-            <div key={t.name} className="w-16 h-16 rounded-full border-4 border-white overflow-hidden bg-gray-200 relative">
-              <Image src={t.avatar} alt={t.name} fill className="object-cover" />
-            </div>
-          ))}
-        </div>
+    <section
+      aria-labelledby="alumni-stories-heading"
+      className="bg-white px-6 py-16 sm:px-10 md:px-14 lg:px-20 lg:py-20"
+    >
+      <div className="mx-auto max-w-[1280px]">
+        <p className="mb-4 text-[14px] font-bold uppercase tracking-[0.1em] text-[#5818D0]">
+          Alumni Growth Stories
+        </p>
+        <h2
+          id="alumni-stories-heading"
+          className={`${bricolage.className} text-[#100B1A] text-[22px] font-extrabold leading-[1.15] tracking-[-0.04em] sm:text-[38px] lg:text-[38px] xl:text-[40px]`}
+        >
+          Hear From Alumni Who Kept Growing.
+        </h2>
 
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-[28px] md:text-[35px] font-bold text-black mb-4">
-            Alumni Growth Stories
-          </h2>
-          <p className="text-gray-500 text-base md:text-lg max-w-3xl mx-auto">
-            Hear how the ProductPointers Community continues helping alumni grow, 
-            stay accountable, and evolve long after completing their programs.
-          </p>
-        </div>
-
-        {/* Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
-          {stats.map((stat, idx) => (
-            <div key={idx} className="flex flex-col items-center text-center">
-              <div className="w-14 h-14 rounded-full shadow-lg flex items-center justify-center mb-6 bg-white border border-gray-50">
-                {stat.icon}
+        <div className="mt-10 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+          <figure className="rounded-2xl bg-[#5818D0] p-6 text-white sm:p-12">
+            <div aria-hidden="true" className="mb-6 h-0.5 w-[42px] bg-white" />
+            <blockquote className="text-[14px] leading-[2.38] text-white/95">
+              {testimonials[0].text}
+            </blockquote>
+            <figcaption className="mt-8 flex items-center gap-6 border-t border-white/70 pt-8">
+              <Image
+                src={testimonials[0].avatar}
+                alt={testimonials[0].name}
+                width={40}
+                height={40}
+                className="h-10 w-10 rounded-full object-cover"
+              />
+              <div>
+                <p className="text-[14px] font-bold">{testimonials[0].name}</p>
+                <p className="mt-1 text-[12px] font-semibold text-[#FFBB1D]">
+                  {testimonials[0].role}
+                </p>
               </div>
-              <h3 className="text-[#6024D0] text-3xl md:text-4xl font-bold mb-2">{stat.value}</h3>
-              <p className="text-black text-base font-medium">{stat.label}</p>
-              <div className="w-12 h-[2px] bg-black mt-4"></div>
-            </div>
-          ))}
+            </figcaption>
+          </figure>
+
+          <div className="grid gap-6">
+            {testimonials.slice(1).map((testimonial) => (
+              <figure
+                key={testimonial.name}
+                className="rounded-2xl border border-[#BDBDBD] p-6 text-[#100B1A] sm:px-8 sm:py-6"
+              >
+                <blockquote className="text-[14px] leading-[25px]">
+                  {testimonial.text}
+                </blockquote>
+                <figcaption className="mt-6 flex items-center gap-6 border-t border-[#BDBDBD] pt-6">
+                  <Image
+                    src={testimonial.avatar}
+                    alt={testimonial.name}
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="text-[14px] font-bold">{testimonial.name}</p>
+                    <p className="mt-1 text-[12px] font-semibold text-[#5818D0]">
+                      {testimonial.role}
+                    </p>
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
-
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {testimonials.map((t, idx) => (
-            <div key={idx} className="bg-[#6024D0] rounded-[32px] p-8 text-white flex flex-col h-full">
-              <div className="flex items-center gap-4 mb-6">
-                <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover border border-white/20" />
-                <div>
-                  <h4 className="font-bold text-base leading-tight">{t.name}</h4>
-                  <p className="text-white/70 text-xs">{t.role}</p>
-                </div>
-              </div>
-              
-              {/* Stars */}
-              <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-base">★</span>
-                ))}
-              </div>
-
-              <p className="text-white/90 text-xs leading-relaxed italic">
-                {t.text}
-              </p>
-            </div>
-          ))}
-        </div>
-
       </div>
-    </div>
+    </section>
   );
 };
 
