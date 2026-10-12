@@ -51,7 +51,7 @@ const faqData: FAQItem[] = [
 ];
 
 const ContactFaqSection = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleAccordion = (index: number) => {
     setOpenIndex((current) => (current === index ? null : index));
@@ -59,7 +59,7 @@ const ContactFaqSection = () => {
 
   const scrollToContact = () => {
     document
-      .getElementById("contact-section")
+      .getElementById("contact-message-form")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -77,7 +77,7 @@ const ContactFaqSection = () => {
 
           {/* Heading */}
           <h2 className={`${bricolage.className} max-w-[430px] text-[34px] font-bold leading-[1.18] tracking-[-0.04em] text-[#17131F] sm:text-[38px] lg:text-[40px]`}>
-            Questions We Hear
+            Questions We Hear{" "}
             <br />
             Most Often
           </h2>

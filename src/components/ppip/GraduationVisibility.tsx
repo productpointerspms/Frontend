@@ -21,7 +21,7 @@ const criteria: string[] = [
 
 const GraduationVisibility: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="GraduationVisibility"
       className={`${montserrat.className} bg-[#F3EFFC] px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,580px)_1fr] lg:gap-[50px]">

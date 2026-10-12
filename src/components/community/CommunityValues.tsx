@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+import styles from "./community-mobile.module.css";
 import Image from "next/image";
 import { Bricolage_Grotesque } from "next/font/google";
 
@@ -11,6 +13,7 @@ const CommunityValues = () => {
       aria-labelledby="community-values-heading"
       className="bg-white px-6 py-16 sm:px-10 md:px-14 lg:px-20 lg:py-20"
     >
+      <Link href="/scholarships" className={styles.scholarshipsLink}>Explore Scholarships</Link>
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 lg:grid-cols-[1.26fr_1fr] lg:gap-16 xl:gap-[106px]">
         <div>
           <p className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em] text-[#5818D0]">

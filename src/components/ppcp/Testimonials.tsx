@@ -1,5 +1,6 @@
 import React from 'react';
-import { Star } from 'lucide-react';
+import Image from "next/image";
+import styles from "./coaching.module.css";
 
 import idreesImg from "@/assets/images/idrees.jpg";
 import oghenemineImg from "@/assets/images/oghenemine.png";
@@ -22,66 +23,18 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="bg-[#FAF7FD] py-24 px-6 font-sans">
-      <div className="max-w-7xl mx-auto text-center">
-        
-        {/* Overlapping Avatars Group */}
-        <div className="flex justify-center -space-x-4 mb-8">
-          {reviews.map((r, i) => (
-            <div key={i} className="w-16 h-16 rounded-full border-4 border-white overflow-hidden shadow-sm bg-gray-200">
-              <img src={r.image} alt={r.name} className="w-full h-full object-cover" />
-            </div>
+    <section data-ppcp-section="Testimonials" className={`${styles.section} ${styles.testimonials}`} aria-labelledby="coaching-testimonials-title">
+      <div className={styles.container}>
+        <p className={styles.eyebrow}>FROM THE PEOPLE WHO DID THE WORK</p>
+        <h2 id="coaching-testimonials-title" className={styles.heading}>See What the Experience Was Like From the Inside.</h2>
+        <div className={styles.testimonialGrid}>
+          {reviews.map((review, index) => (
+            <figure key={review.name} className={`${styles.testimonialCard} ${index === 0 ? styles.highlightReview : styles.outlinedReview}`}>
+              {index === 0 && <span className={styles.quoteLine} aria-hidden="true" />}
+              <blockquote>{review.text.split(/\n\n/).map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph.trim()}</p>)}</blockquote>
+              <figcaption><Image src={review.image} alt={review.name} width={40} height={40} /><div><strong>{review.name}</strong><span>{review.role}</span></div></figcaption>
+            </figure>
           ))}
-        </div>
-
-        {/* Headline Section */}
-        <h2 className="text-3xl md:text-5xl font-black text-gray-900 leading-[1.1] mb-6">
-          You're Not Starting Alone
-        </h2>
-        
-        <div className="max-w-3xl mx-auto space-y-4 mb-20">
-          <p className="text-gray-600 text-base md:text-lg font-medium">
-            Join aspiring Product Managers getting direct 1:1 mentorship, accountability, and personalized support through ProductPointers Coaching.
-          </p>
-          
-          <p className="text-gray-400 text-sm md:text-base italic">
-           See how others gained clarity, confidence, and direction through PPCP.
-          </p>
-        </div>
-
-        {/* Testimonial Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mb-20 max-w-5xl mx-auto">
-          {reviews.map((review, idx) => (
-            <div key={idx} className="bg-[#6219D1] rounded-[2.5rem] p-8 text-left text-white shadow-xl flex flex-col transition-transform hover:scale-[1.02]">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full border-2 border-white/20 overflow-hidden bg-white/10 shrink-0">
-                  <img src={review.image} alt={review.name} className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-base leading-tight">{review.name}</h4>
-                  <p className="text-xs text-purple-200 uppercase tracking-widest mt-1">{review.role}</p>
-                </div>
-              </div>
-
-              <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-
-              <p className="text-[13px] leading-relaxed opacity-90 whitespace-pre-line flex-grow">
-                {review.text}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Disclaimer Footer */}
-        <div className="max-w-4xl mx-auto border-t border-gray-100 pt-16">
-          <h3 className="text-xl md:text-3xl font-black text-[#2D3E8B] leading-tight px-4">
-            High-Impact Mentorship Requires Focus. <br className="hidden md:block" />
-            We Accept A Limited Number Of PMs Per Track.
-          </h3>
         </div>
       </div>
     </section>

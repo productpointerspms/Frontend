@@ -41,7 +41,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="w-full bg-white">
+    <section data-ppap-section="FAQSection" className="w-full bg-white">
       <div
         className="
           mx-auto
@@ -172,6 +172,7 @@ const FAQSection = () => {
               >
                 <button
                   type="button"
+                  aria-expanded={isOpen}
                   onClick={() =>
                     setOpenIndex(isOpen ? null : index)
                   }

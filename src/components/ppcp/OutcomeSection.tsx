@@ -20,7 +20,7 @@ const OutcomeSection = () => {
   ];
 
   return (
-    <section className="bg-[#5B18DB] px-6 py-20 text-white sm:px-10 md:px-14 lg:px-20 lg:py-24 xl:px-24">
+    <section data-ppcp-section="OutcomeSection" className="bg-[#5B18DB] px-6 py-20 text-white sm:px-10 md:px-14 lg:px-20 lg:py-24 xl:px-24">
       <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-16 lg:grid-cols-[1.05fr_1fr] lg:gap-20">
         
         {/* =====================================

@@ -46,7 +46,7 @@ const SolutionSection = () => {
   ];
 
   return (
-    <section className="w-full bg-[#5818D014]">
+    <section data-ppap-section="SolutionSection" className="w-full bg-[#5818D014]">
       <div className="mx-auto max-w-[1440px] px-6 py-20 md:px-12 lg:px-20 lg:py-[82px]">
         
         {/* Heading */}

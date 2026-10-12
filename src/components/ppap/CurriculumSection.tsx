@@ -75,7 +75,7 @@ const CurriculumSection = () => {
   ];
 
   return (
-    <section className="w-full bg-white text-white">
+    <section data-ppap-section="CurriculumSection" className="w-full bg-white text-white">
       <div
         className="
           mx-auto
@@ -119,9 +119,9 @@ const CurriculumSection = () => {
               lg:text-[40px]
             `}
           >
-            From Learning the
+            From Learning the{" "}
             <br />
-            Fundamentals to Solving Real
+            Fundamentals to Solving Real{" "}
             <br />
             Product Problems.
           </h2>

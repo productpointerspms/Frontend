@@ -190,7 +190,7 @@ const PricingSection = () => {
   const isLoading = liveFeeNgn === null || loading;
 
   return (
-    <section
+    <section data-ppap-section="PricingSection"
       id="pricing"
       className="w-full bg-white px-6 py-20 md:px-12 lg:px-16 lg:py-[72px]"
     >
@@ -203,7 +203,7 @@ const PricingSection = () => {
           </p>
 
           <h2 className={`${bricolage.className} text-[22px] font-extrabold leading-[1.12] tracking-[-0.04em] text-[#12101A] sm:text-[38px] lg:text-[40px]`}>
-            Choose the Payment Plan
+            Choose the Payment Plan{" "}
             <br />
             That Works for You.
           </h2>

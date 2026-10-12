@@ -1,4 +1,3 @@
-import { Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import CommunityAboutSection from "@/components/community/CommunityAboutSection";
@@ -6,11 +5,10 @@ import AlumniGains from "@/components/community/AlumniGains";
 import AlumniGrowthStories from "@/components/community/AlumniGrowthStories";
 import PathToCommunity from "@/components/community/PathToCommunity";
 import CommunityCommitment from "@/components/community/CommunityCommitment";
-import PricingPlan from "@/components/community/PricingPlan";
 import CommunityLowerHero from "@/components/community/CommunityLowerHero";
 import CommunityHero from "@/components/community/CommunityHero";
-import FinalCTA from "@/components/FinalCTA";
 import CommunityValues from "@/components/community/CommunityValues";
+import styles from "@/components/community/community-mobile.module.css";
 import CommunityActivities from "@/components/community/CommunityActivities";
 
 // const montserrat = Montserrat({
@@ -27,7 +25,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function CommunityPage() {
   return (
-    <main>
+    <div className={styles.page}>
       <CommunityHero />
       <CommunityValues/>
       <AlumniGains />
@@ -45,6 +43,6 @@ export default function CommunityPage() {
         secondaryAction={{ label: "Explore Programs", href: "#path-to-community" }}
       />
       {/* <FinalCTA/> */}
-    </main>
+    </div>
   );
 }

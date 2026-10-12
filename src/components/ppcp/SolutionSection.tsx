@@ -25,7 +25,7 @@ const steps = [
 
 const SolutionSection = () => {
   return (
-    <section
+    <section data-ppcp-section="SolutionSection"
       aria-labelledby="coaching-experience-heading"
       className="bg-white px-6 py-16 sm:px-10 md:px-14 lg:px-20 lg:py-25"
     >

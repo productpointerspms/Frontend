@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./ppip-mobile.module.css";
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Montserrat, Bricolage_Grotesque } from "next/font/google";
@@ -46,13 +47,13 @@ const faqs: FAQItem[] = [
 
 const FAQSection: React.FC = () => {
   // Single-open accordion, first item expanded to match the design.
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (index: number) =>
     setOpenIndex((prev) => (prev === index ? null : index));
 
   return (
-    <section
+    <section data-ppip-section="FAQSection"
       className={`${montserrat.className} bg-white px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,380px)_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-[120px] lg:gap-y-0">
@@ -84,10 +85,8 @@ const FAQSection: React.FC = () => {
               lg:text-[30px]
             `}
           >
-            Everything You
-            {" "}
-            <br className="hidden sm:block" />
-            Need to Know.
+            <span className={styles.desktopFAQTitle}>Everything You<br className="hidden sm:block" /> Need to Know.</span>
+            <span className={styles.mobileFAQTitle}>Questions We Hear Most Often</span>
           </h2>
         </div>
 

@@ -13,7 +13,7 @@ const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const AcceleratorCallout: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="AcceleratorCallout"
       className={`${montserrat.className} bg-white px-6 py-[40px] sm:px-10 lg:px-[80px]`}
     >
       <div className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[16px] bg-[#4C17CE] text-white">

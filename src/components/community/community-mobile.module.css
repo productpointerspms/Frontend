@@ -1,0 +1,59 @@
+.scholarshipsLink { display: none; }
+@media (max-width: 767px) {
+  .page { background: #fff; color: #100b1a; }
+  .page>section { padding: 80px 16px; }
+  .page h2 { font-size: 20px; line-height: 1.2; letter-spacing: -.7px; }
+  .page [aria-labelledby="community-hero-heading"] { margin-top: 89px; padding: 80px 16px 46px; }
+  .page [aria-labelledby="community-hero-heading"]>div:last-child>p:first-child { width: 100%; font-size: 10px; padding: 6px 12px; letter-spacing: 1.5px; }
+  .page [aria-labelledby="community-hero-heading"] h1 { font-size: 24px; line-height: 1.2; margin-top: 26px; }
+  .page [aria-labelledby="community-hero-heading"] h1+p { font-size: 13px; line-height: 1.2; margin-top: 28px; }
+  .page [aria-labelledby="community-hero-heading"] h1+p+div { width: 251px; max-width: 100%; margin-top: 32px; }
+  .page [aria-labelledby="community-hero-heading"] dl { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 46px; }
+  .page [aria-labelledby="community-hero-heading"] dd { font-size: 20px; }
+  .page [aria-labelledby="community-hero-heading"] dt { font-size: 11px; line-height: 1.2; min-height: 27px; max-width: 100px; }
+  .page [aria-labelledby="community-hero-heading"] dl [aria-hidden="true"] { width: 100%; margin-top: 12px; }
+  .page [aria-labelledby="community-values-heading"] { padding-top: 48px; padding-bottom: 72px; }
+  .scholarshipsLink { display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 6px; background: #5818d0; color: #fff; font-size: 14px; font-weight: 600; margin-bottom: 36px; outline-offset: 5px; }
+  .page [aria-labelledby="community-values-heading"]>div { gap: 16px; }
+  .page [aria-labelledby="community-values-heading"] h2~p { font-size: 13px; line-height: 1.25; margin-top: 26px; }
+  .page [aria-labelledby="community-values-heading"] blockquote { padding: 18px 16px; margin-block: 26px; }
+  .page [aria-labelledby="community-values-heading"] blockquote p { font-size: 16px; line-height: 1.2; }
+  .page [aria-labelledby="community-values-heading"]>div>div:last-child { padding-right: 0; }
+  .page [aria-labelledby="community-values-heading"]>div>div:last-child>[aria-hidden="true"] { display: none; }
+  .page [aria-labelledby="alumni-gains-heading"] { padding-block: 44px 56px; }
+  .page [aria-labelledby="alumni-gains-heading"]>div>div>p { font-size: 13px; line-height: 1.3; color: #d4baf5; }
+  .page [aria-labelledby="alumni-gains-heading"] ol { grid-template-columns: 1fr; gap: 0; margin-top: 36px; }
+  .page [aria-labelledby="alumni-gains-heading"] li { padding: 32px 16px 20px; border-left: 0; border-bottom: 1px solid #ffffff30; }
+  .page [aria-labelledby="alumni-gains-heading"] li:last-child { border-bottom: 0; }
+  .page [aria-labelledby="alumni-gains-heading"] li>p:last-child { font-size: 13px; line-height: 1.8; color: #ceb3ee; }
+  .page [aria-labelledby="alumni-gains-heading"] h3 { font-size: 20px; margin-bottom: 18px; }
+  .page [aria-labelledby="community-activities-heading"] { background: #f2ecfc; }
+  .page [aria-labelledby="community-activities-heading"]>div>div:first-child>p { font-size: 13px; line-height: 1.3; font-weight: 400; }
+  .page [aria-labelledby="community-activities-heading"]>div>div:last-child { grid-template-columns: 1fr; gap: 20px; margin-top: 32px; }
+  .page [aria-labelledby="community-activities-heading"] article { min-height: 480px; padding: 12px 12px 72px; }
+  .page [aria-labelledby="community-activities-heading"] article>div:first-child { height: auto; aspect-ratio: 311/195; }
+  .page [aria-labelledby="community-activities-heading"] article h3 { font-size: 20px; line-height: 1.25; margin-top: 26px; }
+  .page [aria-labelledby="community-activities-heading"] article p { font-size: 16px; line-height: 1.5; }
+  .page [aria-labelledby="community-standards-heading"]>div { gap: 44px; }
+  .page [aria-labelledby="community-standards-heading"] li { font-size: 15px; font-weight: 600; padding-block: 18px; }
+  .page [aria-labelledby="alumni-stories-heading"]>div>div { grid-template-columns: 1fr; gap: 24px; margin-top: 56px; }
+  .page [aria-labelledby="alumni-stories-heading"] figure { border-radius: 18px; }
+  .page [aria-labelledby="alumni-stories-heading"] figure blockquote { font-size: 14px; }
+  .page [aria-labelledby="alumni-stories-heading"]>div>div>figure blockquote { line-height: 2.38; }
+  .page [aria-labelledby="community-path-heading"]>div>div:first-child>p { font-size: 13px; line-height: 1.25; }
+  .page [aria-labelledby="community-path-heading"]>div>div:last-child { grid-template-columns: 1fr; margin: 36px 24px 0; gap: 24px; }
+  .page [aria-labelledby="community-path-heading"] article { padding: 24px; min-height: 324px; }
+  .page [aria-labelledby="community-path-heading"] article p { font-size: 13px; line-height: 1.5; }
+  .page [aria-labelledby="community-commitment-heading"] ul { grid-template-columns: 1fr; gap: 0; margin-top: 32px; }
+  .page [aria-labelledby="community-commitment-heading"] li { border-left: 0; border-bottom: 1px solid #ccc; padding: 24px 16px 18px; }
+  .page [aria-labelledby="community-commitment-heading"] li:last-child { border-bottom: 0; }
+  .page [aria-labelledby="community-commitment-heading"] li h3 { font-size: 24px; line-height: 1.3; margin-bottom: 22px; }
+  .page [aria-labelledby="community-commitment-heading"] li p { font-size: 15px; line-height: 1.2; }
+  .page [aria-labelledby="community-commitment-heading"]>div>p:last-child { padding: 18px 16px; font-size: 13px; line-height: 1.2; font-weight: 400; margin-top: 32px; }
+  .page>section:last-child { padding: 0; }
+  .page>section:last-child>div { padding: 0; }
+  .page>section:last-child>div>div:last-child { padding: 44px 16px 40px; border-radius: 0; text-align: center; }
+  .page>section:last-child h2 { font-size: 24px; }
+  .page>section:last-child h2+p { font-size: 13px; line-height: 1.75; }
+  .page>section:last-child a { max-width: 275px; }
+}

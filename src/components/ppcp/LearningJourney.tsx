@@ -13,7 +13,7 @@ const outcomes = [
 
 const LearningJourney = () => {
   return (
-    <section
+    <section data-ppcp-section="LearningJourney"
       aria-labelledby="learning-journey-heading"
       className="bg-[#5818D014] px-6 py-16 sm:px-10 md:px-14 lg:px-20 lg:py-20"
     >

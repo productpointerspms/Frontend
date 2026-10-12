@@ -1,9 +1,10 @@
 "use client";
 
+import styles from "./ppip-mobile.module.css";
 import React from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
-import { useProgramDates, formatDateRange } from "@/lib/useProgramDates";
+import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -27,8 +28,8 @@ const HeroSection: React.FC = () => {
   ];
 
   return (
-    <section
-      className={`${montserrat.className} relative isolate min-h-screen w-full overflow-hidden bg-[#07010F] text-white`}
+    <section data-ppip-section="HeroSection"
+      className={`${montserrat.className} relative isolate min-h-screen md:min-h-[760px] w-full overflow-hidden bg-[#07010F] text-white`}
     >
       {/* Background Image */}
       <div
@@ -54,7 +55,7 @@ const HeroSection: React.FC = () => {
           mx-auto flex w-full max-w-[1180px]
           flex-col items-center text-center
           px-5 sm:px-6
-          pt-[18vh]
+          pt-[18vh] md:pt-32
           pb-[130px]
         "
       >
@@ -211,6 +212,11 @@ const HeroSection: React.FC = () => {
             Batch 5
           </span>
         </div>
+        <dl className={styles.mobileProgramInfo}>
+          <div><dt>Duration:</dt><dd>{formatDurationWeeks(startTime, endTime) || "12 weeks"}</dd></div>
+          <div><dt>Format:</dt><dd>100% Online | Live Sessions | Practical Learning</dd></div>
+          <div><dt>Cohort Size:</dt><dd>20 participants</dd></div>
+        </dl>
       </div>
 
       {/* Bottom Feature Bar — scrolls continuously. The list is rendered

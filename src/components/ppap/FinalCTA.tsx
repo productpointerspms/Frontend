@@ -8,7 +8,7 @@ const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const FinalCTA = () => {
   return (
-    <section className="w-full bg-white px-0 pt-16 pb-0 sm:px-6 sm:pb-16 md:px-12 lg:px-16 lg:py-20">
+    <section data-ppap-section="FinalCTA" className="w-full bg-white px-0 pt-16 pb-0 sm:px-6 sm:pb-16 md:px-12 lg:px-16 lg:py-20">
       <div className="relative mx-auto max-w-[1280px]">
         
         {/* IMAGE BLOCK */}

@@ -8,7 +8,7 @@ const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const InternshipCTA = () => {
   return (
-    <section className="w-full bg-white px-0 py-10 sm:px-4 md:px-8 lg:px-0">
+    <section data-ppap-section="InternshipCTA" className="w-full bg-white px-0 py-10 sm:px-4 md:px-8 lg:px-0">
       <div
         className="
           relative

@@ -158,7 +158,7 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
 
 const FitChecklist: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="FitChecklist"
       className={`${montserrat.className} bg-white px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >
       <div className="mx-auto max-w-[1280px]">

@@ -38,7 +38,7 @@ const HeroSection = () => {
 
   return (
     <section
-      id="contact-section"
+      id="contact-hero"
       className={`${montserrat.className} relative min-h-screen overflow-hidden bg-[#5818D01A]`}
     >
       {/* =========================
@@ -315,7 +315,7 @@ const HeroSection = () => {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form id="contact-message-form" onSubmit={handleSubmit}>
               {/* =========================
                   FULL NAME
               ========================== */}

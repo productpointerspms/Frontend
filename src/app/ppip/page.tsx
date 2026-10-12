@@ -16,6 +16,7 @@ import PricingSection from "@/components/ppip/PricingSection";
 import ProgramDetails from "@/components/ppip/ProgramDetails";
 import FAQSection from "@/components/ppip/FAQSection";
 import FinalCTA from "@/components/ppip/FinalCTA";
+import styles from "@/components/ppip/ppip-mobile.module.css";
 import StickyApplyBar from "@/components/ppip/StickyApplyBar";
 
 export const metadata: Metadata = buildMetadata({
@@ -27,7 +28,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function PPIPPage() {
   return (
-    <main className="min-h-screen">
+    <div className={`${styles.page} min-h-screen`}>
       <HeroSection />
       <OpportunitySection />
       <NotAnotherInternship />
@@ -44,6 +45,6 @@ export default function PPIPPage() {
       <FAQSection />
       <FinalCTA />
       <StickyApplyBar />
-    </main>
+    </div>
   );
 }

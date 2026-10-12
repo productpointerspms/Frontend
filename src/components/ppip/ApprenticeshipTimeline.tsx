@@ -65,7 +65,7 @@ const phases: Phase[] = [
 
 const ApprenticeshipTimeline: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="ApprenticeshipTimeline"
       id="how-it-works"
       className={`${montserrat.className} scroll-mt-10 bg-[#5818D014] px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >

@@ -34,7 +34,7 @@ const details: Detail[] = [
 
 const ProgramDetails: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="ProgramDetails"
       className={`${montserrat.className} bg-[#F3EFFC] px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-[160px]">

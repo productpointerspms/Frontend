@@ -67,7 +67,7 @@ const skills: Skill[] = [
 
 const OutcomesSection: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="OutcomesSection"
       className={`${montserrat.className} bg-white px-6 py-[78px] text-[#100B1D] md:px-12 lg:px-[80px]`}
     >
       <div className="mx-auto max-w-[1280px]">
@@ -97,9 +97,9 @@ const OutcomesSection: React.FC = () => {
               lg:text-[38px]
             `}
           >
-            Build the Skills by Doing
+            Build the Skills by Doing{" "}
             <br />
-            What Product Managers
+            What Product Managers{" "}
             <br />
             Do.
           </h2>

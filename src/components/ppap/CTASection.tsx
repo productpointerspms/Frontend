@@ -32,7 +32,7 @@ const ProgramDetailsSection = () => {
   ];
 
   return (
-    <section className="w-full bg-[#5818D014]">
+    <section data-ppap-section="CTASection" className="w-full bg-[#5818D014]">
       <div
         className="
           mx-auto

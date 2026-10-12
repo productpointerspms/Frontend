@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import styles from "./ppap-mobile.module.css";
 import { ArrowRight, Download } from "lucide-react";
 import {
   useProgramDates,
@@ -8,9 +9,6 @@ import {
   formatDurationWeeks,
 } from "@/lib/useProgramDates";
 
-import eniolaImg from "@/assets/images/eniola.png";
-import udochukwuImg from "@/assets/images/udochukwu.png";
-import mercyImg from "@/assets/images/mercy.png";
 import { Bricolage_Grotesque } from "next/font/google";
 
 // Headings share the PPIP display face — variable weight covers 200-800.
@@ -18,13 +16,12 @@ const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 
 const HeroSection = () => {
-  const avatars = [eniolaImg, udochukwuImg, mercyImg];
 
   const { startTime, endTime } = useProgramDates("PPAP");
   const durationLabel = formatDurationWeeks(startTime, endTime);
 
   return (
-    <section className="relative isolate min-h-[760px] overflow-hidden bg-[#0D061C] text-white">
+    <section data-ppap-section="HeroSection" className="relative isolate min-h-[760px] overflow-hidden bg-[#0D061C] text-white">
       {/* =========================================================
           BACKGROUND IMAGE
       ========================================================== */}
@@ -132,7 +129,7 @@ const HeroSection = () => {
               active:scale-[0.98]
             "
           >
-            Apply for the Apprenticeship
+            Apply for the Accelerator Program
             <ArrowRight className="h-4 w-4" />
           </a>
 
@@ -183,6 +180,12 @@ const HeroSection = () => {
             Cohort 3
           </span>
         </div>
+
+        <dl className={styles.mobileProgramInfo}>
+          <div><dt>Duration:</dt><dd>{durationLabel || "12 weeks"}</dd></div>
+          <div><dt>Format:</dt><dd>100% Online | Live Sessions | Practical Learning</dd></div>
+          <div><dt>Cohort Size:</dt><dd>20 participants</dd></div>
+        </dl>
 
         {/* =====================================================
             BOTTOM FEATURES

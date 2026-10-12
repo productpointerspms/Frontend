@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import styles from "./ppip-mobile.module.css";
 import React from "react";
 import { Montserrat, Bricolage_Grotesque } from "next/font/google";
 
@@ -13,9 +15,10 @@ const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const OpportunitySection: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="OpportunitySection"
       className={`${montserrat.className} relative min-h-[760px] overflow-hidden bg-[#ECE4FA] text-[#110C24] pt-16 pb-0 lg:py-0`}
     >
+      <Link href="/ppip/apply" className={styles.mobileApply}>Apply for the Apprenticeship</Link>
       {/* Main container */}
       <div className="relative mx-auto min-h-[760px] max-w-[1440px] px-6 sm:px-10 lg:px-16 flex flex-col lg:flex-row items-center justify-between">
 

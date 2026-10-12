@@ -9,7 +9,7 @@ const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden font-sans">
+    <section data-ppcp-section="HeroSection" className="relative min-h-screen md:min-h-[760px] w-full overflow-hidden font-sans">
       {/* =====================================
           BACKGROUND IMAGE
       ====================================== */}
@@ -32,7 +32,7 @@ const Hero = () => {
       {/* =====================================
           PAGE CONTENT
       ====================================== */}
-      <div className="relative z-10 flex min-h-screen flex-col">
+      <div className="relative z-10 flex min-h-screen md:min-h-[760px] flex-col">
         {/* =====================================
             LOGO
         ====================================== */}
@@ -87,7 +87,7 @@ const Hero = () => {
               </Link>
 
               <Link
-                href="/ppcp"
+                href="#coaching-program-details"
                 className="inline-flex h-[52px] min-w-[220px] items-center justify-center rounded-[6px] border border-white/80 bg-white/[0.04] px-7 text-[14px] font-bold text-white backdrop-blur-[2px] transition-all duration-300 hover:bg-white hover:text-[#25104D]"
               >
                 See Program Details

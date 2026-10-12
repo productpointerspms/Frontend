@@ -51,7 +51,7 @@ const processSteps = [
 
 const NotAnotherInternship: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="NotAnotherInternship"
       className={`${montserrat.className} w-full bg-white text-black`}
     >
       <div className="mx-auto max-w-[1440px] px-8 py-[80px] md:px-12 lg:px-[80px]">

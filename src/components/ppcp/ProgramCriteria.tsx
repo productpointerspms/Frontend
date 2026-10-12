@@ -47,7 +47,7 @@ const criteria = [
 
 const ProgramCriteria = () => {
   return (
-    <section
+    <section data-ppcp-section="ProgramCriteria"
       aria-labelledby="program-criteria-heading"
       className="bg-white px-6 py-16 sm:px-10 md:px-14 lg:px-20 lg:py-20"
     >

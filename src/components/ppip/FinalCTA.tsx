@@ -19,7 +19,7 @@ const PHOTO_POSITION = "left 30%";
 
 const FinalCTA: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="FinalCTA"
       id="ppip-final-cta"
       className={`${montserrat.className} relative overflow-hidden bg-white`}
     >

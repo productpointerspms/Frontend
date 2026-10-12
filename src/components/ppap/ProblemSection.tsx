@@ -1,3 +1,5 @@
+import Link from "next/link";
+import styles from "./ppap-mobile.module.css";
 import React from "react";
 import { Bricolage_Grotesque } from "next/font/google";
 
@@ -13,7 +15,8 @@ const ProblemSection = () => {
   ];
 
   return (
-    <section className="w-full bg-white">
+    <section data-ppap-section="ProblemSection" className="w-full bg-white">
+      <Link href="#pricing" className={styles.mobileApply}>Apply for the Accelerator Program</Link>
       <div
         className="
           mx-auto
@@ -176,7 +179,7 @@ const ProblemSection = () => {
             "
           >
             <img
-              src="images/ppap/pro.png"
+              src="/images/ppap/pro.png"
               alt="Product management learning session"
               className="
                 h-auto

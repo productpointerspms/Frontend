@@ -34,7 +34,7 @@ const ProgramOverview = () => {
   ];
 
   return (
-    <section className="w-full bg-[#F3EFFC] text-white">
+    <section data-ppap-section="ProgramOverview" className="w-full bg-[#F3EFFC] text-white">
       <div className="mx-auto max-w-[1440px] px-6 py-20 md:px-12 lg:px-20 lg:py-[82px]">
         
         {/* Top content */}

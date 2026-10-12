@@ -139,7 +139,7 @@ const AdvisoryCTA = () => {
           {/* CTA BUTTON */}
           <div className="lg:pr-[0px]">
             <Link
-              href="/contact"
+              href="#contact-message-form"
               className="
                 inline-flex
                 min-h-[48px]

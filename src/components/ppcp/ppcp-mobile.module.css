@@ -1,0 +1,37 @@
+.page { min-width: 0; }
+.page :global(.mobileCoachingButton) { display: none; }
+@media (max-width: 767px) {
+  .page { overflow-x: clip; }
+  .page [data-ppcp-section] { padding: 80px 16px; }
+  .page [data-ppcp-section] h2 { font-size: 20px; line-height: 1.22; letter-spacing: -.6px; }
+  .page [data-ppcp-section] p { font-size: 14px; line-height: 1.5; }
+  .page [data-ppcp-section] p:first-child { font-size: 12px; letter-spacing: 1.4px; margin-bottom: 12px; }
+  .page [data-ppcp-section="HeroSection"] { padding: 0; min-height: 530px; }
+  .page [data-ppcp-section="HeroSection"] > div:last-child { min-height: 530px; }
+  .page [data-ppcp-section="HeroSection"] header { display: none; }
+  .page [data-ppcp-section="HeroSection"] header + div { padding: 80px 16px 100px; }
+  .page [data-ppcp-section="HeroSection"] h1 { font-size: 25px; line-height: 1.16; letter-spacing: -.8px; }
+  .page [data-ppcp-section="HeroSection"] h1 + p { margin-top: 28px; font-size: 14px; }
+  .page [data-ppcp-section="HeroSection"] a { min-width: 250px; height: 48px; font-size: 14px; }
+  .page [data-ppcp-section="HeroSection"] > div:last-child > div:last-child { padding: 0 0 36px; overflow: hidden; }
+  .page [data-ppcp-section="HeroSection"] > div:last-child > div:last-child > div { display: flex; width: max-content; gap: 20px; }
+  .page [data-ppcp-section="HeroSection"] > div:last-child > div:last-child p { font-size: 11px; white-space: nowrap; margin: 0; }
+  .page [data-ppcp-section="ProblemSection"] h2 { display: none; }
+  .page :global(.mobileCoachingButton) { display: flex; justify-content: center; align-items: center; background: #5818d0; color: white; border-radius: 4px; height: 46px; font-size: 14px; font-weight: 600; }
+  .page [data-ppcp-section="ProblemSection"] > div > div { gap: 32px; }
+  .page [data-ppcp-section="ProblemSection"] blockquote { font-size: 18px; }
+  .page [data-ppcp-section="ProblemSection"] > div > div > div:last-child > div { gap: 16px; }
+  .page [data-ppcp-section="OutcomeSection"] { padding-block: 44px; }
+  .page [data-ppcp-section="OutcomeSection"] > div { gap: 80px; }
+  .page [data-ppcp-section="OutcomeSection"] h2 + p { margin-top: 24px; }
+  .page [data-ppcp-section="OutcomeSection"] h2 + p + div { grid-template-columns: 1fr; gap: 48px; }
+  .page [data-ppcp-section="OutcomeSection"] h3 + p { max-width: none; }
+  .page [data-ppcp-section="OutcomeSection"] img { height: auto; aspect-ratio: 343/300; }
+  .page [data-ppcp-section="ProgramCriteria"] article { min-height: 168px; padding: 24px; border-radius: 16px; }
+  .page [data-ppcp-section="ProgramCriteria"] article h3 { font-size: 18px; }
+  .page [data-ppcp-section="ProgramCriteria"] article > span { background: #5818d0; }
+  .page [data-ppcp-section="SolutionSection"] ol { gap: 32px; }
+  .page [data-ppcp-section="LearningJourney"] { padding-block: 44px; }
+  .page [data-ppcp-section="LearningJourney"] ul { gap: 0; }
+  .page [data-ppcp-section="LearningJourney"] li { min-height: 58px; }
+}

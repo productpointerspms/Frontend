@@ -16,7 +16,7 @@ const PracticalSupport = () => {
   ];
 
   return (
-    <section className="w-full overflow-hidden">
+    <section data-ppap-section="PracticalSupport" className="w-full overflow-hidden">
       <div className="grid min-h-[670px] grid-cols-1 lg:grid-cols-[44%_56%]">
         
         {/* LEFT IMAGE */}

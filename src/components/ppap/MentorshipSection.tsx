@@ -60,7 +60,7 @@ const MentorshipSection = () => {
   ];
 
   return (
-    <section className="w-full bg-white">
+    <section data-ppap-section="MentorshipSection" className="w-full bg-white">
       <div className="mx-auto max-w-[1440px] px-6 py-20 md:px-12 lg:px-20 lg:py-[78px]">
 
         {/* TOP HEADER */}

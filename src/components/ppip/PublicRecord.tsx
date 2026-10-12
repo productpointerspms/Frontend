@@ -25,7 +25,7 @@ const evidenceItems = [
 
 const PublicRecord: React.FC = () => {
   return (
-    <section
+    <section data-ppip-section="PublicRecord"
       className={`${montserrat.className} relative overflow-hidden bg-[#5818D014] text-[#10051E]`}
     >
       {/* ================= BACKGROUND ================= */}
@@ -58,9 +58,9 @@ const PublicRecord: React.FC = () => {
                 sm:text-[40px]
               `}
             >
-              Leave With
+              Leave With{" "}
               <br />
-              Evidence of What
+              Evidence of What{" "}
               <br />
               You Can Do.
             </h2>

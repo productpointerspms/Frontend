@@ -307,7 +307,7 @@ const PricingSection: React.FC = () => {
   ];
 
   return (
-    <section
+    <section data-ppip-section="PricingSection"
       className={`${montserrat.className} bg-white px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >
       <div className="mx-auto max-w-[1280px]">
