@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Instagram, Linkedin, Youtube } from "lucide-react";
 import { Inter } from "next/font/google";
@@ -13,14 +14,12 @@ const inter = Inter({
 
 type FooterLink = { name: string; href: string };
 
-// TODO: confirm destinations — "Scholarships" and "Free Resources" have no
-// page of their own yet, so they point at the closest existing route.
 const exploreLinks: FooterLink[] = [
-  { name: "Our Programs", href: "/#upcoming-programs" },
-  { name: "Scholarships", href: "/ppip" },
+  { name: "Our Programs", href: "/#our-programs" },
+  { name: "Scholarships", href: "/scholarships" },
   { name: "Free Resources", href: "/community" },
   { name: "Community", href: "/community" },
-  { name: "Upcoming Programs", href: "/#upcoming-programs" },
+  { name: "Upcoming Programs", href: "/#whats-happening" },
 ];
 
 // TODO: confirm the real Instagram URL.
@@ -48,18 +47,33 @@ const socials = [
 const WHATSAPP_URL = "https://wa.me/+2348102567773";
 
 export default function Footer() {
+  const pathname = usePathname();
   const year = new Date().getFullYear();
+
+  const handleHashClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (pathname === "/" && href.startsWith("/#")) {
+      e.preventDefault();
+      const id = href.slice(2);
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.replaceState(null, "", href);
+    }
+  };
 
   return (
     <footer className={`${inter.className} bg-black text-white`}>
-      <div className="mx-auto max-w-[1280px] px-6 py-20 md:px-20">
+      <div className="mx-auto max-w-7xl px-6 py-20 md:px-20">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* ================= BRAND ================= */}
           <div>
             <h2 className="text-[22px] font-semibold text-white">
               ProductPointers
             </h2>
-            <p className="mt-6 max-w-[260px] text-[14px] leading-[1.7] text-white">
+            <p className="mt-6 max-w-65 text-[14px] leading-[1.7] text-white">
               Build the skills, gain the experience, and create the evidence to
               grow your Product career.
             </p>
@@ -75,6 +89,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
+                    onClick={(e) => handleHashClick(e, link.href)}
                     className="text-[14px] text-white transition-opacity hover:opacity-70"
                   >
                     {link.name}
@@ -99,9 +114,9 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className={`flex h-[18px] w-[18px] items-center justify-center rounded-[4px] transition-opacity hover:opacity-80 ${social.className}`}
+                    className={`flex h-4.5 w-4.5 items-center justify-center rounded-[4px] transition-opacity hover:opacity-80 ${social.className}`}
                   >
-                    <Icon className="h-[11px] w-[11px] text-white" />
+                    <Icon className="h-2.75 w-2.75 text-white" />
                   </a>
                 );
               })}
@@ -112,10 +127,10 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
-                className="flex h-[18px] w-[18px] items-center justify-center rounded-[4px] bg-[#25D366] transition-opacity hover:opacity-80"
+                className="flex h-4.5 w-4.5 items-center justify-center rounded-[4px] bg-[#25D366] transition-opacity hover:opacity-80"
               >
                 <svg
-                  className="h-[11px] w-[11px] text-white"
+                  className="h-2.75 w-2.75 text-white"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -131,7 +146,7 @@ export default function Footer() {
             <h3 className="text-[20px] font-bold uppercase text-white">
               Stay in the Loop
             </h3>
-            <p className="mt-7 max-w-[365px] text-[14px] leading-[1.7] text-white">
+            <p className="mt-7 max-w-91.25 text-[14px] leading-[1.7] text-white">
               Get practical Product insights, career opportunities, program
               updates and resources delivered to your inbox.
             </p>
@@ -144,11 +159,11 @@ export default function Footer() {
                 id="footer-email"
                 type="email"
                 placeholder="Enter your email"
-                className="h-11 w-full rounded-[6px] border border-[#6B7280] bg-transparent px-4 text-[14px] text-white placeholder:text-[#9CA3AF] transition-colors focus:border-purple-500 focus:outline-none sm:w-[175px]"
+                className="h-11 w-full rounded-md border border-[#6B7280] bg-transparent px-4 text-[14px] text-white placeholder:text-[#9CA3AF] transition-colors focus:border-purple-500 focus:outline-none sm:w-43.75"
               />
               <button
                 type="button"
-                className="h-11 cursor-pointer rounded-[6px] bg-[#5C1CC5] px-7 text-[14px] font-medium text-white transition-colors hover:bg-[#4a179e] sm:w-[170px]"
+                className="h-11 cursor-pointer rounded-md bg-[#5C1CC5] px-7 text-[14px] font-medium text-white transition-colors hover:bg-[#4a179e] sm:w-42.5"
               >
                 Subscribe
               </button>

@@ -44,7 +44,7 @@ export default function FounderSection() {
               </a>
             </div>
           </div>
-          <div className="max-w-xl flex-1 space-y-4 md:text-base text-[12px] md:leading-6 leading-normal text-[#15010D]">
+          <div className=" flex-1 space-y-4 md:text-base text-[12px] lg:w-190 md:leading-6 leading-normal text-[#15010D]">
             <p>My journey into Product Management didn&apos;t begin in tech.</p>
 
             <p>

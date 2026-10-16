@@ -29,7 +29,7 @@ export default function TrustedCompanies() {
             <p className="text-xs md:text-base md:font-semibold font-medium uppercase tracking-[1.613px] leading-[17.28px] text-[#5818D0]">
               Our talent is making an impact
             </p>
-            <h2 className=" md:w-150 w-70 md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
+            <h2 className=" md:w-150 w-70 md:text-[30.8px]  text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
               Our learners are building across amazing companies
             </h2>
           </div>

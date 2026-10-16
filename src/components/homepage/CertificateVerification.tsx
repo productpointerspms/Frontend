@@ -82,7 +82,7 @@ export default function CertificateVerification() {
           <p className="md:text-sm md:mb-4 mb-2 text-[12px] md:font-semibold font-medium text-[#5818D0] leading-[17.28px] tracking-[1.613px] uppercase">
             Certificate verification
           </p>
-          <h2 className="md:mb-0 mb-3 w-80 md:w-140 md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
+          <h2 className="md:mb-0 mb-3 w-80 md:w-140  md:text-[30.8px]  text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
             Verify a ProductPointers Certificate
           </h2>
 

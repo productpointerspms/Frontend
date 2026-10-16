@@ -8,12 +8,11 @@ interface FaqItem {
   question: string;
   answer: string;
 }
-
 const faqItems: FaqItem[] = [
   {
     question: "Who is ProductPointers for?",
-    answer:
-      "ProductPointers is designed for aspiring Product Managers, career switchers and early-career Product professionals. Whether you're trying to break into Product Management, gain practical experience or strengthen your Product skills, we have different learning paths designed to meet you where you are.",
+    answer: `ProductPointers is designed for aspiring Product Managers, career switchers and early-career Product professionals.
+Whether you're trying to break into Product Management, gain practical experience or strengthen your Product skills, we have different learning paths designed to meet you where you are.`,
   },
   {
     question: "Which ProductPointers program is right for me?",
@@ -46,7 +45,8 @@ Available opportunities, eligibility criteria and application requirements will 
   {
     question: "What happens after I complete a ProductPointers program?",
     answer: `Your journey doesn't necessarily end when the program does.
-Depending on the program you complete, you'll leave with stronger Product skills, practical work, feedback and evidence of your capabilities. Eligible graduates can also become part of the wider ProductPointers alumni ecosystem, where they can continue to access growth opportunities, resources and community.`,
+Depending on the program you complete, you'll leave with stronger Product skills, practical work, feedback and evidence of your capabilities.
+Eligible graduates can also become part of the wider ProductPointers alumni ecosystem, where they can continue to access growth opportunities, resources and community.`,
   },
 ];
 
@@ -59,9 +59,9 @@ export default function FaqSectionNew() {
 
   return (
     <section className="w-full bg-white px-6 py-20 md:px-12 lg:px-20">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-20">
+      <div className="mx-auto grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-20">
         {/* Left column */}
-        <div className="flex flex-col">
+        <div className="flex flex-col l">
           <p className="mb-2 md:mb-4 text-xs font-medium uppercase tracking-[1.613px] leading-[17.28px] text-[#5818D0] md:text-base md:font-semibold">
             FAQ
           </p>
@@ -88,13 +88,13 @@ export default function FaqSectionNew() {
         </div>
 
         {/* Right column - accordion */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col  gap-3">
           {faqItems.map((item, index) => {
             const isOpen = openIndex === index;
             return (
               <div
                 key={item.question}
-                className={`rounded-xl border transition-colors ${
+                className={`rounded-xl border lg:w-188 transition-colors ${
                   isOpen
                     ? "border-[#F2EDFB] bg-[#F2EDFB]"
                     : "border-[#F2EDFB] bg-[#F2EDFB]"
@@ -130,7 +130,7 @@ export default function FaqSectionNew() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="px-6 pb-4 md:text-[12px] text-[10px] leading-6 text-[#6D6D6D]">
+                    <p className="px-6 pb-4 whitespace-pre-line md:text-[12px] text-[10px] leading-6 text-[#6D6D6D]">
                       {item.answer}
                     </p>
                   </div>

@@ -79,7 +79,7 @@ export default function TopTalentSection() {
             <p className="mb-1 text-xs md:text-base md:font-semibold font-medium uppercase tracking-[1.613px] leading-[17.28px] text-[#5818D0]">
               TOP TALENT
             </p>
-            <h2 className="md:w-auto w-80 md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
+            <h2 className="md:w-auto w-80 md:text-[30.8px]  text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
               Meet Some of our Best Graduating Students
             </h2>
           </div>
@@ -109,7 +109,7 @@ export default function TopTalentSection() {
 
           <div className="flex flex-col-reverse gap-5 sm:flex-col sm:pt-24">
             <Caption student={students[1]} />
-            <div className="relative aspect-343/352 w-full max-w-85.75 overflow-hidden bg-[#E5E1DA] sm:aspect-579/487 sm:max-w-579px">
+            <div className="relative aspect-343/352 w-full max-w-85.75 overflow-hidden bg-[#E5E1DA] sm:aspect-579/487 sm:max-w-144.75">
               <Image
                 src="/images/homepage/eniola.png"
                 alt="Oyajoju Eniola Adebinpe holding a Best Graduating Student award"

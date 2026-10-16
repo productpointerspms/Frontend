@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 interface Feature {
@@ -8,7 +8,9 @@ interface Feature {
   title: string;
   description: string;
   image: string;
+  mobileImage?: string; // optional version shown below the md breakpoint
   imageAlt: string;
+  rounded?: boolean; // applies the 10.824px corner radius
 }
 
 const FEATURES: Feature[] = [
@@ -18,6 +20,7 @@ const FEATURES: Feature[] = [
     description:
       "Build a strong foundation with clear, practical learning designed around the skills Product Managers need.",
     image: "/images/homepage/structured-learning.png",
+    mobileImage: "/images/homepage/structured-learningMo.png",
     imageAlt:
       "Learner joining a video call from a home desk setup, with onboarding screen share",
   },
@@ -28,22 +31,25 @@ const FEATURES: Feature[] = [
       "Get guidance and feedback from Product professionals with real-world experience.",
     image: "/images/homepage/experienced-practitioners.png",
     imageAlt: "Practitioner leading a discussion in a meeting room",
+    rounded: true,
   },
   {
     id: "career-focused-learning",
     title: "Practical, Career-Focused Learning",
     description:
       "Move beyond theory by applying what you learn through assignments, projects and real-world challenges.",
-    image: "/images/homepage/career-focused-learning.png",
+    image: "/images/homepage/career-focused-learning.jpg",
     imageAlt: "Learner working on a laptop in a co-working space",
+    rounded: true,
   },
   {
     id: "community-growth",
     title: "A Community That Supports Your Growth",
     description:
       "Learn alongside a network of product-minded peers, growing beyond the classroom.",
-    image: "/images/homepage/community-growth.png",
+    image: "/images/homepage/community-growth.jpg",
     imageAlt: "A cohort of graduates celebrating together",
+    rounded: true,
   },
 ];
 
@@ -100,7 +106,7 @@ export default function WhyProductPointers() {
   }, [layers]);
 
   return (
-    <section className="relative overflow-hidden bg-[rgba(88,24,208,0.08)] py-10">
+    <section className="relative overflow-hidden bg-[#F2EDFB] py-10 scheme-light">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-y-0 right-0 hidden w-full sm:block sm:w-3/5"
@@ -174,24 +180,57 @@ export default function WhyProductPointers() {
           </ul>
 
           <div className="relative order-2 md:order-2">
-            <div className="relative  h-100 w-full -mt-8 md:mt-0">
+            <div className="relative h-100 w-full -mt-8 md:mt-0">
               {layers.map((layer, i) => {
                 const isSettledIn = layer.phase === "active";
+
+                const common = {
+                  alt: layer.feature.imageAlt,
+                  fill: true,
+                  quality: 90,
+                  priority: i === 0,
+                } as const;
+
+                const { props: desktop } = getImageProps({
+                  ...common,
+                  src: layer.feature.image,
+                  sizes:
+                    "(min-width: 1152px) 520px, (min-width: 768px) 45vw, 90vw",
+                });
+
+                const mobile = layer.feature.mobileImage
+                  ? getImageProps({
+                      ...common,
+                      src: layer.feature.mobileImage,
+                      sizes: "90vw",
+                    }).props
+                  : null;
+
                 return (
-                  <Image
-                    key={layer.layerKey}
-                    src={layer.feature.image}
-                    alt={layer.feature.imageAlt}
-                    fill
-                    sizes="(min-width: 768px) 40vw, 90vw"
-                    className={`absolute inset-0 object-contain transition-all ease-out ${
-                      isSettledIn
-                        ? "translate-y-0 scale-100 opacity-100"
-                        : "translate-y-1 scale-[0.97] opacity-0"
-                    }`}
-                    style={{ transitionDuration: `${TRANSITION_MS}ms` }}
-                    priority={i === 0}
-                  />
+                  <picture key={layer.layerKey}>
+                    {mobile && (
+                      <source
+                        media="(max-width: 767px)"
+                        srcSet={mobile.srcSet}
+                        sizes={mobile.sizes}
+                      />
+                    )}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      {...desktop}
+                      className={`absolute inset-0 object-cover transition-all ease-out ${
+                        layer.feature.mobileImage ? "max-md:object-contain" : ""
+                      } ${layer.feature.rounded ? "rounded-[10.824px]" : ""} ${
+                        isSettledIn
+                          ? "opacity-100"
+                          : "translate-y-1 scale-[0.97] opacity-0"
+                      }`}
+                      style={{
+                        ...desktop.style,
+                        transitionDuration: `${TRANSITION_MS}ms`,
+                      }}
+                    />
+                  </picture>
                 );
               })}
             </div>

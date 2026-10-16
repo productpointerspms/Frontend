@@ -141,7 +141,7 @@ export default function ImpactSection() {
             <p className="mb-1 text-xs md:text-base md:font-semibold font-medium uppercase tracking-[1.613px] leading-[17.28px] text-[#5818D0]">
               Our Impact
             </p>
-            <h2 className="md:w-130 w-80 md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
+            <h2 className="md:w-140 w-80 md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
               From Aspiring Professionals to Product Managers.
             </h2>
           </div>

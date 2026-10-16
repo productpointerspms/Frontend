@@ -75,7 +75,7 @@ export default function NewTestimonials() {
             <p className="hidden md:mb-4 md:block md:text-sm text-[12px] md:font-semibold font-medium text-[#5818D0] leading-[17.28px] tracking-[1.613px] uppercase">
               Testimonials
             </p>
-            <h2 className="hidden md:block mb-12 md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
+            <h2 className="hidden md:block mb-12 md:text-[30.8px]  text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
               In Their Own Words
             </h2>
 
@@ -130,42 +130,30 @@ export default function NewTestimonials() {
                 type="button"
                 onClick={handlePrev}
                 aria-label="Previous testimonial"
-                className="flex h-6 w-6 items-center justify-center rounded-full border cursor-pointer border-[#C2C2C2] text-[#5818D0] hover:text-white transition-colors hover:bg-[#5818D0]"
+                className="group flex h-6 w-6 items-center justify-center rounded-full cursor-pointer transition-colors hover:bg-[#5818D0]"
               >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M19 12H5" />
-                  <path d="M12 19l-7-7 7-7" />
-                </svg>
+                <Image
+                  src="/images/homepage/arrowLeft.png"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 object-contain transition group-hover:brightness-0 group-hover:invert"
+                />
               </button>
 
               <button
                 type="button"
                 onClick={handleNext}
                 aria-label="Next testimonial"
-                className="flex h-6 w-6 items-center justify-center rounded-full cursor-pointer hover:text-white text-[#5818D0] border border-[#C2C2C2] transition-colors hover:bg-[#5818D0]"
+                className="group flex h-6 w-6 items-center justify-center rounded-full cursor-pointer transition-colors hover:bg-[#5818D0]"
               >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M12 5l7 7-7 7" />
-                </svg>
+                <Image
+                  src="/images/homepage/arrowRight.png"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 object-contain transition group-hover:brightness-0 group-hover:invert"
+                />
               </button>
             </div>
           </div>

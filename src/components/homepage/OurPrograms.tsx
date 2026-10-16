@@ -20,7 +20,7 @@ const programs: Program[] = [
     title: "ProductPointers Accelerator Program",
     description:
       "Build a strong foundation in Product Management through structured learning, practical assignments and mentorship.",
-    href: "/programs/accelerator",
+    href: "/ppap",
     color: {
       badgeBg: "bg-[rgba(88,24,208,0.10)]",
       badgeText: "text-[#5818D0]",
@@ -32,7 +32,7 @@ const programs: Program[] = [
     title: "ProductPointers Apprenticeship/Internship Program",
     description:
       "Turn what you know into practical experience by working through real product challenges, projects and mentor feedback.",
-    href: "/programs/apprenticeship",
+    href: "/ppip",
     color: {
       badgeBg: "bg-[rgba(255,0,210,0.10)]",
       badgeText: "text-[#FF00D2]",
@@ -45,7 +45,7 @@ const programs: Program[] = [
       "Product Management Mastery Program (PMs with 1+ year experience who want to deepen and advance)",
     description:
       "Deepen your skills in specific areas of Product Management and develop the capabilities needed to grow in your career.",
-    href: "/programs/track",
+    href: "/pptp",
     color: {
       badgeBg: "bg-[rgba(255,187,29,0.10)]",
       badgeText: "text-[#FFBB1D]",
@@ -58,7 +58,7 @@ const programs: Program[] = [
     title: "Product Management Career Coaching",
     description:
       "Get personalised guidance, support and accountability for your Product Management career journey.",
-    href: "/programs/coaching",
+    href: "/ppcp",
     color: {
       badgeBg: "bg-[rgba(255,6,0,0.10)]",
       badgeText: "text-[#FF0600]",
@@ -70,8 +70,8 @@ const programs: Program[] = [
     badge: "PPFP",
     title: "Fintech Product Management Program",
     description:
-      "Advance your fintech product leadership with hands-on workshops, collaborative peer learning, and expert-led sessions.",
-    href: "/programs/fintech",
+      "A practical program for those who want to understand how financial products work across markets.",
+    href: "/ppfp",
     color: {
       badgeBg: "bg-[rgba(88,24,208,0.10)]",
       badgeText: "text-[#5818D0]",
@@ -87,7 +87,7 @@ export default function OurPrograms() {
         <p className="md:text-sm text-[12px] md:font-semibold font-medium text-[#5818D0] leading-[17.28px] tracking-[1.613px] uppercase">
           Our Programs
         </p>
-        <h2 className="mt-2 max-w-2xl text-[20px] md:font-bold font-semibold tracking-[-1.134px] font-bricolage text-[#0E0A1A] md:text-[37.8px] md:leading-[43.47px] ">
+        <h2 className="mt-2 max-w-2xl text-[20px] md:font-bold font-semibold tracking-[-1.134px] font-bricolage text-[#0E0A1A] md:text-[30.8px]  md:leading-[43.47px] ">
           Find the Right Path for Your Product Journey.
         </h2>
 
@@ -107,7 +107,7 @@ export default function OurPrograms() {
                 {program.title}
               </h3>
 
-              <p className=" flex-1 text-[12px] md:leading-6 leading-5 text-[#525252] ">
+              <p className=" flex-1 text-[12px] pb-3.75 md:leading-6 leading-5 text-[#525252] ">
                 {program.description}
               </p>
 

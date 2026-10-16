@@ -5,6 +5,8 @@ import {
   Montserrat,
   Bricolage_Grotesque,
 } from "next/font/google";
+import HashScroll from "@/components/HashScroll";
+
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -107,6 +109,7 @@ export default function RootLayout({
         <OrganizationJsonLd />
         <div className="relative min-h-screen flex flex-col">
           <Header />
+          <HashScroll />
           <main className="flex-1">{children}</main>
           <Footer />
         </div>

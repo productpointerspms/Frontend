@@ -6,12 +6,23 @@ const nextConfig: NextConfig = {
       fullUrl: false,
     },
   },
+  images: {
+    qualities: [75, 90],
+  },
   // Old per-program checkout pages were consolidated into one shared,
   // program-aware /checkout route — send any stale links there instead of 404s.
   async redirects() {
     return [
-      { source: "/ppap/checkout", destination: "/checkout?program=PPAP", permanent: false },
-      { source: "/ppip/checkout", destination: "/checkout?program=PPIP", permanent: false },
+      {
+        source: "/ppap/checkout",
+        destination: "/checkout?program=PPAP",
+        permanent: false,
+      },
+      {
+        source: "/ppip/checkout",
+        destination: "/checkout?program=PPIP",
+        permanent: false,
+      },
       // /about was removed from the nav and is no longer a public page.
       { source: "/about", destination: "/", permanent: false },
       { source: "/about/:path*", destination: "/", permanent: false },

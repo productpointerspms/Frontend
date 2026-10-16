@@ -1,35 +1,40 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 interface ProgramItem {
   title: string;
   date: string;
   description: string;
   cta: string;
+  href?: string; // new
 }
 
 const upcomingPrograms: ProgramItem[] = [
   {
-    title: "ProductPointers Accelerator Program Cohort 3",
-    date: "Starts September 15, 2026",
+    title: "ProductPointers Accelerator Program",
+    date: "Next Cohort Starts September 18, 2026",
     description:
       "A 12-week accelerator for aspiring Product Managers, combining live sessions with practical product work.",
     cta: "Apply Now",
+    href: "/ppap",
   },
   {
-    title: "ProductPointers Apprenticeship/Internship Program Batch 5",
-    date: "Starts October 15, 2026",
+    title: "ProductPointers Apprenticeship/Internship Program",
+    date: "Next Batch Starts October 12, 2026",
     description:
       "For those ready to go deeper. Intermediate product frameworks and leadership skills.",
     cta: "Join The Waitlist",
+    href: "/ppip",
   },
   {
-    title: "ProductPointers Track Program Cohort 4",
-    date: "Starts January 15, 2027",
+    title: "Product Management Mastery Program",
+    date: "Next Cohort Starts January 15, 2027",
     description:
       "For Product Managers ready to deepen their expertise and advance their careers.",
     cta: "Apply Now",
+    href: "/pptp",
   },
   {
     title: "1:1 Coaching",
@@ -37,6 +42,15 @@ const upcomingPrograms: ProgramItem[] = [
     description:
       "One-on-one coaching tailored to your goals. Limited spots available each quarter.",
     cta: "Apply Now",
+    href: "/ppcp",
+  },
+  {
+    title: "Fintech Product Management Program",
+    date: "Next Batch Starts October 15, 2026",
+    description:
+      "For aspiring and practicing PMs who want to build specialized Product Management skills for fintech and financial products.",
+    cta: "Apply Now",
+    href: "/ppfp",
   },
 ];
 
@@ -75,7 +89,7 @@ export default function WhatsHappening() {
   return (
     <section
       id="whats-happening"
-      className="bg-[#F2EDFB] px-6 py-10 md:pt-20 sm:px-10 lg:px-16 md:pb-0"
+      className="bg-[#F2EDFB] px-6 py-10 md:py-20 sm:px-10 lg:px-16"
     >
       <div className="mx-auto max-w-6xl">
         {/* Header */}
@@ -140,12 +154,21 @@ export default function WhatsHappening() {
                   {item.description}
                 </p>
               </div>
-              <button
-                type="button"
-                className="w-29.25 h-7 self-start shrink-0 flex items-center justify-center rounded-md bg-[#5818D0] hover:bg-[#0A0718] md:w-auto md:h-auto md:self-auto md:px-8 md:py-3 px-0 text-[12px] md:text-sm font-semibold leading-none md:leading-[21.12px] tracking-[0.14px] md:tracking-[0.282px] text-white transition-colors cursor-pointer"
-              >
-                {item.cta}
-              </button>
+              {item.href ? (
+                <Link
+                  href={item.href}
+                  className="w-29.25 h-7 self-start shrink-0 flex items-center justify-center rounded-md bg-[#5818D0] hover:bg-[#0A0718] md:w-auto md:h-auto md:self-auto md:px-8 md:py-3 px-0 text-[12px] md:text-sm font-semibold leading-none md:leading-[21.12px] tracking-[0.14px] md:tracking-[0.282px] text-white transition-colors cursor-pointer"
+                >
+                  {item.cta}
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className="w-29.25 h-7 self-start shrink-0 flex items-center justify-center rounded-md bg-[#5818D0] hover:bg-[#0A0718] md:w-auto md:h-auto md:self-auto md:px-8 md:py-3 px-0 text-[12px] md:text-sm font-semibold leading-none md:leading-[21.12px] tracking-[0.14px] md:tracking-[0.282px] text-white transition-colors cursor-pointer"
+                >
+                  {item.cta}
+                </button>
+              )}
             </div>
           ))}
         </div>

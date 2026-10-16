@@ -74,7 +74,7 @@ const mentors: Mentor[] = [
   },
   {
     id: 5,
-    name: "NNwobodo U. Lydia",
+    name: "Nwobodo U. Lydia",
     role: "Product Manager",
     company: "Miva Open University",
     experience: "5+ Years of Experience",
@@ -187,7 +187,7 @@ export default function MentorsSection() {
             <p className="mb-3 text-xs md:text-base md:font-semibold font-medium uppercase tracking-[1.613px] leading-[17.28px] text-[#5818D0]">
               MEET YOUR MENTORS &amp; COACHES
             </p>
-            <h2 className="md:w-150 w-80 md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
+            <h2 className="md:w-150 w-80 lg:w-170 md:text-[30.8px]  text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
               Learn From Those Doing the Work.
             </h2>
           </div>

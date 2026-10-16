@@ -7,7 +7,7 @@ import { ChevronDown, X, Menu } from "lucide-react";
 import Image from "next/image";
 import logo from "@/assets/images/logo.png";
 
-const Navbar = () => {
+const Header = () => {
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
@@ -26,30 +26,26 @@ const Navbar = () => {
         { name: "ProductPointers Internship Program", href: "/ppip" },
         { name: "ProductPointers Track Program", href: "/pptp" },
         { name: "101 Coaching", href: "/ppcp" },
+        { name: "Fintech Product Management Program", href: "/ppfp" },
       ],
     },
     // TODO: confirm destinations — neither has a page of its own yet.
-    { name: "Courses", href: "/#upcoming-programs" },
-    { name: "Scholarships", href: "/ppip" },
+    { name: "Courses", href: "/courses" },
+    { name: "Scholarships", href: "/scholarships" },
     { name: "Community", href: "/community" },
     { name: "Contact", href: "/contact" },
   ];
 
-  // Routes whose hero is dark — the overlaying bar needs light text there,
-  // until the bar turns white once the hero has scrolled away.
-  const DARK_HERO_ROUTES = ["/", "/ppip", "/ppap"];
+  const DARK_HERO_ROUTES = ["/", "/ppip", "/ppap", "/ppfp"];
   const onDarkHero = DARK_HERO_ROUTES.includes(pathname) && !pastHero;
 
-  // The bar is fixed and transparent over the hero; once the hero's bottom edge
-  // passes under the bar it switches to a white background. The hero is the
-  // page's first block: walk down first children past nested <main>s and any
-  // wrapper too tall to be a hero (form pages wrap everything in one div).
   useEffect(() => {
     const findHero = () => {
       let el = document.querySelector("main")?.firstElementChild ?? null;
       while (
         el?.firstElementChild &&
-        (el.tagName === "MAIN" || el.getBoundingClientRect().height > window.innerHeight * 1.5)
+        (el.tagName === "MAIN" ||
+          el.getBoundingClientRect().height > window.innerHeight * 1.5)
       ) {
         el = el.firstElementChild;
       }
@@ -62,7 +58,7 @@ const Navbar = () => {
       setPastHero(
         hero
           ? hero.getBoundingClientRect().bottom <= barHeight
-          : window.scrollY > barHeight
+          : window.scrollY > barHeight,
       );
     };
 
@@ -78,7 +74,9 @@ const Navbar = () => {
   const active =
     menuItems.find((item) => {
       if (item.dropdown) {
-        return item.dropdown.some((sub) => pathname === sub.href || pathname.startsWith(sub.href + "/"));
+        return item.dropdown.some(
+          (sub) => pathname === sub.href || pathname.startsWith(sub.href + "/"),
+        );
       }
       if (item.href === "/") return pathname === "/";
       return pathname === item.href || pathname.startsWith(item.href + "/");
@@ -87,35 +85,52 @@ const Navbar = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     };
-    if (dropdownOpen) document.addEventListener("mousedown", handleClickOutside);
+    if (dropdownOpen)
+      document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dropdownOpen]);
+
+  const handleHashClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (pathname === "/" && href.startsWith("/#")) {
+      e.preventDefault();
+      const id = href.slice(2);
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.replaceState(null, "", href);
+    }
+  };
 
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 py-5 z-[100] transition-colors duration-300 ${
-        pastHero ? "bg-white shadow-[0_1px_12px_rgba(16,9,26,0.08)]" : "bg-transparent"
+      className={`fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 py-5 z-100 transition-colors duration-300 ${
+        pastHero
+          ? "bg-white shadow-[0_1px_12px_rgba(16,9,26,0.08)]"
+          : "bg-transparent"
       }`}
     >
       {/* Logo Section matching Hero.jpg */}
       <div className="flex items-center gap-2 cursor-pointer">
         <div className=" p-1.5 rounded-lg">
-          
-            <Image
-              src={logo}
-              alt="logo"
-              width={150}
-              height={50}
-              className={onDarkHero ? "brightness-0 invert" : ""}
-            />
-       
+          <Image
+            src={logo}
+            alt="logo"
+            width={150}
+            height={50}
+            className={onDarkHero ? "brightness-0 invert" : ""}
+          />
         </div>
-       
       </div>
 
       {/* Desktop Menu */}
@@ -136,15 +151,20 @@ const Navbar = () => {
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className={`flex items-center gap-1 transition cursor-pointer ${
-                    active === item.name ? "text-[#6024D0]" : "hover:text-[#6024D0]"
+                    active === item.name
+                      ? "text-[#6024D0]"
+                      : "hover:text-[#6024D0]"
                   }`}
                 >
                   {item.name}
-                  <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
+                  />
                 </button>
                 {dropdownOpen && (
-                  <div className="absolute left-0 top-full z-50 pt-3">
-                    <ul className="bg-white border border-purple-100 rounded-xl shadow-xl w-[262px] p-2">
+                  <div className="absolute left-0 top-full  z-50 pt-3">
+                    <ul className="bg-white border border-purple-100 w-87 rounded-xl shadow-xl  p-2">
                       {item.dropdown.map((sub) => (
                         <li key={sub.name}>
                           <Link
@@ -165,8 +185,8 @@ const Navbar = () => {
                 href={item.href}
                 className={`transition relative pb-1 ${
                   active === item.name
-                  ? "text-[#6024D0] border-b-2 border-[#6024D0]"
-                  : "hover:text-[#6024D0]"
+                    ? "text-[#6024D0] border-b-2 border-[#6024D0]"
+                    : "hover:text-[#6024D0]"
                 }`}
               >
                 {item.name}
@@ -178,12 +198,13 @@ const Navbar = () => {
 
       {/* Desktop Buttons matching Hero.jpg styles */}
       <div className="hidden md:flex items-center gap-4">
-        <Link href="/#upcoming-programs" className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg font-bold hover:bg-[#4c1da3] transition shadow-sm">
+        <Link
+          href="/#our-programs"
+          onClick={(e) => handleHashClick(e, "/#our-programs")}
+          className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg text-[14px] font-semibold hover:bg-[#4c1da3] transition shadow-sm"
+        >
           Apply Now
         </Link>
-        {/* <Link href="/login" className="border border-[#6024D0] text-[#6024D0] px-7 py-2.5 rounded-lg font-bold hover:bg-purple-50 transition">
-          Log In
-        </Link> */}
       </div>
 
       {/* Mobile Menu Toggle */}
@@ -243,7 +264,14 @@ const Navbar = () => {
             </div>
           ))}
           <div className="flex flex-col w-full px-10 gap-4 mt-4">
-            <Link href="/#upcoming-programs" onClick={() => setMobileMenuOpen(false)} className="w-full text-center bg-[#6024D0] text-white py-4 rounded-xl font-bold">
+            <Link
+              href="/#our-programs"
+              onClick={(e) => {
+                handleHashClick(e, "/#our-programs");
+                setMobileMenuOpen(false);
+              }}
+              className="w-full text-center bg-[#6024D0] text-white py-4 rounded-xl font-bold"
+            >
               Apply Now
             </Link>
           </div>
@@ -253,4 +281,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;

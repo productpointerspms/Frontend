@@ -61,7 +61,7 @@ export default function ProductJourney() {
         <p className="mb-4 text-xs md:text-base md:font-semibold font-medium uppercase tracking-[1.613px] leading-[17.28px] text-[#5818D0]">
           YOUR PRODUCTPOINTERS JOURNEY
         </p>
-        <h2 className="md:w-130 md:mb-15.5 mb-8 w-full md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
+        <h2 className="md:w-130 lg:w-140 md:mb-15.5 mb-8 w-full  md:text-[30.8px] text-[20px] md:font-bold font-semibold md:leading-[43.47px] leading-normal text-[#0E0A1A] tracking-[-1.134px]">
           A Clear Path to Growing Your Product Career.
         </h2>
 

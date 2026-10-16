@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 type Demo = {
@@ -34,7 +34,7 @@ export default function BuildWithItSection() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
-    <section className="bg-white px-6 py-6 pb-14 sm:px-10 lg:px-18">
+    <section className="bg-white px-6 py-6 pb-14 sm:px-10 lg:px-18 md:pt-20 pt-0">
       <div className="mx-auto max-w-6xl">
         <header className=" flex flex-col gap-6  pb-13.25 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">
@@ -59,11 +59,10 @@ export default function BuildWithItSection() {
             isActive={activeId === demos[0].id}
             onBecomeVisible={() => setActiveId((prev) => prev ?? demos[0].id)}
           />
-          <HoverPlayCard
+          <ClickPlayCard
             demo={demos[1]}
             isActive={activeId === demos[1].id}
             onPlay={() => setActiveId(demos[1].id)}
-            onStop={() => setActiveId(demos[0].id)}
           />
         </div>
       </div>
@@ -127,78 +126,51 @@ function AutoplayCard({
   );
 }
 
-function HoverPlayCard({
+function ClickPlayCard({
   demo,
   isActive,
   onPlay,
-  onStop,
 }: {
   demo: Demo;
   isActive: boolean;
   onPlay: () => void;
-  onStop: () => void;
 }) {
-  const isTouchDevice = useRef(false);
-
-  useEffect(() => {
-    isTouchDevice.current =
-      typeof window !== "undefined" &&
-      window.matchMedia("(hover: none)").matches;
-  }, []);
-
-  const handleMouseEnter = useCallback(() => {
-    if (!isTouchDevice.current) onPlay();
-  }, [onPlay]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (!isTouchDevice.current) onStop();
-  }, [onStop]);
-
-  const handleClick = useCallback(() => {
-    if (isTouchDevice.current) {
-      isActive ? onStop() : onPlay();
-    } else {
-      onPlay();
-    }
-  }, [isActive, onPlay, onStop]);
-
   const src = `https://www.youtube.com/embed/${demo.youtubeId}?autoplay=1&mute=1&controls=1&rel=0&playsinline=1`;
 
   return (
-    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <VideoCard demo={demo}>
-        {isActive ? (
-          <iframe
-            className="absolute inset-0 h-full w-full"
-            src={src}
-            title={demo.name}
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowFullScreen
+    <VideoCard demo={demo}>
+      {isActive ? (
+        <iframe
+          className="absolute inset-0 h-full w-full"
+          src={src}
+          title={demo.name}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={onPlay}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onPlay();
+            }
+          }}
+          aria-label={`Play video: ${demo.name}`}
+          style={{ background: "transparent" }}
+          className="absolute inset-0 h-full w-full cursor-pointer bg-transparent! p-0 outline-none focus-visible:ring-2 focus-visible:ring-violet-500 [&:hover]:bg-transparent! active:bg-transparent! focus:bg-transparent!"
+        >
+          <Image
+            src={demo.poster}
+            alt={demo.name}
+            fill
+            className="object-cover"
           />
-        ) : (
-          <div
-            tabIndex={0}
-            onClick={handleClick}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                handleClick();
-              }
-            }}
-            aria-label={`Play video: ${demo.name}`}
-            style={{ background: "transparent" }}
-            className="absolute inset-0 h-full w-full cursor-pointer bg-transparent! p-0 outline-none focus-visible:ring-2 focus-visible:ring-violet-500 [&:hover]:bg-transparent! active:bg-transparent! focus:bg-transparent!"
-          >
-            <Image
-              src={demo.poster}
-              alt={demo.name}
-              fill
-              className="object-cover"
-            />
-          </div>
-        )}
-      </VideoCard>
-    </div>
+        </div>
+      )}
+    </VideoCard>
   );
 }
 
@@ -215,7 +187,7 @@ function VideoCard({
         {children}
       </div>
 
-      <p className="mt-6  md:text-[13.6px] text-[10px] md:leading-[22.44px] leading-[12.914px]">
+      <p className="mt-6 text-black md:text-[13.6px] text-[10px] md:leading-[22.44px] leading-[12.914px]">
         {demo.caption}
       </p>
     </div>

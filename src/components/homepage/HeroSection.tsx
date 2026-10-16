@@ -17,7 +17,7 @@ export default function HeroSection() {
           alt=""
           fill
           priority
-          className="object-cover md:hidden blockh-177"
+          className="object-cover md:hidden block h-177"
         />
 
         <Image
@@ -53,13 +53,13 @@ export default function HeroSection() {
 
           <div className="mt-10 md:mt-18 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/programs"
-              className="rounded-md bg-[#5818D0] w-59.75 md:w-[197px]px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0A0718] cursor-pointer"
+              href="/#our-programs"
+              className="rounded-md bg-[#5818D0] w-59.75 md:w-49.25 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0A0718] cursor-pointer"
             >
               Explore Programs
             </Link>
             <Link
-              href="/scholarship"
+              href="/scholarships"
               className="rounded-md border w-59.75 border-white bg-white/10 px-8 py-3 text-sm font-semibold leading-[21.12px] text-white transition-colors hover:bg-white/30"
             >
               Apply for a Scholarship

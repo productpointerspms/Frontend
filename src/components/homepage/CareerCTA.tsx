@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import Link from "next/link";
 interface CareerCTAProps {
   imageSrc?: string;
   imageAlt?: string;
@@ -75,19 +75,19 @@ export default function CareerCTA({
           </p>
 
           <div className="flex items-center gap-8">
-            <button
-              type="button"
-              className="rounded-md bg-[#FF00D2] px-8 py-3 text-[14px] cursor-pointer font-semibold leading-[21.12px] tracking-[0.282px] text-white hover:bg-[#e600a6]"
+            <Link
+              href="/#our-programs"
+              className="rounded-md bg-[#FF00D2] px-8 py-3 text-center text-[14px] w-73.25 cursor-pointer font-semibold leading-[21.12px] tracking-[0.282px] text-white hover:bg-[#e600a6]"
             >
               Explore Programs
-            </button>
+            </Link>
 
-            <button
-              type="button"
-              className="rounded-md border bg-[rgba(255,255,255,0.10)] border-white px-8 py-3 text-[14px] font-semibold text-white leading-[21.12px] cursor-pointer tracking-[0.282px] hover:bg-white/40"
+            <Link
+              href="/scholarships"
+              className="rounded-md border bg-[rgba(255,255,255,0.10)] border-white w-73.25 px-8 py-3 text-center text-[14px] font-semibold text-white leading-[21.12px] cursor-pointer tracking-[0.282px] hover:bg-white/40"
             >
               Apply for a Scholarship
-            </button>
+            </Link>
           </div>
         </div>
       </div>
