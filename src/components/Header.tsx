@@ -55,6 +55,7 @@ const Navbar = () => {
         { name: "ProductPointers Accelerator Program", href: "/ppap" },
         { name: "ProductPointers Internship Program", href: "/ppip" },
         { name: "ProductPointers Track Program", href: "/pptp" },
+        { name: "Fintech Product Management Program", href: "/ppfp" },
         { name: "101 Coaching", href: "/ppcp" },
       ],
     },
@@ -66,7 +67,7 @@ const Navbar = () => {
 
   // Routes whose hero is dark — the overlaying bar needs light text there,
   // until the bar turns white once the hero has scrolled away.
-  const DARK_HERO_ROUTES = ["/", "/ppip", "/ppap", "/ppcp", "/community", "/courses", "/scholarships"];
+  const DARK_HERO_ROUTES = ["/", "/ppfp", "/ppip", "/ppap", "/ppcp", "/community", "/courses", "/scholarships"];
   const onDarkHero = DARK_HERO_ROUTES.includes(pathname) && !pastHero;
 
   // The bar is fixed and transparent over the hero; once the hero's bottom edge
