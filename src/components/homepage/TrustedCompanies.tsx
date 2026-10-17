@@ -22,7 +22,7 @@ export default function TrustedCompanies() {
   const track = [...COMPANIES, ...COMPANIES];
 
   return (
-    <section className="w-full  py-16 md:py-20">
+    <section data-home-section="Companies" className="w-full  py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between md:px-14">
           <div>

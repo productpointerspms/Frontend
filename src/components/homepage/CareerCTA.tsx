@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface CareerCTAProps {
   imageSrc?: string;
@@ -10,7 +11,7 @@ export default function CareerCTA({
   imageAlt = "ProductPointers graduate wearing a Learn, Build, Grow, Standout t-shirt",
 }: CareerCTAProps) {
   return (
-    <section className="bg-white  lg:py-20 md:pt-20 pt-20 pb-0">
+    <section data-home-section="Career" className="bg-white  lg:py-20 md:pt-20 pt-20 pb-0">
       <div className=" w-full md:block lg:hidden bg-[#5818D0] px-4 py-10 text-white">
         <p className="mb-4 text-[10px] text-center font-semibold uppercase tracking-[1.613px] leading-[17.28px] text-[#FF00D2]">
           TAKE THE NEXT STEP
@@ -29,19 +30,19 @@ export default function CareerCTA({
         </p>
 
         <div className="flex items-center flex-col gap-5">
-          <button
-            type="button"
+          <Link
+            href="#our-programs"
             className="rounded-md bg-[#FF00D2] px-8 py-3 text-[14px] w-73.25 cursor-pointer font-semibold leading-[21.12px] tracking-[0.282px] text-white hover:bg-[#e600a6]"
           >
             Explore Programs
-          </button>
+          </Link>
 
-          <button
-            type="button"
+          <Link
+            href="/scholarships"
             className="rounded-md border bg-[rgba(255,255,255,0.10)] border-white w-73.25 px-8 py-3 text-[14px] font-semibold text-white leading-[21.12px] cursor-pointer tracking-[0.282px] hover:bg-white/40"
           >
             Apply for a Scholarship
-          </button>
+          </Link>
         </div>
       </div>
       <div className="relative flex justify-end">
@@ -75,19 +76,19 @@ export default function CareerCTA({
           </p>
 
           <div className="flex items-center gap-8">
-            <button
-              type="button"
+            <Link
+              href="#our-programs"
               className="rounded-md bg-[#FF00D2] px-8 py-3 text-[14px] cursor-pointer font-semibold leading-[21.12px] tracking-[0.282px] text-white hover:bg-[#e600a6]"
             >
               Explore Programs
-            </button>
+            </Link>
 
-            <button
-              type="button"
+            <Link
+              href="/scholarships"
               className="rounded-md border bg-[rgba(255,255,255,0.10)] border-white px-8 py-3 text-[14px] font-semibold text-white leading-[21.12px] cursor-pointer tracking-[0.282px] hover:bg-white/40"
             >
               Apply for a Scholarship
-            </button>
+            </Link>
           </div>
         </div>
       </div>

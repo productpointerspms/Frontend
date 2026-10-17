@@ -133,7 +133,7 @@ function TransformationRow({ item }: { item: Transformation }) {
 
 export default function ImpactSection() {
   return (
-    <section className="bg-[#F6F4FB] px-4 md:py-16 py-10 sm:px-6 lg:px-20">
+    <section data-home-section="Impact" className="bg-[#F6F4FB] px-4 md:py-16 py-10 sm:px-6 lg:px-20">
       <div className="mx-auto ">
         {/* Header */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">

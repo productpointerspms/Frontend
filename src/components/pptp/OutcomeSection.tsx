@@ -16,7 +16,7 @@ const OutcomeSection = () => {
           <h2 className="text-3xl font-extrabold text-[#101828] mb-8 leading-tight">
             Growth Doesn’t Come From <br /> Doing More. It Comes From <br /> <span className="text-[#6024D0]">Going Deeper.</span>
           </h2>
-          <p className="text-[#475467] text-base mb-8 uppercase tracking-widest text-xs font-bold">PPTP helps you move from:</p>
+          <p className="text-[#475467] text-base mb-8 uppercase tracking-widest text-xs font-bold">PPMP helps you move from:</p>
           <div className="space-y-4">
             {transformations.map((text, i) => (
               <div key={i} className="flex items-center gap-4 bg-white p-5 rounded-2xl border border-[#D1FADF] shadow-sm hover:translate-x-2 transition-transform">

@@ -1,42 +1,55 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 interface ProgramItem {
   title: string;
   date: string;
   description: string;
   cta: string;
+  href: string;
 }
 
 const upcomingPrograms: ProgramItem[] = [
   {
-    title: "ProductPointers Accelerator Program Cohort 3",
-    date: "Starts September 15, 2026",
+    title: "ProductPointers Accelerator Program",
+    date: "Next Cohort Starts September 18, 2026",
     description:
       "A 12-week accelerator for aspiring Product Managers, combining live sessions with practical product work.",
     cta: "Apply Now",
+    href: "/ppap#pricing",
   },
   {
-    title: "ProductPointers Apprenticeship/Internship Program Batch 5",
-    date: "Starts October 15, 2026",
+    title: "ProductPointers Apprenticeship/Internship Program",
+    date: "Next Batch Starts October 12, 2026",
     description:
       "For those ready to go deeper. Intermediate product frameworks and leadership skills.",
     cta: "Join The Waitlist",
+    href: "/ppip#pricing",
   },
   {
-    title: "ProductPointers Track Program Cohort 4",
-    date: "Starts January 15, 2027",
+    title: "Product Management Mastery Program",
+    date: "Next Cohort Starts January 15, 2027",
     description:
       "For Product Managers ready to deepen their expertise and advance their careers.",
     cta: "Apply Now",
+    href: "/ppmp/apply?plan=scholarship",
   },
   {
-    title: "1:1 Coaching",
+    title: "1 on 1 Coaching",
     date: "Rolling Applications Open",
     description:
       "One-on-one coaching tailored to your goals. Limited spots available each quarter.",
     cta: "Apply Now",
+    href: "/ppcp/blessing-okomor",
+  },
+  {
+    title: "Fintech Product Management Program",
+    date: "Next Batch Starts October 15, 2026",
+    description: "For aspiring and practicing PMs who want to build specialized Product Management skills for fintech and financial products.",
+    cta: "Apply Now",
+    href: "/ppfp#pricing",
   },
 ];
 
@@ -47,6 +60,7 @@ const eventsAndMasterclasses: ProgramItem[] = [
     description:
       "Learn how to showcase your product thinking, projects, and experience in a portfolio that gets noticed.",
     cta: "Apply Now",
+    href: "/courses",
   },
   {
     title: "How to Write a Winning Resume That Gets You Hired",
@@ -54,6 +68,7 @@ const eventsAndMasterclasses: ProgramItem[] = [
     description:
       "Turn your skills, experience, and achievements into a compelling resume that positions you for the opportunities you want.",
     cta: "Apply Now",
+    href: "/courses",
   },
 ];
 
@@ -73,8 +88,8 @@ export default function WhatsHappening() {
   const activeData = tabs.find((tab) => tab.id === activeTab)!.data;
 
   return (
-    <section
-      id="whats-happening"
+    <section data-home-section="Upcoming"
+      id="upcoming-programs"
       className="bg-[#F2EDFB] px-6 py-10 md:pt-20 sm:px-10 lg:px-16 md:pb-0"
     >
       <div className="mx-auto max-w-6xl">
@@ -103,6 +118,7 @@ export default function WhatsHappening() {
             <button
               key={tab.id}
               type="button"
+              aria-pressed={activeTab === tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`rounded-sm px-4 cursor-pointer py-2 md:text-[13px] text-[12px] md:leading-[20.16px] leading-[18.842px] font-semibold transition-colors ${
                 activeTab === tab.id
@@ -140,12 +156,12 @@ export default function WhatsHappening() {
                   {item.description}
                 </p>
               </div>
-              <button
-                type="button"
+              <Link
+                href={item.href}
                 className="w-29.25 h-7 self-start shrink-0 flex items-center justify-center rounded-md bg-[#5818D0] hover:bg-[#0A0718] md:w-auto md:h-auto md:self-auto md:px-8 md:py-3 px-0 text-[12px] md:text-sm font-semibold leading-none md:leading-[21.12px] tracking-[0.14px] md:tracking-[0.282px] text-white transition-colors cursor-pointer"
               >
                 {item.cta}
-              </button>
+              </Link>
             </div>
           ))}
         </div>

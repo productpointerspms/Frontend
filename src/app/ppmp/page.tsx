@@ -1,7 +1,13 @@
 import React from "react";
+import { buildMetadata } from "@/lib/seo";
 import ProgramHero from "@/components/PPMP/Herosection"
 import ProblemSection from "@/components/PPMP/ProblemSection";
 
+
+export const metadata = buildMetadata({
+  title: "Product Management Mastery Program (PPMP)",
+  path: "/ppmp",
+});
 
 const PPMPPage: React.FC = () => {
   return (

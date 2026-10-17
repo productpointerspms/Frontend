@@ -71,7 +71,7 @@ function Caption({ student }: { student: Student }) {
 
 export default function TopTalentSection() {
   return (
-    <section className="w-full bg-white px-6 py-20 md:mb-20 md:mt-10 sm:px-10 lg:px-20">
+    <section data-home-section="Talent" className="w-full bg-white px-6 py-20 md:mb-20 md:mt-10 sm:px-10 lg:px-20">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="md:mb-15 mb-8 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">

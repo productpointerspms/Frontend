@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function FounderSection() {
   return (
-    <section className="bg-white px-6 py-16 md:px-20 md:py-24">
+    <section data-home-section="Founder" className="bg-white px-6 py-16 md:px-20 md:py-24">
       <div className="mx-auto max-w-6xl">
         <p className="mb-4 text-xs font-medium uppercase tracking-[1.613px] leading-[17.28px] text-[#5818D0] md:text-base md:font-semibold">
           Meet the founder

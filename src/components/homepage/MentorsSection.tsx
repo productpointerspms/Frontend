@@ -177,7 +177,7 @@ const mentors: Mentor[] = [
 
 export default function MentorsSection() {
   return (
-    <div
+    <section data-home-section="Mentors"
       className={`${montserrat.className} w-full bg-white py-16 md:pb-30 px-4 md:px-10 overflow-hidden`}
     >
       <div className="max-w-7xl mx-auto">
@@ -268,6 +268,6 @@ export default function MentorsSection() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

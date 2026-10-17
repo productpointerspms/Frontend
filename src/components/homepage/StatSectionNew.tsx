@@ -142,7 +142,7 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section
+    <section data-home-section="Stats"
       ref={sectionRef}
       className="w-full md:py-16.5 py-12 flex justify-center bg-white"
     >

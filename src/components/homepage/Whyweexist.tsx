@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function WhyWeExist() {
   return (
-    <section className="bg-[#5818D0] px-6 py-16 sm:px-10 lg:px-16 md:py-20">
+    <section data-home-section="Mission" className="bg-[#5818D0] px-6 py-16 sm:px-10 lg:px-16 md:py-20">
       <div className="mx-auto max-w-6xl">
         {/* Top grid: copy (left) + photo & quote (right) */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 md:gap-14">

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ChevronUp } from "lucide-react";
 
 type Plan = {
@@ -197,6 +198,11 @@ export default function PricingSection() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-10 rounded-2xl border border-purple-200 bg-purple-50 p-6 text-center md:p-8">
+          <h3 className="font-bricolage text-2xl font-bold">Apply for the Chisom Scholarship</h3>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-gray-600">Get ₦150,000 towards the ₦300,000 Fintech Product Management Program tuition. Selected scholars contribute ₦150,000.</p>
+          <Link href="/ppfp/apply?plan=scholarship" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-md bg-[#5818D0] px-8 py-3 text-sm font-semibold text-white hover:bg-[#4510AF]">Apply for Scholarship</Link>
         </div>
       </div>
     </section>

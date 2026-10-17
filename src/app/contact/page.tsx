@@ -3,8 +3,8 @@ import { buildMetadata } from "@/lib/seo";
 import ContactHero from "@/components/contact/ContactHero";
 import ContactSection from "@/components/contact/ContactSection";
 import ContactFaqSection from "@/components/contact/ContactFaqSection";
-import CommunityLowerHero from "@/components/community/CommunityLowerHero";
-import styles from "@/components/contact/contact-mobile.module.css";
+import ContactCareerCTA from "@/components/contact/ContactCareerCTA";
+import styles from "@/components/contact/contact.module.css";
 import AdvisoryCTA from "@/components/contact/AdvisoryCTA";
 
 export const metadata: Metadata = buildMetadata({
@@ -21,7 +21,7 @@ export default function ContactPage() {
       <ContactSection/>
       <AdvisoryCTA/>
       <ContactFaqSection />
-      <CommunityLowerHero/>
+      <ContactCareerCTA/>
     </div>
   );
 }

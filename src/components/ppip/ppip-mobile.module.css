@@ -5,7 +5,7 @@
   .page h2 { font-size: 20px; line-height: 1.25; letter-spacing: -.7px; }
   .page [data-ppip-section="HeroSection"] { margin-top: 70px; min-height: 0; padding: 0; }
   .page [data-ppip-section="HeroSection"]>div:nth-last-child(2) { padding: 80px 16px 68px; }
-  .page [data-ppip-section="HeroSection"] h1 { font-family: var(--font-bricolage), Arial, sans-serif; font-size: 28px; line-height: 1.2; }
+  .page [data-ppip-section="HeroSection"] h1 { font-size: 28px; line-height: 1.2; }
   .page [data-ppip-section="HeroSection"] h1>span { display: inline; }
   .page [data-ppip-section="HeroSection"] h1>span:not(:first-child)::before { content: " "; }
   .page [data-ppip-section="HeroSection"] h1+p { font-size: 13px; line-height: 1.25; margin-bottom: 36px; }

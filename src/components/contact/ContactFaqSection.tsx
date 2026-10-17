@@ -1,23 +1,8 @@
-"use client";
+import Link from "next/link";
+import { ChevronDown } from "lucide-react";
+import styles from "./contact.module.css";
 
-import React, { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { Montserrat, Bricolage_Grotesque } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-// Headings share the PPAP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
-interface FAQItem {
-  question: string;
-  answer: string;
-}
-
-const faqData: FAQItem[] = [
+const faqData = [
   {
     question: "Who is ProductPointers for?",
     answer:
@@ -50,109 +35,6 @@ const faqData: FAQItem[] = [
   },
 ];
 
-const ContactFaqSection = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleAccordion = (index: number) => {
-    setOpenIndex((current) => (current === index ? null : index));
-  };
-
-  const scrollToContact = () => {
-    document
-      .getElementById("contact-message-form")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  return (
-    <section
-      className={`${montserrat.className} w-full bg-white px-6 py-20 md:px-10 lg:px-20 lg:py-20`}
-    >
-      <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-14 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
-        {/* LEFT SIDE */}
-        <div className="flex flex-col">
-          {/* FAQ label */}
-          <span className="mb-5 text-[14px] font-semibold uppercase tracking-[0.08em] text-[#6024D0]">
-            FAQ
-          </span>
-
-          {/* Heading */}
-          <h2 className={`${bricolage.className} max-w-[430px] text-[34px] font-bold leading-[1.18] tracking-[-0.04em] text-[#17131F] sm:text-[38px] lg:text-[40px]`}>
-            Questions We Hear{" "}
-            <br />
-            Most Often
-          </h2>
-
-          {/* Secondary CTA block */}
-          <div className="mt-14 lg:mt-16">
-            <h3 className={`${bricolage.className} text-[18px] font-bold text-[#17131F]`}>
-              Still have a question?
-            </h3>
-
-            <p className="mt-3 max-w-[400px] text-[13px] font-normal leading-[1.7] text-[#737076]">
-              Cant find an answer to your question? send us a message and we
-              will get back to you as soon as possible
-            </p>
-
-            <button
-              onClick={scrollToContact}
-              className="mt-8 rounded-[6px] bg-[#5D1BD7] px-8 py-[14px] text-[13px] font-bold text-white transition-colors duration-200 hover:bg-[#4C13BB]"
-            >
-              Send Message
-            </button>
-          </div>
-        </div>
-
-        {/* RIGHT SIDE FAQ */}
-        <div className="flex flex-col gap-4">
-          {faqData.map((faq, index) => {
-            const isOpen = openIndex === index;
-
-            return (
-              <div
-                key={faq.question}
-                className="overflow-hidden rounded-[12px] bg-[#F0EAF9]"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleAccordion(index)}
-                  aria-expanded={isOpen}
-                  className={`flex w-full items-center justify-between gap-6 px-4 text-left transition-all duration-300 sm:px-4 ${
-                    isOpen ? "pb-2 pt-4" : "py-[13px]"
-                  }`}
-                >
-                  <span className="text-[13px] font-semibold leading-[1.45] text-[#1D1925] sm:text-[14px]">
-                    {faq.question}
-                  </span>
-
-                  <span className="shrink-0 text-[#7E7A86]">
-                    {isOpen ? (
-                      <ChevronUp size={18} strokeWidth={1.8} />
-                    ) : (
-                      <ChevronDown size={18} strokeWidth={1.8} />
-                    )}
-                  </span>
-                </button>
-
-                <div
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
-                    isOpen
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="px-4 pb-3 text-[11px] font-normal leading-[2.05] text-[#88838E] sm:text-[12px]">
-                      {faq.answer}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default ContactFaqSection;
+export default function ContactFaqSection() {
+  return <section className={styles.faqSection} aria-labelledby="contact-faq-title"><div className={styles.faqGrid}><div><p className={styles.overline}>FAQ</p><h2 id="contact-faq-title">Questions We Hear<br />Most Often</h2><div className={styles.stillQuestion}><h3>Still have a question?</h3><p>Can’t find an answer to your question? Send us a message and we will get back to you as soon as possible.</p><Link href="#contact-message-form" className={styles.primary}>Send Message</Link></div></div><div className={styles.faqList}>{faqData.map((faq, index) => <details key={faq.question} name="contact-faq" open={index === 0}><summary>{faq.question}<ChevronDown size={18} aria-hidden="true" /></summary><p>{faq.answer}</p></details>)}</div></div></section>;
+}

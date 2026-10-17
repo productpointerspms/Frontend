@@ -18,35 +18,14 @@ import FounderSection from "@/components/homepage/Foundersection";
 import FaqSectionNew from "@/components/homepage/FaqSectionNew";
 import CareerCTA from "@/components/homepage/CareerCTA";
 import StickyExploreButton from "@/components/homepage/StickyExploreButton";
-//import ConnectFounder from "@/components/homepage/ConnectFounder";
-//import Community from "@/components/homepage/Community";
-//import CommunityMobile from "@/components/homepage/CommunityMobile";
-//import AlumniStories from "@/components/homepage/AlumniStories";
-//import TestimonialSection from "@/components/homepage/TestimonialSection";
-//import FAQSection from "@/components/homepage/FaqSection";
-//import PMCoachingHero from "@/components/homepage/PMCoachingHero";
+import { Bricolage_Grotesque } from "next/font/google";
+import styles from "@/components/homepage/homepage.module.css";
 
-//import OurPillars from "@/components/homepage/OurPillars";
-//import FreeResources from "@/components/homepage/FreeResources";
-//import ProductPointersJourney from "@/components/homepage/ProductPointersJourney";
-//import UpcomingPrograms from "@/components/homepage/ProgramCard";
-// import SecondaryNav from "@/components/homepage/SecondaryNav";
-// import StatsSection from "@/components/homepage/StatsSection";
-// import WhatDrivesUs from "@/components/homepage/WhatDrivesUs";
-// import WhyChooseProductPointers from "@/components/homepage/WhyChooseProductPointers";
-// import MentorshipVideo from "@/components/homepage/MentorshipVideo";
-// //import StuckSection from "@/components/homepage/StuckSection";
-// import CountdownSection from "@/components/homepage/Countdown";
-// import CallToAction from "@/components/homepage/CallToAction";
-// import VerifyCertificate from "@/components/homepage/VerifyCertificate";
-
-// No page-specific metadata here — "/" inherits the root layout's default
-// title/description as-is, avoiding double "ProductPointers" branding from
-// the title template (`%s | ProductPointers`) that other pages opt into.
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-home-heading" });
 
 export default function Home() {
   return (
-    <main>
+    <div className={`${bricolage.variable} ${styles.page}`}>
       <HeroSection />
       <StatsSectionNew />
       <OurPrograms />
@@ -66,30 +45,7 @@ export default function Home() {
       <FounderSection />
       <FaqSectionNew />
       <CareerCTA />
-      <StickyExploreButton href="#programs" />
-      {/* <StuckSection /> */}
-      {/* <SecondaryNav /> */}
-      {/* <WhatDrivesUs /> */}
-      {/*<WhyChooseProductPointers /> */}
-      {/* <OurPillars /> */}
-      {/*  <MentorshipVideo />*/}
-
-      {/* <ProductPointersJourney /> */}
-      {/*<UpcomingPrograms /> */}
-      {/*<TestimonialSection /> */}
-      {/* <VerifyCertificate />*/}
-      {/*  <FreeResources />*/}
-      {/* <StatsSection />*/}
-      {/* <CountdownSection /> */}
-      {/* <FAQSection />*/}
-      {/*<CallToAction /> */}
-      {/* <Community /> */}
-      {/* <CommunityMobile /> */}
-
-      {/* <AlumniStories /> */}
-
-      {/* <ConnectFounder /> */}
-      {/* <PMCoachingHero /> */}
-    </main>
+      <StickyExploreButton href="#our-programs" />
+    </div>
   );
 }

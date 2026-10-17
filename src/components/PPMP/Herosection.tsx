@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { Montserrat } from 'next/font/google';
 
@@ -29,15 +30,15 @@ export default function HeroSection() {
           
           {/* Description Block */}
           <p className="text-[#475467] text-base md:text-lg mb-10 max-w-2xl text-left leading-relaxed font-normal">
-            The ProductPointers Track Program (PPTP) helps you specialize, deepen your expertise, and position yourself as a high-impact Product Manager in a competitive market.
+            The Product Management Mastery Program (PPMP) helps you specialize, deepen your expertise, and position yourself as a high-impact Product Manager in a competitive market.
           </p>
           
           {/* Dynamic Dual CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-10">
-            <button className="bg-[#6024D0] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4d1ba8] transition-all duration-300 shadow-md">
+            <Link href="/ppmp/apply?plan=scholarship" className="bg-[#6024D0] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4d1ba8] transition-all duration-300 shadow-md">
               Apply for the Next Cohort 
               <ChevronRight size={20} />
-            </button>
+            </Link>
             <button className="bg-white border-2 border-[#101828] text-[#101828] px-8 py-4 rounded-xl font-bold hover:bg-gray-50 transition-all duration-300">
               Choose Your Specialization
             </button>
@@ -63,7 +64,7 @@ export default function HeroSection() {
         {/* Right Column - Visual Graphic Asset Layout */}
         <div className="lg:col-span-5 relative flex justify-center lg:justify-end w-full">
           <div className="w-full max-w-[460px] h-[460px] md:h-[500px] bg-[#6024D0] rounded-[48px] flex items-center justify-center text-white text-[63px] font-black tracking-tighter shadow-2xl relative group overflow-hidden">
-            <span className="relative z-10 drop-shadow-md">PPTP</span>
+            <span className="relative z-10 drop-shadow-md">PPMP</span>
             {/* Subtle design accents to mimic geometric assets */}
             <div className="absolute -bottom-10 -left-10 w-44 h-44 bg-white/10 rounded-full blur-xl" />
             <div className="absolute -top-10 -right-10 w-44 h-44 bg-purple-400/20 rounded-full blur-xl" />

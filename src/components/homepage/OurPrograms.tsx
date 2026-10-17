@@ -17,10 +17,10 @@ interface Program {
 const programs: Program[] = [
   {
     badge: "PPAP",
-    title: "ProductPointers Accelerator Program",
+    title: "Product Management Accelerator Program",
     description:
       "Build a strong foundation in Product Management through structured learning, practical assignments and mentorship.",
-    href: "/programs/accelerator",
+    href: "/ppap",
     color: {
       badgeBg: "bg-[rgba(88,24,208,0.10)]",
       badgeText: "text-[#5818D0]",
@@ -29,10 +29,10 @@ const programs: Program[] = [
   },
   {
     badge: "PPIP",
-    title: "ProductPointers Apprenticeship/Internship Program",
+    title: "Product Management Apprenticeship/Internship Program",
     description:
       "Turn what you know into practical experience by working through real product challenges, projects and mentor feedback.",
-    href: "/programs/apprenticeship",
+    href: "/ppip",
     color: {
       badgeBg: "bg-[rgba(255,0,210,0.10)]",
       badgeText: "text-[#FF00D2]",
@@ -40,12 +40,12 @@ const programs: Program[] = [
     },
   },
   {
-    badge: "PPTP",
+    badge: "PPMP",
     title:
-      "Product Management Mastery Program (PMs with 1+ year experience who want to deepen and advance)",
+      "Product Management Mastery Program (PMs with 1+ year experience)",
     description:
       "Deepen your skills in specific areas of Product Management and develop the capabilities needed to grow in your career.",
-    href: "/programs/track",
+    href: "/ppmp",
     color: {
       badgeBg: "bg-[rgba(255,187,29,0.10)]",
       badgeText: "text-[#FFBB1D]",
@@ -55,10 +55,10 @@ const programs: Program[] = [
 
   {
     badge: "PPCP",
-    title: "Product Management Career Coaching",
+    title: "1 on 1 Coaching Program",
     description:
       "Get personalised guidance, support and accountability for your Product Management career journey.",
-    href: "/programs/coaching",
+    href: "/ppcp",
     color: {
       badgeBg: "bg-[rgba(255,6,0,0.10)]",
       badgeText: "text-[#FF0600]",
@@ -70,8 +70,8 @@ const programs: Program[] = [
     badge: "PPFP",
     title: "Fintech Product Management Program",
     description:
-      "Advance your fintech product leadership with hands-on workshops, collaborative peer learning, and expert-led sessions.",
-    href: "/programs/fintech",
+      "A practical program for those who want to understand how financial products work across markets.",
+    href: "/ppfp",
     color: {
       badgeBg: "bg-[rgba(88,24,208,0.10)]",
       badgeText: "text-[#5818D0]",
@@ -82,7 +82,7 @@ const programs: Program[] = [
 
 export default function OurPrograms() {
   return (
-    <section id="our-programs" className="bg-white py-10 md:py-20">
+    <section data-home-section="Programs" id="our-programs" className="scroll-mt-24 bg-white py-10 md:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <p className="md:text-sm text-[12px] md:font-semibold font-medium text-[#5818D0] leading-[17.28px] tracking-[1.613px] uppercase">
           Our Programs

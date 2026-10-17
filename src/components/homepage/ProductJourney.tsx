@@ -55,7 +55,7 @@ const steps: JourneyStep[] = [
 
 export default function ProductJourney() {
   return (
-    <section className="w-full bg-white px-6 py-20 md:px-10 md:my-10 ">
+    <section data-home-section="Journey" className="w-full bg-white px-6 py-20 md:px-10 md:my-10 ">
       <div className="mx-auto max-w-7xl">
         {/* Eyebrow + heading */}
         <p className="mb-4 text-xs md:text-base md:font-semibold font-medium uppercase tracking-[1.613px] leading-[17.28px] text-[#5818D0]">

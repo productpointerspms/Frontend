@@ -3,13 +3,15 @@
 import styles from "./ppip-mobile.module.css";
 import React from "react";
 import Link from "next/link";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Bricolage_Grotesque } from "next/font/google";
 import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
 });
+
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const HeroSection: React.FC = () => {
   const { startTime, endTime } = useProgramDates("PPIP");
@@ -84,7 +86,7 @@ const HeroSection: React.FC = () => {
 
         {/* Heading */}
         <h1
-          className="
+          className={`${bricolage.className}
             mb-6
             max-w-[1080px]
             text-[26px]
@@ -95,7 +97,7 @@ const HeroSection: React.FC = () => {
             sm:text-[48px]
             md:text-[58px]
             lg:text-[64px]
-          "
+          `}
         >
           <span className="block">
             Turn Your Product Management
@@ -124,7 +126,7 @@ const HeroSection: React.FC = () => {
             md:text-[17px]
           "
         >
-          You've learned the concepts and built your foundation. Now it's time
+          You’ve learned the concepts and built your foundation. Now it’s time
           to put that knowledge to work. PPIP is a 12-week hands-on
           apprenticeship where you work on real product challenges, receive
           feedback and build practical experience along the way.
@@ -142,7 +144,7 @@ const HeroSection: React.FC = () => {
           "
         >
           <Link
-            href="/ppip/apply"
+            href="#pricing"
             className="
               flex h-[48px]
               w-full sm:w-[281px]

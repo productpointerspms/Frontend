@@ -100,7 +100,7 @@ export default function WhyProductPointers() {
   }, [layers]);
 
   return (
-    <section className="relative overflow-hidden bg-[rgba(88,24,208,0.08)] py-10">
+    <section data-home-section="Why" className="relative overflow-hidden bg-[rgba(88,24,208,0.08)] py-10">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-y-0 right-0 hidden w-full sm:block sm:w-3/5"

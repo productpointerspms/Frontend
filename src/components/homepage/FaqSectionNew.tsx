@@ -58,7 +58,7 @@ export default function FaqSectionNew() {
   };
 
   return (
-    <section className="w-full bg-white px-6 py-20 md:px-12 lg:px-20">
+    <section data-home-section="FAQ" className="w-full bg-white px-6 py-20 md:px-12 lg:px-20">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-20">
         {/* Left column */}
         <div className="flex flex-col">

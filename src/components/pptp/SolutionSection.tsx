@@ -10,7 +10,7 @@ export const SolutionSection = () => {
                     <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-8">
                         Most Product Managers Stay Stuck Because They Stay General.
                     </h2>
-                    <p className="text-white/80 text-lg mb-12">PPTP exists to help you:</p>
+                    <p className="text-white/80 text-lg mb-12">PPMP exists to help you:</p>
                     <div className="flex flex-wrap gap-4">
                         <div className="bg-white text-black px-6 py-4 rounded-xl flex items-center gap-3 font-bold shadow-lg">
                             <BarChart2 className="text-[#6024D0]" /> Increase your value in the market

@@ -215,7 +215,7 @@ const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
         }`}
       >
         <Link
-          href={`${plan.applyPath}?currency=${currency.code}`}
+          href={`${plan.applyPath}${plan.applyPath.includes("?") ? "&" : "?"}currency=${currency.code}`}
           className={`flex w-full items-center justify-center rounded-md py-3.5 text-[14px] font-semibold transition-colors ${
             isPurple
               ? "bg-[#FDB913] text-[#4A11B0] hover:bg-[#e9a90c]"
@@ -287,7 +287,7 @@ const PricingSection: React.FC = () => {
         "Invest in the skills that move your career forward",
       ],
       ctaLabel: "Apply Now",
-      applyPath: "/pptp/apply",
+      applyPath: "/ppmp/apply",
       variant: "light",
     },
     {
@@ -300,15 +300,15 @@ const PricingSection: React.FC = () => {
         "Limited scholarships available each cohort",
       ],
       ctaLabel: "Apply for Scholarship",
-      applyPath: "/ppip/apply",
+      applyPath: "/ppip/apply?plan=scholarship",
       variant: "purple",
       badge: "Recommended",
     },
   ];
 
   return (
-    <section data-ppip-section="PricingSection"
-      className={`${montserrat.className} bg-white px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
+    <section id="pricing" data-ppip-section="PricingSection"
+      className={`${montserrat.className} scroll-mt-24 bg-white px-6 py-[80px] text-[#10091A] sm:px-10 lg:px-[80px]`}
     >
       <div className="mx-auto max-w-[1280px]">
         {/* =====================================================

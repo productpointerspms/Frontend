@@ -1,0 +1,7 @@
+.page {
+  font-family: var(--font-montserrat), Arial, sans-serif;
+}
+
+.page :is(h1, h2, h3, h4) {
+  font-family: var(--font-ppfp-heading), Arial, sans-serif;
+}

@@ -75,7 +75,7 @@ export default function CertificateVerification() {
   };
 
   return (
-    <section className="w-full bg-white px-6 md:py-40 py-20 md:px-12 lg:px-20">
+    <section data-home-section="Certificate" className="w-full bg-white px-6 md:py-40 py-20 md:px-12 lg:px-20">
       <div className="mx-auto grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-24">
         {/* Left column */}
         <div>

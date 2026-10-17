@@ -67,7 +67,7 @@ export default function NewTestimonials() {
   const handleNext = () => setIndex((i) => (i + 1) % total);
 
   return (
-    <section className="w-full bg-[#F2EDFB] py-10 md:py-20">
+    <section data-home-section="Testimonials" className="w-full bg-[#F2EDFB] py-10 md:py-20">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-center md:gap-22.5 gap-10">
           {/* Image: below content on mobile, left of content on desktop */}

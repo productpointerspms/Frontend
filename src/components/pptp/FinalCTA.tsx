@@ -16,7 +16,7 @@ const FinalCTA = () => {
 
         {/* Buttons */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
-          <Link href="/pptp/apply" className="bg-[#6219D1] hover:bg-[#4f14a8] text-white font-bold px-8 py-4 rounded-xl flex items-center gap-2 transition-all w-full md:w-auto">
+          <Link href="/ppmp/apply" className="bg-[#6219D1] hover:bg-[#4f14a8] text-white font-bold px-8 py-4 rounded-xl flex items-center gap-2 transition-all w-full md:w-auto">
             Apply Now <ArrowRight className="w-5 h-5" />
           </Link>
           <button className="border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium px-8 py-4 rounded-xl transition-all w-full md:w-auto">
@@ -29,7 +29,7 @@ const FinalCTA = () => {
 
         {/* Bottom Tagline */}
         <p className="text-lg md:text-xl font-bold text-gray-900 leading-relaxed">
-          PPTP Is Where Product Managers Stop Being{' '}
+          PPMP Is Where Product Managers Stop Being{' '}
           <span className="text-[#FBBF24]">Generalists</span>...{' '}
           And Start Becoming{' '}
           <span className="text-[#10B981]">Experts.</span>

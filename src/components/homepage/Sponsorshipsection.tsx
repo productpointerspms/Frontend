@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react"; // npm install lucide-react (or swap for your own icon/svg)
 
 export default function SponsorshipSection() {
   return (
-    <section className="w-full bg-white px-4 py-10 md:px-20 md:py-30">
+    <section data-home-section="Sponsor" className="w-full bg-white px-4 py-10 md:px-20 md:py-30">
       {/* Outer rounded panel — light pink background, clips the decorative circle */}
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl md:bg-[rgba(255,0,210,0.10)] bg-white px-6 py-10 sm:px-10 md:px-12 md:py-16">
         {/* Decorative half-circle, sits behind the image, clipped by the section's overflow-hidden */}
@@ -36,13 +37,13 @@ export default function SponsorshipSection() {
                 structured learning, practical experience and mentorship.
               </p>
             </div>
-            <button
-              type="button"
+            <Link href="/scholarships#sponsor-a-learner"
+
               className="mt-10 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#FF00D2] px-8 py-3 text-sm font-semibold leading-[21.12px] tracking-[0.282px] cursor-pointer text-white transition-colors hover:bg-[#0E0A1A] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC13A0] focus-visible:ring-offset-2 md:w-fit"
             >
               Become A Sponsor
               <ArrowRight className="h-6 w-6" strokeWidth={2.5} />
-            </button>
+            </Link>
           </div>
 
           <div className="relative z-10 mx-auto flex h-full items-center justify-center md:ml-4 md:justify-start">

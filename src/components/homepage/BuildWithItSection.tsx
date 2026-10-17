@@ -34,7 +34,7 @@ export default function BuildWithItSection() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
-    <section className="bg-white px-6 py-6 pb-14 sm:px-10 lg:px-18">
+    <section data-home-section="Demos" className="bg-white px-6 py-6 pb-14 sm:px-10 lg:px-18">
       <div className="mx-auto max-w-6xl">
         <header className=" flex flex-col gap-6  pb-13.25 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">
