@@ -80,7 +80,7 @@ const Hero = () => {
             {/* Buttons */}
             <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/ppcp/apply"
+                href="/ppcp/blessing-okomor"
                 className="inline-flex h-[52px] min-w-[220px] items-center justify-center rounded-[6px] bg-[#5E16D8] px-7 text-[14px] font-bold text-white transition-all duration-300 hover:bg-[#6D22E8]"
               >
                 Book a Coaching Session

@@ -11,7 +11,7 @@ export default function FinalCTA() {
           <p className={styles.eyebrow}>READY TO MOVE FORWARD?</p>
           <h2 id="coaching-next-step-title" className={styles.heading}>You Don’t Have to Figure Out<br className={styles.desktopBreak} /> Your Next Step Alone.</h2>
           <p>Get focused guidance, practical perspective and a clearer path forward.</p>
-          <div className={styles.actions}><Link href="/ppcp/apply" className={`${styles.button} ${styles.pink}`}>Book a Coaching Session</Link><Link href="#coaching-program-details" className={`${styles.button} ${styles.outline}`}>See Program Details</Link></div>
+          <div className={styles.actions}><Link href="/ppcp/blessing-okomor" className={`${styles.button} ${styles.pink}`}>Book a Coaching Session</Link><Link href="#coaching-program-details" className={`${styles.button} ${styles.outline}`}>See Program Details</Link></div>
         </div>
       </div>
     </section>

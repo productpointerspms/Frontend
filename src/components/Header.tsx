@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, X, Menu } from "lucide-react";
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import logo from "@/assets/images/logo.png";
 
 const Navbar = () => {
@@ -15,6 +16,35 @@ const Navbar = () => {
   const [pastHero, setPastHero] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
+  const mobileDialogRef = useRef<HTMLDialogElement>(null);
+  const reduceMotion = useReducedMotion();
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    setMobileDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const dialog = mobileDialogRef.current;
+    dialog?.showModal();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+    const closeOnDesktop = () => {
+      if (desktopQuery.matches) {
+        setMobileMenuOpen(false);
+        setMobileDropdownOpen(false);
+      }
+    };
+    desktopQuery.addEventListener("change", closeOnDesktop);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      desktopQuery.removeEventListener("change", closeOnDesktop);
+    };
+  }, [mobileMenuOpen]);
 
   const menuItems = [
     { name: "Home", href: "/" },
@@ -187,67 +217,103 @@ const Navbar = () => {
 
       {/* Mobile Menu Toggle */}
       <button
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded={mobileMenuOpen}
+        aria-controls="mobile-navigation"
         className={`md:hidden cursor-pointer ${onDarkHero ? "text-white" : "text-[#15010D]"} ${["/scholarships", "/community", "/contact", "/courses", "/ppap", "/ppip", "/ppcp"].includes(pathname) ? "max-md:text-[#15010D]" : ""}`}
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        onClick={() => setMobileMenuOpen(true)}
       >
-        {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        <Menu size={28} />
       </button>
 
-      {/* Mobile Dropdown Menu */}
-      {mobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-[#FAF5FF] flex flex-col items-center py-10 gap-6 shadow-2xl z-50 border-t border-purple-100">
-          {menuItems.map((item) => (
-            <div key={item.name} className="flex flex-col items-center w-full">
-              {item.dropdown ? (
-                <>
-                  <button
-                    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
-                    className={`flex items-center gap-1 text-base font-semibold text-[#15010D] cursor-pointer ${
-                      active === item.name ? "text-[#6024D0]" : ""
-                    }`}
-                  >
-                    {item.name}{" "}
-                    <ChevronDown
-                      size={18}
-                      className={`transition-transform ${mobileDropdownOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {mobileDropdownOpen && (
-                    <div className="flex flex-col items-center gap-3 mt-4 bg-white/50 w-full py-4">
-                      {item.dropdown.map((sub) => (
-                        <Link
-                          key={sub.name}
-                          href={sub.href}
-                          onClick={() => {
-                            setMobileDropdownOpen(false);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="text-[#15010D]/70 hover:text-[#6024D0]"
-                        >
-                          {sub.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Link
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`text-base font-semibold transition ${active === item.name ? "text-[#6024D0]" : "text-[#15010D]"}`}
-                >
-                  {item.name}
-                </Link>
-              )}
-            </div>
-          ))}
-          <div className="flex flex-col w-full px-10 gap-4 mt-4">
-            <Link href="/#upcoming-programs" onClick={() => setMobileMenuOpen(false)} className="w-full text-center bg-[#6024D0] text-white py-4 rounded-xl font-bold">
-              Apply Now
-            </Link>
+      <dialog
+        ref={mobileDialogRef}
+        id="mobile-navigation"
+        aria-label="Mobile navigation"
+        onCancel={(event) => {
+          event.preventDefault();
+          closeMobileMenu();
+        }}
+        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden border-0 bg-transparent p-0 text-[#10091A] backdrop:bg-transparent"
+      >
+        <motion.div
+          initial={{ x: "-100%" }}
+          animate={{ x: mobileMenuOpen ? "0%" : "-100%" }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+          onAnimationComplete={() => {
+            if (!mobileMenuOpen) mobileDialogRef.current?.close();
+          }}
+          className="flex h-full w-full flex-col overflow-y-auto bg-white px-4 pb-[max(24px,env(safe-area-inset-bottom))] pt-[max(32px,env(safe-area-inset-top))]"
+        >
+          <div className="flex h-11 shrink-0 items-center justify-end">
+            <button
+              type="button"
+              aria-label="Close navigation menu"
+              onClick={closeMobileMenu}
+              className="flex h-11 w-11 translate-x-2 cursor-pointer items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5815D5]"
+            >
+              <X size={22} strokeWidth={1.5} />
+            </button>
           </div>
-        </div>
-      )}
+
+          <ul className="-mt-2 flex w-full flex-col gap-2 text-[14px] font-medium leading-5">
+            {menuItems.map((item) => (
+              <li key={item.name}>
+                {item.dropdown ? (
+                  <>
+                    <button
+                      type="button"
+                      aria-expanded={mobileDropdownOpen}
+                      aria-controls="mobile-programs"
+                      onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+                      className="flex min-h-11 cursor-pointer items-center gap-4 text-left focus-visible:outline-[#5815D5]"
+                    >
+                      {item.name}
+                      <ChevronDown
+                        size={18}
+                        strokeWidth={1.7}
+                        className={`transition-transform motion-reduce:transition-none ${mobileDropdownOpen ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    <ul id="mobile-programs" hidden={!mobileDropdownOpen} className="space-y-1 border-l border-[#E9DFF9] pl-4">
+                      {item.dropdown.map((sub) => (
+                        <li key={sub.href}>
+                          <Link
+                            href={sub.href}
+                            onClick={closeMobileMenu}
+                            aria-current={pathname === sub.href ? "page" : undefined}
+                            className="flex min-h-11 items-center py-2 text-[13px] text-[#10091A]/75 hover:text-[#5815D5]"
+                          >
+                            {sub.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <Link
+                    href={item.href}
+                    onClick={closeMobileMenu}
+                    aria-current={active === item.name ? "page" : undefined}
+                    className="flex min-h-11 items-center hover:text-[#5815D5] focus-visible:outline-[#5815D5]"
+                  >
+                    {item.name === "Scholarships" ? "Scholarship" : item.name}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          <Link
+            href="/scholarships"
+            onClick={closeMobileMenu}
+            className="mt-7 flex min-h-9 w-full shrink-0 items-center justify-center rounded-md bg-[#5815D5] px-3 py-2 text-center text-[14px] font-semibold leading-5 text-white transition-colors hover:bg-[#4810B3] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5815D5]"
+          >
+            Apply for a Scholarship
+          </Link>
+        </motion.div>
+      </dialog>
     </nav>
   );
 };

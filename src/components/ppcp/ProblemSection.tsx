@@ -16,7 +16,7 @@ const PainPoints = () => {
               When General Advice Isn’t Enough
             </p>
 
-            <Link href="/ppcp/apply" className="mobileCoachingButton">Book a Coaching Session</Link>
+            <Link href="/ppcp/blessing-okomor" className="mobileCoachingButton">Book a Coaching Session</Link>
             {/* Heading */}
             <h2 className="max-w-[620px] text-[28px] font-extrabold leading-[1.15] tracking-[-0.03em] text-[#12111F] sm:text-[34px] md:text-[40px] lg:text-[44px]">
               Sometimes, You Need

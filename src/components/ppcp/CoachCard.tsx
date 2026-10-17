@@ -27,7 +27,7 @@ export default function CoachCard({ coach }: { coach: Coach }) {
         <div className={styles.expertise}><p>Areas of expertise</p><ul>{coach.expertise.map(area => <li key={area}>{area}</li>)}</ul></div>
         <p className={styles.coachBio}>{coach.bio}</p>
         <div className={styles.sessionPrice}><span>1-hour session</span><strong>₦{coach.price.toLocaleString("en-NG")}</strong></div>
-        <Link href={`/ppcp/apply?coach=${encodeURIComponent(coach.name)}`} className={styles.button}>Book a Session <ArrowRight size={19} aria-hidden="true" /></Link>
+        <Link href="/ppcp/blessing-okomor" className={styles.button}>Book a Session <ArrowRight size={19} aria-hidden="true" /></Link>
       </div>
     </article>
   );
