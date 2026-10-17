@@ -9,11 +9,9 @@ import {
   formatDurationWeeks,
 } from "@/lib/useProgramDates";
 
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolage } from "@/lib/fonts";
 
 // Headings share the PPIP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
 
 const HeroSection = () => {
 

@@ -1,11 +1,6 @@
 import React from "react";
 import { Quote, Linkedin, ArrowRight } from "lucide-react";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import { montserrat } from "@/lib/fonts";
 
 const story = [
   "ProductPointers was born from a simple observation:",

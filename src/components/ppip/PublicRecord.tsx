@@ -2,15 +2,7 @@
 
 import React from "react";
 import { Check } from "lucide-react";
-import { Montserrat, Bricolage_Grotesque } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-// Variable font — covers the full 200–800 weight range used by the header.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+import { montserrat, bricolage } from "@/lib/fonts";
 
 const evidenceItems = [
   "Product research experience",

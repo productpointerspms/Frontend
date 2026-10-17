@@ -1,11 +1,9 @@
 import Link from "next/link";
 import styles from "./ppap-mobile.module.css";
 import React from "react";
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolage } from "@/lib/fonts";
 
 // Headings share the PPIP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
 
 const ProblemSection = () => {
   const learningPoints = [

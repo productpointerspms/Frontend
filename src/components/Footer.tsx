@@ -3,13 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Instagram, Linkedin, Youtube } from "lucide-react";
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
-});
+import { inter } from "@/lib/fonts";
 
 type FooterLink = { name: string; href: string };
 

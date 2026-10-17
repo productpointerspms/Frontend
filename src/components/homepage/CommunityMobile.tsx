@@ -1,10 +1,5 @@
-import { Montserrat } from "next/font/google";
+import { montserrat } from "@/lib/fonts";
 import Image from "next/image";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 export default function CommunityMobile() {
   const features = [

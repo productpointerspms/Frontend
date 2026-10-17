@@ -2,11 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolage } from "@/lib/fonts";
 
 // Headings share the PPIP/PPAP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
 const Hero = () => {
   return (
     <section data-ppcp-section="HeroSection" className="relative min-h-screen md:min-h-[760px] w-full overflow-hidden font-sans">

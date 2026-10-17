@@ -3,15 +3,8 @@
 import styles from "./ppip-mobile.module.css";
 import React from "react";
 import Link from "next/link";
-import { Montserrat, Bricolage_Grotesque } from "next/font/google";
+import { montserrat, bricolage } from "@/lib/fonts";
 import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const HeroSection: React.FC = () => {
   const { startTime, endTime } = useProgramDates("PPIP");

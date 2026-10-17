@@ -3,11 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolage } from "@/lib/fonts";
 
 // Headings share the PPIP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);

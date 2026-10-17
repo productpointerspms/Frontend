@@ -1,11 +1,6 @@
 import React from "react";
 import { Check } from "lucide-react";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
+import { montserrat } from "@/lib/fonts";
 
 const visions = [
   "Recruiters don't have to guess who can do the work.",

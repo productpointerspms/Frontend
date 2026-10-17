@@ -1,5 +1,5 @@
 import React from "react";
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolagePpfp as bricolage } from "@/lib/fonts";
 import styles from "./ppfp.module.css";
 import PpfpHero from "@/components/ppfp/PpfpHero";
 import WhyFintechPM from "@/components/ppfp/WhyFintechPM";
@@ -14,11 +14,6 @@ import PricingSection from "@/components/ppfp/Pricingsection";
 import OutcomesSection from "@/components/ppfp/OutcomesSection";
 import PpfpFaq from "@/components/ppfp/PpfpFaq";
 import PpfpCareerCta from "@/components/ppfp/PpfpCareerCta";
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-ppfp-heading",
-});
 
 const page = () => {
   return (

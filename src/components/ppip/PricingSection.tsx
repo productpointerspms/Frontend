@@ -3,17 +3,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Check, ChevronDown } from "lucide-react";
-import { Montserrat, Bricolage_Grotesque } from "next/font/google";
+import { montserrat, bricolage } from "@/lib/fonts";
 import { useLiveRates, currencies } from "@/lib/useLiveRates";
 import { getPrograms, getProgramInfo } from "@/lib/programs";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-// Variable font — covers the full 200–800 weight range used by the header.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 const Flag = ({ country }: { country: string }) => (
   // eslint-disable-next-line @next/next/no-img-element

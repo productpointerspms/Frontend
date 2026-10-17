@@ -1,16 +1,8 @@
 import React from "react";
-import { Montserrat, Bricolage_Grotesque } from "next/font/google";
+import { montserrat, bricolage } from "@/lib/fonts";
 import img1 from "@/assets/images/ppiptest1.jpg";
 import img2 from "@/assets/images/ppiptest2.jpg";
 import img3 from "@/assets/images/ppiptest3.jpg";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-// Variable font — covers the full 200–800 weight range used by the header.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 type Testimonial = {
   name: string;

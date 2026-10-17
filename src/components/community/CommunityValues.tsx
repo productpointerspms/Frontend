@@ -2,11 +2,9 @@ import React from "react";
 import Link from "next/link";
 import styles from "./community-mobile.module.css";
 import Image from "next/image";
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolage } from "@/lib/fonts";
 
 // Headings share the PPIP/PPAP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
 const CommunityValues = () => {
   return (
     <section

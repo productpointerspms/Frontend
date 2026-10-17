@@ -2,12 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-});
+import { montserrat } from "@/lib/fonts";
 
 /** Once any of these is on screen the bar steps aside. */
 const STAND_DOWN_SELECTORS = ["#ppip-final-cta", "footer"];

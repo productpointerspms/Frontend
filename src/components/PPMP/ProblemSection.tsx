@@ -2,12 +2,7 @@
 
 import React from 'react';
 import { XCircle } from 'lucide-react';
-import { Montserrat } from 'next/font/google';
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-});
+import { montserrat } from "@/lib/fonts";
 
 export default function ProblemSection() {
   const painPoints = [

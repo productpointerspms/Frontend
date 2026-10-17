@@ -1,12 +1,7 @@
 import React from "react";
 import { Check } from "lucide-react";
-import { Montserrat } from "next/font/google";
+import { montserrat } from "@/lib/fonts";
 import img from "@/assets/images/ProblemImage.png";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const learnItems = [
   "Take PM courses",

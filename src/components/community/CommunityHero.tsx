@@ -1,10 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolage } from "@/lib/fonts";
 
 // Headings share the PPIP/PPAP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
 const stats = [
   { value: "500+", label: "Alumni Members" },
   { value: "97%", label: "Career Advancement Rate" },

@@ -18,10 +18,8 @@ import FounderSection from "@/components/homepage/Foundersection";
 import FaqSectionNew from "@/components/homepage/FaqSectionNew";
 import CareerCTA from "@/components/homepage/CareerCTA";
 import StickyExploreButton from "@/components/homepage/StickyExploreButton";
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolageHome as bricolage } from "@/lib/fonts";
 import styles from "@/components/homepage/homepage.module.css";
-
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-home-heading" });
 
 export default function Home() {
   return (

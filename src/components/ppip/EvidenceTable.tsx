@@ -1,15 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Montserrat, Bricolage_Grotesque } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-// Variable font — covers the full 200–800 weight range used by the header.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+import { montserrat, bricolage } from "@/lib/fonts";
 
 type CaseStudy = {
   /** Badge label, e.g. "CASE STUDY 01". */

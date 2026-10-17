@@ -2,21 +2,14 @@
 
 import React, { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Montserrat, Bricolage_Grotesque } from "next/font/google";
+import { montserrat, bricolage } from "@/lib/fonts";
 
 // Import the user's testimony images
 import eniolaImg from "@/assets/images/eniola.png";
 import udochukwuImg from "@/assets/images/udochukwu.png";
 import mercyImg from "@/assets/images/mercy.png";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
 // Headings share the PPIP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
 const testimonials = [
   {
     name: "Eniola Oyajoju",

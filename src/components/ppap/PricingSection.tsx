@@ -11,11 +11,9 @@ import {
 
 import { useLiveRates, currencies } from "@/lib/useLiveRates";
 import { getLiveProgramFeeNgn } from "@/lib/programs";
-import { Bricolage_Grotesque } from "next/font/google";
+import { bricolage } from "@/lib/fonts";
 
 // Headings share the PPIP display face — variable weight covers 200-800.
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
-
 
 type Currency = (typeof currencies)[number];
 
