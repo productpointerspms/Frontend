@@ -36,10 +36,10 @@ export default function CommunityPage() {
       <CommunityCommitment />
       {/* <PricingPlan /> */}
       <CommunityLowerHero
-        eyebrow="Alumni Community"
+        eyebrow="ProductPointers Community"
         title="Your Product Management Journey Shouldn’t End Alone"
         description="Join a long-term ecosystem of Product Managers committed to continuous growth, accountability, mentorship, and meaningful progress long after completing their programs."
-        primaryAction={{ label: "Join the Alumni Community", href: "#path-to-community" }}
+        primaryAction={{ label: "Join the Community", href: "#path-to-community" }}
         secondaryAction={{ label: "Explore Programs", href: "#path-to-community" }}
       />
       {/* <FinalCTA/> */}

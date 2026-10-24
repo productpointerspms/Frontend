@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { montserrat, bricolage } from "@/lib/fonts";
 
 type CaseStudy = {
@@ -18,8 +18,8 @@ type CaseStudy = {
 
 const thumbUrl = (id: string) =>
   `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
-const embedUrl = (id: string) =>
-  `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+const embedUrl = (id: string, muted: boolean) =>
+  `https://www.youtube.com/embed/${id}?autoplay=1&mute=${muted ? "1" : "0"}&playsinline=1&rel=0`;
 
 const caseStudies: CaseStudy[] = [
   {
@@ -41,19 +41,32 @@ const caseStudies: CaseStudy[] = [
 ];
 
 const CaseStudyCard: React.FC<{ study: CaseStudy }> = ({ study }) => {
-  // The iframe is only mounted after a click, so no player scripts load
-  // until someone actually asks to watch.
   const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const playerContainer = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = playerContainer.current;
+    if (!container || !("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.5)) {
+        setPlaying(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.5 });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <article>
       {/* ---------------------------------------------
           THUMBNAIL / PLAYER
       ---------------------------------------------- */}
-      <div className="relative aspect-[3/2] overflow-hidden rounded-[14px] bg-[#10091A]">
+      <div ref={playerContainer} className="relative aspect-[3/2] overflow-hidden rounded-[14px] bg-[#10091A]">
         {playing ? (
           <iframe
-            src={embedUrl(study.videoId)}
+            src={embedUrl(study.videoId, muted)}
             title={study.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
@@ -62,7 +75,7 @@ const CaseStudyCard: React.FC<{ study: CaseStudy }> = ({ study }) => {
         ) : (
           <button
             type="button"
-            onClick={() => setPlaying(true)}
+            onClick={() => { setMuted(false); setPlaying(true); }}
             aria-label={`Play video: ${study.title}`}
             className="group absolute inset-0 h-full w-full cursor-pointer"
           >

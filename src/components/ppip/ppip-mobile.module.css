@@ -3,19 +3,6 @@
   .page { color: #10091a; background: #fff; overflow-x: clip; }
   .page [data-ppip-section] { scroll-margin-top: 90px; padding: 80px 16px; }
   .page h2 { font-size: 20px; line-height: 1.25; letter-spacing: -.7px; }
-  .page [data-ppip-section="HeroSection"] { margin-top: 70px; min-height: 0; padding: 0; }
-  .page [data-ppip-section="HeroSection"]>div:nth-last-child(2) { padding: 80px 16px 68px; }
-  .page [data-ppip-section="HeroSection"] h1 { font-size: 28px; line-height: 1.2; }
-  .page [data-ppip-section="HeroSection"] h1>span { display: inline; }
-  .page [data-ppip-section="HeroSection"] h1>span:not(:first-child)::before { content: " "; }
-  .page [data-ppip-section="HeroSection"] h1+p { font-size: 13px; line-height: 1.25; margin-bottom: 36px; }
-  .page [data-ppip-section="HeroSection"]>div:nth-last-child(2)>div:first-child { padding: 6px 12px; width: 100%; }
-  .page [data-ppip-section="HeroSection"]>div:nth-last-child(2)>div:first-child span { font-size: 9px; letter-spacing: 1.3px; }
-  .page [data-ppip-section="HeroSection"] h1+p+div { width: 252px; max-width: 100%; gap: 16px; margin-bottom: 28px; }
-  .page [data-ppip-section="HeroSection"] h1+p+div a { font-size: 13px; min-height: 46px; }
-  .page [data-ppip-section="HeroSection"] h1+p+div+div { font-size: 12px; }
-  .page [data-ppip-section="HeroSection"] h1+p+div+div>span:nth-last-child(-n+2) { display: none; }
-  .page [data-ppip-section="HeroSection"]>div:last-child { min-height: 36px; }
   .mobileProgramInfo { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; color: #ffb20f; font-size: 12px; }
   .mobileProgramInfo>div { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
   .mobileProgramInfo dt { font-weight: 600; }
@@ -70,8 +57,6 @@
   .page [data-ppip-section="ProgramDetails"]>div { gap: 24px; }
   .page [data-ppip-section="ProgramDetails"]>div>div:last-child { border-color: #c9c4cf; }
   .page [data-ppip-section="ProgramDetails"]>div>div:last-child>div { grid-template-columns: 1.04fr 1fr; gap: 20px; padding-inline: 16px; border-color: #c9c4cf; }
-  .page [data-ppip-section="PricingSection"]>div>div:last-child { grid-template-columns: 1fr; margin-top: 32px; }
-  .page [data-ppip-section="PricingSection"] article { padding: 40px 32px; border-radius: 0; }
   .page [data-ppip-section="FAQSection"]>div { gap: 40px; }
   .page [data-ppip-section="FAQSection"] button { padding: 12px 10px; gap: 12px; }
   .page [data-ppip-section="FAQSection"] button>span { font-size: 12px; }

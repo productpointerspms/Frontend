@@ -1,9 +1,8 @@
-import { Instagram, Linkedin, Mail, MessageCircle, Phone, Youtube } from "lucide-react";
+import { Linkedin, Mail, MessageCircle, Phone, Youtube } from "lucide-react";
 import { SOCIAL_LINKS } from "@/lib/seo";
 import styles from "./contact.module.css";
 
 const socials = [
-  { label: "Instagram", href: SOCIAL_LINKS.instagram, icon: Instagram, style: styles.instagram },
   { label: "LinkedIn", href: SOCIAL_LINKS.linkedin, icon: Linkedin, style: styles.linkedin },
   { label: "YouTube", href: SOCIAL_LINKS.youtube, icon: Youtube, style: styles.youtube },
   { label: "WhatsApp", href: "https://wa.me/+2348102567773", icon: MessageCircle, style: styles.whatsapp },

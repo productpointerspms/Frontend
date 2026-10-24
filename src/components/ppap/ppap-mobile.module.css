@@ -3,18 +3,6 @@
   .page { background: #fff; color: #171020; }
   .page [data-ppap-section] { scroll-margin-top: 90px; }
   .page h2 { font-size: 20px; line-height: 1.25; letter-spacing: -.7px; }
-  .page [data-ppap-section="HeroSection"] { margin-top: 70px; min-height: 0; }
-  .page [data-ppap-section="HeroSection"]>div:last-child { min-height: 0; padding: 80px 16px 24px; }
-  .page [data-ppap-section="HeroSection"] h1 { font-size: 24px; line-height: 1.25; }
-  .page [data-ppap-section="HeroSection"] h1+p { font-size: 13px; line-height: 1.25; }
-  .page [data-ppap-section="HeroSection"]>div:last-child>div:first-child { padding: 6px 14px; }
-  .page [data-ppap-section="HeroSection"]>div:last-child>div:first-child span { font-size: 9px; letter-spacing: 1.4px; }
-  .page [data-ppap-section="HeroSection"] h1+p+div { gap: 16px; max-width: 320px; margin-top: 36px; }
-  .page [data-ppap-section="HeroSection"] h1+p+div a, .page [data-ppap-section="HeroSection"] h1+p+div button { min-width: 0; width: 100%; min-height: 46px; padding: 12px 8px; font-size: 13px; }
-  .page [data-ppap-section="HeroSection"] h1+p+div svg { display: none; }
-  .page [data-ppap-section="HeroSection"] h1+p+div+div { margin-top: 28px; font-size: 12px; gap: 8px; }
-  .page [data-ppap-section="HeroSection"] h1+p+div+div>span:nth-last-child(-n+2) { display: none; }
-  .page [data-ppap-section="HeroSection"]>div:last-child>div:last-child { display: none; }
   .mobileProgramInfo { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; color: #ffb800; font-size: 12px; font-weight: 500; }
   .mobileProgramInfo>div { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
   .mobileProgramInfo dt { font-weight: 600; }
@@ -30,11 +18,6 @@
   .page [data-ppap-section="SolutionSection"] article { min-height: 200px; padding: 24px; border-radius: 8px; }
   .page [data-ppap-section="SolutionSection"] article h3 { font-size: 16px; line-height: 1.3; }
   .page [data-ppap-section="SolutionSection"] article p { font-size: 14px; line-height: 1.5; }
-  .page [data-ppap-section="ProgramOverview"]>div { padding: 40px 16px; }
-  .page [data-ppap-section="ProgramOverview"]>div>div:first-child { gap: 28px; }
-  .page [data-ppap-section="ProgramOverview"]>div>div:last-child { grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
-  .page [data-ppap-section="ProgramOverview"] h3 { font-size: 12px; }
-  .page [data-ppap-section="ProgramOverview"] h3+p { font-size: 11px; }
   .page [data-ppap-section="CurriculumSection"]>div { padding: 80px 16px; gap: 40px; }
   .page [data-ppap-section="CurriculumSection"] h2 br { display: none; }
   .page [data-ppap-section="CurriculumSection"] h2+p { font-size: 13px; line-height: 1.25; margin-top: 26px; }
@@ -64,10 +47,6 @@
   .page [data-ppap-section="CTASection"]>div { padding: 44px 16px 24px; gap: 24px; }
   .page [data-ppap-section="CTASection"]>div>div:last-child { border-color: #c9c4cf; }
   .page [data-ppap-section="CTASection"]>div>div:last-child>div { border-color: #c9c4cf; grid-template-columns: 1.04fr 1fr; gap: 20px; padding: 18px 16px; }
-  .page [data-ppap-section="PricingSection"] { padding: 80px 16px 40px; }
-  .page [data-ppap-section="PricingSection"] h2 br { display: none; }
-  .page [data-ppap-section="PricingSection"] article { padding: 40px 32px 24px; min-height: 440px; border-radius: 0; }
-  .page [data-ppap-section="PricingSection"]>div>div:nth-child(3) { border-radius: 0; margin-top: 40px; grid-template-columns: 1fr; }
   .page [data-ppap-section="FAQSection"] { padding: 40px 16px 80px; }
   .page [data-ppap-section="FAQSection"]>div { gap: 40px; }
   .page [data-ppap-section="FAQSection"]>div>div:last-child button { padding: 12px 10px; }

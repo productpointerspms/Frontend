@@ -93,7 +93,7 @@ const NotAnotherInternship: React.FC = () => {
                 text-[#4F4A57]
               "
             >
-              Inside PPIP, you don't just learn how Product Managers work.
+              Inside PPIP, you don’t just learn how Product Managers work.
               You work through the process yourself.
             </p>
 
@@ -106,7 +106,7 @@ const NotAnotherInternship: React.FC = () => {
                 text-[#4F4A57]
               "
             >
-              You'll explore real product problems, conduct research, analyse
+              You’ll explore real product problems, conduct research, analyse
               insights, define opportunities, prioritise what matters and build
               product solutions with guidance and feedback along the way.
             </p>
@@ -130,7 +130,7 @@ const NotAnotherInternship: React.FC = () => {
               lg:gap-x-[28px]
             "
           >
-            {processSteps.map((step, index) => (
+            {processSteps.map((step) => (
               <div
                 key={step.number}
                 className="relative min-w-0"
@@ -167,7 +167,7 @@ const NotAnotherInternship: React.FC = () => {
                   </div>
 
                   {/* Connector */}
-                  {index !== processSteps.length - 1 && (
+                  <>
                     <div
                       className="
                         ml-[8px]
@@ -176,7 +176,7 @@ const NotAnotherInternship: React.FC = () => {
                         bg-[#6418E8]
                       "
                     />
-                  )}
+                   </>
                 </div>
 
                 {/* Step title */}

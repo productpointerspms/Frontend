@@ -52,11 +52,10 @@ const Navbar = () => {
       name: "Programs",
       href: "#",
       dropdown: [
-        { name: "ProductPointers Accelerator Program", href: "/ppap" },
-        { name: "ProductPointers Internship Program", href: "/ppip" },
+        { name: "Product Management Accelerator Program", href: "/ppap" },
+        { name: "Product Management Apprenticeship/Internship Program", href: "/ppip" },
         { name: "Product Management Mastery Program", href: "/ppmp" },
         { name: "Fintech Product Management Program", href: "/ppfp" },
-        { name: "101 Coaching", href: "/ppcp" },
       ],
     },
     { name: "Courses", href: "/courses" },
@@ -168,8 +167,20 @@ const Navbar = () => {
                 ref={dropdownRef}
                 onMouseEnter={() => setDropdownOpen(true)}
                 onMouseLeave={() => setDropdownOpen(false)}
+                onKeyDown={event => {
+                  if (event.key === "Escape") {
+                    setDropdownOpen(false);
+                    event.currentTarget.querySelector("button")?.focus();
+                  }
+                }}
+                onBlur={event => {
+                  if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDropdownOpen(false);
+                }}
               >
                 <button
+                  type="button"
+                  aria-expanded={dropdownOpen}
+                  aria-controls="desktop-programs-dropdown"
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className={`flex items-center gap-1 transition cursor-pointer ${
                     active === item.name ? "text-[#6024D0]" : "hover:text-[#6024D0]"
@@ -179,14 +190,14 @@ const Navbar = () => {
                   <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {dropdownOpen && (
-                  <div className="absolute left-0 top-full z-50 pt-3">
-                    <ul className="bg-white border border-purple-100 rounded-xl shadow-xl w-[262px] p-2">
+                  <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3">
+                    <ul id="desktop-programs-dropdown" className="w-[min(540px,calc(100vw-32px))] bg-white py-2 text-[#10091A] shadow-lg">
                       {item.dropdown.map((sub) => (
                         <li key={sub.name}>
                           <Link
                             href={sub.href}
                             onClick={() => setDropdownOpen(false)}
-                            className="block px-3.5 py-2 text-[12px] text-gray-700 hover:text-[#6024D0] hover:bg-purple-50 rounded-lg transition"
+                            className="flex min-h-[46px] items-center px-4 py-3 text-[14px] font-medium leading-[1.4] tracking-normal text-[#10091A] transition-colors hover:bg-purple-50 focus-visible:bg-purple-50 focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-[#6024D0]"
                           >
                             {sub.name}
                           </Link>

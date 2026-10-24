@@ -1,5 +1,5 @@
-// components/WhyFintechPM.tsx
 import Image from "next/image";
+import styles from "./why-fintech.module.css";
 
 const rows = [
   {
@@ -30,67 +30,22 @@ const rows = [
 
 export default function WhyFintechPM() {
   return (
-    <section className="bg-white px-4 py-20 md:px-12 lg:px-14 lg:py-40">
-      <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
-        {/* Left column */}
-        <div>
-          <p className="md:text-sm text-[12px]  md:font-semibold font-medium tracking-[1.613px] leading-[17.28px] uppercase text-[#5818D0]">
-            Why Fintech Product Management
-          </p>
-
-          <h2 className="md:mt-4 text-[20px] md:w-110 tracking-[-1.134px] font-semibold md:font-bold md:leading-[43.47px] leading-normal text-[#0E0A1A] md:text-[30.8px]">
-            Fintech isn&apos;t just tech. It&apos;s trust, regulation, and
-            money.
-          </h2>
-
-          <div className="mt-6 space-y-0 md:text-[15px] text-[12px] leading-4 md:leading-6 md:w-140 text-[#525252]">
-            <p>
-              You can be a good Product Manager and still struggle with fintech.
-            </p>
+    <section className={styles.section} aria-labelledby="why-fintech-title">
+      <div className={styles.layout}>
+        <div className={styles.copy}>
+          <p className={styles.eyebrow}>Why Fintech Product Management</p>
+          <h2 id="why-fintech-title" className={styles.heading}>Fintech isn’t just tech. It’s<br className={styles.desktopBreak} /> trust, regulation, and money.</h2>
+          <div className={styles.description}>
+            <p>You can be a good Product Manager and still struggle with fintech.</p>
             <p>You know how to write user stories.</p>
             <p>You understand discovery.</p>
             <p>You can work with designers and engineers.</p>
-            <p className="mt-0">
-              But when someone starts talking about: settlement, reconciliation,
-              KYC, AML, payment failures, ledgers, fraud, risk, authorization,
-              APIs or transaction lifecycles, you suddenly realise there is
-              another layer to Product Management.
-            </p>
+            <p>But when someone starts talking about: settlement, reconciliation, KYC, AML, payment failures, ledgers, fraud, risk, authorization, APIs or transaction lifecycles, you suddenly realise there is another layer to Product Management.</p>
           </div>
-
-          <dl className="mt-10 border-t border-[#C2C2C2]">
-            {rows.map((row) => (
-              <div
-                key={row.label}
-                className="flex items-center gap-3 border-b border-[#C2C2C2] py-6 md:gap-2"
-              >
-                <dt className="w-25 md:w-44 shrink-0 text-[12px] font-bold uppercase leading-4.5 tracking-[0.72px] text-[#0E0A1A]">
-                  {row.label}
-                </dt>
-                <dd className="flex-1 lg:w-140 text-left md:text-[14px] text-[12px] leading-[21.824px] text-[#0E0A1A] sm:text-right">
-                  {row.text}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          <p className="mt-6 text-base md:text-[24px]  font-medium md:font-semibold text-[#101828]">
-            That&apos;s what this program is designed to help you understand.
-          </p>
+          <dl className={styles.rows}>{rows.map(row => <div key={row.label}><dt>{row.label}</dt><dd>{row.text}</dd></div>)}</dl>
+          <p className={styles.closing}>That’s what this program is designed to help you understand.</p>
         </div>
-
-        {/* Right column: image (bar is part of the image) */}
-        <div className="flex lg:justify-end">
-          <Image
-            src="/images/ppfp/fintech.png"
-            alt="Product manager taking notes at a laptop"
-            width={519}
-            height={658}
-            sizes="(min-width: 1024px) 420px, 100vw"
-            className="h-auto w-full max-w-105"
-            priority
-          />
-        </div>
+        <div className={styles.photo}><Image src="/images/ppfp/fintech.png" alt="Product manager taking notes at a laptop" width={519} height={658} sizes="(min-width: 1440px) 519px, (min-width: 1024px) 38vw, (min-width: 768px) 45vw, 100vw" /></div>
       </div>
     </section>
   );

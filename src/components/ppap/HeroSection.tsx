@@ -1,232 +1,42 @@
 "use client";
 
-import React from "react";
-import styles from "./ppap-mobile.module.css";
-import { ArrowRight, Download } from "lucide-react";
-import {
-  useProgramDates,
-  formatDateRange,
-  formatDurationWeeks,
-} from "@/lib/useProgramDates";
-
+import Image from "next/image";
+import Link from "next/link";
+import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
 import { bricolage } from "@/lib/fonts";
+import styles from "./hero.module.css";
 
-// Headings share the PPIP display face — variable weight covers 200-800.
-
-const HeroSection = () => {
-
+export default function HeroSection() {
   const { startTime, endTime } = useProgramDates("PPAP");
-  const durationLabel = formatDurationWeeks(startTime, endTime);
+  const dates = startTime && endTime ? formatDateRange(startTime, endTime) : "September 18th – December 11th, 2026";
+  const duration = formatDurationWeeks(startTime, endTime) || "10 weeks";
+  const brochureUrl = process.env.NEXT_PUBLIC_PPAP_BROCHURE_URL;
 
   return (
-    <section data-ppap-section="HeroSection" className="relative isolate min-h-[760px] overflow-hidden bg-[#0D061C] text-white">
-      {/* =========================================================
-          BACKGROUND IMAGE
-      ========================================================== */}
-      <div
-        className="absolute inset-0 -z-20 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/images/ppap/hero.png')",
-        }}
-      />
-
-      {/* =========================================================
-          DARK PURPLE OVERLAY
-      ========================================================== */}
-      <div className="absolute inset-0 -z-10 bg-[#16052E]/75" />
-
-      {/* Bottom fade - matches screenshot */}
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-[45%] bg-gradient-to-t from-[#0A0614] via-[#0A0614]/80 to-transparent" />
-
-      {/* Subtle purple overlay */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#32105E]/30 via-[#2A0B52]/30 to-[#08040F]/75" />
-
-      {/* =========================================================
-          CONTENT
-      ========================================================== */}
-      <div className="relative mx-auto flex min-h-[760px] w-full max-w-[1440px] flex-col items-center px-5 pb-8 pt-28 text-center sm:px-8 md:pt-32 lg:px-12">
-        {/* =====================================================
-            BADGE
-        ====================================================== */}
-        <div className="mb-6 inline-flex items-center rounded-full border border-white/70 bg-white/[0.04] px-5 py-2 backdrop-blur-sm">
-          <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-white sm:text-xs">
-            ProductPointers Accelerator Program
-          </span>
-        </div>
-
-        {/* =====================================================
-            HEADING
-        ====================================================== */}
-        <h1
-          className={`${bricolage.className}
-            max-w-[1150px]
-            text-[26px]
-            font-extrabold
-            leading-[1.05]
-            tracking-[-0.045em]
-            text-white
-            sm:text-[52px]
-            md:text-[62px]
-            lg:text-[64px]
-            xl:text-[60px]
-          `}
-        >
+    <section data-ppap-section="HeroSection" className={styles.hero} aria-labelledby="ppap-hero-title">
+      <Image src="/images/ppap/hero.png" alt="" fill priority sizes="100vw" className={styles.background} />
+      <div className={styles.overlay} aria-hidden="true" />
+      <div className={styles.content}>
+        <p className={styles.badge}>Product Management Accelerator Program</p>
+        <h1 id="ppap-hero-title" className={`${bricolage.className} ${styles.heading}`}>
           Start Your Product Management Journey
-          
-          With the{" "}
-          <span className="text-[#FFB800]">
-            Right Foundation.
-          </span>
+          <span className={styles.secondLine}>With the <span className={styles.highlight}>Right Foundation.</span></span>
         </h1>
-
-        {/* =====================================================
-            DESCRIPTION
-        ====================================================== */}
-        <p
-          className="
-            mt-7
-            max-w-[760px]
-            text-[14px]
-            font-medium
-            leading-[1.75]
-            text-white/90
-            sm:text-[17px]
-            md:text-[18px]
-          "
-        >
-          Whether you&apos;re completely new to Product Management,
-          transitioning from another career or tired of trying to figure it
-          all out on your own, PPAP gives you a structured path to learn the
-          fundamentals, build practical skills and understand how Product
-          Managers think and work.
-        </p>
-
-        {/* =====================================================
-            CTA BUTTONS
-        ====================================================== */}
-        <div className="mt-10 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
-          <a
-            href="#pricing"
-            className="
-              inline-flex
-              min-w-[280px]
-              items-center
-              justify-center
-              gap-2
-              rounded-md
-              bg-[#6D1DE8]
-              px-7
-              py-4
-              text-sm
-              font-semibold
-              text-white
-              transition-all
-              duration-200
-              hover:bg-[#7C2AF5]
-              hover:shadow-[0_10px_35px_rgba(109,29,232,0.35)]
-              active:scale-[0.98]
-            "
-          >
-            Apply for the Accelerator Program
-            <ArrowRight className="h-4 w-4" />
-          </a>
-
-          <button
-            type="button"
-            className="
-              inline-flex
-              min-w-[216px]
-              items-center
-              justify-center
-              gap-2
-              rounded-md
-              border
-              border-white/80
-              bg-white/[0.02]
-              px-7
-              py-4
-              text-sm
-              font-semibold
-              text-white
-              backdrop-blur-sm
-              transition-all
-              duration-200
-              hover:bg-white/10
-              active:scale-[0.98]
-            "
-          >
-            <Download className="h-4 w-4" />
-            Download Brochure
-          </button>
+        <p className={styles.description}>Whether you’re completely new to Product Management, transitioning from another career or tired of trying to figure it all out on your own, PPAP gives you a structured path to learn the fundamentals, build practical skills and understand how Product Managers think and work.</p>
+        <div className={styles.actions}>
+          <a href="#pricing" className={styles.apply}>Apply for the Accelerator Program</a>
+          <Link href={brochureUrl || "/contact?interest=ppap-brochure"} className={styles.brochure} {...(brochureUrl ? { target: "_blank", rel: "noopener noreferrer" } : { title: "Request the PPAP brochure from our team" })}>Download Brochure</Link>
         </div>
-
-        {/* =====================================================
-            BATCH INFORMATION
-        ====================================================== */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm">
-          <span className="font-bold text-[#FFB800]">
-            Next Batch:
-          </span>
-
-          <span className="font-medium text-[#FFB800]">
-            {formatDateRange(startTime, endTime)}
-          </span>
-
-          <span className="text-[#FFB800]">•</span>
-
-          <span className="font-medium text-[#FFB800]">
-            Cohort 3
-          </span>
-        </div>
-
-        <dl className={styles.mobileProgramInfo}>
-          <div><dt>Duration:</dt><dd>{durationLabel || "12 weeks"}</dd></div>
+        <dl className={styles.details}>
+          <div><dt>Next Batch:</dt><dd>{dates}</dd></div>
+          <div><dt>Duration:</dt><dd>{duration}</dd></div>
           <div><dt>Format:</dt><dd>100% Online | Live Sessions | Practical Learning</dd></div>
           <div><dt>Cohort Size:</dt><dd>20 participants</dd></div>
         </dl>
-
-        {/* =====================================================
-            BOTTOM FEATURES
-        ====================================================== */}
-        <div
-          className="
-            mt-auto
-            grid
-            w-full
-            max-w-[930px]
-            grid-cols-2
-            gap-y-5
-            pt-12
-            sm:grid-cols-4
-            sm:gap-y-0
-          "
-        >
-          <Feature label="12 WEEKS" />
-          <Feature label="STRUCTURED LEARNING" />
-          <Feature label="PRACTICAL ASSIGNMENTS" />
-          <Feature label="MENTORSHIP & FEEDBACK" />
-        </div>
+        <ul className={styles.features} aria-label="Program highlights">
+          <li>12 weeks</li><li>Structured learning</li><li>Practical assignments</li><li>Mentorship &amp; feedback</li>
+        </ul>
       </div>
     </section>
   );
-};
-
-/* ===============================================================
-   FEATURE ITEM
-================================================================ */
-
-type FeatureProps = {
-  label: string;
-};
-
-const Feature = ({ label }: FeatureProps) => {
-  return (
-    <div className="flex items-center justify-center">
-      <span className="text-[10px] font-bold tracking-[0.16em] text-white sm:text-[11px]">
-        {label}
-      </span>
-    </div>
-  );
-};
-
-export default HeroSection;
+}

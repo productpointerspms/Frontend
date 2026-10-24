@@ -64,7 +64,7 @@ const ProductPointersJourney: React.FC = () => {
 
         {/* Steps */}
         <div className="flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-0 w-full mb-16">
-          {steps.map((step, index) => (
+          {steps.map((step) => (
             <React.Fragment key={step.title}>
               <div className="flex flex-col items-start text-left lg:flex-1 lg:max-w-[230px]">
                 <div
@@ -80,7 +80,7 @@ const ProductPointersJourney: React.FC = () => {
                 </p>
               </div>
 
-              {index < steps.length - 1 && (
+              <>
                 <>
                   {/* Desktop horizontal arrow */}
                   <svg
@@ -124,7 +124,7 @@ const ProductPointersJourney: React.FC = () => {
                     <polygon points="3,26 10,38 17,26" fill="#9CA3AF" />
                   </svg>
                 </>
-              )}
+               </>
             </React.Fragment>
           ))}
         </div>

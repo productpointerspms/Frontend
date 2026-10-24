@@ -31,14 +31,6 @@ const programs = [
     badgeColor: "bg-[#FFF8E8]",
   },
   {
-    badge: "PPCP",
-    title: "1 on 1 Coaching Program",
-    description: "Get personalised guidance, support and accountability for your Product Management career journey.",
-    href: "/ppcp",
-    color: "text-[#FF0000]",
-    badgeColor: "bg-[#FFE5E5]",
-  },
-  {
     badge: "PPFP",
     title: "Fintech Product Management Program",
     description: "A practical program for those who want to understand how financial products work across markets.",

@@ -123,7 +123,7 @@ const ApprenticeshipTimeline: React.FC = () => {
         ====================================================== */}
         <div className="mt-[104px] hidden lg:block">
           <div className="grid grid-cols-6">
-            {phases.map((phase, index) => (
+            {phases.map((phase) => (
               <div
                 key={phase.number}
                 className="relative min-w-0 pr-8 last:pr-0"
@@ -154,7 +154,7 @@ const ApprenticeshipTimeline: React.FC = () => {
                   </div>
 
                   {/* Connecting line */}
-                  {index < phases.length - 1 && (
+                  <>
                     <div
                       className="
                         absolute
@@ -166,7 +166,7 @@ const ApprenticeshipTimeline: React.FC = () => {
                         bg-[#4511B7]
                       "
                     />
-                  )}
+                   </>
                 </div>
 
                 {/* ---------------------------------------------
@@ -248,6 +248,7 @@ const ApprenticeshipTimeline: React.FC = () => {
                   {phase.number}
                 </div>
 
+                <>
                 <div
                   className="
                     absolute
@@ -259,6 +260,7 @@ const ApprenticeshipTimeline: React.FC = () => {
                     bg-[#4511B7]/30
                   "
                 />
+                 </>
               </div>
 
               {/* Week */}

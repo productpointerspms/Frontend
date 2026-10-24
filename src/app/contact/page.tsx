@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
+import ContactMessageSection from "@/components/contact/ContactMessageSection";
 import ContactHero from "@/components/contact/ContactHero";
 import ContactSection from "@/components/contact/ContactSection";
 import ContactFaqSection from "@/components/contact/ContactFaqSection";
@@ -19,6 +20,7 @@ export default function ContactPage() {
     <div className={`${styles.page} w-full min-h-screen overflow-x-hidden`}>
       <ContactHero />
       <ContactSection/>
+      <ContactMessageSection />
       <AdvisoryCTA/>
       <ContactFaqSection />
       <ContactCareerCTA/>

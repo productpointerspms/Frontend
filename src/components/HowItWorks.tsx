@@ -71,7 +71,7 @@ const HowItWorks: React.FC = () => {
 
         {/* Steps */}
         <div className="flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-0">
-          {steps.map((step, i) => {
+          {steps.map((step) => {
             const Icon = step.icon;
             return (
               <React.Fragment key={step.title}>
@@ -90,7 +90,7 @@ const HowItWorks: React.FC = () => {
                   </p>
                 </div>
 
-                {i < steps.length - 1 && (
+                <>
                   <>
                     {/* Desktop horizontal arrow */}
                     <svg
@@ -134,7 +134,7 @@ const HowItWorks: React.FC = () => {
                       <polygon points="3,26 10,38 17,26" fill="#9CA3AF" />
                     </svg>
                   </>
-                )}
+                 </>
               </React.Fragment>
             );
           })}

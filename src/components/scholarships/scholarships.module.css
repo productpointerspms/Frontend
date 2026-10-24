@@ -278,7 +278,7 @@
 .accessBenefits li>span { font-size: 36px; font-weight: 700; color: #cfccd1; }
 .accessBenefits h3 { font-size: 22px; font-weight: 700; margin: 24px 0 16px; }
 .accessBenefits p { font-size: 16px; color: var(--muted); line-height: 1.6; margin: 0; }
-.accessMatters>.button { border-radius: 30px; padding-inline: 24px; }
+.accessAction .button { border-radius: 30px; padding-inline: 24px; }
 .sponsorCTAActions { display: flex; flex-direction: column; gap: 16px; }
 .sponsorCTAActions>.primary { display: none; }
 @media (max-width: 760px) {
@@ -409,3 +409,5 @@
   .heroBenefitsTrack .heroBenefits { flex-wrap: wrap; justify-content: center; row-gap: 16px; }
   .heroBenefitsTrack .heroBenefits[aria-hidden="true"] { display: none; }
 }
+
+.accessAction { display: flex; justify-content: flex-end; }

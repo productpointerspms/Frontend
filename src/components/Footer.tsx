@@ -1,23 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Instagram, Linkedin, Youtube } from "lucide-react";
 import { inter } from "@/lib/fonts";
+import { submitContactForm } from "@/lib/contact";
+import styles from "./footer.module.css";
 
 type FooterLink = { name: string; href: string };
 
-// TODO: confirm destinations — "Scholarships" and "Free Resources" have no
-// page of their own yet, so they point at the closest existing route.
 const exploreLinks: FooterLink[] = [
-  { name: "Our Programs", href: "/#upcoming-programs" },
-  { name: "Scholarships", href: "/ppip" },
-  { name: "Free Resources", href: "/community" },
+  { name: "Our Programs", href: "/#our-programs" },
+  { name: "Scholarships", href: "/scholarships" },
+  { name: "Free Resources", href: "/courses#free-resources" },
   { name: "Community", href: "/community" },
   { name: "Upcoming Programs", href: "/#upcoming-programs" },
 ];
 
-// TODO: confirm the real Instagram URL.
 const socials = [
   {
     label: "Instagram",
@@ -43,11 +42,25 @@ const WHATSAPP_URL = "https://wa.me/+2348102567773";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const policyUrl = process.env.NEXT_PUBLIC_GENERAL_PROGRAM_POLICY_URL;
+  async function subscribe(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (status === "sending") return;
+    const form = event.currentTarget;
+    const email = String(new FormData(form).get("email") ?? "").trim();
+    setStatus("sending");
+    try {
+      await submitContactForm({ fullname: "Newsletter subscriber", email, message: "Please subscribe me to ProductPointers email updates about product insights, career opportunities, programs, and resources." });
+      setStatus("success");
+      form.reset();
+    } catch { setStatus("error"); }
+  }
 
   return (
-    <footer className={`${inter.className} bg-black text-white`}>
-      <div className="mx-auto max-w-[1280px] px-6 py-20 md:px-20">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+    <footer className={`${inter.className} ${styles.footer}`}>
+      <div className={styles.container}>
+        <div className={styles.grid}>
           {/* ================= BRAND ================= */}
           <div>
             <h2 className="text-[22px] font-semibold text-white">
@@ -57,6 +70,7 @@ export default function Footer() {
               Build the skills, gain the experience, and create the evidence to
               grow your Product career.
             </p>
+            <Link href={policyUrl || "/contact?interest=general-program-policy"} className={styles.policy} {...(policyUrl ? {} : { title: "Request the General Program Policy from our team" })}>General Program Policy</Link>
           </div>
 
           {/* ================= EXPLORE ================= */}
@@ -130,28 +144,36 @@ export default function Footer() {
               updates and resources delivered to your inbox.
             </p>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:gap-3">
+            <form className={styles.subscribe} onSubmit={subscribe} aria-busy={status === "sending"}>
               <label htmlFor="footer-email" className="sr-only">
                 Email address
               </label>
               <input
                 id="footer-email"
+                name="email"
                 type="email"
+                autoComplete="email"
+                required
+                maxLength={254}
+                disabled={status === "sending"}
                 placeholder="Enter your email"
                 className="h-11 w-full rounded-[6px] border border-[#6B7280] bg-transparent px-4 text-[14px] text-white placeholder:text-[#9CA3AF] transition-colors focus:border-purple-500 focus:outline-none sm:w-[175px]"
               />
               <button
-                type="button"
+                type="submit"
+                disabled={status === "sending"}
                 className="h-11 cursor-pointer rounded-[6px] bg-[#5C1CC5] px-7 text-[14px] font-medium text-white transition-colors hover:bg-[#4a179e] sm:w-[170px]"
               >
-                Subscribe
+                {status === "sending" ? "Sending…" : "Subscribe"}
               </button>
-            </div>
+            </form>
+            {status === "success" && <p className={styles.feedback} role="status">Your subscription request has been sent.</p>}
+            {status === "error" && <p className={styles.feedback} role="alert">Couldn’t send your request. Please try again.</p>}
           </div>
         </div>
 
         {/* ================= BOTTOM ================= */}
-        <div className="mt-16 border-t border-[#3A3A3A] pt-8">
+        <div className={styles.bottom}>
           <p className="text-center text-[13px] text-[#B4B4B4]">
             &copy; {year} ProductPointers. All rights reserved.
           </p>

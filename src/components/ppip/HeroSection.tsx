@@ -1,267 +1,41 @@
 "use client";
 
-import styles from "./ppip-mobile.module.css";
-import React from "react";
-import Link from "next/link";
-import { montserrat, bricolage } from "@/lib/fonts";
+import Image from "next/image";
+import { bricolage } from "@/lib/fonts";
 import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
+import styles from "./hero.module.css";
 
-const HeroSection: React.FC = () => {
+const features = ["12 weeks", "Hands-on experience", "Real product challenges", "Mentorship & feedback", "Portfolio-ready evidence"];
+
+export default function HeroSection() {
   const { startTime, endTime } = useProgramDates("PPIP");
-
-  const datesText =
-    startTime && endTime
-      ? formatDateRange(startTime, endTime)
-      : "October 12 - Dec 18, 2026";
-
-  const features = [
-    "12 WEEKS",
-    "HANDS-ON EXPERIENCE",
-    "REAL PRODUCT CHALLENGES",
-    "MENTORSHIP & FEEDBACK",
-    "PORTFOLIO-READY EVIDENCE",
-  ];
+  const dates = startTime && endTime ? formatDateRange(startTime, endTime) : "October 12th – Dec 18th, 2026";
+  const duration = formatDurationWeeks(startTime, endTime) || "10 weeks";
 
   return (
-    <section data-ppip-section="HeroSection"
-      className={`${montserrat.className} relative isolate min-h-screen md:min-h-[760px] w-full overflow-hidden bg-[#07010F] text-white`}
-    >
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 -z-20 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/images/ppip/hero.png')",
-        }}
-      />
-
-      {/* Purple Image Tint */}
-      <div className="absolute inset-0 -z-10 bg-[#321052]/30" />
-
-      {/* Dark Purple Overlay */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#180529]/65 via-[#16032C]/55 to-[#07000F]/95" />
-
-      {/* Strong Bottom Fade */}
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-[48%] bg-gradient-to-t from-[#07010F] via-[#07010F]/85 to-transparent" />
-
-      {/* Main Hero Content */}
-      <div
-        className="
-          relative z-10
-          mx-auto flex w-full max-w-[1180px]
-          flex-col items-center text-center
-          px-5 sm:px-6
-          pt-[18vh] md:pt-32
-          pb-[130px]
-        "
-      >
-        {/* Badge */}
-        <div
-          className="
-            mb-7 inline-flex items-center justify-center
-            rounded-full
-            border border-white/60
-            bg-white/[0.03]
-            px-4 py-2
-            backdrop-blur-sm
-            sm:px-5
-          "
-        >
-          <span
-            className="
-              text-[10px] font-semibold uppercase
-              tracking-[0.12em] text-white
-              sm:text-[11px] md:text-xs
-            "
-          >
-            PRODUCTPOINTERS APPRENTICESHIP PROGRAM
-          </span>
-        </div>
-
-        {/* Heading */}
-        <h1
-          className={`${bricolage.className}
-            mb-6
-            max-w-[1080px]
-            text-[26px]
-            font-extrabold
-            leading-[1.08]
-            tracking-[-0.035em]
-            text-white
-            sm:text-[48px]
-            md:text-[58px]
-            lg:text-[64px]
-          `}
-        >
-          <span className="block">
-            Turn Your Product Management
-          </span>
-
-          <span className="block">
-            Knowledge Into{" "}
-            <span className="text-[#FFB20F]">Practical</span>
-          </span>
-
-          <span className="block text-[#FFB20F]">
-            Experience.
-          </span>
+    <section data-ppip-section="HeroSection" className={styles.hero} aria-labelledby="ppip-hero-title">
+      <Image src="/images/ppip/hero.png" alt="" fill priority sizes="100vw" className={styles.background} />
+      <div className={styles.overlay} aria-hidden="true" />
+      <div className={styles.content}>
+        <p className={styles.badge}>Product Management Apprenticeship/Internship Program</p>
+        <h1 id="ppip-hero-title" className={`${bricolage.className} ${styles.heading}`}>
+          <span>Turn Your Product Management</span>
+          <span>Knowledge Into <strong>Practical</strong></span>
+          <span className={styles.highlight}>Experience.</span>
         </h1>
-
-        {/* Description */}
-        <p
-          className="
-            mb-9
-            max-w-[750px]
-            text-[14px]
-            font-medium
-            leading-[1.55]
-            text-white/90
-            sm:text-[16px]
-            md:text-[17px]
-          "
-        >
-          You’ve learned the concepts and built your foundation. Now it’s time
-          to put that knowledge to work. PPIP is a 12-week hands-on
-          apprenticeship where you work on real product challenges, receive
-          feedback and build practical experience along the way.
-        </p>
-
-        {/* Buttons */}
-        <div
-          className="
-            mb-8
-            flex w-full
-            flex-col items-center justify-center
-            gap-3.5
-            sm:w-auto
-            sm:flex-row
-          "
-        >
-          <Link
-            href="#pricing"
-            className="
-              flex h-[48px]
-              w-full sm:w-[281px]
-              items-center justify-center
-              rounded-[6px]
-              bg-[#6024D0]
-              px-6
-              text-[14px]
-              font-semibold
-              text-white
-              shadow-[0_8px_25px_rgba(73,20,170,0.35)]
-              transition-all duration-200
-              hover:-translate-y-0.5
-              hover:bg-[#6d2ce5]
-              active:translate-y-0
-            "
-          >
-            Apply for the Apprenticeship
-          </Link>
-
-          <a
-            href="#pricing"
-            className="
-              flex h-[48px]
-              w-full sm:w-[189px]
-              items-center justify-center
-              rounded-[6px]
-              border border-white/60
-              bg-white/[0.04]
-              px-6
-              text-[14px]
-              font-semibold
-              text-white
-              backdrop-blur-sm
-              transition-all duration-200
-              hover:-translate-y-0.5
-              hover:bg-white/10
-              active:translate-y-0
-            "
-          >
-            Join the Waitlist
-          </a>
+        <p className={styles.description}>You’ve learned the concepts and built your foundation. Now it’s time to put that knowledge to work. PPIP is a 12-week hands-on apprenticeship where you work on real product challenges, receive feedback and build practical experience along the way.</p>
+        <div className={styles.actions}>
+          <a href="#pricing" className={styles.apply}>Apply for the Scholarship</a>
+          <a href="#pricing" className={styles.waitlist}>Join the Waitlist</a>
         </div>
-
-        {/* Batch Information */}
-        <div
-          className="
-            flex flex-wrap
-            items-center justify-center
-            gap-x-3 gap-y-1
-            text-[12px]
-            font-semibold
-            sm:text-[14px]
-          "
-        >
-          <span className="font-bold text-[#FFB20F]">
-            Next Batch:
-          </span>
-
-          <span className="text-[#FFB20F]">
-            {datesText}
-          </span>
-
-          <span className="text-[#FFB20F]">•</span>
-
-          <span className="text-[#FFB20F]">
-            Batch 5
-          </span>
-        </div>
-        <dl className={styles.mobileProgramInfo}>
-          <div><dt>Duration:</dt><dd>{formatDurationWeeks(startTime, endTime) || "12 weeks"}</dd></div>
+        <dl className={styles.details}>
+          <div><dt>Next Batch:</dt><dd>{dates}</dd></div>
+          <div><dt>Duration:</dt><dd>{duration}</dd></div>
           <div><dt>Format:</dt><dd>100% Online | Live Sessions | Practical Learning</dd></div>
           <div><dt>Cohort Size:</dt><dd>20 participants</dd></div>
         </dl>
-      </div>
-
-      {/* Bottom Feature Bar — scrolls continuously. The list is rendered
-          four times so each half of the track is wider than any screen,
-          letting the -50% marquee loop join up seamlessly. */}
-      <div
-        className="
-          absolute inset-x-0 bottom-0 z-20
-          flex min-h-[98px] items-center
-          overflow-hidden
-          border-t border-white/[0.08]
-          bg-[#07010F]/75
-          backdrop-blur-md
-        "
-      >
-        <div
-          className="marquee-track flex w-max items-center"
-          style={{ animationDuration: "60s" }}
-        >
-          {[0, 1, 2, 3].map((copy) => (
-            <div
-              key={copy}
-              aria-hidden={copy > 0}
-              className="flex shrink-0 items-center"
-            >
-              {features.map((feature) => (
-                <React.Fragment key={feature}>
-                  <span
-                    className="
-                      whitespace-nowrap
-                      text-[10px]
-                      font-bold
-                      tracking-[0.13em]
-                      text-white/85
-                      sm:text-[11px]
-                      md:text-xs
-                    "
-                  >
-                    {feature}
-                  </span>
-
-                  <span className="px-6 text-white/20 sm:px-10">•</span>
-                </React.Fragment>
-              ))}
-            </div>
-          ))}
-        </div>
+        <ul className={styles.features} aria-label="Program highlights">{features.map(feature => <li key={feature}>{feature}</li>)}</ul>
       </div>
     </section>
   );
-};
-
-export default HeroSection;
+}

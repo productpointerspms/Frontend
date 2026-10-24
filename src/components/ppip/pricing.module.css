@@ -1,0 +1,24 @@
+.section{width:100%;background:#fff;color:#10091a;scroll-margin-top:90px;font-family:var(--font-montserrat),Arial,sans-serif}
+.container{max-width:1440px;margin:auto;padding:80px 80px 110px}
+.header>p{color:#6515ed;font-size:14px;font-weight:600;line-height:18px;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:18px}
+.header h2{font-size:38px;font-weight:700;line-height:1.17;letter-spacing:-1.1px}
+.card{position:relative;width:100%;max-width:362px;margin:42px auto 0;padding:40px 32px;background:#5818d0;color:#fff}
+.badge{position:absolute;right:34px;top:16px;border-radius:4px;background:#ffbf1f;color:#10091a;padding:4px 16px;font-size:10px;font-weight:600;line-height:14px}
+.eyebrow{font-size:12px;font-weight:600;line-height:18px;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:14px}
+.payment{font-size:12px;font-weight:600;line-height:18px}
+.price{font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1.15;margin-top:6px}
+.currency{position:relative;display:flex;align-items:center;width:102px;min-height:36px;border:1px solid #fff;border-radius:24px;margin:12px auto 0;padding:7px 11px;gap:6px}
+.currency img{width:16px;height:16px;object-fit:cover;border-radius:50%;flex-shrink:0}
+.currency select{appearance:none;position:absolute;inset:0;width:100%;border:0;border-radius:24px;background:transparent;padding:7px 24px 7px 33px;color:#fff;font:inherit;font-size:16px;line-height:20px;cursor:pointer}
+.currency option{background:#fff;color:#10091a}
+.currency svg{margin-left:auto;pointer-events:none}
+.rateStatus{font-size:10px;text-align:center;margin-top:8px;color:#e4d0ff}
+.benefits{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.benefits li{display:flex;align-items:flex-start;gap:8px}
+.benefits li>span{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:16px;height:16px;border-radius:50%;background:#ffffff20;margin-top:1px}
+.benefits p{font-size:12px;line-height:20px;color:#f0e5ff}
+.divider{height:1px;background:#ffffff99;margin:16px 0 32px}
+.apply{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:6px;background:#ffbf1f;padding:12px;color:#6815ff;font-size:14px;font-weight:600;line-height:22px;text-align:center}
+.apply:hover{background:#ffcc45}.apply:focus-visible,.currency select:focus-visible{outline:2px solid #fff;outline-offset:4px}
+@media(max-width:1100px){.container{padding:64px 40px 80px}}
+@media(max-width:767px){.container{padding:56px 16px 64px}.header>p{font-size:11px;margin-bottom:14px}.header h2{font-size:30px;letter-spacing:-.8px}.card{margin-top:36px;max-width:362px;padding:40px 28px 32px}.badge{right:28px}.apply{min-height:48px;font-size:13px}}

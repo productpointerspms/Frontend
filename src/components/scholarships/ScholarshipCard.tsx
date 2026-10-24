@@ -1,6 +1,6 @@
 import { Plus, UserRound } from "lucide-react";
 import { ScholarshipButton } from "./ScholarshipUI";
-import styles from "./scholarships.module.css";
+import styles from "./available-scholarships.module.css";
 
 export type Scholarship = {
   name: string;
@@ -9,6 +9,7 @@ export type Scholarship = {
   sponsorship: number;
   tuition: number;
   payable: number;
+  installments?: string;
   deadline: string;
   deadlineISO: string;
 };
@@ -19,7 +20,7 @@ export default function ScholarshipCard({ scholarship, number }: { scholarship: 
   return (
     <article className={styles.scholarshipCard} aria-labelledby={`scholarship-${number}`}>
       <div className={styles.scholarshipCardTop}>
-        <span className={styles.scholarshipNumber} aria-hidden="true"><span className={styles.desktopScholarshipNumber}>{String(number).padStart(2, "0")}</span><span className={styles.mobileScholarshipNumber}>{String(number === 4 ? 5 : number === 5 ? 4 : number).padStart(2, "0")}</span></span>
+        <span className={styles.scholarshipNumber} aria-hidden="true">{String(number).padStart(2, "0")}</span>
         <div className={styles.scholarshipBadges}>
           <span className={styles.applicationBadge}><span aria-hidden="true" />Applications Open</span>
           <span className={styles.eligibilityBadge}><UserRound size={13} aria-hidden="true" />{scholarship.eligibility}</span>
@@ -34,7 +35,7 @@ export default function ScholarshipCard({ scholarship, number }: { scholarship: 
           <strong className={styles.scholarshipMetric}>{scholarship.sponsorship}%</strong>
           <span className={styles.sponsorshipLabel}>TUITION SPONSORSHIP</span>
           <div className={styles.regularTuition}><span>Regular tuition</span><s>{naira(scholarship.tuition)}</s></div>
-          <div className={styles.payable}><span>You pay</span><strong>{naira(scholarship.payable)}</strong></div>
+          <div className={styles.payable}><span>You pay</span><div><strong>{naira(scholarship.payable)}</strong>{scholarship.installments && <span>{scholarship.installments}</span>}</div></div>
         </div>
         <div className={styles.slotsPanel}>
           <div><strong className={styles.scholarshipMetric}>20</strong><span className={styles.slotsLabel}>Slots Available</span></div>

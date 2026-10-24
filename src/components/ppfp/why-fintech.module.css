@@ -1,0 +1,13 @@
+.section{background:#fff;color:#10091a;font-family:var(--font-montserrat),Arial,sans-serif}
+.layout{display:grid;grid-template-columns:minmax(0,710px) minmax(0,519px);gap:51px;align-items:start;max-width:1440px;margin:auto;padding:80px}
+.copy{min-width:0}
+.eyebrow{font-size:14px;font-weight:600;line-height:18px;letter-spacing:1.6px;text-transform:uppercase;color:#6515ed;margin-bottom:18px}
+.heading{max-width:620px;font-size:38px;font-weight:700;line-height:1.16;letter-spacing:-1.1px}
+.description{max-width:560px;color:#626065;font-size:15px;line-height:24px;margin-top:32px}
+.rows{margin-top:58px}.rows>div{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:71px;padding:20px 24px;border-bottom:1px solid #c2c2c2}
+.rows dt{flex-shrink:0;font-size:12px;font-weight:700;line-height:18px;letter-spacing:.6px;text-transform:uppercase}
+.rows dd{min-width:0;font-size:14px;line-height:22px;text-align:right;margin:0}
+.closing{margin-top:30px;font-family:var(--font-ppfp-heading),Arial,sans-serif;font-size:24px;line-height:1.4;font-weight:600;letter-spacing:-.25px;color:#182030}
+.photo{width:100%;max-width:519px}.photo img{display:block;width:100%;height:auto}
+@media(max-width:1199px){.layout{padding:64px 40px;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:32px}.heading{font-size:34px}.desktopBreak{display:none}.eyebrow{font-size:12px}.rows>div{padding-inline:12px;gap:14px}.rows dt{font-size:10px}.rows dd{font-size:12px}.closing{font-size:21px}}
+@media(max-width:767px){.layout{grid-template-columns:1fr;padding:48px 16px;gap:32px}.eyebrow{font-size:11px;letter-spacing:1.2px;margin-bottom:16px}.heading{font-size:30px;line-height:1.2;letter-spacing:-.8px}.description{font-size:13px;line-height:1.8;margin-top:24px}.rows{margin-top:32px}.rows>div{min-height:72px;padding:18px 8px;align-items:flex-start;gap:20px}.rows dt{flex:0 0 108px;font-size:10px;line-height:18px;letter-spacing:.3px}.rows dd{font-size:12px;line-height:20px;text-align:left}.closing{font-size:21px;margin-top:26px}.photo{max-width:519px;margin:auto}}
