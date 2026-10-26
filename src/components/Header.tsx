@@ -67,7 +67,7 @@ const Navbar = () => {
 
   // Routes whose hero is dark — the overlaying bar needs light text there,
   // until the bar turns white once the hero has scrolled away.
-  const DARK_HERO_ROUTES = ["/", "/ppfp", "/ppip", "/ppap", "/ppcp", "/community", "/courses", "/scholarships"];
+  const DARK_HERO_ROUTES = ["/", "/ppfp", "/ppip", "/ppap", "/ppmp", "/ppcp", "/community", "/courses", "/scholarships"];
   const onDarkHero = DARK_HERO_ROUTES.includes(pathname) && !pastHero;
 
   // The bar is fixed and transparent over the hero; once the hero's bottom edge
@@ -136,7 +136,7 @@ const Navbar = () => {
       ref={navRef}
       className={`fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 py-5 z-[100] transition-colors duration-300 ${
         pastHero ? "bg-white shadow-[0_1px_12px_rgba(16,9,26,0.08)]" : "bg-transparent"
-      } ${["/scholarships", "/community", "/contact", "/courses", "/ppap", "/ppip", "/ppcp"].includes(pathname) ? `max-md:bg-white ${["/courses", "/ppap", "/ppip", "/ppcp"].includes(pathname) ? "max-md:h-[70px]" : "max-md:h-[89px]"} max-md:px-4` : ""}`}
+      } ${["/scholarships", "/community", "/contact", "/courses", "/ppap", "/ppip", "/ppcp", "/ppmp"].includes(pathname) ? `max-md:bg-white ${["/courses", "/ppap", "/ppip", "/ppcp"].includes(pathname) ? "max-md:h-[70px]" : "max-md:h-[89px]"} max-md:px-4` : ""}`}
     >
       {/* Logo Section matching Hero.jpg */}
       <div className="flex items-center gap-2 cursor-pointer">
@@ -147,7 +147,7 @@ const Navbar = () => {
               alt="logo"
               width={150}
               height={50}
-              className={onDarkHero ? `brightness-0 invert ${["/scholarships", "/community", "/contact", "/courses", "/ppap", "/ppip", "/ppcp"].includes(pathname) ? "max-md:brightness-100 max-md:invert-0" : ""}` : ""}
+              className={onDarkHero ? `brightness-0 invert ${["/scholarships", "/community", "/contact", "/courses", "/ppap", "/ppip", "/ppcp", "/ppmp"].includes(pathname) ? "max-md:brightness-100 max-md:invert-0" : ""}` : ""}
             />
        
         </div>
@@ -240,7 +240,7 @@ const Navbar = () => {
         aria-label="Open navigation menu"
         aria-expanded={mobileMenuOpen}
         aria-controls="mobile-navigation"
-        className={`md:hidden cursor-pointer ${onDarkHero ? "text-white" : "text-[#15010D]"} ${["/scholarships", "/community", "/contact", "/courses", "/ppap", "/ppip", "/ppcp"].includes(pathname) ? "max-md:text-[#15010D]" : ""}`}
+        className={`md:hidden cursor-pointer ${onDarkHero ? "text-white" : "text-[#15010D]"} ${["/scholarships", "/community", "/contact", "/courses", "/ppap", "/ppip", "/ppcp", "/ppmp"].includes(pathname) ? "max-md:text-[#15010D]" : ""}`}
         onClick={() => setMobileMenuOpen(true)}
       >
         <Menu size={28} />
