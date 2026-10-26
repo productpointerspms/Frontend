@@ -58,7 +58,8 @@ const Navbar = () => {
         { name: "Fintech Product Management Program", href: "/ppfp" },
       ],
     },
-    { name: "Courses", href: "/courses" },
+    // Courses hidden from the nav for now — re-enable when it's ready for users.
+    // { name: "Courses", href: "/courses" },
     { name: "Scholarships", href: "/scholarships" },
     { name: "Community", href: "/community" },
     { name: "Contact", href: "/contact" },
