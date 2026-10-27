@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { Plus, UserRound } from "lucide-react";
-import { ScholarshipButton } from "./ScholarshipUI";
 import styles from "./available-scholarships.module.css";
 
 export type Scholarship = {
@@ -12,6 +12,8 @@ export type Scholarship = {
   installments?: string;
   deadline: string;
   deadlineISO: string;
+  applyHref: string;
+  requirements: string[];
 };
 
 const naira = (amount: number) => `₦${amount.toLocaleString("en-NG")}`;
@@ -43,11 +45,15 @@ export default function ScholarshipCard({ scholarship, number }: { scholarship: 
         </div>
       </div>
       <details className={styles.scholarshipDetails}>
-        <summary>View details <span className={styles.detailsIcon}><Plus size={18} aria-hidden="true" /></span></summary>
+        <summary><span className={styles.summaryOpen}>View details</span><span className={styles.summaryClose}>Close</span><span className={styles.detailsIcon}><Plus size={14} aria-hidden="true" /></span></summary>
         <div className={styles.scholarshipDetailsBody}>
-          <p><strong>Eligibility:</strong> {scholarship.eligibility}.</p>
-          <p>This scholarship supports the {scholarship.program}. Contact the team to confirm availability, the listed deadline, and application requirements.</p>
-          <ScholarshipButton href={`/contact?interest=scholarship&scholarship=${encodeURIComponent(scholarship.name)}`}>Enquire about this scholarship</ScholarshipButton>
+          <h4>Before You Apply</h4>
+          <p>The {scholarship.name.replace(/scholarship/i, "Scholarship")} is intended for individuals who:</p>
+          <ul>{scholarship.requirements.map(requirement => <li key={requirement}>{requirement}</li>)}</ul>
+          <div className={styles.detailsActions}>
+            <Link href={scholarship.applyHref} className={styles.detailsApply}>Apply Now</Link>
+            <Link href="#scholarship-eligibility" className={styles.detailsCheck}>Check Eligibility</Link>
+          </div>
         </div>
       </details>
     </article>

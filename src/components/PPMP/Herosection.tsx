@@ -14,7 +14,7 @@ export default function ProgramHero() {
       <Image src="/images/ppap/hero.png" alt="ProductPointers participants working together" fill priority unoptimized sizes="100vw" className={styles.heroPhoto} />
       <div className={styles.heroShade} />
       <div className={styles.heroContent}>
-        <p className={styles.badge}>Product Management Mastery Program<br />(PMs with 1+ year experience)</p>
+        <p className={styles.badge}>Product Management Mastery Program (PMs with 1+ year experience)</p>
         <h1 id="ppmp-title">Become a More Technical, Data-Driven and AI-Powered Product Manager.</h1>
         <p className={styles.heroDescription}>A practical advanced program for PMs with 1+ years of experience who want to expand beyond the traditional PM toolkit, make stronger product decisions and work more confidently across Engineering, Data, Design, Growth and Business.</p>
         <p className={styles.highlight}>For Product Managers with 1+ years of experience</p>

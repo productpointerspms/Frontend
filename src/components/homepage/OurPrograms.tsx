@@ -52,20 +52,6 @@ const programs: Program[] = [
       link: "text-[#FFBB1D] hover:text-black",
     },
   },
-
-  {
-    badge: "PPCP",
-    title: "1 on 1 Coaching Program",
-    description:
-      "Get personalised guidance, support and accountability for your Product Management career journey.",
-    href: "/ppcp",
-    color: {
-      badgeBg: "bg-[rgba(255,6,0,0.10)]",
-      badgeText: "text-[#FF0600]",
-      link: "text-[#FF0600] hover:text-black",
-    },
-  },
-
   {
     badge: "PPFP",
     title: "Fintech Product Management Program",

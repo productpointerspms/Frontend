@@ -30,7 +30,7 @@ const CommunityHero = () => {
 
       <div className="mx-auto flex max-w-[1000px] flex-col items-center">
         <p className="rounded-full border border-white px-4 py-2 text-[12px] font-bold uppercase leading-[18px] tracking-[0.1em] sm:text-[14px]">
-          Alumni-Only Community
+          Productpointers community
         </p>
         <h1
           id="community-hero-heading"
