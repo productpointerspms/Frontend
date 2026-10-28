@@ -10,6 +10,7 @@ const ROUTES: {
   priority: number;
 }[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
+  { path: "/events/november-to-remember", changeFrequency: "weekly", priority: 0.7 },
   { path: "/ppap", changeFrequency: "weekly", priority: 0.9 },
   { path: "/ppip", changeFrequency: "weekly", priority: 0.9 },
   { path: "/community", changeFrequency: "monthly", priority: 0.6 },

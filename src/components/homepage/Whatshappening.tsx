@@ -7,6 +7,7 @@ interface ProgramItem {
   title: string;
   date: string;
   description: string;
+  subtitle?: string;
   cta: string;
   href: string;
 }
@@ -55,20 +56,13 @@ const upcomingPrograms: ProgramItem[] = [
 
 const eventsAndMasterclasses: ProgramItem[] = [
   {
-    title: "How to Build a Product Manager Portfolio That Gets You Noticed",
-    date: "September 20, 2026",
+    title: "November to Remember",
+    date: "Nov 7–28, 2026 · 7:00 PM",
+    subtitle: "The Product Career Activation Series",
     description:
-      "Learn how to showcase your product thinking, projects, and experience in a portfolio that gets noticed.",
-    cta: "Apply Now",
-    href: "/courses",
-  },
-  {
-    title: "How to Write a Winning Resume That Gets You Hired",
-    date: "September 5, 2026",
-    description:
-      "Turn your skills, experience, and achievements into a compelling resume that positions you for the opportunities you want.",
-    cta: "Apply Now",
-    href: "/courses",
+      "Four Saturdays. Real conversations about getting hired, getting noticed, and finding opportunities beyond your country.",
+    cta: "View Event",
+    href: "/events/november-to-remember",
   },
 ];
 
@@ -113,7 +107,7 @@ export default function WhatsHappening() {
         </div>
 
         {/* Tabs */}
-        <div className="mb-6 inline-flex gap-1 rounded-xl bg-[#C2C2C2] p-0.5">
+        <div className="mb-6 inline-flex gap-1 rounded-lg bg-[#E8E8E8] p-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -132,14 +126,14 @@ export default function WhatsHappening() {
         </div>
 
         {/* List */}
-        <div className="divide-y divide-[#C2C2C2] max-md:divide-y-0 overflow-hidden bg-white">
+        <div className={`divide-y divide-[#C2C2C2] max-md:divide-y-0 overflow-hidden bg-white ${activeTab === "events" ? "rounded-lg" : ""}`}>
           {activeData.map((item) => (
             <div
               key={item.title}
               className="flex flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between"
             >
-              <div>
-                <div className="flex items-center flex-row  md:gap-6 gap-0">
+              <div className={activeTab === "events" ? "max-w-[640px]" : undefined}>
+                <div className={`flex md:gap-6 gap-0 ${activeTab === "events" ? "flex-wrap items-start gap-y-2 md:items-center" : "items-center flex-row"}`}>
                   <h3 className="font-semibold hidden md:block text-[#0E0A1A] tracking-[-0.252px] md:text-base text-[11px] leading-[25.2px]">
                     {item.title}
                   </h3>
@@ -153,6 +147,7 @@ export default function WhatsHappening() {
                   </span>
                 </div>
                 <p className="mt-2 md:text-[12px] text-[10px] md:leading-[21.08px] leading-normal text-[#5A5470]">
+                  {item.subtitle && <>{item.subtitle}<br /></>}
                   {item.description}
                 </p>
               </div>

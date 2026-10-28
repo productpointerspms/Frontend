@@ -135,7 +135,7 @@ const Navbar = () => {
     <nav
       ref={navRef}
       className={`fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 py-5 z-[100] transition-colors duration-300 ${
-        pastHero ? "bg-white shadow-[0_1px_12px_rgba(16,9,26,0.08)]" : "bg-transparent"
+        pastHero ? "bg-white shadow-[0_1px_12px_rgba(16,9,26,0.08)]" : pathname === "/events/november-to-remember" ? "bg-white" : "bg-transparent"
       } ${["/scholarships", "/community", "/contact", "/courses", "/ppap", "/ppip", "/ppcp", "/ppmp"].includes(pathname) ? `max-md:bg-white ${["/courses", "/ppap", "/ppip", "/ppcp"].includes(pathname) ? "max-md:h-[70px]" : "max-md:h-[89px]"} max-md:px-4` : ""}`}
     >
       {/* Logo Section matching Hero.jpg */}
