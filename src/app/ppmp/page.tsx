@@ -7,6 +7,7 @@ import MentorshipSection from "@/components/ppap/MentorshipSection";
 import PricingSection from "@/components/PPMP/PricingSection";
 import { CareerCta, FaqSection, Testimonials } from "@/components/PPMP/ClosingSections";
 import styles from "@/components/PPMP/ppmp.module.css";
+import StickyApplyBar from "@/components/StickyApplyBar";
 
 export const metadata = buildMetadata({
   title: "Product Management Mastery Program (PPMP)",
@@ -32,5 +33,6 @@ export default function PPMPPage() {
     <PricingSection />
     <FaqSection />
     <CareerCta />
+    <StickyApplyBar href="#pricing" label="Apply for the Scholarship" hideOver={["#pricing", "#ppmp-final-cta", "footer"]} />
   </div>;
 }

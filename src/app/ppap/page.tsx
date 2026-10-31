@@ -16,6 +16,7 @@ import FinalCTA from '@/components/ppap/FinalCTA';
 import WhoItsForSection from '@/components/ppap/WhoItsForSection';
 import styles from "@/components/ppap/ppap-mobile.module.css";
 import InternshipCTA from '@/components/ppap/InternshipCTA';
+import StickyApplyBar from '@/components/StickyApplyBar';
 
 export const metadata: Metadata = buildMetadata({
   title: "ProductPointers Accelerator Program (PPAP)",
@@ -42,6 +43,7 @@ export default function PPAPPage() {
       <PricingSection />
       <FAQSection />
       <FinalCTA />
+      <StickyApplyBar href="#pricing" label="Apply for the Accelerator Program" hideOver={["#pricing", '[data-ppap-section="FinalCTA"]', "footer"]} />
     </div>
   );
 }
