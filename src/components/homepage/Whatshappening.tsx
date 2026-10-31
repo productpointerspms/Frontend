@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { NOVEMBER_EVENT_SLUG, formatEventRange, getEvent, type EventDetails } from "@/lib/event";
 
 interface ProgramItem {
   title: string;
@@ -54,32 +55,48 @@ const upcomingPrograms: ProgramItem[] = [
   },
 ];
 
-const eventsAndMasterclasses: ProgramItem[] = [
-  {
-    title: "November to Remember",
-    date: "Nov 7–28, 2026 · 7:00 PM",
-    subtitle: "The Product Career Activation Series",
-    description:
-      "Four Saturdays. Real conversations about getting hired, getting noticed, and finding opportunities beyond your country.",
-    cta: "View Event",
-    href: "/events/november-to-remember",
-  },
-];
+// Fallback card, shown until (or if) the event API responds.
+const fallbackEvent: ProgramItem = {
+  title: "November to Remember",
+  date: "Nov 7–28, 2026 · 7:00 PM",
+  subtitle: "The Product Career Activation Series",
+  description:
+    "Four Saturdays. Real conversations about getting hired, getting noticed, and finding opportunities beyond your country.",
+  cta: "View Event",
+  href: "/events/november-to-remember",
+};
+
+function eventToItem(event: EventDetails): ProgramItem {
+  return {
+    title: event.title || fallbackEvent.title,
+    date: formatEventRange(event.startsAt, event.endsAt, event.timeZone),
+    subtitle: event.subtitle || fallbackEvent.subtitle,
+    description: event.description || fallbackEvent.description,
+    cta: event.activeTier ? "Get Ticket" : "View Event",
+    href: `/events/${event.slug}${event.activeTier ? "#tickets" : ""}`,
+  };
+}
 
 const tabs = [
-  { id: "programs", label: "Upcoming Programs", data: upcomingPrograms },
-  {
-    id: "events",
-    label: "Events & Masterclasses",
-    data: eventsAndMasterclasses,
-  },
+  { id: "programs", label: "Upcoming Programs" },
+  { id: "events", label: "Events & Masterclasses" },
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
 
 export default function WhatsHappening() {
   const [activeTab, setActiveTab] = useState<TabId>("programs");
-  const activeData = tabs.find((tab) => tab.id === activeTab)!.data;
+  const [eventItem, setEventItem] = useState<ProgramItem>(fallbackEvent);
+
+  useEffect(() => {
+    let cancelled = false;
+    getEvent(NOVEMBER_EVENT_SLUG)
+      .then((event) => { if (!cancelled) setEventItem(eventToItem(event)); })
+      .catch(() => { /* keep the fallback card */ });
+    return () => { cancelled = true; };
+  }, []);
+
+  const activeData = activeTab === "programs" ? upcomingPrograms : [eventItem];
 
   return (
     <section data-home-section="Upcoming"

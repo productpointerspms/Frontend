@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, Clock3, MapPin, Check, ChevronDown, Crown } from "lucide-react";
 import Countdown from "./Countdown";
+import { NOVEMBER_EVENT_SLUG, TIER_STATUS_LABEL, formatEventDate, formatMoney, type EventDetails } from "@/lib/event";
+import { fetchEvent } from "@/lib/eventApi.server";
 import styles from "./event.module.css";
 
 export const metadata: Metadata = {
@@ -144,7 +146,32 @@ function FlyerPin() {
   );
 }
 
-export default function NovemberEventPage() {
+function TierCards({ event }: { event: EventDetails | null }) {
+  if (!event) {
+    return <article className={`${styles.ticket} ${styles.inactiveTicket}`}><span className={styles.ticketBadge}>UNAVAILABLE</span><h3>Tickets</h3><p>Ticket details will be available shortly. Please check back soon.</p></article>;
+  }
+  const tiers = [...event.tiers].sort((a, b) => a.sortOrder - b.sortOrder);
+  return <>{tiers.map(tier => {
+    const active = tier.id === event.activeTier?.id;
+    return (
+      <article key={tier.id} className={`${styles.ticket} ${active ? styles.activeTicket : styles.inactiveTicket}`}>
+        <span className={styles.ticketBadge}>{active ? "CURRENT TIER · ACTIVE" : (TIER_STATUS_LABEL[tier.status] ?? tier.status).toUpperCase()}</span>
+        <h3>{tier.name}</h3>
+        <p>{tier.description}</p>
+        <div className={styles.price}>{formatMoney(tier.price, tier.currency)} <span>/ attendee</span></div>
+        <FeatureList items={tier.benefits.length ? tier.benefits : ticketFeatures} />
+        {active && <div className={styles.deadline}><CalendarDays size={24} /><div>{tier.name.toUpperCase()} ENDS<strong>{formatEventDate(tier.salesEndAt, event.timeZone)} WAT</strong></div></div>}
+        {active
+          ? <Link href="/events/november-to-remember/checkout" className={styles.registerButton}>Get {tier.name.toLowerCase()}</Link>
+          : <span className={styles.registerButton} aria-disabled="true">{TIER_STATUS_LABEL[tier.status] ?? tier.status}</span>}
+      </article>
+    );
+  })}</>;
+}
+
+export default async function NovemberEventPage() {
+  const event = await fetchEvent(NOVEMBER_EVENT_SLUG);
+  const activeTier = event?.activeTier ?? null;
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
@@ -238,11 +265,11 @@ export default function NovemberEventPage() {
         <div className={styles.included}><div className={styles.sectionHeading}><h2>Everything Included In Your Ticket</h2><p className={styles.muted}>One single payment unlocks all November virtual sessions, December bonuses, and resources.</p></div><div className={styles.benefitGrid}>{benefits.map(([title, description]) => <div key={title}><Check size={22} /><div><h3>{title}</h3><p>{description}</p></div></div>)}</div></div>
       </section>
 
-      <section id="tickets" className={`${styles.container} ${styles.tickets}`}><p className={styles.eyebrow}>Investment in your career</p><h2>Reserve Your All-Access Pass</h2><div className={styles.ticketGrid}><article className={`${styles.ticket} ${styles.activeTicket}`}><span className={styles.ticketBadge}>CURRENT TIER · ACTIVE</span><h3>Early Bird Ticket</h3><p>Full access to all virtual sessions, bonuses, & community.</p><div className={styles.price}>₦9,999 <span>/ attendee</span></div><FeatureList items={ticketFeatures} /><div className={styles.deadline}><CalendarDays size={24} /><div>EARLY BIRD ENDS<strong>Nov 2, 2026, 11:59 PM WAT</strong></div></div><Link href="/events/november-to-remember/checkout" className={styles.registerButton}>Get early bird ticket</Link></article><article className={`${styles.ticket} ${styles.inactiveTicket}`}><span className={styles.ticketBadge}>STANDARD TIER</span><h3>Late Bird Ticket</h3><p>Unlocks once early bird passes are exhausted.</p><div className={styles.price}>₦29,999</div><FeatureList items={["All November Virtual Sessions", "HR Recruiter AMA Access", "December Bonuses Included"]} /><Link href="/events/november-to-remember/checkout?tier=late" className={styles.registerButton}>Get late bird ticket</Link></article><article className={`${styles.ticket} ${styles.valueTicket}`}><h3>THE VALUE YOU GET <Crown size={23} /></h3><div className={styles.price}>₦100,000</div><h4>Worth of career-building experiences</h4><FeatureList items={["All 4 November Virtual Sessions", "Network & Chill bonus experience", "HR Professionals Recruiter AMA", "December Masterclasses & Resources"]} /><div className={styles.ticketPattern} aria-hidden="true">✦ ◒<br />◕ ✦</div></article></div></section>
+      <section id="tickets" className={`${styles.container} ${styles.tickets}`}><p className={styles.eyebrow}>Investment in your career</p><h2>Reserve Your All-Access Pass</h2><div className={styles.ticketGrid}><TierCards event={event} /><article className={`${styles.ticket} ${styles.valueTicket}`}><h3>THE VALUE YOU GET <Crown size={23} /></h3><div className={styles.price}>₦100,000</div><h4>Worth of career-building experiences</h4><FeatureList items={["All 4 November Virtual Sessions", "Network & Chill bonus experience", "HR Professionals Recruiter AMA", "December Masterclasses & Resources"]} /><div className={styles.ticketPattern} aria-hidden="true">✦ ◒<br />◕ ✦</div></article></div></section>
 
       <section className={styles.faq}><div className={styles.container}><h2>Frequently Asked Questions</h2><div className={styles.faqList}>{faqs.map(([question, answer]) => <article key={question}><h3>{question}</h3><p>{answer}</p></article>)}</div></div></section>
 
-      <section className={styles.closing}><span>Activate Your Product Career</span><h2>Ready to make this a<br /><em>November to Remember?</em></h2><p>Stop navigating the job market in the dark. Secure your pass, gain clarity<br className={styles.desktopBreak} /> on positioning, and take charge of your product journey.</p><Link href="/events/november-to-remember/checkout" className={styles.closingButton}>Register now · ₦9,999</Link></section>
+      <section className={styles.closing}><span>Activate Your Product Career</span><h2>Ready to make this a<br /><em>November to Remember?</em></h2><p>Stop navigating the job market in the dark. Secure your pass, gain clarity<br className={styles.desktopBreak} /> on positioning, and take charge of your product journey.</p><Link href="/events/november-to-remember/checkout" className={styles.closingButton}>Register now{activeTier ? ` · ${formatMoney(activeTier.price, activeTier.currency)}` : ""}</Link></section>
     </div>
   );
 }
