@@ -12,6 +12,7 @@ import FinalCTA from "@/components/ppcp/FinalCTA";
 import CoachingFAQ from "@/components/ppcp/CoachingFAQ";
 import CoachingProgramDetails from "@/components/ppcp/CoachingProgramDetails";
 import SolutionSection from '@/components/ppcp/SolutionSection';
+import StickyApplyBar from '@/components/StickyApplyBar';
 
 
 const PPCPPage: React.FC = () => {
@@ -29,6 +30,7 @@ const PPCPPage: React.FC = () => {
       <CoachingProgramDetails />
       <CoachingFAQ />
       <FinalCTA />
+      <StickyApplyBar href="/ppcp/blessing-okomor" label="Book a Coaching Session" hideOver={['[data-ppcp-section="FinalCTA"]', "footer"]} />
     </div>
   );
 };

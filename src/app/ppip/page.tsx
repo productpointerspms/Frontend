@@ -17,7 +17,7 @@ import ProgramDetails from "@/components/ppip/ProgramDetails";
 import FAQSection from "@/components/ppip/FAQSection";
 import FinalCTA from "@/components/ppip/FinalCTA";
 import styles from "@/components/ppip/ppip-mobile.module.css";
-import StickyApplyBar from "@/components/ppip/StickyApplyBar";
+import StickyApplyBar from "@/components/StickyApplyBar";
 
 export const metadata: Metadata = buildMetadata({
   title: "ProductPointers Internship Program (PPIP)",
@@ -44,7 +44,7 @@ export default function PPIPPage() {
       <PricingSection />
       <FAQSection />
       <FinalCTA />
-      <StickyApplyBar />
+      <StickyApplyBar href="/ppip/apply" label="Apply for the Apprenticeship" hideOver={["#ppip-final-cta", "footer"]} />
     </div>
   );
 }

@@ -1,11 +1,12 @@
-import { Linkedin, Mail, MessageCircle, Phone, Youtube } from "lucide-react";
+import { Linkedin, Mail, Phone, Youtube } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { SOCIAL_LINKS } from "@/lib/seo";
 import styles from "./contact.module.css";
 
 const socials = [
   { label: "LinkedIn", href: SOCIAL_LINKS.linkedin, icon: Linkedin, style: styles.linkedin },
   { label: "YouTube", href: SOCIAL_LINKS.youtube, icon: Youtube, style: styles.youtube },
-  { label: "WhatsApp", href: "https://wa.me/+2348102567773", icon: MessageCircle, style: styles.whatsapp },
+  { label: "WhatsApp", href: "https://wa.me/+2348102567773", icon: FaWhatsapp, style: styles.whatsapp },
 ];
 export default function ContactSection() {
   return <section id="contact-section" className={styles.contactSection} aria-label="Contact information"><div className={styles.contactCards}>

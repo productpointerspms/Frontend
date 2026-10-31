@@ -4,17 +4,25 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { montserrat } from "@/lib/fonts";
 
-/** Once any of these is on screen the bar steps aside. */
-const STAND_DOWN_SELECTORS = ["#ppip-final-cta", "footer"];
+interface StickyApplyBarProps {
+  href: string;
+  label: string;
+  /**
+   * Once any of these is on screen the bar steps aside — typically sections
+   * that already show the same call to action (pricing, closing CTA) and the footer.
+   */
+  hideOver?: string[];
+}
 
 /**
- * Mobile-only floating CTA. It slides up once the reader has scrolled past the
- * hero (which carries its own apply button) and tucks away again over the
- * closing CTA and the footer, so the same button never shows twice.
+ * Mobile-only floating CTA for program landing pages. It slides up once the
+ * reader has scrolled past the hero (which carries its own apply button) and
+ * tucks away again over `hideOver` sections, so the same button never shows twice.
  */
-const StickyApplyBar: React.FC = () => {
+const StickyApplyBar: React.FC<StickyApplyBarProps> = ({ href, label, hideOver = ["footer"] }) => {
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const [standDown, setStandDown] = useState(false);
+  const hideOverKey = hideOver.join(",");
 
   useEffect(() => {
     const onScroll = () => {
@@ -27,9 +35,7 @@ const StickyApplyBar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const targets = STAND_DOWN_SELECTORS.flatMap((selector) =>
-      Array.from(document.querySelectorAll(selector))
-    );
+    const targets = hideOverKey ? Array.from(document.querySelectorAll(hideOverKey)) : [];
     if (targets.length === 0) return;
 
     const onScreen = new Set<Element>();
@@ -47,13 +53,14 @@ const StickyApplyBar: React.FC = () => {
 
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
-  }, []);
+  }, [hideOverKey]);
 
   const visible = scrolledPastHero && !standDown;
 
   return (
     <div
       aria-hidden={!visible}
+      inert={!visible}
       className={`${montserrat.className}
         fixed inset-x-0 bottom-0 z-50
         px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3
@@ -64,8 +71,7 @@ const StickyApplyBar: React.FC = () => {
       `}
     >
       <Link
-        href="/ppip/apply"
-        tabIndex={visible ? undefined : -1}
+        href={href}
         className="
           flex h-[52px] w-full
           items-center justify-center
@@ -80,7 +86,7 @@ const StickyApplyBar: React.FC = () => {
           active:bg-[#4d1ba8]
         "
       >
-        Apply for the Apprenticeship
+        {label}
       </Link>
     </div>
   );
