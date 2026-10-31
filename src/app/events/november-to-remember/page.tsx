@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, Clock3, MapPin, Check, ChevronDown, Crown } from "lucide-react";
 import Countdown from "./Countdown";
-import { NOVEMBER_EVENT_SLUG, TIER_STATUS_LABEL, formatEventDate, formatMoney, type EventDetails } from "@/lib/event";
+import { NOVEMBER_EVENT_SLUG, tierStatusLabel, formatEventDate, formatMoney, type EventDetails } from "@/lib/event";
 import { fetchEvent } from "@/lib/eventApi.server";
 import styles from "./event.module.css";
 
@@ -155,15 +155,15 @@ function TierCards({ event }: { event: EventDetails | null }) {
     const active = tier.id === event.activeTier?.id;
     return (
       <article key={tier.id} className={`${styles.ticket} ${active ? styles.activeTicket : styles.inactiveTicket}`}>
-        <span className={styles.ticketBadge}>{active ? "CURRENT TIER · ACTIVE" : (TIER_STATUS_LABEL[tier.status] ?? tier.status).toUpperCase()}</span>
+        <span className={styles.ticketBadge}>{active ? "CURRENT TIER · ACTIVE" : tierStatusLabel(tier.status).toUpperCase()}</span>
         <h3>{tier.name}</h3>
         <p>{tier.description}</p>
         <div className={styles.price}>{formatMoney(tier.price, tier.currency)} <span>/ attendee</span></div>
         <FeatureList items={tier.benefits.length ? tier.benefits : ticketFeatures} />
         {active && <div className={styles.deadline}><CalendarDays size={24} /><div>{tier.name.toUpperCase()} ENDS<strong>{formatEventDate(tier.salesEndAt, event.timeZone)} WAT</strong></div></div>}
         {active
-          ? <Link href="/events/november-to-remember/checkout" className={styles.registerButton}>Get {tier.name.toLowerCase()}</Link>
-          : <span className={styles.registerButton} aria-disabled="true">{TIER_STATUS_LABEL[tier.status] ?? tier.status}</span>}
+          ? <Link href="/events/november-to-remember/checkout" className={styles.registerButton}><span className={styles.desktopOnly}>Get {tier.name.toLowerCase()}</span><span className={styles.mobileOnly}>Register now - {formatMoney(tier.price, tier.currency)}</span></Link>
+          : <span className={styles.registerButton} aria-disabled="true">{tier.name.replace(/\s*ticket$/i, "")} ({tierStatusLabel(tier.status)})</span>}
       </article>
     );
   })}</>;
@@ -269,7 +269,7 @@ export default async function NovemberEventPage() {
 
       <section className={styles.faq}><div className={styles.container}><h2>Frequently Asked Questions</h2><div className={styles.faqList}>{faqs.map(([question, answer]) => <article key={question}><h3>{question}</h3><p>{answer}</p></article>)}</div></div></section>
 
-      <section className={styles.closing}><span>Activate Your Product Career</span><h2>Ready to make this a<br /><em>November to Remember?</em></h2><p>Stop navigating the job market in the dark. Secure your pass, gain clarity<br className={styles.desktopBreak} /> on positioning, and take charge of your product journey.</p><Link href="/events/november-to-remember/checkout" className={styles.closingButton}>Register now{activeTier ? ` · ${formatMoney(activeTier.price, activeTier.currency)}` : ""}</Link></section>
+      <section className={styles.closing}><span>Activate Your Product Career</span><h2>Ready to make this a<br /><em>November to Remember?</em></h2><p>Stop navigating the job market in the dark. Secure your pass, gain clarity<br className={styles.desktopBreak} /> on positioning, and take charge of your product journey.</p><Link href="/events/november-to-remember/checkout" className={styles.closingButton}><span className={styles.desktopOnly}>Register now{activeTier ? ` · ${formatMoney(activeTier.price, activeTier.currency)}` : ""}</span><span className={styles.mobileOnly}>Claim your all-access pass{activeTier ? ` - ${formatMoney(activeTier.price, activeTier.currency)}` : ""}</span></Link></section>
     </div>
   );
 }
