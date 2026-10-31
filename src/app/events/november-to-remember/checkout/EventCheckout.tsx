@@ -6,7 +6,7 @@ import { CalendarDays, Clock3, MapPin } from "lucide-react";
 import {
   ATTENDEE_ROLES,
   NOVEMBER_EVENT_SLUG,
-  TIER_STATUS_LABEL,
+  tierStatusLabel,
   formatMoney,
   getEvent,
   startEventCheckout,
@@ -94,7 +94,7 @@ export default function EventCheckout() {
           {loadError && <p className={styles.notice} role="alert">We couldn&apos;t load ticket details right now. Please refresh the page or contact <a href="mailto:support@productpointers.com">support@productpointers.com</a>.</p>}
           {event && !tier && <div className={styles.notice} role="status">
             <p>Tickets aren&apos;t on sale right now.</p>
-            <ul>{event.tiers.map(t => <li key={t.id}>{t.name}: {TIER_STATUS_LABEL[t.status] ?? t.status}</li>)}</ul>
+            <ul>{event.tiers.map(t => <li key={t.id}>{t.name}: {tierStatusLabel(t.status)}</li>)}</ul>
           </div>}
           {tier && <>
             <div className={styles.ticket}><div><h2>{tier.name}</h2><p>{tier.description}</p></div></div>

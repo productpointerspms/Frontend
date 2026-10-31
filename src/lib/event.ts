@@ -7,7 +7,7 @@
 
 export const NOVEMBER_EVENT_SLUG = "november-to-remember";
 
-export type TierStatus = "ON_SALE" | "SOLD_OUT" | "UPCOMING" | "ENDED" | (string & {});
+export type TierStatus = "ON_SALE" | "SOLD_OUT" | "NOT_STARTED" | "UPCOMING" | "ENDED" | (string & {});
 export type TicketStatus = "PENDING" | "PAID" | (string & {});
 
 export interface EventTier {
@@ -157,12 +157,20 @@ export function formatEventDate(iso: string, timeZone = "Africa/Lagos"): string 
   }).format(new Date(iso));
 }
 
-export const TIER_STATUS_LABEL: Record<string, string> = {
+const TIER_STATUS_LABEL: Record<string, string> = {
   ON_SALE: "On sale",
   SOLD_OUT: "Sold out",
-  UPCOMING: "Coming soon",
+  NOT_STARTED: "Not yet active",
+  UPCOMING: "Not yet active",
   ENDED: "Sales ended",
 };
+
+/** Human label for a tier status; unknown codes like "SALES_PAUSED" become "Sales paused". */
+export function tierStatusLabel(status: string): string {
+  if (TIER_STATUS_LABEL[status]) return TIER_STATUS_LABEL[status];
+  const words = status.toLowerCase().replace(/_/g, " ").trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
 
 /** e.g. "Nov 7–28, 2026 · 7:00 PM", or "Nov 28 – Dec 5, 2026 · 7:00 PM" across months. */
 export function formatEventRange(startsAt: string, endsAt: string, timeZone = "Africa/Lagos"): string {
