@@ -10,10 +10,12 @@ const ROUTES: {
   priority: number;
 }[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
+  { path: "/events/november-to-remember", changeFrequency: "weekly", priority: 0.7 },
   { path: "/ppap", changeFrequency: "weekly", priority: 0.9 },
   { path: "/ppip", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/about", changeFrequency: "monthly", priority: 0.6 },
   { path: "/community", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/courses", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/scholarships", changeFrequency: "weekly", priority: 0.8 },
   { path: "/contact", changeFrequency: "yearly", priority: 0.4 },
 ];
 

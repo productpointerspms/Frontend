@@ -1,26 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Montserrat } from "next/font/google";
+import { geistSans, geistMono, montserrat, bricolage } from "@/lib/fonts";
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import OrganizationJsonLd from "@/components/seo/OrganizationJsonLd";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, SOCIAL_LINKS } from "@/lib/seo";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
 
 const Arial = {
   variable: "--font-arial",
@@ -89,12 +73,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${Arial.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${bricolage.variable} ${Arial.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased font-montserrat" suppressHydrationWarning>
         <OrganizationJsonLd />
-        <div className="min-h-screen flex flex-col">
+        <div className="relative min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

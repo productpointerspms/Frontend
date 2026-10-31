@@ -1,13 +1,8 @@
 import React from "react";
 import { Star } from "lucide-react";
-import { Montserrat } from "next/font/google";
+import { montserrat } from "@/lib/fonts";
 import img1 from "@/assets/images/favour.jpg"
 import img2 from "@/assets/images/chino.png"
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 interface Testimonial {
   id: number;

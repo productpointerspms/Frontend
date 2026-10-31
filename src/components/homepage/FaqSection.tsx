@@ -2,12 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import { montserrat } from "@/lib/fonts";
 
 interface FAQItem {
   question: string;
@@ -18,12 +13,12 @@ const faqData: FAQItem[] = [
   {
     question: "Which ProductPointers program is right for me?",
     answer:
-      "The right program depends on your current stage and goals. PPAP is best for beginners looking for foundational Product Management knowledge, PPMP focuses on structured mentorship and guidance, PPIP is designed for hands-on execution and real product experience, PPCP offers personalized 1:1 coaching, while PPTP helps Product Managers specialize and deepen expertise in a chosen track.",
+      "The right program depends on your current stage and goals. PPAP is best for beginners looking for foundational Product Management knowledge, PPMP helps experienced Product Managers deepen their expertise and advance their careers, PPIP is designed for hands-on execution and real product experience, PPCP offers personalized 1:1 coaching.",
   },
   {
     question: "Do I need Product Management experience to join?",
     answer:
-      "No. Some ProductPointers programs are beginner-friendly and designed to help aspiring Product Managers start with clarity and structure. More advanced programs like PPTP are intended for individuals with some prior Product Management knowledge or experience.",
+      "No. Some ProductPointers programs are beginner-friendly and designed to help aspiring Product Managers start with clarity and structure. More advanced programs like PPMP are intended for individuals with some prior Product Management knowledge or experience.",
   },
   {
     question: "Are the programs remote?",

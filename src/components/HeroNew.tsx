@@ -8,15 +8,10 @@ import {
   Eye,
   Briefcase,
 } from "lucide-react";
-import { Montserrat } from "next/font/google";
+import { montserrat } from "@/lib/fonts";
 import user1 from "@/assets/images/eniola.png";
 import user2 from "@/assets/images/mercy.png";
 import user3 from "@/assets/images/udochukwu.png";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const journey = [
   { icon: BookOpen, label: "Learn PM" },

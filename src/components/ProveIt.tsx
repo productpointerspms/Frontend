@@ -1,11 +1,6 @@
 import React from "react";
 import { XCircle, Check } from "lucide-react";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
+import { montserrat } from "@/lib/fonts";
 
 const rows: { traditional: string; productpointers: string }[] = [
   { traditional: "Focus on learning", productpointers: "Focus on evidence" },

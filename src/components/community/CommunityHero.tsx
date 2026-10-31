@@ -1,92 +1,85 @@
-"use client";
+import React from "react";
+import Image from "next/image";
+import { bricolage } from "@/lib/fonts";
 
-import React from 'react';
-import { ChevronDown, ArrowRight, User } from 'lucide-react';
-import heroImg from "@/assets/images/comm.png"
+// Headings share the PPIP/PPAP display face — variable weight covers 200-800.
+const stats = [
+  { value: "500+", label: "Alumni Members" },
+  { value: "97%", label: "Career Advancement Rate" },
+  { value: "13+", label: "Countries Reached" },
+];
 
 const CommunityHero = () => {
-  const handleScrollToPath = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    document.getElementById("path-to-community")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
-    <div className="min-h-screen bg-[#FDF4FF] font-sans">
+    <section
+      aria-labelledby="community-hero-heading"
+      className="relative isolate overflow-hidden bg-[#0D0918] px-6 pb-14 pt-24 text-center text-white sm:px-10 lg:min-h-[727px] lg:pb-[60px] lg:pt-[146px]"
+    >
+      <Image
+        src="/images/comm/hero.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="-z-20 object-cover object-center"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(67,16,135,0.40)_0%,rgba(39,14,74,0.65)_55%,#0D0918_90%)]"
+      />
 
-      {/* Hero Content */}
-      <main className="max-w-7xl mx-auto px-8 py-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        {/* Left Column */}
-        <div className="flex flex-col items-start">
-          <div className="border border-[#D8B4FE] text-[#6024D0] px-4 py-1.5 rounded-full text-xs font-medium mb-8 bg-[#FAE1FF]">
-            Alumni-Only Community
-          </div>
-          
-          <h1 className="text-[#15010D] text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-8">
-            Growth Doesn't End <br />
-            <span className="text-[#6024D0]">After The Program</span>
-          </h1>
-          
-          <p className="text-[#15010D]/60 text-base md:text-lg leading-relaxed mb-10 max-w-xl">
-            The ProductPointers Community is a private lifetime ecosystem designed to help alumni continue growing through accountability, networking, mentorship, resources, and consistent Product Management development.
-          </p>
+      <div className="mx-auto flex max-w-[1000px] flex-col items-center">
+        <p className="rounded-full border border-white px-4 py-2 text-[12px] font-bold uppercase leading-[18px] tracking-[0.1em] sm:text-[14px]">
+          Productpointers community
+        </p>
+        <h1
+          id="community-hero-heading"
+          className={`${bricolage.className} mt-5 max-w-[1150px] text-[26px] font-extrabold leading-[1.05] tracking-[-0.045em] sm:text-[52px] md:text-[62px] lg:text-[64px] xl:text-[60px]`}
+        >
+          Growth Doesn’t End After the
+          <br className="hidden sm:block" />{" "}
+          Program.
+        </h1>
+        <p className="mt-8 max-w-[740px] text-[16px] font-semibold leading-7 sm:text-[18px]">
+          Completing a ProductPointers program is just the beginning. As an
+          alumnus, you gain access to an ongoing community where you continue
+          learning, stay accountable, and grow alongside fellow Product
+          professionals.
+        </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 mb-12 w-full">
-            <a href="#path-to-community" onClick={handleScrollToPath} className="bg-[#6024D0] text-white px-6 py-4 sm:px-8 sm:py-5 rounded-2xl font-bold flex items-center justify-center gap-2 w-full sm:w-auto hover:gap-4 transition-all text-xs sm:text-base whitespace-nowrap">
-              Unlock Community Access <ArrowRight size={20} />
-            </a>
-            <a href="#path-to-community" onClick={handleScrollToPath} className="border border-[#15010D] text-[#15010D] px-6 py-4 sm:px-10 sm:py-5 rounded-2xl font-bold w-full sm:w-auto hover:bg-white transition-all cursor-pointer text-xs sm:text-base whitespace-nowrap flex items-center justify-center">
-              Explore Programs
-            </a>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="flex -space-x-3">
-              {["/images/eniola.png", "/images/success.png", "/images/mercy.png"].map((src, i) => (
-                <div key={i} className="w-10 h-10 rounded-full border-[3px] border-[#FDF4FF] overflow-hidden bg-gray-200 shadow-sm">
-                  <img src={src} alt={`Alumni ${i + 1}`} className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </div>
-            <p className="text-[#15010D]/60 text-xs font-medium md:whitespace-nowrap">
-              Join ProductPointers alumni growing together long after completing their programs.
-            </p>
-          </div>
+        <div className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
+          <a
+            href="#path-to-community"
+            className="flex min-h-12 w-full items-center justify-center rounded-md bg-[#5818D0] px-8 py-3 text-[14px] font-semibold transition-colors hover:bg-[#6B28E0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto"
+          >
+            Join the Alumni Community
+          </a>
+          <a
+            href="#path-to-community"
+            className="flex min-h-12 w-full items-center justify-center rounded-md border border-white bg-white/5 px-8 py-3 text-[14px] font-semibold transition-colors hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto"
+          >
+            Explore Programs
+          </a>
         </div>
 
-        {/* Right Column (Image and Badges) */}
-        <div className="relative">
-          <div className="rounded-[40px] overflow-hidden shadow-2xl">
-            <img 
-              src={heroImg.src}
-              alt="Community working together" 
-              className="w-full h-auto object-cover"
-            />
-          </div>
-
-          {/* Badge 1: 1:1 Mentorship */}
-          <div className="absolute top-10 -right-8 bg-white/95 backdrop-blur shadow-xl rounded-2xl p-4 flex items-center gap-3 animate-bounce-slow">
-            <div className="bg-purple-100 p-2 rounded-full text-[#6024D0]">
-              <User size={20} />
+        <dl className="mt-8 grid w-full max-w-[800px] grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col items-center">
+              <dt className="order-2 mt-1 text-[14px] leading-6 sm:text-[15px]">
+                {stat.label}
+              </dt>
+              <dd className="order-1 text-[44px] font-bold leading-[1.15] tracking-[-0.02em] lg:text-[48px]">
+                {stat.value}
+              </dd>
+              <div
+                aria-hidden="true"
+                className="order-3 mt-3 h-0.5 w-[98px] bg-white"
+              />
             </div>
-            <div>
-              <p className="font-bold text-[#15010D] text-xs">1:1 Mentorship</p>
-              <p className="text-[#15010D]/60 text-[9px]">Senior PM guidance</p>
-            </div>
-          </div>
-
-          {/* Badge 2: Weekly Accountability */}
-          <div className="absolute bottom-20 -left-12 bg-white/95 backdrop-blur shadow-xl rounded-2xl p-4 flex items-center gap-3">
-            <div className="bg-purple-100 p-2 rounded-full text-[#6024D0]">
-              <User size={20} />
-            </div>
-            <div>
-              <p className="font-bold text-[#15010D] text-xs">Weekly Accountability</p>
-              <p className="text-[#15010D]/60 text-[9px]">Groups meet every Week</p>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+          ))}
+        </dl>
+      </div>
+    </section>
   );
 };
 

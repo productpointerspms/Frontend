@@ -1,0 +1,9 @@
+# Netlify needs the Next.js runtime to serve a server-rendered app.
+# Without it the site is treated as a plain static folder and every
+# route resolves to "Page not found".
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

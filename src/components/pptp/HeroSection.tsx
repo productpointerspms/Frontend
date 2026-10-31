@@ -19,10 +19,10 @@ const HeroSection = () => {
                         <span className="text-[#6024D0]">But You’re Still Not Standing Out</span>
                     </h1>
                     <p className="text-[#475467] text-base md:text-lg mb-10 max-w-xl">
-                        The ProductPointers Track Program (PPTP) helps you specialize, deepen your expertise, and position yourself as a high-impact Product Manager in a competitive market.
+                        The Product Management Mastery Program (PPMP) helps you specialize, deepen your expertise, and position yourself as a high-impact Product Manager in a competitive market.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <Link href="/pptp/apply" className="bg-[#6024D0] text-white text-xs px-5 py-2 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4d1ba8] transition-all">
+                        <Link href="/ppmp/apply" className="bg-[#6024D0] text-white text-xs px-5 py-2 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4d1ba8] transition-all">
                             Apply for the Next Cohort <ChevronRight size={20} />
                         </Link>
                         <button className="bg-white border border-[#101828] text-[#101828] text-xs px-5 py-2 rounded-xl font-bold hover:bg-gray-50 transition-all">

@@ -10,10 +10,14 @@ import EvidenceTable from "@/components/ppip/EvidenceTable";
 import PublicRecord from "@/components/ppip/PublicRecord";
 import FitChecklist from "@/components/ppip/FitChecklist";
 import GraduationVisibility from "@/components/ppip/GraduationVisibility";
+import AcceleratorCallout from "@/components/ppip/AcceleratorCallout";
 import Testimonials from "@/components/ppip/Testimonials";
 import PricingSection from "@/components/ppip/PricingSection";
+import ProgramDetails from "@/components/ppip/ProgramDetails";
 import FAQSection from "@/components/ppip/FAQSection";
 import FinalCTA from "@/components/ppip/FinalCTA";
+import styles from "@/components/ppip/ppip-mobile.module.css";
+import StickyApplyBar from "@/components/ppip/StickyApplyBar";
 
 export const metadata: Metadata = buildMetadata({
   title: "ProductPointers Internship Program (PPIP)",
@@ -24,7 +28,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function PPIPPage() {
   return (
-    <main className="min-h-screen">
+    <div className={`${styles.page} min-h-screen`}>
       <HeroSection />
       <OpportunitySection />
       <NotAnotherInternship />
@@ -34,10 +38,13 @@ export default function PPIPPage() {
       <PublicRecord />
       <FitChecklist />
       <GraduationVisibility />
+      <AcceleratorCallout />
       <Testimonials />
+      <ProgramDetails />
       <PricingSection />
       <FAQSection />
       <FinalCTA />
-    </main>
+      <StickyApplyBar />
+    </div>
   );
 }

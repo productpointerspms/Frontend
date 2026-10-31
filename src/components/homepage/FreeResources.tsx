@@ -68,7 +68,7 @@ const FreeResources: React.FC = () => {
               <div className="p-4 flex-grow flex items-center bg-white">
                 <h3 className="text-xs md:text-sm font-semibold font-montserrat text-[#15010D]">
                   How to Land Remote Jobs on Upwork Using Video Proposals in
-                  2026 | A Step by Step Guide
+                  2025 | A Step by Step Guide
                 </h3>
               </div>
             </div>

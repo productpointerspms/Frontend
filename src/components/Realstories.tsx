@@ -3,12 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Quote, Briefcase, Handshake, MapPin } from "lucide-react";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import { montserrat } from "@/lib/fonts";
 
 const RealStories: React.FC = () => {
   return (

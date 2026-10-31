@@ -7,13 +7,15 @@ import SolutionSection from '@/components/ppap/SolutionSection';
 import ProgramOverview from '@/components/ppap/ProgramOverview';
 import CurriculumSection from '@/components/ppap/CurriculumSection';
 import PracticalSupport from '@/components/ppap/PracticalSupport';
-import TimelineSection from '@/components/ppap/TimelineSection';
 import MentorshipSection from '@/components/ppap/MentorshipSection';
 import TestimonialsSection from '@/components/ppap/TestimonialsSection';
 import PricingSection from '@/components/ppap/PricingSection';
 import CTASection from '@/components/ppap/CTASection';
 import FAQSection from '@/components/ppap/FAQSection';
 import FinalCTA from '@/components/ppap/FinalCTA';
+import WhoItsForSection from '@/components/ppap/WhoItsForSection';
+import styles from "@/components/ppap/ppap-mobile.module.css";
+import InternshipCTA from '@/components/ppap/InternshipCTA';
 
 export const metadata: Metadata = buildMetadata({
   title: "ProductPointers Accelerator Program (PPAP)",
@@ -24,20 +26,22 @@ export const metadata: Metadata = buildMetadata({
 
 export default function PPAPPage() {
   return (
-    <main className="min-h-screen overflow-x-hidden w-full max-w-[100vw]">
+    <div className={`${styles.page} min-h-screen overflow-x-clip w-full max-w-[100vw]`}>
       <HeroSection />
       <ProblemSection />
       <SolutionSection />
       <ProgramOverview />
       <CurriculumSection />
       <PracticalSupport />
-      <TimelineSection />
+      {/* <TimelineSection /> */}
       <MentorshipSection />
+      <WhoItsForSection/>
+      <InternshipCTA/>
       <TestimonialsSection />
-      <PricingSection />
       <CTASection />
+      <PricingSection />
       <FAQSection />
       <FinalCTA />
-    </main>
+    </div>
   );
 }

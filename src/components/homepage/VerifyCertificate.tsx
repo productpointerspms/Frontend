@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowRight, XCircle, Info, BadgeCheck, AlertCircle } from "lucide-react";
+import {
+  ArrowRight,
+  XCircle,
+  Info,
+  BadgeCheck,
+  AlertCircle,
+} from "lucide-react";
 import { getCertificate, type CertificateRecord } from "@/lib/certificate";
 
 type Result = CertificateRecord | "notfound" | null;
@@ -30,7 +36,9 @@ const VerifyCertificate = () => {
       setResult(record ?? "notfound");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Something went wrong. Please try again."
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.",
       );
       setResult(null);
     } finally {
@@ -44,11 +52,17 @@ const VerifyCertificate = () => {
         Verify ProductPointers Certificates
       </h2>
       <p className="text-gray-500 text-[11px] min-[375px]:text-[11px] sm:text-base md:text-lg max-w-3xl mb-4 font-medium leading-relaxed">
-        <span className="whitespace-nowrap sm:whitespace-normal">Employers and organizations can verify ProductPointers</span><br className="block md:hidden" />
-        <span className="whitespace-nowrap sm:whitespace-normal">program completion using a student verification ID.</span>
+        <span className="whitespace-nowrap sm:whitespace-normal">
+          Employers and organizations can verify ProductPointers
+        </span>
+        <br className="block md:hidden" />
+        <span className="whitespace-nowrap sm:whitespace-normal">
+          program completion using a student verification ID.
+        </span>
       </p>
       <p className="text-gray-400 text-xs md:text-sm mb-10">
-        Every verified certificate confirms authentic program participation and completion.
+        Every verified certificate confirms authentic program participation and
+        completion.
       </p>
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-2xl">
@@ -120,7 +134,10 @@ const VerifyCertificate = () => {
               <div className="border-t border-gray-100 mb-8" />
               <DetailRow label="Student Name" value={result.name} />
               <DetailRow label="Program" value={result.program} />
-              <DetailRow label="Completion Status" value="Successfully Completed" />
+              <DetailRow
+                label="Completion Status"
+                value="Successfully Completed"
+              />
             </>
           ) : (
             <>

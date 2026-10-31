@@ -1,15 +1,36 @@
-import React from "react";
-import ProgramHero from "@/components/PPMP/Herosection"
+import { buildMetadata } from "@/lib/seo";
+import ProgramHero from "@/components/PPMP/Herosection";
 import ProblemSection from "@/components/PPMP/ProblemSection";
+import Curriculum from "@/components/PPMP/Curriculum";
+import { ApplicationSection, ComparisonSection, ExperienceSection, FitSection, GapSection, OutcomesSection, ProgramDetails, SkillStackSection, TransformationSection } from "@/components/PPMP/ProgramSections";
+import MentorshipSection from "@/components/ppap/MentorshipSection";
+import PricingSection from "@/components/PPMP/PricingSection";
+import { CareerCta, FaqSection, Testimonials } from "@/components/PPMP/ClosingSections";
+import styles from "@/components/PPMP/ppmp.module.css";
 
+export const metadata = buildMetadata({
+  title: "Product Management Mastery Program (PPMP)",
+  path: "/ppmp",
+});
 
-const PPMPPage: React.FC = () => {
-  return (
-    <main className="min-h-screen bg-white text-gray-900">
-      <ProgramHero />
-      <ProblemSection />
-    </main>
-  );
-};
-
-export default PPMPPage;
+export default function PPMPPage() {
+  return <div className={styles.page}>
+    <ProgramHero />
+    <ProblemSection />
+    <GapSection />
+    <ComparisonSection />
+    <Curriculum />
+    <ApplicationSection />
+    <SkillStackSection />
+    <OutcomesSection />
+    <FitSection />
+    <TransformationSection />
+    <ExperienceSection />
+    <ProgramDetails />
+    <div className={styles.mentors}><MentorshipSection /></div>
+    <Testimonials />
+    <PricingSection />
+    <FaqSection />
+    <CareerCta />
+  </div>;
+}

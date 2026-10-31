@@ -1,12 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], // Add the weights you need
-});
+import { montserrat } from "@/lib/fonts";
 
 export default function CeoProfile() {
   return (

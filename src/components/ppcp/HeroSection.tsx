@@ -1,60 +1,123 @@
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import img from "@/assets/images/ppcphero.png"
-import avatar1 from "@/assets/images/prod.png"
-import avatar2 from "@/assets/images/prod1.png"
-import avatar3 from "@/assets/images/prod2.png"
+"use client";
 
+import React from "react";
+import Link from "next/link";
+import { bricolage } from "@/lib/fonts";
+
+// Headings share the PPIP/PPAP display face — variable weight covers 200-800.
 const Hero = () => {
   return (
-    <div className="bg-[#FCF1FF] min-h-screen font-sans">
-      {/* Hero Content */}
-      <section className="max-w-7xl mx-auto px-6 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="text-left">
-          <div className="inline-block border border-purple-200 bg-purple-50 px-4 py-1 rounded-full mb-6">
-            <span className="text-[#6219D1] text-xs font-semibold">Personalized 1:1 Coaching</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-6xl font-black text-gray-900 leading-[1.1] mb-8">
-            Stop Trying To <br /> Figure It Out Alone
-          </h1>
-          
-          <p className="text-gray-500 text-base md:text-base max-w-xl leading-relaxed mb-10">
-            The ProductPointers Coaching Program (PPCP) is a personalized 1:1 mentorship experience 
-            designed to take you from beginner to a confident, job-ready Product Manager, 
-            with direct guidance every step of the way.
-          </p>
+    <section data-ppcp-section="HeroSection" className="relative min-h-screen md:min-h-[760px] w-full overflow-hidden font-sans">
+      {/* =====================================
+          BACKGROUND IMAGE
+      ====================================== */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/ppcp/ppcphero.png"
+        alt="ProductPointers one-on-one coaching session"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
 
-          <div className="flex flex-wrap gap-4 mb-12">
-            <Link href="/ppcp/apply" className="bg-[#6219D1] text-white text-xs px-8 py-2 rounded-2xl font-bold flex items-center gap-2 hover:bg-[#4f14a8] transition-all">
-              Apply for 1:1 Coaching <ArrowRight className="w-5 h-5" />
-            </Link>
-            <button className="border-2 border-gray-900 text-gray-900 text-xs px-10 py-2 rounded-2xl font-bold hover:bg-gray-50 transition-all">
-              Book a Session
-            </button>
-          </div>
+      {/* Purple image tint */}
+      <div className="absolute inset-0 bg-[#361074]/55" />
 
-          <div className="flex items-center gap-4">
-            <div className="flex -space-x-3">
-              {[avatar1, avatar2, avatar3].map((avatar, i) => (
-                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gray-300 overflow-hidden shadow-sm">
-                  <img src={avatar.src} alt="User" className="w-full h-full object-cover" />
-                </div>
-              ))}
+      {/* Dark bottom gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#24104a]/15 to-[#080610]/95" />
+
+      {/* Slight left/right darkening */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#24104a]/30 via-transparent to-[#24104a]/25" />
+
+      {/* =====================================
+          PAGE CONTENT
+      ====================================== */}
+      <div className="relative z-10 flex min-h-screen md:min-h-[760px] flex-col">
+        {/* =====================================
+            LOGO
+        ====================================== */}
+        <header className="px-6 pt-7 sm:px-10 md:px-16 lg:px-20 xl:px-24">
+          <Link
+            href="/"
+            className="inline-flex items-center text-[22px] font-extrabold tracking-[-0.04em] text-white/45"
+          >
+            {/* Replace this with your actual logo if available */}
+            <span className="mr-2 text-[25px] font-black">P</span>
+            ProductPointers
+          </Link>
+        </header>
+
+        {/* =====================================
+            HERO CENTER CONTENT
+        ====================================== */}
+        <div className="flex flex-1 items-center justify-center px-5 pb-28 pt-12 sm:px-8 md:pb-24 lg:px-16">
+          <div className="mx-auto w-full max-w-[1050px] text-center">
+            {/* Badge */}
+            <div className="mb-6 inline-flex items-center justify-center rounded-full border border-white/80 px-5 py-[7px]">
+              <span className="text-[11px] font-bold uppercase tracking-[0.17em] text-white sm:text-[12px]">
+                1 on 1 Coaching Program
+              </span>
             </div>
-            <p className="text-gray-500 text-xs">
-              Join <span className="font-bold text-gray-900">300+</span> ambitious Product Managers getting personalized guidance through ProductPointers.
+
+            {/* Heading */}
+            <h1 className={`${bricolage.className} mx-auto max-w-[1150px] text-[26px] font-extrabold leading-[1.05] tracking-[-0.045em] text-white sm:text-[52px] md:text-[62px] lg:text-[64px] xl:text-[60px]`}>
+              Get the Guidance You Need to Grow
+              <br className="hidden md:block" />
+              <span className="md:hidden"> </span>
+              With{" "}
+              <span className="text-[#FFB800]">
+                Confidence.
+              </span>
+            </h1>
+
+            {/* Description */}
+            <p className="mx-auto mt-8 max-w-[720px] text-[15px] font-medium leading-[1.7] text-white/90 sm:text-[16px] md:text-[17px]">
+              Get personalised guidance from an experienced Product professional
+              to help you navigate challenges, strengthen your product thinking
+              and make meaningful progress in your career.
+            </p>
+
+            {/* Buttons */}
+            <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/ppcp/blessing-okomor"
+                className="inline-flex h-[52px] min-w-[220px] items-center justify-center rounded-[6px] bg-[#5E16D8] px-7 text-[14px] font-bold text-white transition-all duration-300 hover:bg-[#6D22E8]"
+              >
+                Book a Coaching Session
+              </Link>
+
+              <Link
+                href="#coaching-program-details"
+                className="inline-flex h-[52px] min-w-[220px] items-center justify-center rounded-[6px] border border-white/80 bg-white/[0.04] px-7 text-[14px] font-bold text-white backdrop-blur-[2px] transition-all duration-300 hover:bg-white hover:text-[#25104D]"
+              >
+                See Program Details
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* =====================================
+            BOTTOM FEATURES
+        ====================================== */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 px-6 pb-8 sm:px-10 md:px-16 lg:px-20 xl:px-24">
+          <div className="mx-auto grid max-w-[850px] grid-cols-2 gap-x-8 gap-y-5 text-center md:grid-cols-4">
+            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white">
+              1:1 Coaching
+            </p>
+
+            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white">
+              Personalized Guidance
+            </p>
+
+            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white">
+              Expert Feedback
+            </p>
+
+            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white">
+              Career Growth
             </p>
           </div>
         </div>
-
-        {/* Right Side: Graphic Section */}
-        <div className="relative">
-          <img src={img.src} alt="Coaching Hero" className="w-full h-auto" />
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 

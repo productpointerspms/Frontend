@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    qualities: [75, 90],
+  },
   logging: {
     fetches: {
       fullUrl: false,
@@ -12,6 +15,9 @@ const nextConfig: NextConfig = {
     return [
       { source: "/ppap/checkout", destination: "/checkout?program=PPAP", permanent: false },
       { source: "/ppip/checkout", destination: "/checkout?program=PPIP", permanent: false },
+      // /about was removed from the nav and is no longer a public page.
+      { source: "/about", destination: "/", permanent: false },
+      { source: "/about/:path*", destination: "/", permanent: false },
     ];
   },
 };

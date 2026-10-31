@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-import { Montserrat } from "next/font/google";
+import { montserrat } from "@/lib/fonts";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 interface Testimonial {
   id: number;

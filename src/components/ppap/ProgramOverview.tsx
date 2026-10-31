@@ -1,52 +1,36 @@
-import React from 'react';
-import { Signpost, Users, BriefcaseBusiness } from 'lucide-react';
+import { bricolage } from "@/lib/fonts";
+import styles from "./program-overview.module.css";
 
-const ProgramOverview = () => {
+const steps = [
+  { title: "Learn the Concept", description: "Structured lessons introduce each area of product thinking clearly." },
+  { title: "Apply What You’ve Learned", description: "Exercises and assignments put the concepts into practice immediately." },
+  { title: "Get Feedback", description: "Receive structured input from mentors and coaches on your work." },
+  { title: "Strengthen Your Understanding", description: "Refine your thinking and build real confidence in the material." },
+];
+
+export default function ProgramOverview() {
   return (
-    <section className="bg-[#FCF1FF] py-20 px-6 md:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-        <div className="flex-1 max-w-xl">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-6 leading-tight">
-            PPAP Gives You What Most Beginners Lack: <span className="text-[#6D28D9]">Clarity</span>
-          </h2>
-          
-          <p className="text-gray-500 text-base mb-6 leading-relaxed">
-            Instead of random learning, you'll follow a structured path designed to help you understand Product Management from the ground up.
-          </p>
-          
-          <p className="text-[#1a1a1a] text-base mb-10 leading-relaxed font-medium">
-            With mentorship, practical assignments, and guided learning, you won't just "learn", you'll start <span className="text-[#6D28D9]">thinking like a Product Manager.</span>
-          </p>
-          
-          <div className="flex flex-wrap gap-3">
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-50">
-              <Signpost className="w-3.5 h-3.5 text-[#6D28D9]" />
-              <span className="font-medium text-[#1a1a1a] text-xs">Structured Path</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-50">
-              <Users className="w-3.5 h-3.5 text-[#6D28D9]" />
-              <span className="font-medium text-[#1a1a1a] text-xs">Mentorship</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-50">
-              <BriefcaseBusiness className="w-3.5 h-3.5 text-[#6D28D9]" />
-              <span className="font-medium text-[#1a1a1a] text-xs">Practical Work</span>
-            </div>
+    <section data-ppap-section="ProgramOverview" className={styles.section} aria-labelledby="ppap-overview-title">
+      <div className={styles.container}>
+        <div className={styles.intro}>
+          <div>
+            <p className={styles.eyebrow}>Learning by doing</p>
+            <h2 id="ppap-overview-title" className={`${bricolage.className} ${styles.heading}`}>
+              Don’t Just Learn the<br className={styles.desktopBreak} /> Concepts. Start Putting Them<br className={styles.desktopBreak} /> Into Practice.
+            </h2>
           </div>
+          <p className={styles.description}>You’ll learn the foundations of Product Management and apply your learning through practical exercises and assignments designed to help you understand how the work comes together.</p>
         </div>
-
-        <div className="flex-[1.2] w-full flex justify-center">
-          <div className="aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-200 relative w-full max-w-[440px] shadow-lg">
-             {/* Fallback image for sticky notes */}
-             <img 
-               src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1000&auto=format&fit=crop" 
-               alt="Person writing on sticky notes on glass" 
-               className="w-full h-full object-cover"
-             />
-          </div>
-        </div>
+        <ol className={styles.steps}>
+          {steps.map((step, index) => (
+            <li key={step.title} className={styles.step}>
+              <div className={styles.marker} aria-hidden="true"><span>{String(index + 1).padStart(2, "0")}</span><i /></div>
+              <h3 className={`${bricolage.className} ${styles.stepTitle}`}>{step.title}</h3>
+              <p className={styles.stepDescription}>{step.description}</p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
-};
-
-export default ProgramOverview;
+}

@@ -1,11 +1,6 @@
 import React from "react";
 import { User, Briefcase, UserPlus, Building2, Users, LucideIcon } from "lucide-react";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
+import { montserrat } from "@/lib/fonts";
 
 interface Audience {
   icon: LucideIcon;

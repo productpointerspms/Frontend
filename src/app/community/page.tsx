@@ -1,15 +1,14 @@
-import { Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import CommunityAboutSection from "@/components/community/CommunityAboutSection";
 import AlumniGains from "@/components/community/AlumniGains";
 import AlumniGrowthStories from "@/components/community/AlumniGrowthStories";
 import PathToCommunity from "@/components/community/PathToCommunity";
-import PricingPlan from "@/components/community/PricingPlan";
+import CommunityCommitment from "@/components/community/CommunityCommitment";
 import CommunityLowerHero from "@/components/community/CommunityLowerHero";
 import CommunityHero from "@/components/community/CommunityHero";
-import FinalCTA from "@/components/FinalCTA";
 import CommunityValues from "@/components/community/CommunityValues";
+import styles from "@/components/community/community-mobile.module.css";
 import CommunityActivities from "@/components/community/CommunityActivities";
 
 // const montserrat = Montserrat({
@@ -26,17 +25,24 @@ export const metadata: Metadata = buildMetadata({
 
 export default function CommunityPage() {
   return (
-    <main>
+    <div className={styles.page}>
       <CommunityHero />
       <CommunityValues/>
+      <AlumniGains />
       <CommunityActivities/>
       <CommunityAboutSection />
-      <AlumniGains />
       <AlumniGrowthStories />
       <PathToCommunity />
+      <CommunityCommitment />
       {/* <PricingPlan /> */}
-      <CommunityLowerHero />
+      <CommunityLowerHero
+        eyebrow="ProductPointers Community"
+        title="Your Product Management Journey Shouldn’t End Alone"
+        description="Join a long-term ecosystem of Product Managers committed to continuous growth, accountability, mentorship, and meaningful progress long after completing their programs."
+        primaryAction={{ label: "Join the Community", href: "#path-to-community" }}
+        secondaryAction={{ label: "Explore Programs", href: "#path-to-community" }}
+      />
       {/* <FinalCTA/> */}
-    </main>
+    </div>
   );
 }

@@ -46,7 +46,7 @@ const Testimonials = () => {
         <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto mb-16">
           Join Product Managers who moved beyond being generalists and started building deeper expertise through ProductPointers.
           <br /><br />
-          See how experienced Product Managers deepened their expertise and positioned themselves for higher-impact opportunities through PPTP.
+          See how experienced Product Managers deepened their expertise and positioned themselves for higher-impact opportunities through PPMP.
         </p>
 
         {/* Testimonial Cards */}

@@ -1,51 +1,37 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
-import { Montserrat } from "next/font/google";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import styles from "./community-closing.module.css";
+import { montserrat, bricolage } from "@/lib/fonts";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+type CommunityLowerHeroProps = {
+  eyebrow?: string;
+  title?: React.ReactNode;
+  description?: string;
+  primaryAction?: { label: string; href: string };
+  secondaryAction?: { label: string; href: string };
+  imageSrc?: string;
+  imageAlt?: string;
+};
 
-export default function FinalCTA() {
+export default function CommunityLowerHero({
+  eyebrow = "TAKE THE NEXT STEP",
+  title = <>Ready to Build Your Product <br className="hidden sm:block" />Management Career?</>,
+  description = "Whether you're starting your journey, switching careers, or looking to sharpen your product skills, there's a path for you at ProductPointers.",
+  primaryAction = { label: "Explore Programs", href: "/community#path-to-community" },
+  secondaryAction = { label: "Apply for a Scholarship", href: "/ppap/apply?plan=scholarship" },
+  imageSrc = "/images/ppip/but.png",
+  imageAlt = "ProductPointers community member",
+}: CommunityLowerHeroProps) {
   return (
-    <section
-      className={`${montserrat.className} bg-[#374492] py-24 px-6 md:px-12 flex flex-col items-center text-center`}
-    >
-      <div className="max-w-4xl mx-auto">
-        {/* Main Heading */}
-        <h2 className="text-white text-xl md:text-[28px] font-bold mb-6 leading-tight md:whitespace-nowrap">
-          Your Product Management Journey Shouldn’t End Alone
-        </h2>
-
-        {/* Supporting Description */}
-        <p className="text-white/90 text-base md:text-lg font-light mb-12 leading-relaxed max-w-3xl mx-auto">
-          Join a long-term ecosystem of Product Managers committed to continuous 
-          growth, accountability, mentorship, and meaningful progress long after 
-          completing their programs.
-        </p>
-
-        {/* Dual Button CTA */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          {/* Primary Button */}
-          <Link
-            href="/community#path-to-community"
-            className="bg-white text-[#6024D0] px-8 py-4 rounded-2xl font-semibold flex items-center gap-2 hover:bg-white/90 transition-all text-sm md:text-base w-full sm:w-auto justify-center shadow-lg cursor-pointer"
-          >
-            Join the Community
-            <ArrowRight size={20} />
-          </Link>
-
-          {/* Secondary Outline Button */}
-          <Link
-            href="/community#path-to-community"
-            className="bg-transparent text-white border-2 border-white/40 px-8 py-4 rounded-2xl font-semibold hover:bg-white/10 transition-all text-sm md:text-base w-full sm:w-auto flex items-center justify-center cursor-pointer"
-          >
-            Explore Programs
-          </Link>
+    <section className={`${montserrat.className} ${styles.section}`} aria-labelledby="community-closing-title">
+      <div className={styles.layout}>
+        <div className={styles.photo}><Image src={imageSrc} alt={imageAlt} fill sizes="(min-width: 1440px) 812px, (min-width: 1024px) 57vw, 100vw" /></div>
+        <div className={styles.panel}>
+          <p className={styles.eyebrow}>{eyebrow}</p>
+          <h2 id="community-closing-title" className={`${bricolage.className} ${styles.heading}`}>{title}</h2>
+          <p className={styles.description}>{description}</p>
+          <div className={styles.actions}><Link href={primaryAction.href} className={styles.primary}>{primaryAction.label}</Link><Link href={secondaryAction.href} className={styles.secondary}>{secondaryAction.label}</Link></div>
         </div>
       </div>
     </section>

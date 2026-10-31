@@ -1,78 +1,42 @@
 "use client";
 
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
-
-import eniolaImg from "@/assets/images/eniola.png";
-import udochukwuImg from "@/assets/images/udochukwu.png";
-import mercyImg from "@/assets/images/mercy.png";
+import Image from "next/image";
+import Link from "next/link";
 import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
+import { bricolage } from "@/lib/fonts";
+import styles from "./hero.module.css";
 
-const HeroSection = () => {
-  const avatars = [eniolaImg, udochukwuImg, mercyImg];
+export default function HeroSection() {
   const { startTime, endTime } = useProgramDates("PPAP");
-  const durationLabel = formatDurationWeeks(startTime, endTime);
+  const dates = startTime && endTime ? formatDateRange(startTime, endTime) : "September 18th – December 11th, 2026";
+  const duration = formatDurationWeeks(startTime, endTime) || "10 weeks";
+  const brochureUrl = process.env.NEXT_PUBLIC_PPAP_BROCHURE_URL;
 
   return (
-    <section className="bg-[#FCF1FF] py-15 px-6 md:px-12 flex flex-col items-center justify-center text-center min-h-[80vh]">
-      <div className="max-w-4xl mx-auto flex flex-col items-center">
-        {/* Badge */}
-        <div className="inline-block bg-[#FAE1FF] px-4 py-1.5 border border-[#a855f7] bg-transparent text-[#a855f7] rounded-full text-xs font-medium mb-8">
-          Beginner-Friendly Program
-        </div>
-
-        {/* Heading */}
-        <h1 className="text-2xl md:text-4xl lg:text-5xl font-black text-[#1a1a1a] leading-[1.15] mb-6">
-          Confused About Where To Start In <br className="hidden md:block" />
-          Product Management?
+    <section data-ppap-section="HeroSection" className={styles.hero} aria-labelledby="ppap-hero-title">
+      <Image src="/images/ppap/hero.png" alt="" fill priority sizes="100vw" className={styles.background} />
+      <div className={styles.overlay} aria-hidden="true" />
+      <div className={styles.content}>
+        <p className={styles.badge}>Product Management Accelerator Program</p>
+        <h1 id="ppap-hero-title" className={`${bricolage.className} ${styles.heading}`}>
+          Start Your Product Management Journey
+          <span className={styles.secondLine}>With the <span className={styles.highlight}>Right Foundation.</span></span>
         </h1>
-
-        {/* Subtext */}
-        <p className="text-gray-600 text-sm md:text-base mb-10 max-w-3xl leading-relaxed">
-          The ProductPointers Accelerator Program (PPAP) helps you go from zero knowledge to thinking like a Product Manager 
-          with structure, mentorship, and hands-on learning.
-        </p>
-
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-14 w-full sm:w-auto justify-center">
-          <a href="#pricing" className="bg-[#5B21B6] text-white px-8 py-4 rounded-xl font-medium hover:bg-purple-800 transition-colors flex items-center justify-center gap-2 text-base cursor-pointer">
-            Join the Next Cohort <ArrowRight className="w-5 h-5" />
-          </a>
-          <button className="bg-transparent text-[#1a1a1a] border border-gray-400 px-8 py-4 rounded-xl font-medium hover:bg-gray-50 transition-colors text-base cursor-pointer">
-            Download Brochure
-          </button>
+        <p className={styles.description}>Whether you’re completely new to Product Management, transitioning from another career or tired of trying to figure it all out on your own, PPAP gives you a structured path to learn the fundamentals, build practical skills and understand how Product Managers think and work.</p>
+        <div className={styles.actions}>
+          <a href="#pricing" className={styles.apply}>Apply for the Accelerator Program</a>
+          <Link href={brochureUrl || "/contact?interest=ppap-brochure"} className={styles.brochure} {...(brochureUrl ? { target: "_blank", rel: "noopener noreferrer" } : { title: "Request the PPAP brochure from our team" })}>Download Brochure</Link>
         </div>
-
-        <p className="text-sm text-gray-500 mb-8">
-          Date: {formatDateRange(startTime, endTime)}
-          {durationLabel && (
-            <>
-              {" "}
-              • <br /> Duration: {durationLabel}
-            </>
-          )}
-        </p>
-
-        {/* Social Proof */}
-        <div className="flex items-center gap-4">
-          <div className="flex -space-x-3">
-            {avatars.map((avatar, i) => (
-              <div key={i} className="w-10 h-10 rounded-full border-2 border-[#FAF5FF] bg-gray-300 overflow-hidden relative shadow-sm">
-                <img
-                  src={avatar.src}
-                  alt={`Student ${i + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
-          <p className="text-[13px] font-medium text-gray-600">
-            Join <span className="font-bold text-[#1a1a1a]">300+</span> aspiring Product Managers who started here
-          </p>
-        </div>
+        <dl className={styles.details}>
+          <div><dt>Next Batch:</dt><dd>{dates}</dd></div>
+          <div><dt>Duration:</dt><dd>{duration}</dd></div>
+          <div><dt>Format:</dt><dd>100% Online | Live Sessions | Practical Learning</dd></div>
+          <div><dt>Cohort Size:</dt><dd>20 participants</dd></div>
+        </dl>
+        <ul className={styles.features} aria-label="Program highlights">
+          <li>12 weeks</li><li>Structured learning</li><li>Practical assignments</li><li>Mentorship &amp; feedback</li>
+        </ul>
       </div>
     </section>
   );
-};
-
-export default HeroSection;
+}

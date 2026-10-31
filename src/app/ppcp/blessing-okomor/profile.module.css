@@ -1,0 +1,63 @@
+.page { --purple: #5815d5; --muted: #777; max-width: 1440px; margin: 0 auto; padding: 160px 80px 76px; background: #fff; color: #10091a; }
+.hero, .about { display: grid; grid-template-columns: 420fr 780fr; gap: 80px; }
+.photo { position: relative; aspect-ratio: 420 / 530; overflow: hidden; border-radius: 12px; }
+.photo img { object-fit: cover; }
+.profile h1 { margin: 0 0 12px; font-family: var(--font-bricolage), sans-serif; font-size: clamp(36px, 4.3vw, 64px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; }
+.role { font-size: 18px; margin-bottom: 24px; }
+.credentials { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+.verified { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 30px; background: #f2ecfc; color: #773bfa; font-size: 12px; font-weight: 700; }
+.expertise { border: 1px solid #8547ff; border-radius: 12px; background: #f2ecfb; padding: 24px; margin-bottom: 32px; }
+.expertise h2 { display: flex; align-items: center; gap: 16px; color: #773bfa; font-size: 14px; font-weight: 700; margin-bottom: 18px; }
+.expertise p { color: var(--muted); font-size: 14px; line-height: 1.8; margin-bottom: 16px; }
+.expertise ul { display: flex; flex-wrap: wrap; gap: 8px; }
+.expertise li { border: 1px solid #8547ff; background: #fff; color: #8547ff; border-radius: 24px; padding: 5px 12px; font-size: 12px; }
+.primary, .secondary { display: inline-flex; justify-content: center; align-items: center; min-height: 48px; padding: 12px 32px; border: 1px solid var(--purple); border-radius: 5px; font-size: 14px; font-weight: 700; text-align: center; transition: background .2s; }
+.primary { background: var(--purple); color: #fff; }
+.primary:hover { background: #4510ad; }
+.secondary { background: #fff; color: #773bfa; border-color: #8547ff; }
+.secondary:hover { background: #f2ecfb; }
+.page a:focus-visible, .page input:focus-visible { outline: 2px solid var(--purple); outline-offset: 4px; }
+.about { border-top: 1px solid #ccc; margin-top: 80px; padding-top: 80px; }
+.eyebrow { color: #773bfa; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+.about h2, .options h2 { font-family: var(--font-bricolage), sans-serif; font-size: 38px; line-height: 1.2; font-weight: 700; letter-spacing: -.8px; }
+.intro { font-size: 14px; color: var(--muted); line-height: 1.8; margin-top: 16px; }
+.biography { color: var(--muted); font-size: 16px; line-height: 1.8; }
+.biography p + p { margin-top: 24px; }
+.biography h3 { color: #292333; font-family: var(--font-bricolage), sans-serif; font-weight: 700; font-size: 24px; margin: 30px 0 12px; }
+.biography .explore { font-size: 14px; }
+.options { padding-top: 155px; scroll-margin-top: 110px; }
+.optionsHeading { display: flex; justify-content: space-between; gap: 32px; margin-bottom: 42px; }
+.optionsHeading > p { color: var(--muted); font-size: 14px; line-height: 1.8; }
+.plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; border: 0; padding: 0; min-width: 0; }
+.plan { display: flex; flex-direction: column; border-top: 2px solid #ccc; padding: 22px 24px 26px; transition: background .2s, border-color .2s; }
+.selected { background: #f2ecfc; border-color: #773bfa; }
+.planLabel { display: flex; align-items: center; gap: 12px; border: 1px solid #ccc; border-radius: 8px; padding: 12px 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
+.selected .planLabel { border-color: #8547ff; }
+.planLabel input { width: 20px; height: 20px; accent-color: var(--purple); flex-shrink: 0; }
+.description { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 24px 0; min-height: 48px; }
+.priceLabel { font-size: 12px; font-weight: 700; color: var(--muted); }
+.price { font-family: var(--font-bricolage), sans-serif; font-size: 36px; font-weight: 700; line-height: 1.3; margin: 4px 0 24px; }
+.features { border-top: 1px solid #ccc; padding-top: 16px; margin-bottom: 32px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.features li + li { margin-top: 16px; }
+.plan > a { width: 100%; margin-top: auto; }
+@media (max-width: 1100px) { .page { padding: 140px 40px 64px; } .hero, .about { gap: 40px; } .plan { padding-inline: 16px; } .planLabel { font-size: 14px; } }
+@media (max-width: 760px) {
+  .page { padding: 110px 20px 56px; }
+  .hero, .about { grid-template-columns: 1fr; gap: 32px; }
+  .photo { width: 100%; max-width: 420px; }
+  .profile h1 { font-size: 40px; }
+  .role { font-size: 16px; }
+  .credentials { gap: 12px; font-size: 12px; }
+  .expertise { padding: 20px; }
+  .profile > a { width: 100%; }
+  .about { margin-top: 48px; padding-top: 40px; }
+  .about h2, .options h2 { font-size: 30px; }
+  .biography { font-size: 14px; }
+  .options { padding-top: 64px; }
+  .optionsHeading { flex-direction: column; gap: 16px; margin-bottom: 28px; }
+  .plans { grid-template-columns: 1fr; gap: 24px; }
+  .plan { padding: 24px; }
+  .description { min-height: 0; }
+  .desktopBreak { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .page *, .page a { transition: none; } }

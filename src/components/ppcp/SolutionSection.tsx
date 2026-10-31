@@ -1,49 +1,68 @@
-import React from 'react';
-import { User, Target, Zap } from 'lucide-react';
+import React from "react";
+
+const steps = [
+  {
+    number: "01",
+    title: "Identify Your Focus",
+    text: "Come with the challenge, goal or area you want to work on. The clearer your focus, the more directly the session can serve you.",
+  },
+  {
+    number: "02",
+    title: "Work Through It Together",
+    text: "Explore the problem, ask questions and consider possible approaches — with someone who understands the Product work from the inside.",
+  },
+  {
+    number: "03",
+    title: "Get Practical Feedback",
+    text: "Receive guidance and perspective based on your specific situation, not general advice designed for everyone.",
+  },
+  {
+    number: "04",
+    title: "Leave With Clarity",
+    text: "Walk away with clearer thinking, practical next steps and stronger direction — something you can act on immediately.",
+  },
+];
 
 const SolutionSection = () => {
-  const features = [
-    { icon: <User size={18} />, text: "Your background" },
-    { icon: <Target size={18} />, text: "Your goals" },
-    { icon: <Zap size={18} />, text: "Your pace" },
-  ];
-
   return (
-    <section className="bg-[#6219D1] py-24 px-6 text-center font-sans">
-      <div className="max-w-4xl mx-auto">
-        {/* Header Section */}
-        <h2 className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4">
-          What You Get
+    <section data-ppcp-section="SolutionSection"
+      aria-labelledby="coaching-experience-heading"
+      className="bg-white px-6 py-16 sm:px-10 md:px-14 lg:px-20 lg:py-25"
+    >
+      <div className="mx-auto max-w-[1280px]">
+        <p className="mb-4 text-[14px] font-bold uppercase tracking-[0.1em] text-[#5818D0]">
+          Your Coaching Experience
+        </p>
+        <h2
+          id="coaching-experience-heading"
+          className="text-[28px] font-extrabold leading-[1.25] tracking-[-0.03em] text-[#100B1A] sm:text-[32px] lg:text-[36px]"
+        >
+          A Simple, Focused Approach
+          <br className="hidden sm:block" />{" "}
+          to Making Progress.
         </h2>
-        <h3 className="text-white text-2xl md:text-3xl font-bold mb-6">
-          Personalized 1:1 Coaching
-        </h3>
-        <p className="text-purple-100/80 text-base mb-12">
-          Private sessions tailored to:
-        </p>
 
-        {/* Feature Pills */}
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
-          {features.map((item, i) => (
-            <div 
-              key={i} 
-              className="flex items-center gap-3 bg-white px-6 py-4 rounded-xl shadow-lg transition-transform hover:scale-105"
-            >
-              <div className="text-[#6219D1]">
-                {item.icon}
+        <ol className="mx-auto mt-10 grid max-w-[1028px] grid-cols-1 gap-8 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4 lg:gap-10">
+          {steps.map((step) => (
+            <li key={step.number}>
+              <div className="mb-2 flex items-center gap-2">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5818D0] text-[12px] font-semibold text-white">
+                  {step.number}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="h-px w-[100px] bg-[#5818D0]"
+                />
               </div>
-              <span className="text-gray-900 font-semibold text-sm md:text-base">
-                {item.text}
-              </span>
-            </div>
+              <h3 className="mb-2 text-[16px] font-bold leading-5 tracking-[-0.03em] text-[#100B1A]">
+                {step.title}
+              </h3>
+              <p className="text-[12px] leading-4 text-[#595959]">
+                {step.text}
+              </p>
+            </li>
           ))}
-        </div>
-
-        {/* Closing Statement */}
-        <p className="text-white text-lg md:text-xl font-medium italic opacity-90">
-          You’re not following a <span className="line-through decoration-white/50 decoration-2">generic path</span>, 
-          you’re following <span className="font-black uppercase tracking-wide">Your Path</span>
-        </p>
+        </ol>
       </div>
     </section>
   );
