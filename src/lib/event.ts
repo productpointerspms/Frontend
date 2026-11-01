@@ -53,9 +53,9 @@ export const ATTENDEE_ROLES = [
   { value: "ASPIRING_PRODUCT_MANAGER", label: "Aspiring Product Manager" },
   { value: "PRODUCT_MANAGER", label: "Product Manager" },
   { value: "PRODUCT_DESIGNER", label: "Product Designer" },
-  { value: "ENGINEER", label: "Engineer / Developer" },
+  { value: "ENGINEER_DEVELOPER", label: "Engineer / Developer" },
   { value: "STUDENT", label: "Student" },
-  { value: "FOUNDER", label: "Founder / Entrepreneur" },
+  { value: "FOUNDER_ENTREPRENEUR", label: "Founder / Entrepreneur" },
   { value: "OTHER", label: "Other" },
 ] as const;
 
@@ -92,12 +92,21 @@ export interface TicketStatusResult {
   paidAt: string | null;
 }
 
+/** A 422's `data` lists class-validator errors; show their first message per field instead of "Request could not be processed!". */
+function validationMessages(data: unknown): string[] | undefined {
+  if (!Array.isArray(data)) return undefined;
+  const messages = data
+    .map((error: { constraints?: Record<string, string> }) => Object.values(error?.constraints ?? {})[0])
+    .filter((message): message is string => typeof message === "string");
+  return messages.length ? messages : undefined;
+}
+
 /** Unwraps the `{ statusCode, message, data }` envelope, throwing on a failing statusCode. */
 export async function unwrapEnvelope<T>(res: Response, fallback: string): Promise<T> {
   const body = await res.json().catch(() => null);
   const statusCode = body?.statusCode != null ? String(body.statusCode) : undefined;
   if (!res.ok || (statusCode !== undefined && statusCode !== "00") || !body?.data) {
-    const message = body?.message;
+    const message = validationMessages(body?.data) ?? body?.message;
     throw new Error(
       (Array.isArray(message) ? message.join("; ") : message) || `${fallback} (${res.status})`
     );

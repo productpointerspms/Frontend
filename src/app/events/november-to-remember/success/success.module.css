@@ -1,0 +1,8 @@
+.hero{text-align:center;padding:8px 0 32px}.hero h2{font-size:28px;font-weight:750;margin:20px 0 10px}.hero p{max-width:560px;margin:0 auto;color:#616064;font-size:15px;line-height:1.7}
+.badge{display:inline-grid;place-items:center;width:84px;height:84px;border-radius:50%;border:2px solid #100a1a;box-shadow:2px 5px 0 #100a1a;color:white}.badge svg{width:42px;height:42px}
+.paid{background:#10b981}.pending{background:#5816d1}.failed{background:#e5484d}
+.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 32px;padding:24px 28px;border:1px solid #e2d6f7;border-radius:18px;background:#f4f4f6}.summary div{min-width:0}.summary dt{font-size:11px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:#827b8e;margin-bottom:4px}.summary dd{margin:0;font-size:15px;font-weight:650;color:#141020;overflow-wrap:anywhere}.wide{grid-column:1/-1}
+.next{list-style:none;margin:0;padding:0;display:grid;gap:14px;font-size:15px;line-height:1.5}.next li{display:flex;gap:10px;align-items:flex-start}.next svg{flex:none;width:20px;height:20px;color:#681bff;margin-top:1px}
+@media(max-width:700px){.actions{flex-direction:column-reverse;align-items:stretch}.actions .primary{flex:none}.hero h2{font-size:22px}.hero p{font-size:14px}.badge{width:68px;height:68px}.badge svg{width:34px;height:34px}.summary{grid-template-columns:1fr 1fr;padding:18px}.next{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}

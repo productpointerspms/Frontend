@@ -1,0 +1,24 @@
+.page{padding-top:80px;background:#fff;color:#171120;font-family:var(--font-montserrat),sans-serif}
+.hero{background:#eee8fb;padding:43px 24px 38px;text-align:center}
+.hero h1{font-size:clamp(23px,2.25vw,32px);font-weight:750;line-height:1.35;text-transform:uppercase;margin:0 auto;max-width:1240px;letter-spacing:-.6px}
+.topics{color:#6421df;font-size:20px;font-weight:650;text-transform:uppercase;letter-spacing:.35px;margin:15px 0}
+.description{font-size:16px;color:#726d79;line-height:1.65;margin:0}
+.content{max-width:1330px;margin:0 auto;padding:40px 25px 80px}
+.sections{list-style:decimal;padding-left:29px;margin:0}
+.sections>li{padding-left:5px;margin-bottom:24px}
+.sections>li:last-child{margin-bottom:0}
+.sections>li::marker{color:#6421df;font-size:18px;font-weight:750}
+.sections h2{font-size:18px;font-weight:700;color:#6421df;line-height:1.5;margin:0 0 6px;scroll-margin-top:100px}
+.sections p,.sections ul{font-size:16px;line-height:1.3;color:#68656b;font-weight:500;margin:0}
+.sections ul{list-style:disc;padding-left:24px}
+.sections ul li{padding-left:0}
+.sections ul li::marker{font-size:10px}
+.authorization{display:grid;grid-template-columns:1fr 1.05fr;gap:30px;max-width:905px;background:#f2ecfc;border:1px solid #e2d6f6;border-radius:8px;padding:24px;margin-top:5px}
+.authorization dl{margin:0;min-width:0}
+.authorization dl>div{display:grid;grid-template-columns:max-content 1fr;column-gap:24px;font-size:14px;line-height:1.5;margin-bottom:7px}
+.authorization dl>div:last-child{margin-bottom:0}
+.authorization dt{font-weight:550}
+.authorization dd{margin:0;color:#68656b}
+@media(min-width:768px){.authorization dl{display:grid;grid-template-columns:max-content 1fr;align-content:start;gap:7px 24px}.authorization dl>div{display:contents}}
+@media(max-width:767px){.page{padding-top:80px}.hero{padding:36px 20px 32px}.hero h1{font-size:24px;letter-spacing:-.4px}.topics{font-size:14px;margin:16px 0 12px}.description{font-size:14px}.content{padding:30px 20px 48px}.sections{padding-left:23px}.sections>li{padding-left:3px;margin-bottom:26px}.sections h2,.sections>li::marker{font-size:16px}.sections p,.sections ul{font-size:14px;line-height:1.65}.sections ul{padding-left:19px}.sections ul li{margin-top:5px}.authorization{grid-template-columns:1fr;gap:20px;padding:20px 16px;margin-top:12px}.authorization dl>div{grid-template-columns:1fr;gap:2px;font-size:13px;margin-bottom:12px}}
+@media print{.page{padding-top:0}.hero{padding:24px}.content{padding:24px}.sections>li{break-inside:avoid}.authorization{break-inside:avoid}}
