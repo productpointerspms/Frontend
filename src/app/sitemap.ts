@@ -16,6 +16,7 @@ const ROUTES: {
   { path: "/community", changeFrequency: "monthly", priority: 0.6 },
   { path: "/courses", changeFrequency: "weekly", priority: 0.8 },
   { path: "/scholarships", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/general-program-policy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/contact", changeFrequency: "yearly", priority: 0.4 },
 ];
 

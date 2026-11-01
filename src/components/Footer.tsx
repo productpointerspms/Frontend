@@ -43,7 +43,6 @@ const WHATSAPP_URL = "https://wa.me/+2348102567773";
 export default function Footer() {
   const year = new Date().getFullYear();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-  const policyUrl = process.env.NEXT_PUBLIC_GENERAL_PROGRAM_POLICY_URL;
   async function subscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (status === "sending") return;
@@ -70,7 +69,7 @@ export default function Footer() {
               Build the skills, gain the experience, and create the evidence to
               grow your Product career.
             </p>
-            <Link href={policyUrl || "/contact?interest=general-program-policy"} className={styles.policy} {...(policyUrl ? {} : { title: "Request the General Program Policy from our team" })}>General Program Policy</Link>
+            <Link href="/general-program-policy" className={styles.policy}>General Program Policy</Link>
           </div>
 
           {/* ================= EXPLORE ================= */}

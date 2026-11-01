@@ -104,7 +104,7 @@ const sessions: Session[] = [
 const roles = ["Product Managers", "Associate Product Managers", "Product Owners", "Product Designers", "UI/UX Designers", "Product Marketers", "Product Analysts", "Product Operations Professionals", "Product Engineers", "Software Engineers working in product teams", "Technical Product Managers", "Growth Product Managers", "Product Growth Professionals", "Business Analysts working in product teams", "Product Leaders", "Founders building or leading products"];
 const speakers = [
   { name: "Elizabeth Odetokun", linkedin: "https://www.linkedin.com/in/elizabeth-odetokun/", role: "HR & Operations Lead", image: "elizabeth-odetokun.png", width: 720, height: 1280, position: "center 62%" },
-  { name: "Olabanji Ewenla", role: "Head of Product, Evtrify", image: "olabanji-ewenla.png", width: 1024, height: 1280, position: "center 35%" },
+  { name: "Olabanji Ewenla", linkedin: "https://www.linkedin.com/in/olabanjiewenla/", role: "Head of Product, Evtrify", image: "olabanji-ewenla.png", width: 1024, height: 1280, position: "center 35%" },
   { name: "Salami Abdullateef", linkedin: "https://www.linkedin.com/in/salami-abdullateef/", role: "Talent Acquisition Specialist", image: "salami-abdullateef.png", width: 1280, height: 1221, position: "center 35%" },
   { name: "Mary Ayuba", role: "Psychologist; PM · Talk Mental Health", image: "mary-ayuba.png", width: 852, height: 1280, position: "center top" },
   { name: "Alice Awobite-Joshua", linkedin: "https://www.linkedin.com/in/aliceawobite/", role: "Founder/Product Lead, RemoteWorkPadi", image: "23daa5d42f2772c226b63ba9acabf6dbd7c4e0d9.png", width: 1600, height: 1507, position: "center" },
