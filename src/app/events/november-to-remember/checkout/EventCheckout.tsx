@@ -17,6 +17,13 @@ import styles from "./checkout.module.css";
 
 const titles = ["Ticket Summary", "Attendee Information", "Payment"];
 
+/** Keeps only the national number: drops anything that isn't a digit, a pasted 234 country code and the trunk 0. */
+function nationalNumber(input: string): string {
+  const digits = input.replace(/\D/g, "");
+  return (digits.startsWith("234") && digits.length > 10 ? digits.slice(3) : digits).replace(/^0/, "").slice(0, 10);
+}
+const toNigerianE164 = (input: string) => `+234${nationalNumber(input)}`;
+
 export default function EventCheckout() {
   const [event, setEvent] = useState<EventDetails | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -55,7 +62,7 @@ export default function EventCheckout() {
         firstName: attendee.firstName.trim(),
         lastName: attendee.lastName.trim(),
         email: attendee.email.trim(),
-        phoneNumber: attendee.phone.replace(/[\s()-]/g, ""),
+        phoneNumber: toNigerianE164(attendee.phone),
         currentRole: attendee.role,
         company: attendee.company.trim() || undefined,
         linkedInProfile: attendee.linkedin.trim() || undefined,
@@ -108,7 +115,13 @@ export default function EventCheckout() {
             <label htmlFor="firstName">First Name *<input {...field("firstName")} required pattern=".*\S.*" autoComplete="given-name" placeholder="Blessing" maxLength={100} /></label>
             <label htmlFor="lastName">Last Name *<input {...field("lastName")} required pattern=".*\S.*" autoComplete="family-name" placeholder="Okomor" maxLength={100} /></label>
             <label className={styles.full} htmlFor="email">Email Address *<input {...field("email")} required type="email" autoComplete="email" placeholder="blessing@example.com" /></label>
-            <label className={styles.full} htmlFor="phone">Phone Number *<input {...field("phone")} required type="tel" autoComplete="tel" pattern="[+0-9()\s-]{7,25}" placeholder="+234 800 000 0000" /></label>
+            <label className={styles.full} htmlFor="phone">Phone Number *
+              <span className={styles.phone}>
+                <span className={styles.dialCode} aria-hidden="true">🇳🇬 +234</span>
+                <input {...field("phone")} onChange={e => setAttendee(previous => ({ ...previous, phone: nationalNumber(e.target.value) }))} required type="tel" inputMode="numeric" autoComplete="tel-national" pattern="[789][01][0-9]{8}" title="Enter your 10-digit Nigerian number, e.g. 803 123 4567" aria-describedby="phone-hint" placeholder="803 123 4567" />
+              </span>
+              <span id="phone-hint" className="sr-only">Nigerian number; +234 is added for you</span>
+            </label>
             <label htmlFor="role">Current Role *<select {...field("role")} required><option value="" disabled>Select your role</option>{ATTENDEE_ROLES.map(role => <option key={role.value} value={role.value}>{role.label}</option>)}</select></label>
             <label htmlFor="company">Company / Organisation<input {...field("company")} autoComplete="organization" placeholder="e.g. Mainstack or N/A" /></label>
             <label className={styles.full} htmlFor="linkedin">LinkedIn Profile URL (Optional)<input {...field("linkedin")} type="url" placeholder="https://www.linkedin.com/yourname" /></label>

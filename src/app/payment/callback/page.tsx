@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import CallbackClient from "./CallbackClient";
-import EventTicketCallback from "./EventTicketCallback";
+import { redirect } from "next/navigation";
 
 // Program applications send a Flutterwave tx_ref prefixed with the application
 // UUID; anything else (Paystack ?reference=, or a non-UUID tx_ref) is an event ticket.
@@ -18,7 +18,7 @@ export default async function PaymentCallbackPage({
   const ticketReference = reference ?? (txRef && !APPLICATION_REF.test(txRef) ? txRef : undefined);
 
   if (ticketReference) {
-    return <EventTicketCallback reference={ticketReference} />;
+    redirect(`/events/november-to-remember/success?reference=${encodeURIComponent(ticketReference)}`);
   }
 
   return (
