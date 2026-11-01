@@ -158,7 +158,7 @@ export default function EventCheckout() {
             <div className={styles.breakdown}><div className={styles.currency}><span>{currency === "NGN" ? "🇳🇬 " : ""}{currency}</span></div><div><span>{tier.name}</span><strong>{formatMoney(tier.price, currency)}</strong></div><div><span>Processing Fees</span><strong>{formatMoney(0, currency)}</strong></div></div>
             <div className={styles.total}><h2>Total Due</h2><strong>{formatMoney(tier.price, currency)}</strong></div>
           </>}
-          <button className={styles.primary} disabled={!tier} onClick={() => go(2)}>CONTINUE TO ATTENDEE DETAILS</button>
+          <button className={styles.primary} disabled={!tier} onClick={() => go(2)}>CONTINUE</button>
         </div>}
         {step === 2 && <form className={`${styles.body} ${styles.form}`} onSubmit={submit}>
           <fieldset className={styles.fields} disabled={submitting || !!checkout}>
