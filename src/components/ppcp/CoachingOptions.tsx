@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { checkoutHref } from "@/lib/programCheckout";
 import styles from "@/app/ppcp/blessing-okomor/profile.module.css";
 
 const options = [
@@ -44,7 +45,7 @@ export default function CoachingOptions() {
             <p className={styles.price}>{option.price}</p>
             <ul className={styles.features}>{option.features.map(feature => <li key={feature}>{feature}</li>)}</ul>
             <Link
-              href={{ pathname: "/ppcp/apply", query: { coach: "Blessing Okomor", plan: option.id } }}
+              href={checkoutHref("ppcp", { plan: option.id, coach: "Blessing Okomor" })}
               className={selected === option.id ? styles.primary : styles.secondary}
               aria-label={`${index === 0 ? "Book a session" : "Choose plan"}: ${option.name} with Blessing Okomor`}
             >{index === 0 ? "Book a Session" : "Choose Plan"}</Link>

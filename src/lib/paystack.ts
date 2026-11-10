@@ -8,6 +8,11 @@ declare global {
   }
 }
 
+/** Payment-popup failure whose message is written for attendees. */
+export class PaystackError extends Error {
+  name = "PaystackError";
+}
+
 let loading: Promise<void> | null = null;
 
 function loadPaystack(): Promise<void> {
@@ -21,7 +26,7 @@ function loadPaystack(): Promise<void> {
       function fail() {
         window.clearTimeout(timeout);
         script.remove();
-        reject(new Error("Paystack could not load. Check your connection and try again."));
+        reject(new PaystackError("Paystack could not load. Check your connection and try again."));
       }
       script.onload = () => {
         window.clearTimeout(timeout);
@@ -40,12 +45,17 @@ function loadPaystack(): Promise<void> {
 
 /** Resume the server-initialized transaction using Paystack's own popup. */
 export async function openPaystack(paymentLink: string): Promise<void> {
-  const url = new URL(paymentLink);
+  let url: URL;
+  try {
+    url = new URL(paymentLink);
+  } catch {
+    throw new PaystackError("We couldn't open the payment page. Please try again or contact support.");
+  }
   const accessCode = url.pathname.split("/").filter(Boolean)[0];
   if (url.protocol !== "https:" || url.hostname !== "checkout.paystack.com" || !accessCode || !/^[a-zA-Z0-9_-]+$/.test(accessCode)) {
-    throw new Error("The payment provider returned an unsupported checkout link. Please contact support.");
+    throw new PaystackError("The payment provider returned an unsupported checkout link. Please contact support.");
   }
   await loadPaystack();
-  if (!window.PaystackPop) throw new Error("Paystack is unavailable. Please try again.");
+  if (!window.PaystackPop) throw new PaystackError("Paystack is unavailable. Please try again.");
   new window.PaystackPop().resumeTransaction(accessCode);
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check, ChevronUp } from "lucide-react";
 import { currencies, useLiveRates } from "@/lib/useLiveRates";
+import { checkoutHref } from "@/lib/programCheckout";
 import styles from "./pricing.module.css";
 
 const plans = [
@@ -67,10 +68,10 @@ export default function PricingSection() {
               <ChevronUp size={12} aria-hidden="true" />
             </div>
             <ul className={styles.features}>{plan.features.map(feature => <li key={feature}><span><Check size={9} strokeWidth={2.5} aria-hidden="true" /></span><p>{feature}</p></li>)}</ul>
-            <div className={styles.planFooter}><div className={styles.divider} /><Link href={{ pathname: "/contact", query: { interest: "ppfp-enrollment", plan: plan.id, currency: currency.code } }} className={styles.apply}>{plan.cta}</Link></div>
+            <div className={styles.planFooter}><div className={styles.divider} /><Link href={checkoutHref("ppfp", { plan: plan.id, currency: currency.code })} className={styles.apply}>{plan.cta}</Link></div>
           </article>)}
         </div>
-        {currency.code !== "NGN" && <p className={styles.rateStatus} role="status">{loading ? "Updating currency conversion…" : isLive ? "Prices converted using live exchange rates." : error ? "Estimated conversion. Confirm payment details with our team." : "Prices shown in your selected currency."}</p>}
+        {currency.code !== "NGN" && <p className={styles.rateStatus} role="status">{loading ? "Updating currency conversion…" : isLive ? "Prices converted using live exchange rates." : error ? "Estimated conversion. The exact amount is confirmed at checkout." : "Prices shown in your selected currency."}</p>}
         <aside className={styles.scholarship} aria-labelledby="ppfp-scholarship-title"><div><h3 id="ppfp-scholarship-title">Ready to Join, but Need Financial Support?</h3><p>You may be eligible for scholarship support towards your FinTech Product Management training. Explore the available opportunities and find out how to apply.</p></div><Link href="/ppfp/apply?plan=scholarship">Check Scholarship Eligibility</Link></aside>
       </div>
     </section>

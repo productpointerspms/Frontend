@@ -9,6 +9,7 @@ import {
 
 import { useLiveRates, currencies } from "@/lib/useLiveRates";
 import { bricolage } from "@/lib/fonts";
+import { checkoutHref } from "@/lib/programCheckout";
 import styles from "./pricing.module.css";
 
 // Headings share the PPIP display face — variable weight covers 200-800.
@@ -198,14 +199,14 @@ const PricingSection = () => {
               <div className={styles.currency}><CurrencySelector currency={currency} setCurrency={setCurrency} getLiveAmount={getLiveAmount} loading={loading} dark={plan.featured} /></div>
               <ul className={styles.features}>{plan.features.map(feature => <li key={feature}><span><Check size={9} strokeWidth={2.5} aria-hidden="true" /></span><p>{feature}</p></li>)}</ul>
               <div className={styles.divider} />
-              <Link href={`/ppap/apply?currency=${currency.code}&plan=${plan.id}`} className={styles.cta}>{plan.featured ? "Enroll Now" : "Choose this Plan"}</Link>
+              <Link href={checkoutHref("ppap", { plan: plan.id, currency: currency.code })} className={styles.cta}>{plan.featured ? "Enroll Now" : "Choose this Plan"}</Link>
             </article>
           ))}
         </div>
         {currency.code !== "NGN" && <p className={styles.rateStatus} role="status">{loading ? "Updating currency conversion…" : isLive ? "Prices converted using live exchange rates." : error ? "Estimated conversion. Final payment details are confirmed during application." : "Prices shown in your selected currency."}</p>}
         <aside className={styles.scholarship} aria-labelledby="ppap-scholarship-support">
           <div><h3 id="ppap-scholarship-support" className={bricolage.className}>Looking for Scholarship Support?</h3><p>Scholarship opportunities may be available for eligible applicants. Check the scholarship page to see current opportunities and application details.</p></div>
-          <Link href={`/ppap/apply?currency=${currency.code}&plan=scholarship`} className={styles.scholarshipLink}>Apply for Scholarship</Link>
+          <Link href="/scholarships#available-scholarships" className={styles.scholarshipLink}>Apply for Scholarship</Link>
         </aside>
       </div>
     </section>

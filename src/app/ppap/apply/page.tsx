@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
-import PaidApplication from "@/components/ppap/application/PaidApplication";
+import { redirect } from "next/navigation";
 import ScholarshipApplication from "@/components/ppap/application/ScholarshipApplication";
+import { checkoutHref } from "@/lib/programCheckout";
 
 export const metadata: Metadata = {
   title: "PPAP Application",
   robots: { index: false, follow: false },
 };
 
-export default async function PPAPApplyPage({ searchParams }: { searchParams: Promise<{ plan?: string }> }) {
-  const { plan } = await searchParams;
-  return plan === "scholarship" ? <ScholarshipApplication /> : <PaidApplication />;
+type Search = Promise<{ plan?: string; currency?: string }>;
+
+export default async function PPAPApplyPage({ searchParams }: { searchParams: Search }) {
+  const { plan, currency } = await searchParams;
+  if (plan === "scholarship") return <ScholarshipApplication />;
+  // Paid enrolment now goes through the shared checkout (plan, details, payment in one flow).
+  redirect(checkoutHref("ppap", { plan, currency }));
 }
