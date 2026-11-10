@@ -34,7 +34,7 @@ const programs = [
     badge: "PPFP",
     title: "Fintech Product Management Program",
     description: "A practical program for those who want to understand how financial products work across markets.",
-    href: "/contact",
+    href: "/ppfp",
     color: "text-[#6018F5]",
     badgeColor: "bg-[#EEE8FC]",
   },

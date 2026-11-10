@@ -99,7 +99,7 @@ const FinalCTA = () => {
           {/* BUTTONS */}
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:items-stretch">
             <Link
-              href="/ppap/apply"
+              href="/checkout/ppap"
               className="
                 inline-flex
                 min-h-[46px]
@@ -123,7 +123,7 @@ const FinalCTA = () => {
             </Link>
 
             <Link
-              href="/ppap/apply?plan=scholarship"
+              href="/scholarships#available-scholarships"
               className="
                 inline-flex
                 min-h-[46px]

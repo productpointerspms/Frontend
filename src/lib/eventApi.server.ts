@@ -18,6 +18,23 @@ export function eventApiFetch(path: string, init: RequestInit = {}): Promise<Res
   });
 }
 
+/**
+ * Calls the upstream API and relays its response. If the upstream is unreachable or slow, answers
+ * 502/504 with an empty envelope instead of letting the route crash; the client maps those to friendly copy.
+ */
+export async function proxyEvent(path: string, init: RequestInit = {}): Promise<Response> {
+  try {
+    return await relay(await eventApiFetch(path, { ...init, cache: "no-store", signal: AbortSignal.timeout(15_000) }));
+  } catch (err) {
+    const timedOut = err instanceof Error && (err.name === "TimeoutError" || err.name === "AbortError");
+    console.error(`Event API ${init.method ?? "GET"} ${path} failed: ${err instanceof Error ? err.message : String(err)}`);
+    return new Response(JSON.stringify({ statusCode: "99", message: "", data: null }), {
+      status: timedOut ? 504 : 502,
+      headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+    });
+  }
+}
+
 /** Forwards an upstream response to the browser as-is (status + JSON body). */
 export async function relay(res: Response): Promise<Response> {
   const text = await res.text();

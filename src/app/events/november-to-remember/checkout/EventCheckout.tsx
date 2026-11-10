@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { openPaystack } from "@/lib/paystack";
-import { CalendarDays, Clock3, MapPin, Check, Mail, ArrowRight, Loader2 } from "lucide-react";
+import { openPaystack, PaystackError } from "@/lib/paystack";
+import { CalendarDays, Clock3, MapPin, Check, Mail, ArrowRight, Loader2, TicketPercent, Minus, Plus, X } from "lucide-react";
 import {
   ATTENDEE_ROLES,
   NOVEMBER_EVENT_SLUG,
@@ -12,11 +12,15 @@ import {
   getEvent,
   getTicketStatus,
   startEventCheckout,
+  validateDiscountCode,
+  errorMessage,
+  EventApiError,
   type CheckoutResult,
+  type DiscountQuote,
   type EventDetails,
   type TicketStatusResult,
 } from "@/lib/event";
-import styles from "./checkout.module.css";
+import styles from "@/components/checkout/checkout.module.css";
 
 const titles = ["Ticket Summary", "Attendee Information", "Registration Confirmed"];
 
@@ -27,10 +31,20 @@ function nationalNumber(input: string): string {
 }
 const toNigerianE164 = (input: string) => `+234${nationalNumber(input)}`;
 
+function discountLabel(quote: DiscountQuote): string {
+  return quote.type === "PERCENT" ? `${quote.value}% off` : `${formatMoney(quote.value, quote.currency)} off`;
+}
+
 export default function EventCheckout() {
   const [event, setEvent] = useState<EventDetails | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [step, setStep] = useState(1);
+  const [discountCode, setDiscountCode] = useState("");
+  const [discount, setDiscount] = useState<DiscountQuote | null>(null);
+  // "invalid": the code itself was rejected (mark the field). "system": our side failed — the code may be fine.
+  const [discountError, setDiscountError] = useState<{ message: string; kind: "invalid" | "system" } | null>(null);
+  const [applyingDiscount, setApplyingDiscount] = useState(false);
+  const discountRequest = useRef<AbortController | null>(null);
   const [attendee, setAttendee] = useState({ firstName: "", lastName: "", email: "", phone: "", role: "", company: "", linkedin: "", expectations: "" });
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -45,7 +59,7 @@ export default function EventCheckout() {
     let cancelled = false;
     getEvent(NOVEMBER_EVENT_SLUG)
       .then(data => { if (!cancelled) setEvent(data); })
-      .catch(err => { if (!cancelled) setLoadError(err instanceof Error ? err.message : "Could not load the event."); });
+      .catch(err => { if (!cancelled) setLoadError(errorMessage(err, "We couldn't load ticket details right now.")); });
     return () => { cancelled = true; };
   }, []);
 
@@ -92,8 +106,51 @@ export default function EventCheckout() {
     return () => { cancelled = true; clearTimeout(timer); };
   }, [checkout, confirmed, verificationAttempt]);
 
+  useEffect(() => () => discountRequest.current?.abort(), []);
+
   const tier = event?.activeTier ?? null;
   const currency = tier?.currency ?? event?.currency ?? "NGN";
+  // A quote only counts while it's for the tier on sale; if the tier rolled over, fall back to full price.
+  const appliedDiscount = discount && tier && discount.tier.id === tier.id ? discount : null;
+  const subtotal = appliedDiscount?.originalAmount ?? tier?.price ?? 0;
+  const totalDue = appliedDiscount?.amount ?? tier?.price ?? 0;
+
+  async function applyDiscount(formEvent: FormEvent<HTMLFormElement>) {
+    formEvent.preventDefault();
+    const code = discountCode.trim();
+    if (!code || applyingDiscount) return;
+    discountRequest.current?.abort();
+    const controller = new AbortController();
+    discountRequest.current = controller;
+    setApplyingDiscount(true);
+    setDiscountError(null);
+    try {
+      const quote = await validateDiscountCode(NOVEMBER_EVENT_SLUG, code, controller.signal);
+      if (controller.signal.aborted) return;
+      setDiscount(quote);
+      setDiscountCode(quote.code);
+    } catch (err) {
+      if (controller.signal.aborted) return;
+      setDiscount(null);
+      const invalid = err instanceof EventApiError && err.kind === "api";
+      setDiscountError({
+        message: errorMessage(err, "We couldn't apply this code right now. Please try again."),
+        kind: invalid ? "invalid" : "system",
+      });
+    } finally {
+      if (discountRequest.current === controller) {
+        discountRequest.current = null;
+        setApplyingDiscount(false);
+      }
+    }
+  }
+  function removeDiscount() {
+    discountRequest.current?.abort();
+    setDiscount(null);
+    setDiscountCode("");
+    setDiscountError(null);
+    setApplyingDiscount(false);
+  }
 
   function go(next: number) {
     setStep(next);
@@ -117,12 +174,13 @@ export default function EventCheckout() {
         company: attendee.company.trim() || undefined,
         linkedInProfile: attendee.linkedin.trim() || undefined,
         expectations: attendee.expectations.trim() || undefined,
+        discountCode: appliedDiscount?.code || undefined,
       });
       setCheckout(result);
       await openPaystack(result.paymentLink);
       setSubmitting(false);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Could not start checkout. Please try again.");
+      setSubmitError(err instanceof PaystackError ? err.message : errorMessage(err, "We couldn't open the payment window. Please try again."));
       setSubmitting(false);
     }
   }
@@ -154,9 +212,55 @@ export default function EventCheckout() {
             <ul>{event.tiers.map(t => <li key={t.id}>{t.name}: {tierStatusLabel(t.status)}</li>)}</ul>
           </div>}
           {tier && <>
-            <div className={styles.ticket}><div><h2>{tier.name}</h2><p>{tier.description}</p></div></div>
-            <div className={styles.breakdown}><div className={styles.currency}><span>{currency === "NGN" ? "🇳🇬 " : ""}{currency}</span></div><div><span>{tier.name}</span><strong>{formatMoney(tier.price, currency)}</strong></div><div><span>Processing Fees</span><strong>{formatMoney(0, currency)}</strong></div></div>
-            <div className={styles.total}><h2>Total Due</h2><strong>{formatMoney(tier.price, currency)}</strong></div>
+            <div className={styles.ticket}>
+              <div><h2>{tier.name}</h2><p>{tier.description || "Individual registration ticket"}</p></div>
+              <div className={styles.quantity} role="group" aria-label="Ticket quantity: one ticket per checkout">
+                <button type="button" disabled aria-label="Decrease ticket quantity"><Minus size={12} aria-hidden="true" /></button>
+                <span>1</span>
+                <button type="button" disabled aria-label="Increase ticket quantity"><Plus size={12} aria-hidden="true" /></button>
+              </div>
+            </div>
+            <form className={styles.discount} onSubmit={applyDiscount} noValidate>
+              <TicketPercent className={styles.discountIcon} size={52} strokeWidth={2.5} aria-hidden="true" />
+              <div className={styles.discountCopy}><label htmlFor="discount-code">Have a discount code?</label><p id="discount-hint">Enter the code you received from a community partner.</p></div>
+              {appliedDiscount ? <>
+                <p className={styles.discountApplied} id="discount-message" role="status">
+                  <Check size={16} strokeWidth={3} aria-hidden="true" /><span><strong>{appliedDiscount.code}</strong> applied · {discountLabel(appliedDiscount)}</span>
+                </p>
+                <button type="button" onClick={removeDiscount} aria-label={`Remove discount code ${appliedDiscount.code}`}><X size={14} aria-hidden="true" /> Remove</button>
+              </> : <>
+                <input
+                  id="discount-code"
+                  name="discountCode"
+                  value={discountCode}
+                  onChange={e => { setDiscountCode(e.target.value); setDiscountError(null); }}
+                  placeholder="Enter discount code"
+                  aria-describedby={`discount-hint${discountError ? " discount-message" : ""}`}
+                  aria-invalid={discountError?.kind === "invalid" ? true : undefined}
+                  readOnly={applyingDiscount}
+                  maxLength={64}
+                  autoCapitalize="characters"
+                  autoCorrect="off"
+                  autoComplete="off"
+                  spellCheck={false}
+                  enterKeyHint="go"
+                />
+                <button type="submit" disabled={!discountCode.trim() || applyingDiscount} aria-busy={applyingDiscount}>
+                  {applyingDiscount ? <><Loader2 className={styles.spinner} size={14} aria-hidden="true" /> Applying…</> : "Apply Code"}
+                </button>
+              </>}
+            </form>
+            {discountError && !appliedDiscount && <p id="discount-message" className={`${styles.discountMessage} ${discountError.kind === "invalid" ? styles.discountError : ""}`} role="alert">{discountError.message}</p>}
+            <div className={styles.breakdown}>
+              <div className={styles.currency}><span>{currency === "NGN" ? "🇳🇬 " : ""}{currency}</span></div>
+              <div><span>{tier.name}</span><strong>{formatMoney(subtotal, currency)}</strong></div>
+              {appliedDiscount && <div className={styles.discountLine}><span>Discount ({appliedDiscount.code})</span><strong>−{formatMoney(appliedDiscount.discountAmount, currency)}</strong></div>}
+              <div><span>Processing Fees</span><strong>{formatMoney(0, currency)}</strong></div>
+            </div>
+            <div className={styles.total} aria-live="polite">
+              <h2>Total Due</h2>
+              <strong>{appliedDiscount && <s className={styles.was}><span className="sr-only">Was </span>{formatMoney(subtotal, currency)}</s>}{formatMoney(totalDue, currency)}</strong>
+            </div>
           </>}
           <button className={styles.primary} disabled={!tier} onClick={() => go(2)}>CONTINUE</button>
         </div>}
@@ -177,7 +281,7 @@ export default function EventCheckout() {
             <label className={styles.full} htmlFor="linkedin">LinkedIn Profile URL (Optional)<input {...field("linkedin")} type="url" placeholder="https://www.linkedin.com/yourname" /></label>
             <label className={styles.full} htmlFor="expectations">What are your expectations for the event?<textarea {...field("expectations")} placeholder="What would you like to learn or achieve in November to Remember" rows={4} maxLength={2000} /></label>
           </fieldset>
-          {checkout && <div className={styles.notice} role="status"><p>{verifying && <Loader2 className={styles.spinner} size={16} />} {verificationMessage}</p><p className={styles.reference}>Reference: {checkout.reference}</p>{!verifying && <button type="button" className={styles.back} onClick={() => setVerificationAttempt(value => value + 1)}>Check payment status</button>}</div>}
+          {checkout && <div className={styles.notice} role="status"><p>{verifying && <Loader2 className={styles.spinner} size={16} />} {verificationMessage}</p><p className={styles.reference}>Amount: {formatMoney(checkout.amount, checkout.currency)}{checkout.discountCode ? ` (code ${checkout.discountCode} applied)` : ""} · Reference: {checkout.reference}</p>{!verifying && <button type="button" className={styles.back} onClick={() => setVerificationAttempt(value => value + 1)}>Check payment status</button>}</div>}
           {submitError && <p className={styles.notice} role="alert">{submitError}</p>}
           <div className={styles.actions}><button className={styles.back} type="button" disabled={submitting || !!checkout} onClick={() => go(1)}>Back</button><button className={styles.primary} type="submit" disabled={submitting}>{submitting ? "OPENING PAYMENT…" : checkout ? "REOPEN PAYSTACK CHECKOUT" : "CONTINUE TO PAYMENT"}</button></div>
         </form>}

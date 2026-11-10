@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CalendarDays, CheckCircle2, Clock3, Loader2, Mail, MailCheck, MapPin, XCircle } from "lucide-react";
 import { formatEventDate, formatMoney, getTicketStatus, type TicketStatusResult } from "@/lib/event";
-import checkout from "../checkout/checkout.module.css";
+import checkout from "@/components/checkout/checkout.module.css";
 import styles from "./success.module.css";
 
 // Confirmation arrives by webhook, usually within seconds of payment.

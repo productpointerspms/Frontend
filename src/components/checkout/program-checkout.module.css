@@ -1,0 +1,56 @@
+/* Program-only additions on top of the shared checkout.module.css (same design as the event checkout). */
+.gap{margin:24px 0}
+.inlineActions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:16px}
+.textLink,.textButton{color:#5816d1;font:inherit;font-size:14px;font-weight:600;text-decoration:underline;background:none;border:0;padding:0;cursor:pointer}
+.textButton:focus-visible,.textLink:focus-visible{outline:3px solid #a66dff;outline-offset:3px;border-radius:4px}
+
+.plans{border:0;margin:34px 0 30px;padding:0;display:grid;gap:12px;min-width:0}
+.plans legend{font-size:15px;font-weight:700;margin-bottom:14px;padding:0}
+.plan{display:flex;align-items:center;gap:14px;min-height:72px;padding:16px 20px;border:1px solid #d9d0e6;border-radius:16px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s}
+.plan:hover{border-color:#b993ff}
+.plan input{width:20px;height:20px;flex-shrink:0;accent-color:#5816d1;margin:0}
+.plan input:focus-visible{outline:3px solid #a66dff;outline-offset:3px}
+.planSelected{border:2px solid #5816d1;background:#f6f1fe;padding:15px 19px}
+.planCopy{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.planCopy strong{font-size:16px;font-weight:650;color:#141020}
+.planCopy span{font-size:13px;color:#616064}
+.planPrice{font-size:18px;font-weight:700;color:#141020;white-space:nowrap}
+.planPrice small{font-size:13px;font-weight:600;color:#616064}
+
+.currencySelect select{appearance:auto;font:inherit;font-size:12px;font-weight:600;color:#141020;border:1px solid #555;border-radius:20px;padding:4px 8px;background:#fff;min-height:32px;cursor:pointer}
+.currencySelect select:focus-visible{outline:3px solid #a66dff;outline-offset:2px}
+
+.planNote{font-size:14px;line-height:1.7;color:#5b3a00;background:#fff7e6;border:1px solid #ffd98a;border-radius:12px;padding:14px 16px;margin:-12px 0 24px}
+.planNote a{color:#5816d1;font-weight:600;text-decoration:underline}
+.fxNote{font-size:13px;line-height:1.6;color:#68616f;margin:-14px 0 24px}
+
+.questions{border:0;padding:0;margin:32px 0 0;min-width:0;display:grid;gap:16px}
+.questions legend{font-size:15px;font-weight:700;margin-bottom:16px;padding:0}
+.questions>div{box-shadow:none!important;border:1px solid #e2d6f7;border-radius:16px}
+.questions:disabled{opacity:.65}
+
+.methods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 20px}
+.methods button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border:1px solid #d9d0e6;border-radius:12px;background:#fff;font:inherit;font-size:15px;font-weight:600;color:#141020;cursor:pointer}
+.methods .methodActive{border:2px solid #5816d1;background:#f6f1fe;color:#5816d1}
+.methods button:focus-visible{outline:3px solid #a66dff;outline-offset:3px}
+.methodHint{display:flex;align-items:flex-start;gap:8px;font-size:14px;line-height:1.6;color:#68616f;margin:0 0 20px}
+.methodHint svg{flex-shrink:0;margin-top:3px;color:#16844a}
+
+.account{margin-bottom:20px}
+.accountNumber{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.accountNumber span{font-size:18px;font-weight:700;letter-spacing:1px;user-select:all}
+.accountNumber button{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 12px;border:1px solid #c6c1ce;border-radius:8px;background:#f2ecfb;font:inherit;font-size:13px;font-weight:600;color:#5816d1;cursor:pointer}
+.accountNumber button:focus-visible{outline:3px solid #a66dff;outline-offset:2px}
+
+@media(max-width:700px){
+  .plan{padding:14px 14px;gap:12px;min-height:64px}.planSelected{padding:13px}
+  .planCopy strong{font-size:15px}.planCopy span{font-size:12px}
+  .planPrice{font-size:15px}
+  .planNote{font-size:13px}
+  .methods button{font-size:14px;min-height:48px}
+  .accountNumber span{font-size:16px}
+  /* iOS Safari zooms into inputs under 16px; keep this form at 16px on phones. */
+  .currencySelect select{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){.plan{transition:none}}
+@media(max-width:700px){.mobileInputs input:not([type=radio]):not([type=checkbox]),.mobileInputs select,.mobileInputs textarea{font-size:16px}}
