@@ -26,7 +26,14 @@ export default function HeroSection() {
         <p className={styles.description}>You’ve learned the concepts and built your foundation. Now it’s time to put that knowledge to work. PPIP is a 12-week hands-on apprenticeship where you work on real product challenges, receive feedback and build practical experience along the way.</p>
         <div className={styles.actions}>
           <a href="#pricing" className={styles.apply}>Apply for the Scholarship</a>
-          <a href="#pricing" className={styles.waitlist}>Join the Waitlist</a>
+          <a
+            href="https://chat.whatsapp.com/JKV4fAIgtgPGgo8yvZneYh?s=cl&p=a&iam=2"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.waitlist}
+          >
+            Join the Waitlist
+          </a>
         </div>
         <dl className={styles.details}>
           <div><dt>Next Batch:</dt><dd>{dates}</dd></div>

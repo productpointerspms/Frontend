@@ -226,7 +226,7 @@ const Navbar = () => {
 
       {/* Desktop Buttons matching Hero.jpg styles */}
       <div className="hidden md:flex items-center gap-4">
-        <Link href="/scholarships/sponsor?tier=Champion" className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg font-bold hover:bg-[#4c1da3] transition shadow-sm">
+        <Link href="/#upcoming-programs" className="bg-[#6024D0] text-white px-7 py-2.5 rounded-lg font-bold hover:bg-[#4c1da3] transition shadow-sm">
           Apply Now
         </Link>
         {/* <Link href="/login" className="border border-[#6024D0] text-[#6024D0] px-7 py-2.5 rounded-lg font-bold hover:bg-purple-50 transition">
@@ -325,7 +325,7 @@ const Navbar = () => {
           </ul>
 
           <Link
-            href="/scholarships/sponsor?tier=Champion"
+            href="/#upcoming-programs"
             onClick={closeMobileMenu}
             className="mt-7 flex min-h-9 w-full shrink-0 items-center justify-center rounded-md bg-[#5815D5] px-3 py-2 text-center text-[14px] font-semibold leading-5 text-white transition-colors hover:bg-[#4810B3] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5815D5]"
           >

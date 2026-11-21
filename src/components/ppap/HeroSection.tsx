@@ -2,14 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useProgramDates, formatDateRange, formatDurationWeeks } from "@/lib/useProgramDates";
+import { useProgramDates, formatDateRange } from "@/lib/useProgramDates";
 import { bricolage } from "@/lib/fonts";
 import styles from "./hero.module.css";
 
 export default function HeroSection() {
   const { startTime, endTime } = useProgramDates("PPAP");
   const dates = startTime && endTime ? formatDateRange(startTime, endTime) : "September 18th – December 11th, 2026";
-  const duration = formatDurationWeeks(startTime, endTime) || "10 weeks";
+  // PPAP is a fixed 12-week program; computing it from cohort dates showed 11 weeks.
+  const duration = "12 Weeks";
   const brochureUrl = process.env.NEXT_PUBLIC_PPAP_BROCHURE_URL;
 
   return (
@@ -25,7 +26,7 @@ export default function HeroSection() {
         <p className={styles.description}>Whether you’re completely new to Product Management, transitioning from another career or tired of trying to figure it all out on your own, PPAP gives you a structured path to learn the fundamentals, build practical skills and understand how Product Managers think and work.</p>
         <div className={styles.actions}>
           <a href="#pricing" className={styles.apply}>Apply for the Accelerator Program</a>
-          <Link href={brochureUrl || "/contact?interest=ppap-brochure"} className={styles.brochure} {...(brochureUrl ? { target: "_blank", rel: "noopener noreferrer" } : { title: "Request the PPAP brochure from our team" })}>Download Brochure</Link>
+          <Link href  ={brochureUrl || "/contact?interest=ppap-brochure"} className={styles.brochure} {...(brochureUrl ? { target: "_blank", rel: "noopener noreferrer" } : { title: "Request the PPAP brochure from our team" })}>Download Brochure</Link>
         </div>
         <dl className={styles.details}>
           <div><dt>Next Batch:</dt><dd>{dates}</dd></div>
