@@ -11,7 +11,7 @@ export default function ApplicationReceived({ program }: { program: ScholarshipP
   const config = scholarshipConfig(program);
   const heading = useRef<HTMLHeadingElement>(null);
   const scholarshipName = program === "PPFP" ? "PPFP Scholarship" : config.scholarshipName;
-  const waitlistUrl = process.env.NEXT_PUBLIC_SCHOLARSHIP_WAITLIST_URL;
+  const waitlistUrl = process.env.NEXT_PUBLIC_SCHOLARSHIP_WAITLIST_URL || "https://chat.whatsapp.com/JKV4fAIgtgPGgo8yvZneYh?s=cl&p=a&iam=2";
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });

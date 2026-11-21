@@ -101,7 +101,7 @@ export default function WhatsHappening() {
   return (
     <section data-home-section="Upcoming"
       id="upcoming-programs"
-      className="bg-[#F2EDFB] px-6 py-10 md:pt-20 sm:px-10 lg:px-16 md:pb-0"
+      className="scroll-mt-20 bg-[#F2EDFB] px-6 py-10 md:pt-20 sm:px-10 lg:px-16 md:pb-0"
     >
       <div className="mx-auto max-w-6xl">
         {/* Header */}

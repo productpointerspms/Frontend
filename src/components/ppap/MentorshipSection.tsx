@@ -32,28 +32,28 @@ const MentorshipSection = () => {
       role: "Founder, Product Mindset",
       experience: "6+ Years of Experience",
       image: "/images/ppap/mentors/ann.jpg",
-      linkedin: "https://www.linkedin.com/in/calistaohama",
+      linkedin: "https://www.linkedin.com/in/annezeogu",
     },
     {
       name: "Nwobodo U. Lydia",
       role: "Product Manager, Miva Open University",
       experience: "6+ Years of Experience",
       image: "/images/ppap/mentors/lydia.jpg",
-      linkedin: "https://www.linkedin.com/in/omikunleesther",
+      linkedin: "https://www.linkedin.com/in/lydianwobodo",
     },
     {
       name: "Mary J. Odey",
       role: "Product Manager, Renmoney",
       experience: "6+ Years of Experience",
       image: "/images/ppap/mentors/mary.jpg",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/maryjacintaodey",
     },
     {
       name: "Tracy Ogilo",
       role: "Product Manager, PryceBuddy",
       experience: "4+ Years of Experience",
       image: "/images/ppap/mentors/tracy.jpg",
-      linkedin: "https://www.linkedin.com/in/omolaraosiyemi",
+      linkedin: "https://www.linkedin.com/in/tracyogilo",
     },
   ];
 
