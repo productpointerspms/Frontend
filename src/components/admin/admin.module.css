@@ -391,10 +391,12 @@ textarea.control { min-height: 92px; resize: vertical; }
   inset: 0 0 0 auto;
   margin: 0;
   width: min(100%, 450px);
+  max-width: 100%;
   height: 100dvh;
   max-height: 100dvh;
   border-radius: 0;
 }
+:global(body):has(.dialog[open]) { overflow: hidden; }
 .dialog::backdrop { background: #1c122e55; }
 .dialogHeader {
   display: flex;
@@ -467,3 +469,112 @@ textarea.control { min-height: 92px; resize: vertical; }
   .dialogBody, .dialogActions { padding-left: 14px; padding-right: 14px; }
   .inlineFormField { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) 28px; gap: 5px; }
 }
+
+.detailSection { display: grid; gap: 10px; min-width: 0; }
+.detailSection h3 { font-size: 14px; font-weight: 670; }
+.detailSection .link { justify-self: start; text-align: left; }
+.detailRows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px 16px; margin: 0; }
+.detailRows dt { color: var(--admin-muted); font-size: 11px; }
+.detailRows dd { margin: 2px 0 0; color: var(--admin-text); font-size: 13px; overflow-wrap: anywhere; }
+.filter { display: grid; gap: 4px; color: var(--admin-muted); font-size: 12px; }
+.filter .control { min-height: 35px; }
+.tablePanel { margin-top: 0; }
+.tablePanel .tableScroll { border-width: 1px 0 0; border-radius: 0 0 var(--admin-radius) var(--admin-radius); }
+.tablePanel .panelHeader { align-items: center; }
+.buttonRow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.destructive { color: white; background: #a72743; }
+.destructive:hover { background: #882038; }
+.selectionList { display: grid; gap: 10px; background: #f5f4f8; padding: 12px; border-radius: 8px; }
+.rowIdentity { display: flex; align-items: center; gap: 8px; }
+.rowIdentity strong { color: var(--admin-text); font-weight: 650; }
+.rowIdentity small { display: block; color: var(--admin-muted); line-height: 1.4; }
+.initials {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--admin-purple-soft);
+  color: var(--admin-purple);
+  font-weight: 700;
+  font-size: 11px;
+}
+.tabList { display: flex; gap: 7px; margin: 0 0 20px; padding: 7px; background: white; border: 1px solid var(--admin-border); border-radius: var(--admin-radius); overflow-x: auto; }
+.tabList button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  min-height: 35px;
+  padding: 5px 14px;
+  border-radius: 7px;
+  color: var(--admin-muted);
+  background: #f4f3f6;
+  font-size: 13px;
+  font-weight: 600;
+}
+.tabList button[aria-selected="true"] { color: var(--admin-purple); background: #f5ecfd; }
+.tabList button small { font-size: 11px; }
+.stepBar { display: flex; gap: 8px; margin-top: 7px; }
+.stepBar span { height: 3px; flex: 1; border-radius: 3px; background: var(--admin-border); }
+.stepBar span[data-complete="true"] { background: var(--admin-purple); }
+.toggle { display: inline-flex; align-items: center; justify-content: flex-start; width: 34px; height: 18px; border-radius: 20px; background: #e0dbe7; padding: 2px; vertical-align: middle; }
+.toggle::after { content: ""; width: 14px; height: 14px; border-radius: 50%; background: white; }
+.toggle[aria-checked="true"] { justify-content: flex-end; background: var(--admin-purple); }
+.locked {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 18px;
+  color: var(--admin-purple);
+  background: var(--admin-purple-soft);
+  border-radius: 100px;
+}
+.accessLegend { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 11px; color: var(--admin-muted); }
+.accessLegend .badge { font-size: 10px; }
+.analyticsPanels { margin-top: 18px; }
+.barChart { display: flex; align-items: stretch; justify-content: space-evenly; gap: 12px; min-height: 200px; list-style: none; padding: 0; }
+.barChart li { display: grid; grid-template-rows: 1fr auto; align-items: end; justify-items: center; width: min(22%, 84px); gap: 6px; color: var(--admin-muted); font-size: 12px; }
+.barChart li > div { position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; width: 100%; padding-top: 22px; }
+.barChart b { color: var(--admin-text); font-size: clamp(8px, 1.1vw, 12px); white-space: nowrap; }
+.revenueBar { display: block; width: min(65%, 47px); min-width: 15px; border-radius: 4px 4px 0 0; background: var(--admin-purple); }
+.progressList { display: grid; gap: 10px; padding: 0; list-style: none; margin: 0; }
+.progressList span { display: flex; justify-content: space-between; gap: 8px; }
+.progressList progress {
+  display: block;
+  width: 100%;
+  height: 8px;
+  appearance: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 99px;
+  background: #eee8f4;
+  color: var(--admin-purple);
+}
+.progressList progress::-webkit-progress-bar { background: #eee8f4; }
+.progressList progress::-webkit-progress-value { background: var(--admin-purple); border-radius: 99px; }
+.progressList progress::-moz-progress-bar { background: var(--admin-purple); border-radius: 99px; }
+@media (max-width: 520px) {
+  .detailRows { gap: 10px; }
+  .tablePanel .panelHeader { flex-wrap: wrap; }
+}
+
+.learnerOverview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.learnerOverview > div { display: grid; gap: 4px; padding: 10px; border-radius: 8px; background: #f2f0f5; color: #4f465c; }
+.learnerOverview > div[data-tone="green"] { background: #e8f6ec; color: #176b42; }
+.learnerOverview > div[data-tone="orange"] { background: #fff3df; color: #8d5200; }
+.learnerOverview > div[data-tone="purple"] { background: #f2e9fc; color: #5b26b5; }
+.learnerOverview strong { font-size: 20px; }
+.learnerOverview small { font-size: 11px; }
+.analyticsLink { width: 100%; margin-top: 12px; }
+.analyticsPanels > section:last-child { align-self: start; }
+.analyticsPanels .table { min-width: 470px; }
+
+.stepIndicator .infoLabel { color: var(--admin-purple); font-weight: 650; }
+.inviteSuccess { display: grid; justify-items: center; gap: 8px; text-align: center; }
+.inviteSuccess svg { color: #208f56; }
+.accessPanel { margin-top: 20px; }
+.accessPanel .table td { height: 44px; }
+.accessPanel .table :where(td, th):nth-child(2) { background: #fbf5ff; }

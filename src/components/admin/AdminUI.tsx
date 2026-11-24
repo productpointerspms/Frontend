@@ -189,3 +189,26 @@ export function DialogActions({ onClose, children }: { onClose: () => void; chil
     </div>
   );
 }
+
+export function DetailRows({ items }: { items: [string, ReactNode][] }) {
+  return <dl className={styles.detailRows}>
+    {items.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
+  </dl>;
+}
+
+export function ChoiceField({
+  label, name, options, defaultValue,
+}: {
+  label: string;
+  name: string;
+  options: readonly string[];
+  defaultValue?: string;
+}) {
+  return (
+    <Field label={label}>{(id) => (
+      <select id={id} name={name} className={styles.control} defaultValue={defaultValue}>
+        {options.map((option) => <option key={option}>{option}</option>)}
+      </select>
+    )}</Field>
+  );
+}

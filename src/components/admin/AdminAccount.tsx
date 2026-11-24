@@ -6,26 +6,32 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleCheck, LockKeyhole, MailCheck, ShieldCheck, type LucideIcon } from "lucide-react";
-import { Badge, Field } from "./AdminUI";
+import { Badge, DetailRows, Field } from "./AdminUI";
+import { useManagement, type AdminRole } from "./ManagementData";
 import styles from "./admin.module.css";
 
-type PreviewAccount = { name: string; email: string };
-const sampleAccount = { name: "Jane Doe", email: "jane@example.com" };
+type PreviewAccount = { name: string; email: string; role: AdminRole };
+type PreviewInvitation = PreviewAccount & { id: string };
+const sampleAccount: PreviewAccount = { name: "Jane Doe", email: "jane@example.com", role: "Super Admin" };
+const sampleInvitation: PreviewAccount = { name: "Olivia Bennett", email: "olivia@example.com", role: "Program Admin" };
 
 const AccountContext = createContext<{
   account: PreviewAccount;
   setAccount: (account: PreviewAccount) => void;
+  invitation: PreviewInvitation | null;
+  setInvitation: (invitation: PreviewInvitation | null) => void;
   notice: string;
   setNotice: (notice: string) => void;
 } | null>(null);
 
 export function AccountPreview({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState(sampleAccount);
+  const [invitation, setInvitation] = useState<PreviewInvitation | null>(null);
   const [notice, setNotice] = useState("");
-  return <AccountContext.Provider value={{ account, setAccount, notice, setNotice }}>{children}</AccountContext.Provider>;
+  return <AccountContext.Provider value={{ account, setAccount, invitation, setInvitation, notice, setNotice }}>{children}</AccountContext.Provider>;
 }
 
-function useAccountPreview() {
+export function useAccountPreview() {
   const preview = useContext(AccountContext);
   if (!preview) throw new Error("Admin account screens require the preview layout.");
   return preview;
@@ -93,9 +99,10 @@ function SignIn() {
   );
 }
 
-function PasswordForm({ setup = false }: { setup?: boolean }) {
+function PasswordForm({ setup = false, invited = false }: { setup?: boolean; invited?: boolean }) {
   const router = useRouter();
-  const { setAccount, setNotice } = useAccountPreview();
+  const { setAccount, setNotice, invitation } = useAccountPreview();
+  const invitee = invitation ?? sampleInvitation;
   const name = useRef<HTMLInputElement>(null);
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
@@ -110,7 +117,10 @@ function PasswordForm({ setup = false }: { setup?: boolean }) {
       return;
     }
     setError("");
-    if (setup) {
+    if (invited) {
+      setAccount(invitee);
+      router.push("/admin/verify-invitation");
+    } else if (setup) {
       const fullName = name.current?.value.trim();
       const emailAddress = email.current?.value.trim();
       if (!fullName || !emailAddress) {
@@ -118,7 +128,7 @@ function PasswordForm({ setup = false }: { setup?: boolean }) {
         return;
       }
       // Only the display details move between preview screens.
-      setAccount({ name: fullName, email: emailAddress });
+      setAccount({ name: fullName, email: emailAddress, role: "Super Admin" });
       router.push("/admin/verify-email");
     } else {
       setNotice("Password reset complete in this preview.");
@@ -128,12 +138,17 @@ function PasswordForm({ setup = false }: { setup?: boolean }) {
 
   return (
     <AccountFrame
-      title={setup ? "Set up your administrator account" : "Create a new password"}
-      text={setup ? "Create the primary administrator account to manage your ProductPointers platform." : "Choose a strong password you haven’t used before."}
-      icon={setup ? undefined : LockKeyhole}
-      footer={setup ? "Restricted initial setup. Authorized access only." : "Your password will be updated securely."}
+      title={invited ? "You’re invited!" : setup ? "Set up your administrator account" : "Create a new password"}
+      text={invited ? "Set up your account to join ProductPointers." : setup
+        ? "Create the primary administrator account to manage your ProductPointers platform."
+        : "Choose a strong password you haven’t used before."}
+      icon={setup || invited ? undefined : LockKeyhole}
+      footer={invited ? undefined : setup ? "Restricted initial setup. Authorized access only." : "Your password will be updated securely."}
     >
       <form className={styles.accountForm} method="post" onSubmit={submit}>
+        {invited && <div className={styles.infoBox}>
+          <DetailRows items={[["Name", invitee.name], ["Email", invitee.email], ["Assigned role", <Badge key="role" tone="purple">{invitee.role}</Badge>]]} />
+        </div>}
         {setup && <>
           <Field label="Full name">{(id) => (
             <input id={id} ref={name} autoComplete="name" placeholder="Enter your full name" className={styles.control} required />
@@ -160,7 +175,7 @@ function PasswordForm({ setup = false }: { setup?: boolean }) {
         </>}
         {error && <p className={styles.error} role="alert">{error}</p>}
         <button className={`${styles.primary} ${styles.accountButton}`} type="submit">
-          {setup ? "Create super admin account" : "Reset password"}
+          {invited ? "Create account" : setup ? "Create super admin account" : "Reset password"}
         </button>
       </form>
     </AccountFrame>
@@ -214,15 +229,18 @@ function CodeInput({ label }: { label: string }) {
   );
 }
 
-function Verification({ security = false }: { security?: boolean }) {
+function Verification({ security = false, invited = false }: { security?: boolean; invited?: boolean }) {
   const router = useRouter();
-  const { account } = useAccountPreview();
+  const { account, invitation, setAccount, setInvitation } = useAccountPreview();
+  const { update } = useManagement();
   const [resend, setResend] = useState(false);
+  const target = invited ? invitation ?? sampleInvitation : account;
 
   return (
     <AccountFrame
-      title={security ? "Security verification" : "Verify email address"}
-      text={security ? "Enter the six-digit code from your authenticator app to continue." : "Create your admin account to get started."}
+      title={security ? "Security verification" : invited ? "You’re invited!" : "Verify email address"}
+      text={security ? "Enter the six-digit code from your authenticator app to continue."
+        : invited ? "Verify your email to complete your administrator account setup." : "Create your admin account to get started."}
       icon={security ? ShieldCheck : MailCheck}
       success={security}
       footer={!security && <>
@@ -233,11 +251,19 @@ function Verification({ security = false }: { security?: boolean }) {
     >
       <form className={styles.accountForm} method="post" onSubmit={(event) => {
         event.preventDefault();
+        if (invited) {
+          setAccount(target);
+          if (invitation) {
+            update("administrators", (items) => items.map((item) =>
+              item.id === invitation.id && item.status === "Invited" ? { ...item, status: "Active" } : item));
+            setInvitation(null);
+          }
+        }
         router.push(security ? "/admin/dashboard" : "/admin/activated");
       }}>
         {!security && <div className={styles.infoBox}>
           <p className={styles.infoLabel}>Verification email sent to</p>
-          <p className={styles.infoValue}>{account.email}</p>
+          <p className={styles.infoValue}>{target.email}</p>
         </div>}
         <CodeInput label={security ? "Authentication code" : "Enter verification code"} />
         <button className={`${styles.primary} ${styles.accountButton}`} type="submit">
@@ -261,7 +287,7 @@ function Activated() {
       <dl className={`${styles.infoBox} ${styles.accountSummary}`}>
         <div><dt>Name</dt><dd>{account.name}</dd></div>
         <div><dt>Email</dt><dd>{account.email}</dd></div>
-        <div><dt>Assigned role</dt><dd><Badge tone="purple">Super Admin</Badge></dd></div>
+        <div><dt>Assigned role</dt><dd><Badge tone="purple">{account.role}</Badge></dd></div>
         <div><dt>Account status</dt><dd><Badge tone="purple">Active</Badge></dd></div>
       </dl>
       <Link href="/admin/sign-in" className={`${styles.primary} ${styles.accountButton}`}>Continue to sign in</Link>
@@ -294,7 +320,7 @@ function ForgotPassword() {
 }
 
 export function AdminAccount({ screen }: {
-  screen: "sign-in" | "setup" | "verify-email" | "activated" | "forgot-password" | "reset-password" | "security-verification";
+  screen: "sign-in" | "setup" | "verify-email" | "activated" | "forgot-password" | "reset-password" | "security-verification" | "invitation" | "verify-invitation";
 }) {
   switch (screen) {
     case "sign-in": return <SignIn />;
@@ -304,5 +330,7 @@ export function AdminAccount({ screen }: {
     case "security-verification": return <Verification security />;
     case "activated": return <Activated />;
     case "forgot-password": return <ForgotPassword />;
+    case "invitation": return <PasswordForm invited />;
+    case "verify-invitation": return <Verification invited />;
   }
 }

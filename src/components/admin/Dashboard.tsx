@@ -17,14 +17,14 @@ const revenue = [
 const attention = [
   { title: "4 payments pending", detail: "PPAP Cohort 5", link: "/admin/programs", action: "Review", icon: Clock3, tone: "orange" },
   { title: "2 failed Google Classroom/LMS syncs", detail: "Learner enrolments", link: "/admin/cohorts", action: "Fix", icon: TriangleAlert, tone: "red" },
-  { title: "26 new applications", detail: "ONOME Scholarship", action: "Review", icon: FileText, tone: "orange" },
+  { title: "26 new applications", detail: "ONOME Scholarship", link: "/admin/applications?type=Scholarship", action: "Review", icon: FileText, tone: "orange" },
   { title: "Scholarship deadline approaching", detail: "PPFP Scholarship", link: "/admin/scholarships", action: "Review", icon: Clock3, tone: "orange" },
 ] as const;
 
 const applicationTypes = [
-  { type: "Programs", detail: "Cohorts and program applications", count: 42, icon: GraduationCap },
-  { type: "Scholarships", detail: "Scholarship applications", count: 43, icon: GraduationCap },
-  { type: "Mentorship", detail: "Mentorship applications", count: 43, icon: BookOpen },
+  { type: "Programs", detail: "Cohorts and program applications", count: 42, icon: GraduationCap, link: "/admin/applications?type=Program" },
+  { type: "Scholarships", detail: "Scholarship applications", count: 43, icon: GraduationCap, link: "/admin/applications?type=Scholarship" },
+  { type: "Mentorship", detail: "Mentorship applications", count: 43, icon: BookOpen, link: "/admin/mentorship" },
 ];
 
 const activity = [
@@ -150,8 +150,7 @@ export function Dashboard() {
                   <IconTile icon={item.icon} tone={item.tone} />
                   <div><strong>{item.title}</strong><small>{item.detail}</small></div>
                   <div className={styles.listEnd}>
-                    {"link" in item ? <Link className={styles.smallButton} href={item.link}>{item.action}</Link>
-                      : <button type="button" className={styles.smallButton} disabled>{item.action}</button>}
+                    <Link className={styles.smallButton} href={item.link}>{item.action}</Link>
                   </div>
                 </li>
               ))}
@@ -172,7 +171,7 @@ export function Dashboard() {
                 <IconTile icon={item.icon} />
                 <div><strong>{item.type}</strong><small>{item.detail}</small></div>
                 <strong className={styles.listEnd}>{item.count}</strong>
-                <button type="button" className={styles.smallButton} aria-label={`Review ${item.type} applications`} disabled>Review</button>
+                <Link href={item.link} className={styles.smallButton} aria-label={`Review ${item.type} applications`}>Review</Link>
               </li>
             ))}
           </ul>

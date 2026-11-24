@@ -16,10 +16,21 @@ const sections = [
   { name: "Programs", path: "/admin/programs" },
   { name: "Cohorts", path: "/admin/cohorts" },
   { name: "Scholarships", path: "/admin/scholarships" },
+  { name: "Applications", path: "/admin/applications" },
+  { name: "Courses", path: "/admin/courses" },
+  { name: "Orders & Payments", path: "/admin/orders-payments" },
+  { name: "Learners", path: "/admin/learners" },
+  { name: "Facilitators", path: "/admin/facilitators" },
+  { name: "Analytics", path: "/admin/analytics" },
+  { name: "Settings", path: "/admin/settings" },
+  { name: "Mentorship", path: "/admin/mentorship" },
 ];
 
 type Section = typeof sections[number];
-const [dashboard, programs, cohorts, scholarships] = sections;
+const [
+  dashboard, programs, cohorts, scholarships, applications, courses, orders,
+  learners, facilitators, analytics, settings, mentorship,
+] = sections;
 
 function Avatar({ size }: { size: number }) {
   return <Image src="/images/Blessing.png" alt="" width={size} height={size} className={styles.avatar} />;
@@ -120,22 +131,23 @@ export default function AdminShell({ children }: { children: ReactNode }) {
             <NavigationGroup label="Learning" icon={GraduationCap} initiallyOpen>
               <NavigationItem label="Programs" section={programs} onNavigate={closeNavigation} />
               <NavigationItem label="Cohorts" section={cohorts} onNavigate={closeNavigation} />
+              <NavigationItem label="Courses" section={courses} onNavigate={closeNavigation} />
             </NavigationGroup>
             <NavigationGroup label="Apprenticeship" icon={Link2} initiallyOpen>
               <NavigationItem label="Apprenticeship" onNavigate={closeNavigation} />
               <NavigationItem label="AI Interview" onNavigate={closeNavigation} />
             </NavigationGroup>
-            <NavigationItem label="Analytics" icon={BarChart3} onNavigate={closeNavigation} />
+            <NavigationItem label="Analytics" icon={BarChart3} section={analytics} onNavigate={closeNavigation} />
             <NavigationItem label="Scholarships" icon={GraduationCap} section={scholarships} onNavigate={closeNavigation} />
-            <NavigationItem label="Applications" icon={ClipboardList} onNavigate={closeNavigation} />
-            <NavigationItem label="Mentorship" icon={BookOpen} onNavigate={closeNavigation} />
-            <NavigationItem label="Orders & Payments" icon={CreditCard} onNavigate={closeNavigation} />
+            <NavigationItem label="Applications" icon={ClipboardList} section={applications} onNavigate={closeNavigation} />
+            <NavigationItem label="Mentorship" icon={BookOpen} section={mentorship} onNavigate={closeNavigation} />
+            <NavigationItem label="Orders & Payments" icon={CreditCard} section={orders} onNavigate={closeNavigation} />
             <NavigationItem label="Refer & Earn" icon={CircleDollarSign} onNavigate={closeNavigation} />
             <NavigationGroup label="People" icon={Users} initiallyOpen>
-              <NavigationItem label="Learners" onNavigate={closeNavigation} />
-              <NavigationItem label="Facilitators" onNavigate={closeNavigation} />
+              <NavigationItem label="Learners" section={learners} onNavigate={closeNavigation} />
+              <NavigationItem label="Facilitators" section={facilitators} onNavigate={closeNavigation} />
             </NavigationGroup>
-            <NavigationItem label="Settings" icon={Settings} onNavigate={closeNavigation} />
+            <NavigationItem label="Settings" icon={Settings} section={settings} onNavigate={closeNavigation} />
           </ul>
         </nav>
         <div className={styles.sidebarProfile}>
