@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { NOVEMBER_EVENT_SLUG, formatEventRange, getEvent, type EventDetails } from "@/lib/event";
+import type { UpcomingProgramItem } from "@/lib/programs";
 
 interface ProgramItem {
   title: string;
@@ -13,47 +14,15 @@ interface ProgramItem {
   href: string;
 }
 
-const upcomingPrograms: ProgramItem[] = [
-  {
-    title: "ProductPointers Accelerator Program",
-    date: "Next Cohort Starts September 18, 2026",
-    description:
-      "A 12-week accelerator for aspiring Product Managers, combining live sessions with practical product work.",
-    cta: "Apply Now",
-    href: "/ppap#pricing",
-  },
-  {
-    title: "ProductPointers Apprenticeship/Internship Program",
-    date: "Next Batch Starts October 12, 2026",
-    description:
-      "For those ready to go deeper. Intermediate product frameworks and leadership skills.",
-    cta: "Join The Waitlist",
-    href: "/ppip#pricing",
-  },
-  {
-    title: "Product Management Mastery Program",
-    date: "Next Cohort Starts January 15, 2027",
-    description:
-      "For Product Managers ready to deepen their expertise and advance their careers.",
-    cta: "Apply Now",
-    href: "/ppmp/apply?plan=scholarship",
-  },
-  {
-    title: "1 on 1 Coaching",
-    date: "Rolling Applications Open",
-    description:
-      "One-on-one coaching tailored to your goals. Limited spots available each quarter.",
-    cta: "Apply Now",
-    href: "/ppcp/blessing-okomor",
-  },
-  {
-    title: "Fintech Product Management Program",
-    date: "Next Batch Starts October 15, 2026",
-    description: "For aspiring and practicing PMs who want to build specialized Product Management skills for fintech and financial products.",
-    cta: "Apply Now",
-    href: "/ppfp#pricing",
-  },
-];
+// 1:1 coaching isn't a backend program, so it stays as a static row after the live programs.
+const coachingItem: ProgramItem = {
+  title: "1 on 1 Coaching",
+  date: "Rolling Applications Open",
+  description:
+    "One-on-one coaching tailored to your goals. Limited spots available each quarter.",
+  cta: "Apply Now",
+  href: "/ppcp/blessing-okomor",
+};
 
 // Fallback card, shown until (or if) the event API responds.
 const fallbackEvent: ProgramItem = {
@@ -84,7 +53,8 @@ const tabs = [
 
 type TabId = (typeof tabs)[number]["id"];
 
-export default function WhatsHappening() {
+/** `programs` comes from GET /program/programs (fetched on the server); null means the request failed. */
+export default function WhatsHappening({ programs }: { programs: UpcomingProgramItem[] | null }) {
   const [activeTab, setActiveTab] = useState<TabId>("programs");
   const [eventItem, setEventItem] = useState<ProgramItem>(fallbackEvent);
 
@@ -96,7 +66,8 @@ export default function WhatsHappening() {
     return () => { cancelled = true; };
   }, []);
 
-  const activeData = activeTab === "programs" ? upcomingPrograms : [eventItem];
+  const programItems: ProgramItem[] = programs ? [...programs, coachingItem] : [];
+  const activeData = activeTab === "programs" ? programItems : [eventItem];
 
   return (
     <section data-home-section="Upcoming"
@@ -144,6 +115,11 @@ export default function WhatsHappening() {
 
         {/* List */}
         <div className={`divide-y divide-[#C2C2C2] max-md:divide-y-0 overflow-hidden bg-white ${activeTab === "events" ? "rounded-lg" : ""}`}>
+          {activeTab === "programs" && !programs && (
+            <p role="status" className="px-6 py-8 text-center md:text-sm text-[12px] text-[#5A5470]">
+              We couldn&apos;t load upcoming programs right now. Please refresh the page or try again shortly.
+            </p>
+          )}
           {activeData.map((item) => (
             <div
               key={item.title}

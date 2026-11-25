@@ -2,10 +2,11 @@
 // Pricing CTAs across the site link here with ?plan=<id>&currency=<code>.
 //
 // The backend owns the price: GET /program/get-by-code/{code} tells us whether a program is
-// open for enrolment and what it charges. /application/register has no plan field yet, so:
+// open for enrolment, what it charges, and its instalment schedule (`installments`).
 //   - "full"        plans charge the backend fee.
-//   - "installment" plans are shown, but today's payment is the backend's full fee (stated clearly);
-//                   the chosen plan is recorded on the application for the team to follow up.
+//   - "installment" there is one instalment plan, built from the backend schedule (see resolvePlans).
+//                   Registration sends `useInstallments: true`; today's charge is the first instalment.
+//                   The static instalment plans below only exist so old ?plan= links still land on it.
 //   - "product"     plans (e.g. coaching packages) are separate products; they're payable online
 //                   only when the backend fee matches the plan price, otherwise we route to the team.
 
@@ -121,10 +122,19 @@ export function checkoutHref(slug: string, params: { plan?: string; currency?: s
   return `/checkout/${slug}${qs ? `?${qs}` : ""}`;
 }
 
+/** One step of a program's backend instalment schedule. */
+export interface ProgramInstallment {
+  title: string;
+  sequence: number;
+  percentage: number;
+  amountNgn: number;
+  dueAfterDays: number;
+}
+
 export type Availability =
   | { state: "checking" }
   /** Backend has the program and it's active. `feeNgn` is null if it didn't report one. */
-  | { state: "open"; feeNgn: number | null; startsAt: string | null }
+  | { state: "open"; feeNgn: number | null; startsAt: string | null; installments: ProgramInstallment[] }
   /** Backend doesn't know the program, or it's inactive. */
   | { state: "closed" }
   /** Couldn't tell (offline, 5xx, timeout) — let the person continue; payment will confirm. */
@@ -157,7 +167,57 @@ export async function checkProgramAvailability(code: string, signal?: AbortSigna
     state: "open",
     feeNgn: Number.isFinite(fee) && fee > 0 ? fee : null,
     startsAt: typeof data.startTime === "string" && data.startTime ? data.startTime : null,
+    installments: parseInstallments(data.installments),
   };
+}
+
+function parseInstallments(raw: unknown): ProgramInstallment[] {
+  if (!Array.isArray(raw)) return [];
+  return (raw as Record<string, unknown>[])
+    .filter((i) => i && i.isActive !== false)
+    .map((i) => ({
+      title: String(i.title ?? "").trim(),
+      sequence: Number(i.sequence ?? 0),
+      percentage: Number(i.percentage ?? 0),
+      amountNgn: Number(i.amount ?? 0),
+      dueAfterDays: Number(i.dueAfterDays ?? 0),
+    }))
+    .filter((i) => Number.isFinite(i.amountNgn) && i.amountNgn > 0)
+    .sort((a, b) => a.sequence - b.sequence);
+}
+
+export const INSTALLMENT_PLAN_ID = "installments";
+const naira = (amount: number) => `₦${Math.round(amount).toLocaleString("en-NG")}`;
+
+/**
+ * Plans to show: the program's non-instalment plans, plus one instalment plan built
+ * from the backend schedule (only once the backend confirms the program has one).
+ */
+export function resolvePlans(program: CheckoutProgram, availability: Availability): CheckoutPlan[] {
+  const base = program.plans.filter((p) => p.kind !== "installment");
+  if (program.plans.some((p) => p.kind === "product")) return program.plans;
+  const schedule = availability.state === "open" ? availability.installments : [];
+  if (schedule.length < 2) return base;
+  const equal = schedule.every((i) => i.amountNgn === schedule[0].amountNgn);
+  return [
+    ...base,
+    {
+      id: INSTALLMENT_PLAN_ID,
+      label: `Pay in ${schedule.length} installments`,
+      detail: schedule.map((i) => `${i.title || `Payment ${i.sequence}`}: ${naira(i.amountNgn)}`).join(" · "),
+      kind: "installment",
+      amountNgn: schedule[0].amountNgn,
+      payments: equal ? schedule.length : undefined,
+    },
+  ];
+}
+
+/** The selected plan; an old static instalment id (e.g. ?plan=tier-02) maps to the backend instalment plan. */
+export function selectPlan(program: CheckoutProgram, plans: CheckoutPlan[], requestedId: string | null): CheckoutPlan {
+  const exact = plans.find((p) => p.id === requestedId);
+  if (exact) return exact;
+  const wantsInstallments = requestedId === INSTALLMENT_PLAN_ID || program.plans.some((p) => p.id === requestedId && p.kind === "installment");
+  return (wantsInstallments && plans.find((p) => p.kind === "installment")) || plans[0];
 }
 
 export interface PlanQuote {
@@ -176,15 +236,19 @@ export function quotePlan(program: CheckoutProgram, plan: CheckoutPlan, availabi
     if (backendFee != null && backendFee !== plan.amountNgn) return { dueTodayNgn: null };
     return { dueTodayNgn: plan.amountNgn };
   }
-  const fullPlan = program.plans.find(p => p.kind === "full");
-  const due = backendFee ?? fullPlan?.amountNgn ?? plan.amountNgn;
   if (plan.kind === "installment") {
+    // Only built from the backend schedule, so availability is "open" here.
+    const schedule = availability.state === "open" ? availability.installments : [];
+    const later = schedule.slice(1);
     return {
-      dueTodayNgn: due,
-      note: "Installment payments can't be set up online yet, so today's payment is the full program fee. Want to split it? Talk to our team before paying and we'll set up your installments.",
+      dueTodayNgn: schedule[0]?.amountNgn ?? plan.amountNgn,
+      note: later.length
+        ? `Today you pay the ${(schedule[0].title || "first payment").toLowerCase()}. Then: ${later.map((i) => `${naira(i.amountNgn)}${i.dueAfterDays ? ` within ${i.dueAfterDays} days` : ""}`).join(", ")}.`
+        : undefined,
     };
   }
-  return { dueTodayNgn: due };
+  const fullPlan = program.plans.find(p => p.kind === "full");
+  return { dueTodayNgn: backendFee ?? fullPlan?.amountNgn ?? plan.amountNgn };
 }
 
 /** Recorded on the application so the team sees exactly what was chosen. */

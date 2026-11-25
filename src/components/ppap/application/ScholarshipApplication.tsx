@@ -6,6 +6,7 @@ import { registerApplication } from "@/lib/application";
 import { scholarshipConfig, scholarshipResponses, wordCount, type ScholarshipProgram } from "./scholarship";
 import styles from "./scholarship.module.css";
 import ApplicationReceived from "./ApplicationReceived";
+import { type ScholarshipListing } from "@/lib/scholarships";
 
 function Section({ number, title, description, children }: { number: number; title: string; description: string; children: ReactNode }) {
   return <section className={styles.section} aria-labelledby={`scholarship-section-${number}`}><div className={styles.sectionHeading}><span>{number}</span><div><h2 id={`scholarship-section-${number}`}>{title}</h2><p>{description}</p></div>{number === 1 && <p className={styles.requiredNote}>* Required</p>}</div>{children}</section>;
@@ -19,8 +20,8 @@ function WordAnswer({ name, question, placeholder }: { name: string; question: s
   return <div><Label htmlFor={name} required>{question}</Label><p id={`${name}-help`} className={styles.hint}>Maximum: <strong>200 words.</strong></p><textarea id={name} name={name} value={text} onChange={event => { const value = event.target.value; event.target.setCustomValidity(wordCount(value) > 200 ? "Please use 200 words or fewer." : ""); setText(value); }} required maxLength={10000} aria-describedby={`${name}-help ${name}-count`} placeholder={placeholder} /><p id={`${name}-count`} className={styles.wordCount}>{wordCount(text)}/200 words</p></div>;
 }
 
-export default function ScholarshipApplication({ program = "PPAP" }: { program?: ScholarshipProgram }) {
-  const config = scholarshipConfig(program);
+export default function ScholarshipApplication({ program = "PPAP", scholarship = null }: { program?: ScholarshipProgram; scholarship?: ScholarshipListing | null }) {
+  const config = scholarshipConfig(program, scholarship);
   const [journey, setJourney] = useState("");
   const [motivation, setMotivation] = useState("");
   const [reason, setReason] = useState("");
@@ -46,13 +47,13 @@ export default function ScholarshipApplication({ program = "PPAP" }: { program?:
     submitLock.current = true;
     setSending(true); setError("");
     try {
-      const result = await registerApplication({ fullname: `${value("firstName")} ${value("lastName")}`, email: value("email"), phoneNumber, programCode: program, responses: scholarshipResponses(data, program) });
+      const result = await registerApplication({ fullname: `${value("firstName")} ${value("lastName")}`, email: value("email"), phoneNumber, programCode: program, responses: scholarshipResponses(data, program, scholarship) });
       if (!result.applicationId) throw new Error("No application confirmation was returned. Please contact the team before submitting again.");
       setSubmitted(true);
     } catch (err) { setError(err instanceof Error ? err.message : "Your application could not be submitted. Please try again."); }
     finally { submitLock.current = false; setSending(false); }
   }
-  if (submitted) return <ApplicationReceived program={program} />;
+  if (submitted) return <ApplicationReceived program={program} scholarship={scholarship} />;
 
   return <div className={styles.page}><div className={styles.card}><header className={styles.header}><h1>Scholarship Application</h1><p>Tell us a little about yourself and your career journey to apply for the {config.programName}. Complete all sections on this single form below.</p></header><form className={styles.form} onSubmit={submit} aria-busy={sending}><fieldset disabled={sending} className={styles.fields}>
     <Section number={1} title="Personal Information" description="Provide your official contact details for candidate tracking."><div className={styles.grid}>

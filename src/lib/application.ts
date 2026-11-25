@@ -23,6 +23,8 @@ export interface RegisterApplicationPayload {
   programCode: string;
   phoneNumber: string;
   responses: ApplicationResponseItem[];
+  /** True when the applicant chose to pay in the program's backend instalments. */
+  useInstallments?: boolean;
 }
 
 export interface RegisterApplicationResult {

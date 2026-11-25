@@ -19,9 +19,12 @@ import FaqSectionNew from "@/components/homepage/FaqSectionNew";
 import CareerCTA from "@/components/homepage/CareerCTA";
 import StickyExploreButton from "@/components/homepage/StickyExploreButton";
 import { bricolageHome as bricolage } from "@/lib/fonts";
+import { getUpcomingProgramItems } from "@/lib/programs";
 import styles from "@/components/homepage/homepage.module.css";
 
-export default function Home() {
+export default async function Home() {
+  // Upcoming programs come from GET /program/programs; null renders an error message.
+  const upcomingPrograms = await getUpcomingProgramItems().catch(() => null);
   return (
     <div className={`${bricolage.variable} ${styles.page}`}>
       <HeroSection />
@@ -35,7 +38,7 @@ export default function Home() {
       <MentorsSection />
       <NewTestimonials />
       <CertificateVerification />
-      <WhatsHappening />
+      <WhatsHappening programs={upcomingPrograms} />
       <TopTalentSection />
       <AlumniSection />
       <SponsorshipSection />

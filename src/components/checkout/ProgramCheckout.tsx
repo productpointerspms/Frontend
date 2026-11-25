@@ -19,7 +19,9 @@ import {
   loadSavedCheckout,
   planSummary,
   quotePlan,
+  resolvePlans,
   saveCheckout,
+  selectPlan,
   type Availability,
   type CheckoutProgram,
 } from "@/lib/programCheckout";
@@ -42,14 +44,13 @@ export default function ProgramCheckout({ program }: { program: CheckoutProgram 
   const searchParams = useSearchParams();
   const heading = useRef<HTMLHeadingElement>(null);
   const [step, setStep] = useState(1);
-  const [planId, setPlanId] = useState(() => {
-    const requested = searchParams.get("plan");
-    return program.plans.find(p => p.id === requested)?.id ?? program.plans[0].id;
-  });
+  // Holds the requested id; selectPlan resolves it once the backend's instalment plan is known.
+  const [planId, setPlanId] = useState<string | null>(() => searchParams.get("plan"));
   const [person] = useState(() => searchParams.get("coach")?.trim().slice(0, 80) || undefined);
-  const plan = program.plans.find(p => p.id === planId) ?? program.plans[0];
 
   const [availability, setAvailability] = useState<Availability>({ state: "checking" });
+  const plans = resolvePlans(program, availability);
+  const plan = selectPlan(program, plans, planId);
   const quote = quotePlan(program, plan, availability);
   const rates = useLiveRates(quote.dueTodayNgn ?? plan.amountNgn, searchParams.get("currency"));
   const { currency, setCurrency, formatLive } = rates;
@@ -107,7 +108,7 @@ export default function ProgramCheckout({ program }: { program: CheckoutProgram 
   useEffect(() => {
     const saved = loadSavedCheckout(program.slug);
     if (!saved) return;
-    if (program.plans.some(p => p.id === saved.planId)) setPlanId(saved.planId);
+    setPlanId(saved.planId);
     setCurrency(getCurrency(saved.currency));
     setApplicant({ firstName: saved.firstName, email: saved.email });
     setApplicationId(saved.applicationId);
@@ -154,6 +155,7 @@ export default function ProgramCheckout({ program }: { program: CheckoutProgram 
         email,
         phoneNumber,
         programCode: program.code,
+        useInstallments: plan.kind === "installment",
         responses: [
           { category: "TRACK_SELECTION", question: "Selected payment plan", response: planSummary(plan, person) },
           ...buildResponses(data, program.questions),
@@ -236,15 +238,15 @@ export default function ProgramCheckout({ program }: { program: CheckoutProgram 
           </div>}
 
           {availability.state !== "closed" && <>
-            {program.plans.length > 1 && <fieldset className={local.plans}>
+            {plans.length > 1 && <fieldset className={local.plans}>
               <legend>Choose your plan</legend>
-              {program.plans.map(option => <label key={option.id} className={`${local.plan} ${option.id === plan.id ? local.planSelected : ""}`}>
+              {plans.map(option => <label key={option.id} className={`${local.plan} ${option.id === plan.id ? local.planSelected : ""}`}>
                 <input type="radio" name="plan" value={option.id} checked={option.id === plan.id} onChange={() => choosePlan(option.id)} />
                 <span className={local.planCopy}><strong>{option.label}</strong><span>{option.detail}</span></span>
-                <span className={local.planPrice}>{formatLive(option.amountNgn)}{option.payments ? <small> × {option.payments}</small> : null}</span>
+                <span className={local.planPrice}>{option.kind === "installment" ? <>{formatLive(quotePlan(program, option, availability).dueTodayNgn ?? option.amountNgn)}<small>{option.payments ? ` × ${option.payments}` : " today"}</small></> : formatLive(option.kind === "full" ? quotePlan(program, option, availability).dueTodayNgn ?? option.amountNgn : option.amountNgn)}</span>
               </label>)}
             </fieldset>}
-            {program.plans.length === 1 && <div className={styles.ticket}><div><h2>{plan.label}</h2><p>{plan.detail}</p></div></div>}
+            {plans.length === 1 && <div className={styles.ticket}><div><h2>{plan.label}</h2><p>{plan.detail}</p></div></div>}
 
             {plan.kind === "product" && dueToday == null && availability.state === "open" && <div className={`${styles.notice} ${local.gap}`} role="status">
               <p><strong>{plan.label} can&apos;t be booked online yet.</strong> Message our team and we&apos;ll set it up with you{person ? ` and ${person}` : ""}.</p>
