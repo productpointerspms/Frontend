@@ -1,16 +1,19 @@
 "use client";
 
-import { useEffect, useId, useRef, type ReactNode } from "react";
+import { Children, createContext, useContext, useEffect, useId, useRef, type ReactNode } from "react";
 import { MoreHorizontal, X, type LucideIcon } from "lucide-react";
+import { useAdminMutation } from "./admin-api";
 import styles from "./admin.module.css";
 
+// Provider transactions can include fractional amounts even when catalogue prices are whole numbers.
 export const money = (amount: number, currency = "NGN") =>
-  new Intl.NumberFormat("en-NG", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount);
+  new Intl.NumberFormat("en-NG", { style: "currency", currency, minimumFractionDigits: 0 }).format(amount);
 
-export function displayDate(date: string) {
-  return new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeZone: "UTC" }).format(
-    new Date(date + "T00:00:00Z"),
-  );
+export function displayDate(date: string | null) {
+  if (!date) return "—";
+  const value = new Date(date);
+  return Number.isNaN(value.getTime()) ? "—" :
+    new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeZone: "UTC" }).format(value);
 }
 
 export function PageHeading({ title, description, action }: { title: string; description: string; action?: ReactNode }) {
@@ -60,7 +63,7 @@ export function DataTable({ caption, headings, children }: { caption: string; he
     <div className={styles.tableScroll} tabIndex={0} role="region" aria-label={caption}>
       <table className={styles.table}>
         <thead><tr>{headings.map((heading) => <th scope="col" key={heading}>{heading}</th>)}</tr></thead>
-        <tbody>{children}</tbody>
+        <tbody>{Children.toArray(children).length ? children : <tr><td colSpan={headings.length}>No records yet.</td></tr>}</tbody>
       </table>
     </div>
   );
@@ -127,6 +130,24 @@ export function Field({
   );
 }
 
+type AdminMutation = ReturnType<typeof useAdminMutation>;
+const MutationContext = createContext<AdminMutation | null>(null);
+
+export function AdminMutations({ action, children }: { action: AdminMutation; children: ReactNode }) {
+  return <MutationContext.Provider value={action}>
+    {action.error && <p className={styles.error} role="alert">{action.error}</p>}
+    {children}
+  </MutationContext.Provider>;
+}
+
+export function ResourceState({ error, loading, reload, children }: {
+  error: string; loading: boolean; reload: () => void; children: ReactNode;
+}) {
+  if (error) return <div role="alert" className={styles.error}>{error} <button type="button" className={styles.link} onClick={reload}>Try again</button></div>;
+  if (loading) return <p role="status">Loading…</p>;
+  return children;
+}
+
 export function Dialog({
   title, description, drawer, wide, onClose, children,
 }: {
@@ -137,6 +158,7 @@ export function Dialog({
   onClose: () => void;
   children: ReactNode;
 }) {
+  const action = useContext(MutationContext);
   const element = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const descriptionId = useId();
@@ -164,7 +186,7 @@ export function Dialog({
       data-wide={wide}
       onCancel={(event) => {
         event.preventDefault();
-        onClose();
+        if (!action?.pending) onClose();
       }}
     >
       <div className={styles.dialogHeader}>
@@ -172,11 +194,12 @@ export function Dialog({
           <h2 id={titleId}>{title}</h2>
           {description && <p id={descriptionId}>{description}</p>}
         </div>
-        <button type="button" className={styles.iconButton} aria-label="Close dialog" onClick={onClose}>
+        <button type="button" className={styles.iconButton} aria-label="Close dialog" disabled={action?.pending} onClick={onClose}>
           <X size={19} aria-hidden />
         </button>
       </div>
-      {children}
+      {action?.error && <p className={styles.error} role="alert">{action.error}</p>}
+      <fieldset disabled={action?.pending} className={styles.dialogControls}>{children}</fieldset>
     </dialog>
   );
 }

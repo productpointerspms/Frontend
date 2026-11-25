@@ -2,9 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { CircleCheck, CircleMinus, Pencil, Plus, Users } from "lucide-react";
-import { ActionMenu, Badge, ChoiceField, DataTable, Dialog, DialogActions, Field, Metric, PageHeading } from "./AdminUI";
-import { useAdminData, type Cohort } from "./AdminData";
-import { useManagement, saveRecord, type Facilitator } from "./ManagementData";
+import { ActionMenu, AdminMutations, ResourceState, Badge, ChoiceField, DataTable, Dialog, DialogActions, Field, Metric, PageHeading } from "./AdminUI";
+import { type CohortOption } from "./AdminData";
+import { type Facilitator } from "./ManagementData";
+import { useAdminMutation, useAdminResource } from "./admin-api";
 import styles from "./admin.module.css";
 
 const roles: Facilitator["role"][] = ["Lead Facilitator", "Facilitator", "Guest Facilitator"];
@@ -14,7 +15,7 @@ function FacilitatorForm({
 }: {
   current?: Facilitator;
   all: Facilitator[];
-  cohorts: Cohort[];
+  cohorts: CohortOption[];
   onClose: () => void;
   onSave: (value: Facilitator) => void;
 }) {
@@ -60,18 +61,21 @@ function FacilitatorForm({
 }
 
 export function Facilitators() {
-  const { cohorts } = useAdminData();
-  const { records: { facilitators }, update } = useManagement();
+  const lookup = useAdminResource<CohortOption[]>("lookups/cohorts");
+  const resource = useAdminResource<Facilitator[]>("facilitators");
+  const cohorts = lookup.data ?? [];
+  const facilitators = resource.data ?? [];
+  const action = useAdminMutation(resource.reload);
   const [dialog, setDialog] = useState<"create" | { kind: "edit" | "toggle"; facilitator: Facilitator } | null>(null);
-  const close = () => setDialog(null);
+  const close = () => { action.setError(""); setDialog(null); };
   const active = facilitators.filter((item) => item.active).length;
-  const save = (value: Facilitator) => {
-    update("facilitators", (items) => saveRecord(items, value));
-    close();
+  const save = ({ id, ...value }: Facilitator) => {
+    const edit = dialog && dialog !== "create";
+    void action.save(edit ? "facilitators/" + id : "facilitators", edit ? "PUT" : "POST", value, close);
   };
 
   return (
-    <>
+    <ResourceState {...resource}><ResourceState {...lookup}><AdminMutations action={action}>
       <PageHeading title="Facilitators" description="Manage facilitators, assigned cohorts and availability." action={
         <button type="button" className={styles.primary} onClick={() => setDialog("create")}><Plus size={17} aria-hidden />Add Facilitator</button>
       } />
@@ -98,10 +102,10 @@ export function Facilitators() {
         : <Dialog title={dialog.facilitator.active ? "Deactivate facilitator?" : "Activate facilitator?"}
           description={dialog.facilitator.name} onClose={close}>
           <DialogActions onClose={close}><button type="button" className={styles.primary}
-            onClick={() => save({ ...dialog.facilitator, active: !dialog.facilitator.active })}>
+            onClick={() => void action.save(`facilitators/${dialog.facilitator.id}/status`, "PATCH", { active: !dialog.facilitator.active }, close)}>
             {dialog.facilitator.active ? "Deactivate" : "Activate"}
           </button></DialogActions>
         </Dialog>)}
-    </>
+    </AdminMutations></ResourceState></ResourceState>
   );
 }

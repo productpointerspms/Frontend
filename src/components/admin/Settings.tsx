@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import Link from "next/link";
 import { CircleCheck, CircleMinus, Eye, LockKeyhole, Mail, Pencil, Plus, UserCheck, Users } from "lucide-react";
-import { useAccountPreview } from "./AdminAccount";
+import { useWorkspaceProfile } from "./AdminShell";
 import {
-  ActionMenu, Badge, ChoiceField, DataTable, DetailRows, Dialog, DialogActions, Field, Metric, PageHeading,
+  ActionMenu, AdminMutations, ResourceState, Badge, ChoiceField, DataTable, DetailRows, Dialog, DialogActions, Field, Metric, PageHeading, displayDate,
 } from "./AdminUI";
-import { accessSections, adminRoles, saveRecord, useManagement, type Administrator } from "./ManagementData";
+import { adminRoles, type Administrator } from "./ManagementData";
+import { useAdminMutation, useAdminResource } from "./admin-api";
 import styles from "./admin.module.css";
 
 type InvitedRole = typeof adminRoles[number];
@@ -20,7 +20,7 @@ function InviteAdministrator({
 }: {
   all: Administrator[];
   onClose: () => void;
-  onInvite: (record: Administrator) => void;
+  onInvite: (values: InviteDetails, sent: () => void) => void;
 }) {
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<InviteDetails>(emptyInvite);
@@ -31,7 +31,7 @@ function InviteAdministrator({
     const form = new FormData(event.currentTarget);
     const name = String(form.get("name")).trim();
     const email = String(form.get("email")).trim().toLowerCase();
-    if (!name || all.some((item) => item.email.toLowerCase() === email)) {
+    if (!name || all.some((item) => item.email.toLowerCase() === email && (item.status !== "Invited" || item.role !== form.get("role")))) {
       setError(name ? "This address already has an administrator record." : "Enter the administrator’s full name.");
       return;
     }
@@ -41,8 +41,7 @@ function InviteAdministrator({
   }
 
   function send() {
-    onInvite({ ...values, id: crypto.randomUUID(), status: "Invited", lastActive: "—" });
-    setStep(3);
+    onInvite(values, () => setStep(3));
   }
 
   const title = step === 1 ? "Invite Administrator" : step === 2 ? "Review Invitation" : "Invitation Sent";
@@ -59,10 +58,9 @@ function InviteAdministrator({
           <p className={styles.hint}>The assigned role uses the permissions shown in Roles &amp; Access.</p>
         </>}
         {step === 3 && <>
-          <div className={styles.inviteSuccess}><CircleCheck size={25} aria-hidden /><p role="status">The invitation for {values.name} was simulated.</p></div>
+          <div className={styles.inviteSuccess}><CircleCheck size={25} aria-hidden /><p role="status">The invitation for {values.name} was sent.</p></div>
           <div className={styles.infoBox}><DetailRows items={[["Email address", values.email], ["Assigned role", values.role]]} /></div>
-          <p className={styles.hint}>The record stays invited until the recipient completes the preview account setup.</p>
-          <Link href="/admin/invitation" className={styles.link}>Preview invitation acceptance</Link>
+          <p className={styles.hint}>The record stays invited until the recipient verifies their email.</p>
         </>}
       </div>
       {step === 1 && <form method="post" onSubmit={review}>
@@ -87,25 +85,23 @@ function InviteAdministrator({
   );
 }
 
+type SettingsData = { admins: Administrator[]; sections: string[]; access: { role: InvitedRole; section: string }[] };
+
 export function Settings() {
-  const { records: { administrators, access }, update } = useManagement();
-  const { setInvitation } = useAccountPreview();
+  const profile = useWorkspaceProfile();
+  const canManage = profile.role === "Super Admin";
+  const resource = useAdminResource<SettingsData>("settings");
+  const administrators = resource.data?.admins ?? [];
+  const access = resource.data?.access ?? [];
+  const action = useAdminMutation(resource.reload);
   const [dialog, setDialog] = useState<"invite" | { kind: "profile" | "edit" | "status"; admin: Administrator } | null>(null);
-  const close = () => setDialog(null);
+  const close = () => { action.setError(""); setDialog(null); };
   const active = administrators.filter(({ status }) => status === "Active").length;
   const invited = administrators.filter(({ status }) => status === "Invited").length;
 
-  function save(admin: Administrator) {
-    update("administrators", (items) => saveRecord(items, admin));
-  }
-
-  function selectInvitation(admin: Administrator) {
-    setInvitation({ id: admin.id, name: admin.name, email: admin.email, role: admin.role });
-  }
-
   return (
-    <>
-      <PageHeading title="Settings" description="Manage administrators, invitations and role access." action={
+    <ResourceState {...resource}><AdminMutations action={action}>
+      <PageHeading title="Settings" description="Manage administrators, invitations and role access." action={canManage &&
         <button type="button" className={styles.primary} onClick={() => setDialog("invite")}><Plus size={17} aria-hidden />Invite Admin</button>
       } />
       <div className={styles.metrics}>
@@ -114,15 +110,15 @@ export function Settings() {
         <Metric label="Pending Invitations" value={invited} detail="Awaiting acceptance" icon={Mail} tone="orange" />
       </div>
       <section className={`${styles.panel} ${styles.tablePanel}`} aria-labelledby="all-administrators">
-        <div className={styles.panelHeader}><h2 id="all-administrators">All administrators</h2><Badge tone="purple">Super Admin access only</Badge></div>
+        <div className={styles.panelHeader}><h2 id="all-administrators">All administrators</h2><Badge tone="purple">Managed by Super Admin</Badge></div>
         <DataTable caption="All administrators" headings={["Name", "Email Address", "Role", "Status", "Last Active", "Actions"]}>
           {administrators.map((admin) => <tr key={admin.id}>
             <td><strong>{admin.name}</strong></td><td>{admin.email}</td>
             <td><Badge tone={admin.role === "Super Admin" ? "purple" : "muted"}>{admin.role}</Badge></td>
-            <td><Badge tone={tones[admin.status]}>{admin.status}</Badge></td><td>{admin.lastActive}</td>
+            <td><Badge tone={tones[admin.status]}>{admin.status}</Badge></td><td>{displayDate(admin.lastActive)}</td>
             <td><ActionMenu label={`Actions for ${admin.name}`} actions={[
               { label: "View Administrator", icon: Eye, onSelect: () => setDialog({ kind: "profile", admin }) },
-              ...(admin.role === "Super Admin" ? [] : [
+              ...(!canManage || !adminRoles.some((role) => role === admin.role) ? [] : [
                 { label: "Edit Role", icon: Pencil, onSelect: () => setDialog({ kind: "edit", admin }) },
                 ...((admin.status === "Invited") ? [] : [{
                   label: admin.status === "Active" ? "Deactivate" : "Activate", icon: admin.status === "Active" ? CircleMinus : CircleCheck,
@@ -140,36 +136,33 @@ export function Settings() {
           <div className={styles.accessLegend}><Badge tone="purple">Access</Badge><Badge>No access</Badge><Badge tone="purple">Locked</Badge></div>
         </div>
         <DataTable caption="Roles and access" headings={["Dashboard section", "Super Admin", ...adminRoles]}>
-          {accessSections.map((section) => <tr key={section}>
+          {resource.data?.sections.map((section) => <tr key={section}>
             <td>{section}</td>
             <td><span className={styles.locked} role="img" aria-label={`${section}: Super Admin access locked`}><LockKeyhole size={12} aria-hidden /></span></td>
             {adminRoles.map((role) => {
-              const checked = access[role].includes(section);
+              const checked = access.some((entry) => entry.role === role && entry.section === section);
               return <td key={role}><button type="button" role="switch" aria-label={`${role}: ${section}`}
-                aria-checked={checked} className={styles.toggle} onClick={() => update("access", (current) => ({
-                  ...current, [role]: current[role].includes(section)
-                    ? current[role].filter((entry) => entry !== section) : [...current[role], section],
-                }))} /></td>;
+                aria-checked={checked} disabled={!canManage || action.pending || resource.refreshing} className={styles.toggle}
+                onClick={() => void action.save("settings/access", "PATCH", { role, section, enabled: !checked })} /></td>;
             })}
           </tr>)}
         </DataTable>
       </section>
-      {dialog === "invite" && <InviteAdministrator all={administrators} onClose={close} onInvite={(record) => {
-        save(record);
-        selectInvitation(record);
+      {dialog === "invite" && <InviteAdministrator all={administrators} onClose={close} onInvite={(values, sent) => {
+        void action.save("settings/invitations", "POST", values, sent);
       }} />}
       {dialog && typeof dialog === "object" && dialog.kind === "profile" && <Dialog title={dialog.admin.name}
         description={dialog.admin.email} drawer onClose={close}>
         <div className={styles.dialogBody}>
-          <DetailRows items={[["Role", dialog.admin.role], ["Status", dialog.admin.status], ["Last active", dialog.admin.lastActive]]} />
-          {dialog.admin.status === "Invited" && <Link className={styles.link} href="/admin/invitation" onClick={() => selectInvitation(dialog.admin)}>Preview invitation acceptance</Link>}
+          <DetailRows items={[["Role", dialog.admin.role], ["Status", dialog.admin.status], ["Last active", displayDate(dialog.admin.lastActive)]]} />
         </div>
       </Dialog>}
       {dialog && typeof dialog === "object" && dialog.kind === "edit" && <Dialog title="Edit Administrator Role" description={dialog.admin.name} onClose={close}>
         <form method="post" onSubmit={(event) => {
           event.preventDefault();
-          save({ ...dialog.admin, role: new FormData(event.currentTarget).get("role") as InvitedRole });
-          close();
+          void action.save("settings/administrators/" + dialog.admin.id, "PATCH", {
+            role: new FormData(event.currentTarget).get("role"), active: dialog.admin.status !== "Inactive",
+          }, close);
         }}>
           <div className={styles.dialogBody}><ChoiceField label="Role" name="role" options={adminRoles} defaultValue={dialog.admin.role} /></div>
           <DialogActions onClose={close}><button type="submit" className={styles.primary}>Save Changes</button></DialogActions>
@@ -178,10 +171,11 @@ export function Settings() {
       {dialog && typeof dialog === "object" && dialog.kind === "status" && <Dialog
         title={dialog.admin.status === "Active" ? "Deactivate administrator?" : "Activate administrator?"} description={dialog.admin.name} onClose={close}>
         <DialogActions onClose={close}><button type="button" className={styles.primary} onClick={() => {
-          save({ ...dialog.admin, status: dialog.admin.status === "Active" ? "Inactive" : "Active" });
-          close();
+          void action.save("settings/administrators/" + dialog.admin.id, "PATCH", {
+            role: dialog.admin.role, active: dialog.admin.status !== "Active",
+          }, close);
         }}>{dialog.admin.status === "Active" ? "Deactivate" : "Activate"}</button></DialogActions>
       </Dialog>}
-    </>
+    </AdminMutations></ResourceState>
   );
 }

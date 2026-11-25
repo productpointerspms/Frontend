@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { CalendarDays, ClipboardList, CreditCard, Users } from "lucide-react";
-import { Badge, DataTable, DetailRows, Dialog, DialogActions, Field, Metric, PageHeading, displayDate, money, type Tone } from "./AdminUI";
-import { bookings, saveRecord, useManagement, type Booking, type Mentor, type MentorApplication } from "./ManagementData";
+import { AdminMutations, ResourceState, Badge, DataTable, DetailRows, Dialog, DialogActions, Field, Metric, PageHeading, displayDate, money, type Tone } from "./AdminUI";
+import { type Booking, type Mentor, type MentorApplication } from "./ManagementData";
+import { useAdminMutation, useAdminResource } from "./admin-api";
 import styles from "./admin.module.css";
 
 const applicationTones: Record<MentorApplication["status"], Tone> = {
@@ -18,9 +19,9 @@ type Details = { kind: "applications" | "mentors" | "bookings"; id: string };
 type Decision = "approve" | "reject" | "request";
 
 const decisionCopy = {
-  approve: { title: "Approve application?", description: "Approve this application and add the applicant to the preview marketplace.", button: "Approve Application", label: "" },
+  approve: { title: "Approve application?", description: "Approve this application and mark the applicant as an approved mentor.", button: "Approve Application", label: "" },
   reject: { title: "Reject application?", description: "Record why this application could not be approved.", button: "Reject Application", label: "Rejection reason" },
-  request: { title: "Request more information", description: "Describe the additional information you need to continue your review.", button: "Send request", label: "Message to applicant" },
+  request: { title: "Request more information", description: "Describe the additional information you need to continue your review.", button: "Record request", label: "Information needed" },
 };
 
 function Identity({ name, sub }: { name: string; sub?: string }) {
@@ -76,7 +77,7 @@ function BookingDetails({ booking, onClose }: { booking: Booking; onClose: () =>
         </section>
         <section className={styles.detailSection}><h3>Participants</h3><DetailRows items={[["Mentor", booking.mentor], ["Mentee", booking.mentee]]} /></section>
         <section className={`${styles.detailSection} ${styles.infoBox}`}><h3>Payment details</h3>
-          <DetailRows items={[["Booking amount", money(booking.amount, "USD")], ["Status", booking.status]]} />
+          <DetailRows items={[["Booking amount", money(Number(booking.amount), booking.currency)], ["Status", booking.status]]} />
         </section>
         <section className={styles.detailSection}><h3>Booking activity</h3><p>Booking created on {displayDate(booking.booked)}.</p></section>
       </div>
@@ -85,38 +86,39 @@ function BookingDetails({ booking, onClose }: { booking: Booking; onClose: () =>
 }
 
 export function Mentorship() {
-  const { records: { mentorApplications, mentors }, update } = useManagement();
+  const applicationsResource = useAdminResource<MentorApplication[]>("mentorship/applications");
+  const mentorsResource = useAdminResource<Mentor[]>("mentorship/mentors");
+  const bookingsResource = useAdminResource<Booking[]>("mentorship/bookings");
+  const mentorApplications = applicationsResource.data ?? [];
+  const mentors = mentorsResource.data ?? [];
+  const bookings = bookingsResource.data ?? [];
+  const action = useAdminMutation(() => { applicationsResource.reload(); mentorsResource.reload(); });
+
   const [tab, setTab] = useState<Tab>("Applications");
   const [details, setDetails] = useState<Details | null>(null);
   const [decision, setDecision] = useState<Decision | "mentor-status" | null>(null);
-  const close = () => { setDetails(null); setDecision(null); };
+  const close = () => { action.setError(""); setDetails(null); setDecision(null); };
   const application = details?.kind === "applications" ? mentorApplications.find((item) => item.id === details.id) : undefined;
   const mentor = details?.kind === "mentors" ? mentors.find((item) => item.id === details.id) : undefined;
   const booking = details?.kind === "bookings" ? bookings.find((item) => item.id === details.id) : undefined;
   const pending = mentorApplications.filter((item) => item.status === "Pending" || item.status === "Under Review").length;
-  const upcoming = bookings.filter((item) => item.status === "Confirmed").length;
+  const [today] = useState(() => new Date().toISOString());
+  const upcoming = bookings.filter((item) => item.status === "Confirmed" && item.sessionDate >= today).length;
   const tabCounts = { Applications: mentorApplications.length, Mentors: mentors.length, Bookings: bookings.length };
 
   function saveDecision(item: MentorApplication, choice: Decision, note: string) {
     const status = { approve: "Approved", reject: "Rejected", request: "More Information Required" } as const;
-    update("mentorApplications", (all) => saveRecord(all, { ...item, status: status[choice], decisionNote: note }));
-    if (choice === "approve") {
-      update("mentors", (all) => all.some((record) => record.email === item.email) ? all : [...all, {
-        id: crypto.randomUUID(), name: item.name, email: item.email, title: "Mentor", expertise: item.expertise,
-        experience: item.experience, sessions: 0, rating: "Not yet rated", status: "Active", bio: item.bio,
-      }]);
-    }
-    setDecision(null);
+    void action.save("mentorship/applications/" + item.id, "PATCH", { status: status[choice], note }, close);
   }
 
   return (
-    <>
+    <ResourceState {...applicationsResource}><ResourceState {...mentorsResource}><ResourceState {...bookingsResource}><AdminMutations action={action}>
       <PageHeading title="Mentorship" description="Manage mentor applications, marketplace mentors and bookings." />
       <div className={styles.metrics} data-columns="4">
         <Metric label="Total Mentors" value={mentors.length} detail="Marketplace mentors" icon={Users} tone="orange" />
         <Metric label="Pending Applications" value={pending} detail="Awaiting review" icon={ClipboardList} />
         <Metric label="Total Bookings" value={bookings.length} detail="Across the marketplace" icon={CreditCard} tone="green" />
-        <Metric label="Upcoming Sessions" value={upcoming} detail="Confirmed sessions in the preview" icon={CalendarDays} />
+        <Metric label="Upcoming Sessions" value={upcoming} detail="Future confirmed sessions" icon={CalendarDays} />
       </div>
       <div className={styles.tabList} role="tablist" aria-label="Mentorship sections">
         {tabs.map((item, index) => <button key={item} role="tab" type="button" id={`mentorship-tab-${item}`} aria-controls={`mentorship-panel-${item}`}
@@ -147,16 +149,16 @@ export function Mentorship() {
             <td><button type="button" className={styles.link} aria-label={`View application for ${item.name}`} onClick={() => setDetails({ kind: "applications", id: item.id })}>View Application</button></td>
           </tr>)}
         </DataTable>}
-        {tab === "Mentors" && <DataTable caption="Mentors" headings={["Mentor", "Expertise", "Experience", "Sessions", "Rating", "Status", "Actions"]}>
+        {tab === "Mentors" && <DataTable caption="Mentors" headings={["Mentor", "Expertise", "Experience", "Sessions", "Status", "Actions"]}>
           {mentors.map((item) => <tr key={item.id}>
-            <td><Identity name={item.name} sub={item.title} /></td><td>{item.expertise}</td><td>{item.experience} years</td><td>{item.sessions}</td><td>{item.rating}</td>
+            <td><Identity name={item.name} sub={item.title} /></td><td>{item.expertise}</td><td>{item.experience} years</td><td>{item.sessions}</td>
             <td><Badge tone={item.status === "Active" ? "purple" : "orange"}>{item.status}</Badge></td>
             <td><button type="button" className={styles.link} aria-label={`View details for ${item.name}`} onClick={() => setDetails({ kind: "mentors", id: item.id })}>View Details</button></td>
           </tr>)}
         </DataTable>}
         {tab === "Bookings" && <DataTable caption="Mentorship bookings" headings={["Booking ID", "Mentor", "Mentee", "Session Type", "Booked", "Session Date", "Amount", "Status", "Actions"]}>
           {bookings.map((item) => <tr key={item.id}>
-            <td>{item.id}</td><td>{item.mentor}</td><td>{item.mentee}</td><td>{item.session}</td><td>{displayDate(item.booked)}</td><td>{displayDate(item.sessionDate)}</td><td>{money(item.amount, "USD")}</td>
+            <td>{item.id}</td><td>{item.mentor}</td><td>{item.mentee}</td><td>{item.session}</td><td>{displayDate(item.booked)}</td><td>{displayDate(item.sessionDate)}</td><td>{money(Number(item.amount), item.currency)}</td>
             <td><Badge tone={bookingTones[item.status]}>{item.status}</Badge></td>
             <td><button type="button" className={styles.link} aria-label={`View details for ${item.id}`} onClick={() => setDetails({ kind: "bookings", id: item.id })}>View Details</button></td>
           </tr>)}
@@ -183,7 +185,7 @@ export function Mentorship() {
           <div><Badge tone={mentor.status === "Active" ? "purple" : "orange"}>{mentor.status}</Badge></div>
           <PersonDetails {...mentor} />
           <section className={`${styles.detailSection} ${styles.infoBox}`}><h3>Marketplace performance</h3>
-            <DetailRows items={[["Sessions", mentor.sessions], ["Rating", mentor.rating]]} />
+            <DetailRows items={[["Sessions", mentor.sessions]]} />
           </section>
           <div><button type="button" className={styles.secondary} onClick={() => setDecision("mentor-status")}>{mentor.status === "Active" ? "Suspend Mentor" : "Reinstate Mentor"}</button></div>
         </div>
@@ -194,11 +196,10 @@ export function Mentorship() {
           className={`${styles.primary} ${mentor.status === "Active" ? styles.destructive : ""}`}
           onClick={() => {
             const status: Mentor["status"] = mentor.status === "Active" ? "Suspended" : "Active";
-            update("mentors", (all) => saveRecord(all, { ...mentor, status }));
-            setDecision(null);
+            void action.save(`mentorship/mentors/${mentor.id}/status`, "PATCH", { active: status === "Active" }, close);
           }}>{mentor.status === "Active" ? "Suspend Mentor" : "Reinstate Mentor"}</button></DialogActions>
       </Dialog>}
       {booking && <BookingDetails booking={booking} onClose={close} />}
-    </>
+    </AdminMutations></ResourceState></ResourceState></ResourceState>
   );
 }

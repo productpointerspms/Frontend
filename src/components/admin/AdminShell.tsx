@@ -1,14 +1,17 @@
 "use client";
 
-import { useId, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useId, useState, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
-  BarChart3, Bell, BookOpen, ChevronDown, CircleDollarSign, ClipboardList,
+  BarChart3, BookOpen, ChevronDown, CircleDollarSign, ClipboardList,
   CreditCard, GraduationCap, LayoutGrid, Link2, Menu, Search, Settings, Users,
   X, type LucideIcon,
 } from "lucide-react";
+import { adminRequest, useAdminAction, useAdminResource } from "./admin-api";
+import type { AdminProfile } from "./AdminAccount";
+import { ResourceState } from "./AdminUI";
 import styles from "./admin.module.css";
 
 const sections = [
@@ -32,8 +35,17 @@ const [
   learners, facilitators, analytics, settings, mentorship,
 ] = sections;
 
-function Avatar({ size }: { size: number }) {
-  return <Image src="/images/Blessing.png" alt="" width={size} height={size} className={styles.avatar} />;
+function Avatar({ name }: { name: string }) {
+  return <span className={styles.avatar} aria-hidden>{name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}</span>;
+}
+
+function canVisit(section: Section, profile: AdminProfile) {
+  const aliases: Record<string, string[]> = {
+    Dashboard: ["Analytics"],
+    Applications: ["Applications", "Scholarship Applications"],
+    "Orders & Payments": ["Orders & Payments", "Transactions"],
+  };
+  return (aliases[section.name] ?? [section.name]).some((name) => profile.sections.includes(name));
 }
 
 function NavigationItem({
@@ -75,11 +87,11 @@ function NavigationGroup({
   );
 }
 
-function SearchPages({ onNavigate }: { onNavigate: () => void }) {
+function SearchPages({ onNavigate, pages }: { pages: Section[]; onNavigate: () => void }) {
   const [search, setSearch] = useState("");
   const [focused, setFocused] = useState(false);
   const query = search.trim().toLowerCase();
-  const results = query ? sections.filter(({ name }) => name.toLowerCase().includes(query)) : [];
+  const results = query ? pages.filter(({ name }) => name.toLowerCase().includes(query)) : [];
   return (
     <div
       className={styles.search}
@@ -108,8 +120,39 @@ function SearchPages({ onNavigate }: { onNavigate: () => void }) {
 }
 
 export default function AdminShell({ children }: { children: ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const profile = useAdminResource<AdminProfile>("auth/me");
+  const account = profile.data;
+  const pages = account ? sections.filter((section) => canVisit(section, account)) : [];
+  useEffect(() => {
+    if (profile.status === 401) router.replace("/admin/sign-in");
+  }, [profile.status, router]);
+  useEffect(() => {
+    if (account && pathname === dashboard.path && !canVisit(dashboard, account)) {
+      const first = sections.find((section) => canVisit(section, account));
+      if (first) router.replace(first.path);
+    }
+  }, [account, pathname, router]);
+  if (!account) return <div className={styles.accountPage}>
+    <ResourceState {...profile}>{null}</ResourceState>
+  </div>;
+  return <Workspace account={account} pages={pages} allowed={pages.some((page) => page.path === pathname)}>{children}</Workspace>;
+}
+
+const WorkspaceProfile = createContext<AdminProfile | null>(null);
+
+export function useWorkspaceProfile() {
+  const profile = useContext(WorkspaceProfile);
+  if (!profile) throw new Error("Administrator screens require a signed-in workspace.");
+  return profile;
+}
+
+function Workspace({ account, pages, allowed, children }: { account: AdminProfile; pages: Section[]; allowed: boolean; children: ReactNode }) {
+  const router = useRouter();
+  const logout = useAdminAction();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [popover, setPopover] = useState<"profile" | "notifications" | null>(null);
+  const [popover, setPopover] = useState<"profile" | null>(null);
 
   function closeNavigation() {
     setMobileOpen(false);
@@ -117,42 +160,42 @@ export default function AdminShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className={styles.workspace} onKeyDown={(event) => {
+    <WorkspaceProfile.Provider value={account}><div className={styles.workspace} onKeyDown={(event) => {
       if (event.key === "Escape") closeNavigation();
     }}>
       <a className={styles.skipLink} href="#admin-content">Skip to content</a>
       <aside className={styles.sidebar} data-open={mobileOpen} id="admin-navigation">
-        <Link className={styles.brand} href={dashboard.path} onClick={closeNavigation}>
+        <Link className={styles.brand} href={pages[0]?.path ?? "/admin/sign-in"} onClick={closeNavigation}>
           <Image src="/pp_logo.png" width={200} height={39} alt="ProductPointers" />
         </Link>
         <nav aria-label="Admin navigation">
           <ul className={styles.navList}>
-            <NavigationItem label="Dashboard" icon={LayoutGrid} section={dashboard} onNavigate={closeNavigation} />
-            <NavigationGroup label="Learning" icon={GraduationCap} initiallyOpen>
-              <NavigationItem label="Programs" section={programs} onNavigate={closeNavigation} />
-              <NavigationItem label="Cohorts" section={cohorts} onNavigate={closeNavigation} />
-              <NavigationItem label="Courses" section={courses} onNavigate={closeNavigation} />
-            </NavigationGroup>
+            {pages.includes(dashboard) && <NavigationItem label="Dashboard" icon={LayoutGrid} section={dashboard} onNavigate={closeNavigation} />}
+            {[programs, cohorts, courses].some((page) => pages.includes(page)) && <NavigationGroup label="Learning" icon={GraduationCap} initiallyOpen>
+              {pages.includes(programs) && <NavigationItem label="Programs" section={programs} onNavigate={closeNavigation} />}
+              {pages.includes(cohorts) && <NavigationItem label="Cohorts" section={cohorts} onNavigate={closeNavigation} />}
+              {pages.includes(courses) && <NavigationItem label="Courses" section={courses} onNavigate={closeNavigation} />}
+            </NavigationGroup>}
             <NavigationGroup label="Apprenticeship" icon={Link2} initiallyOpen>
               <NavigationItem label="Apprenticeship" onNavigate={closeNavigation} />
               <NavigationItem label="AI Interview" onNavigate={closeNavigation} />
             </NavigationGroup>
-            <NavigationItem label="Analytics" icon={BarChart3} section={analytics} onNavigate={closeNavigation} />
-            <NavigationItem label="Scholarships" icon={GraduationCap} section={scholarships} onNavigate={closeNavigation} />
-            <NavigationItem label="Applications" icon={ClipboardList} section={applications} onNavigate={closeNavigation} />
-            <NavigationItem label="Mentorship" icon={BookOpen} section={mentorship} onNavigate={closeNavigation} />
-            <NavigationItem label="Orders & Payments" icon={CreditCard} section={orders} onNavigate={closeNavigation} />
+            {pages.includes(analytics) && <NavigationItem label="Analytics" icon={BarChart3} section={analytics} onNavigate={closeNavigation} />}
+            {pages.includes(scholarships) && <NavigationItem label="Scholarships" icon={GraduationCap} section={scholarships} onNavigate={closeNavigation} />}
+            {pages.includes(applications) && <NavigationItem label="Applications" icon={ClipboardList} section={applications} onNavigate={closeNavigation} />}
+            {pages.includes(mentorship) && <NavigationItem label="Mentorship" icon={BookOpen} section={mentorship} onNavigate={closeNavigation} />}
+            {pages.includes(orders) && <NavigationItem label="Orders & Payments" icon={CreditCard} section={orders} onNavigate={closeNavigation} />}
             <NavigationItem label="Refer & Earn" icon={CircleDollarSign} onNavigate={closeNavigation} />
-            <NavigationGroup label="People" icon={Users} initiallyOpen>
-              <NavigationItem label="Learners" section={learners} onNavigate={closeNavigation} />
-              <NavigationItem label="Facilitators" section={facilitators} onNavigate={closeNavigation} />
-            </NavigationGroup>
-            <NavigationItem label="Settings" icon={Settings} section={settings} onNavigate={closeNavigation} />
+            {[learners, facilitators].some((page) => pages.includes(page)) && <NavigationGroup label="People" icon={Users} initiallyOpen>
+              {pages.includes(learners) && <NavigationItem label="Learners" section={learners} onNavigate={closeNavigation} />}
+              {pages.includes(facilitators) && <NavigationItem label="Facilitators" section={facilitators} onNavigate={closeNavigation} />}
+            </NavigationGroup>}
+            {pages.includes(settings) && <NavigationItem label="Settings" icon={Settings} section={settings} onNavigate={closeNavigation} />}
           </ul>
         </nav>
         <div className={styles.sidebarProfile}>
-          <Avatar size={35} />
-          <div><p>Blessing O.</p><small>Super Admin</small></div>
+          <Avatar name={account.name} />
+          <div><p>{account.name}</p><small>{account.role}</small></div>
         </div>
       </aside>
 
@@ -162,35 +205,27 @@ export default function AdminShell({ children }: { children: ReactNode }) {
           aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
         </button>
-        <SearchPages onNavigate={closeNavigation} />
+        <SearchPages onNavigate={closeNavigation} pages={pages} />
         <div className={styles.topActions}>
-          <span className={styles.previewText}>Preview</span>
           <div className={styles.popover} onBlur={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget)) setPopover(null);
           }}>
-            <button type="button" className={styles.iconButton} aria-label="Notifications"
-              aria-expanded={popover === "notifications"} onClick={() => setPopover(popover === "notifications" ? null : "notifications")}>
-              <Bell size={20} aria-hidden /><span className={styles.notificationDot} aria-hidden />
-            </button>
-            {popover === "notifications" && <div className={styles.popoverPanel}>
-              <Link href="/admin/dashboard#needs-attention" onClick={closeNavigation}>Needs Attention</Link>
-            </div>}
-          </div>
-          <div className={styles.popover} onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setPopover(null);
-          }}>
-            <button type="button" className={styles.profileButton} aria-label="Blessing O. account menu"
+            <button type="button" className={styles.profileButton} aria-label={(account.name || "Administrator") + " account menu"}
               aria-expanded={popover === "profile"} onClick={() => setPopover(popover === "profile" ? null : "profile")}>
-              <Avatar size={36} /><div><p>Blessing O.</p><small>Super Admin</small></div><ChevronDown size={14} aria-hidden />
+              <Avatar name={account.name} /><div><p>{account.name}</p><small>{account.role}</small></div><ChevronDown size={14} aria-hidden />
             </button>
             {popover === "profile" && <div className={styles.popoverPanel}>
-              <Link href="/admin/sign-in" onClick={closeNavigation}>Exit admin preview</Link>
+              <button type="button" className={styles.link} disabled={logout.pending} onClick={() => void logout.run(async () => {
+                await adminRequest("auth/logout", "POST", {});
+                router.replace("/admin/sign-in");
+              })}>Sign out</button>
+              {logout.error && <p role="alert">{logout.error}</p>}
             </div>}
           </div>
         </div>
       </header>
 
-      <main className={styles.main} id="admin-content" tabIndex={-1}>{children}</main>
-    </div>
+      <main className={styles.main} id="admin-content" tabIndex={-1}>{allowed ? children : <p role="status">You don’t have access to this section.</p>}</main>
+    </div></WorkspaceProfile.Provider>
   );
 }

@@ -6,42 +6,19 @@ import {
   BookOpen, CalendarDays, CircleCheck, Clock3, CreditCard, FileText,
   GraduationCap, TriangleAlert, Users,
 } from "lucide-react";
-import { Badge, IconTile, Metric, PageHeading, money } from "./AdminUI";
-import { useAdminData } from "./AdminData";
+import { ResourceState, IconTile, Metric, PageHeading, displayDate, money } from "./AdminUI";
+import type { Overview } from "./AdminData";
+import { useAdminResource } from "./admin-api";
+import { useWorkspaceProfile } from "./AdminShell";
 import styles from "./admin.module.css";
 
-const revenue = [
-  0.5, 2.5, 1.2, 3.7, 2.3, 5, 3.8, 5.7, 4.2, 7.6, 5.8, 8.1, 7.4, 9.3, 8.4,
-  10.2, 8.8, 11.4, 10, 12.3, 10.9, 13.5, 12.1, 14.1, 12.4, 14.7, 13.2, 16, 15.6, 17.3,
-];
-const attention = [
-  { title: "4 payments pending", detail: "PPAP Cohort 5", link: "/admin/programs", action: "Review", icon: Clock3, tone: "orange" },
-  { title: "2 failed Google Classroom/LMS syncs", detail: "Learner enrolments", link: "/admin/cohorts", action: "Fix", icon: TriangleAlert, tone: "red" },
-  { title: "26 new applications", detail: "ONOME Scholarship", link: "/admin/applications?type=Scholarship", action: "Review", icon: FileText, tone: "orange" },
-  { title: "Scholarship deadline approaching", detail: "PPFP Scholarship", link: "/admin/scholarships", action: "Review", icon: Clock3, tone: "orange" },
-] as const;
-
-const applicationTypes = [
-  { type: "Programs", detail: "Cohorts and program applications", count: 42, icon: GraduationCap, link: "/admin/applications?type=Program" },
-  { type: "Scholarships", detail: "Scholarship applications", count: 43, icon: GraduationCap, link: "/admin/applications?type=Scholarship" },
-  { type: "Mentorship", detail: "Mentorship applications", count: 43, icon: BookOpen, link: "/admin/mentorship" },
-];
-
-const activity = [
-  { name: "New PPAP application received", when: "8 minutes ago", icon: FileText, tone: "purple" },
-  { name: "Payment received", when: "13 minutes ago", icon: CircleCheck, tone: "green" },
-  { name: "Learner enrolled in PPFP Cohort 4", when: "42 minutes ago", icon: Users, tone: "purple" },
-  { name: "Course published", when: "1 hour ago", icon: BookOpen, tone: "purple" },
-  { name: "Cohort schedule updated", when: "2 hours ago", icon: CalendarDays, tone: "purple" },
-] as const;
-
-function RevenueChart({ days }: { days: number }) {
+function RevenueChart({ daily, currency }: { daily: Overview["daily"]; currency: string }) {
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const element = canvas.current;
     const context = element?.getContext("2d");
-    if (!element || !context) return;
+    if (!element || !context || daily.length < 2) return;
 
     function draw() {
       if (!element || !context) return;
@@ -51,12 +28,13 @@ function RevenueChart({ days }: { days: number }) {
       element.height = height * scale;
       context.scale(scale, scale);
 
-      const left = 47;
+      const left = 66;
       const right = width - 9;
       const bottom = height - 24;
       const top = 12;
       context.font = "11px sans-serif";
       context.fillStyle = "#726c7d";
+      const max = Math.max(1, ...daily.map((point) => point.revenue));
       context.lineWidth = 1;
       for (let line = 0; line <= 3; line++) {
         const y = bottom - line * (bottom - top) / 3;
@@ -65,12 +43,12 @@ function RevenueChart({ days }: { days: number }) {
         context.moveTo(left, y);
         context.lineTo(right, y);
         context.stroke();
-        context.fillText(line === 0 ? "₦0" : `₦${line * 100}k`, 0, y + 4);
+        context.fillText(new Intl.NumberFormat("en-NG", { style: "currency", currency, notation: "compact", maximumFractionDigits: 1 }).format(max * line / 3), 0, y + 4);
       }
 
-      const points = revenue.slice(-days).map((value, index) => ({
-        x: left + (right - left) * index / (days - 1),
-        y: bottom - value * (bottom - top) / 19,
+      const points = daily.map(({ revenue }, index) => ({
+        x: left + (right - left) * index / (daily.length - 1),
+        y: bottom - revenue * (bottom - top) / max,
       }));
       context.strokeStyle = "#6622e5";
       context.lineWidth = 2;
@@ -87,7 +65,7 @@ function RevenueChart({ days }: { days: number }) {
       context.lineTo(last.x, last.y);
       context.stroke();
 
-      const labels = days === 7 ? ["Oct 3", "Oct 5", "Oct 7", "Oct 9"] : ["Sep 10", "Sep 17", "Sep 24", "Oct 1", "Oct 9"];
+      const labels = [0, 0.5, 1].map((ratio) => displayDate(daily[Math.round(ratio * (daily.length - 1))].day));
       labels.forEach((label, index) => {
         const ratio = index / (labels.length - 1);
         const textWidth = context.measureText(label).width;
@@ -98,21 +76,27 @@ function RevenueChart({ days }: { days: number }) {
     const resize = new ResizeObserver(draw);
     resize.observe(element);
     return () => resize.disconnect();
-  }, [days]);
+  }, [daily, currency]);
 
   return <canvas ref={canvas} className={styles.chart} role="img"
-    aria-label={`Sample revenue trending upward over the last ${days} days`} />;
+    aria-label={`Daily revenue over the last ${daily.length} days`} />;
 }
 
 export function Dashboard() {
   const [days, setDays] = useState(30);
-  const [showAttention, setShowAttention] = useState(false);
   const [showActivity, setShowActivity] = useState(false);
-  const { programs } = useAdminData();
-  const pending = programs.reduce((sum, item) => sum + (item.paymentStatus === "Pending" ? item.pendingPayments : 0), 0);
+  const account = useWorkspaceProfile();
+  const resource = useAdminResource<Overview>("dashboard?days=" + days);
+  const overview = resource.data;
+  const attention = [
+    { count: overview?.pendingPayments, title: "Payments pending", link: "/admin/orders-payments", access: ["Orders & Payments", "Transactions"], icon: Clock3, tone: "orange" },
+    { count: overview?.failedLms, title: "Failed LMS access records", link: "/admin/learners", access: ["Learners"], icon: TriangleAlert, tone: "red" },
+    { count: overview?.newApplications, title: "New applications", link: "/admin/applications", access: ["Applications", "Scholarship Applications"], icon: FileText, tone: "orange" },
+  ] as const;
+  const activityIcons = { "Application submitted": FileText, "Payment received": CircleCheck, "Learner enrolled": Users };
   return (
     <>
-      <PageHeading title="Good morning, Blessing 👋" description="Here’s what’s happening at ProductPointers today." action={
+      <PageHeading title={`Welcome, ${account.name.split(" ")[0] || "Administrator"}`} description="Here’s what’s happening at ProductPointers today." action={
         <label className={styles.period}>
           <CalendarDays size={17} aria-hidden />
           <select aria-label="Revenue period" value={days} onChange={(event) => setDays(Number(event.target.value))}>
@@ -121,11 +105,12 @@ export function Dashboard() {
           </select>
         </label>
       } />
+      <ResourceState {...resource}>{overview && <>
       <div className={styles.metrics} data-columns="4">
-        <Metric label="Total Learners" value={programs.reduce((sum, item) => sum + item.enrolled, 0)} detail="All registered learners" icon={Users} />
-        <Metric label="Total Applications" value={programs.reduce((sum, item) => sum + item.applicants, 0)} detail="All submitted applications" icon={FileText} />
-        <Metric label="Revenue" value={money(days === 30 ? 2850000 : 960000)} detail="Selected period · NGN" icon={CreditCard} />
-        <Metric label="Pending Payments" value={pending} detail="Awaiting confirmation" icon={Clock3} tone="orange" />
+        <Metric label="Total Learners" value={overview.learners} detail="All registered learners" icon={Users} />
+        <Metric label="Total Applications" value={overview.applications} detail="All submitted applications" icon={FileText} />
+        <Metric label="Revenue" value={money(overview.revenue, overview.currency)} detail="Selected period · NGN" icon={CreditCard} />
+        <Metric label="Pending Payments" value={overview.pendingPayments} detail="Awaiting confirmation" icon={Clock3} tone="orange" />
       </div>
 
       <div className={styles.dashboardColumns}>
@@ -134,26 +119,22 @@ export function Dashboard() {
             <div><h2 id="admin-revenue">Revenue Overview</h2><p>Last {days} days · Daily revenue</p></div>
             <span className={styles.chartLegend}>Revenue</span>
           </div>
-          <div className={styles.panelBody}><RevenueChart days={days} /></div>
+          <div className={styles.panelBody}><RevenueChart daily={overview.daily} currency={overview.currency} /></div>
         </section>
         <section className={styles.panel} id="needs-attention" aria-labelledby="admin-attention">
           <div className={styles.panelHeader}>
             <h2 id="admin-attention">Needs Attention</h2>
-            <button type="button" className={styles.link} aria-expanded={showAttention} onClick={() => setShowAttention(!showAttention)}>
-              {showAttention ? "Show less" : "View all"}
-            </button>
           </div>
           <div className={styles.panelBody}>
             <ul className={styles.dashboardList}>
-              {attention.slice(0, showAttention ? undefined : 3).map((item) => (
+              {attention.filter((item) => item.count).map((item) => (
                 <li key={item.title}>
                   <IconTile icon={item.icon} tone={item.tone} />
-                  <div><strong>{item.title}</strong><small>{item.detail}</small></div>
-                  <div className={styles.listEnd}>
-                    <Link className={styles.smallButton} href={item.link}>{item.action}</Link>
-                  </div>
+                  <strong>{item.count} · {item.title}</strong>
+                  {item.access.some((section) => account.sections.includes(section)) && <Link className={styles.smallButton} href={item.link}>Review</Link>}
                 </li>
               ))}
+              {!attention.some((item) => item.count) && <li>No items need attention.</li>}
             </ul>
           </div>
         </section>
@@ -162,18 +143,20 @@ export function Dashboard() {
       <section className={styles.panel} aria-labelledby="admin-application-types">
         <div className={styles.panelHeader}>
           <h2 id="admin-application-types">Applications by Type</h2>
-          <Badge>Illustrative sample data</Badge>
         </div>
         <div className={styles.panelBody}>
           <ul className={styles.dashboardList}>
-            {applicationTypes.map((item) => (
-              <li key={item.type}>
-                <IconTile icon={item.icon} />
-                <div><strong>{item.type}</strong><small>{item.detail}</small></div>
-                <strong className={styles.listEnd}>{item.count}</strong>
-                <Link href={item.link} className={styles.smallButton} aria-label={`Review ${item.type} applications`}>Review</Link>
-              </li>
-            ))}
+            {["Program", "Scholarship", "Mentorship"].map((type) => {
+              const mentorship = type === "Mentorship";
+              const canReview = mentorship ? account.sections.includes(type) :
+                account.sections.includes("Applications") || (type === "Scholarship" && account.sections.includes("Scholarship Applications"));
+              return <li key={type}>
+                <IconTile icon={mentorship ? BookOpen : GraduationCap} />
+                <strong>{type}</strong>
+                <strong className={styles.listEnd}>{overview.applicationsByType.find((item) => item.type === type)?.total ?? 0}</strong>
+                {canReview && <Link href={mentorship ? "/admin/mentorship" : "/admin/applications?type=" + type} className={styles.smallButton} aria-label={`Review ${type} applications`}>Review</Link>}
+              </li>;
+            })}
           </ul>
         </div>
       </section>
@@ -187,15 +170,17 @@ export function Dashboard() {
         </div>
         <div className={styles.panelBody}>
           <ul className={styles.dashboardList}>
-            {activity.slice(0, showActivity ? undefined : 4).map((item) => (
-              <li key={item.name}>
-                <IconTile icon={item.icon} tone={item.tone} /><strong>{item.name}</strong>
-                <small className={styles.listEnd}>{item.when}</small>
+            {overview.recent.slice(0, showActivity ? undefined : 4).map((item) => (
+              <li key={item.id + item.activity}>
+                <IconTile icon={activityIcons[item.activity as keyof typeof activityIcons] ?? FileText} /><strong>{item.activity}</strong>
+                <small className={styles.listEnd}>{displayDate(item.date)}</small>
               </li>
             ))}
+            {!overview.recent.length && <li>No recent activity.</li>}
           </ul>
         </div>
       </section>
+      </>}</ResourceState>
     </>
   );
 }

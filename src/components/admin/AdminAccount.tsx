@@ -1,40 +1,39 @@
 "use client";
 
 import {
-  createContext, useContext, useRef, useState, type FormEvent, type ReactNode,
+  createContext, useContext, useEffect, useRef, useState, type FormEvent, type ReactNode,
 } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleCheck, LockKeyhole, MailCheck, ShieldCheck, type LucideIcon } from "lucide-react";
-import { Badge, DetailRows, Field } from "./AdminUI";
-import { useManagement, type AdminRole } from "./ManagementData";
+import { Badge, Field } from "./AdminUI";
+import { adminRequest, useAdminAction } from "./admin-api";
+import type { AdminRole } from "./ManagementData";
 import styles from "./admin.module.css";
 
-type PreviewAccount = { name: string; email: string; role: AdminRole };
-type PreviewInvitation = PreviewAccount & { id: string };
-const sampleAccount: PreviewAccount = { name: "Jane Doe", email: "jane@example.com", role: "Super Admin" };
-const sampleInvitation: PreviewAccount = { name: "Olivia Bennett", email: "olivia@example.com", role: "Program Admin" };
+export type AdminProfile = { id: string; name: string; email: string; role: AdminRole; sections: string[] };
+type Challenge = { token: string; email?: string; enrollmentUri?: string; remember?: boolean };
 
 const AccountContext = createContext<{
-  account: PreviewAccount;
-  setAccount: (account: PreviewAccount) => void;
-  invitation: PreviewInvitation | null;
-  setInvitation: (invitation: PreviewInvitation | null) => void;
+  activated: AdminProfile | null;
+  setActivated: (account: AdminProfile) => void;
+  challenge: Challenge | null;
+  setChallenge: (challenge: Challenge | null) => void;
   notice: string;
   setNotice: (notice: string) => void;
 } | null>(null);
 
-export function AccountPreview({ children }: { children: ReactNode }) {
-  const [account, setAccount] = useState(sampleAccount);
-  const [invitation, setInvitation] = useState<PreviewInvitation | null>(null);
+export function AdminAccountProvider({ children }: { children: ReactNode }) {
+  const [activated, setActivated] = useState<AdminProfile | null>(null);
+  const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [notice, setNotice] = useState("");
-  return <AccountContext.Provider value={{ account, setAccount, invitation, setInvitation, notice, setNotice }}>{children}</AccountContext.Provider>;
+  return <AccountContext.Provider value={{ activated, setActivated, challenge, setChallenge, notice, setNotice }}>{children}</AccountContext.Provider>;
 }
 
-export function useAccountPreview() {
-  const preview = useContext(AccountContext);
-  if (!preview) throw new Error("Admin account screens require the preview layout.");
-  return preview;
+function useAccount() {
+  const account = useContext(AccountContext);
+  if (!account) throw new Error("Administrator screens require the account layout.");
+  return account;
 }
 
 function AccountFrame({
@@ -57,7 +56,6 @@ function AccountFrame({
         </header>
         {children}
         {footer && <div className={styles.accountFooter}>{footer}</div>}
-        <p className={`${styles.previewText} ${styles.previewNote}`}>Preview only. Use sample details.</p>
       </section>
     </main>
   );
@@ -66,14 +64,15 @@ function AccountFrame({
 function EmailField() {
   return (
     <Field label="Email address">{(id) => (
-      <input id={id} type="email" autoComplete="email" placeholder="Enter email address" className={styles.control} required />
+      <input id={id} name="email" type="email" autoComplete="email" placeholder="Enter email address" className={styles.control} required />
     )}</Field>
   );
 }
 
 function SignIn() {
   const router = useRouter();
-  const { notice, setNotice } = useAccountPreview();
+  const { notice, setNotice, setChallenge } = useAccount();
+  const { run, error, pending } = useAdminAction();
 
   return (
     <AccountFrame
@@ -83,17 +82,26 @@ function SignIn() {
     >
       <form method="post" className={styles.accountForm} onSubmit={(event) => {
         event.preventDefault();
-        setNotice("");
-        router.push("/admin/security-verification");
+        const form = new FormData(event.currentTarget);
+        const remember = form.has("remember");
+        void run(async () => {
+          const challenge = await adminRequest<Challenge>("auth/login", "POST", {
+            email: form.get("email"), password: form.get("password"), remember,
+          });
+          setNotice("");
+          setChallenge({ ...challenge, remember });
+          router.push("/admin/security-verification");
+        });
       }}>
         {notice && <p className={styles.hint} role="status">{notice}</p>}
         <EmailField />
         <Field label="Password">{(id) => (
-          <input id={id} type="password" autoComplete="current-password" placeholder="Enter password" className={styles.control} required />
+          <input id={id} name="password" type="password" autoComplete="current-password" placeholder="Enter password" className={styles.control} required />
         )}</Field>
         <Link href="/admin/forgot-password" className={styles.link}>Forgot password?</Link>
-        <label className={styles.option}><input type="checkbox" />Remember me</label>
-        <button className={`${styles.primary} ${styles.accountButton}`} type="submit">Sign in</button>
+        <label className={styles.option}><input type="checkbox" name="remember" />Remember me</label>
+        {error && <p className={styles.error} role="alert">{error}</p>}
+        <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>Sign in</button>
       </form>
     </AccountFrame>
   );
@@ -101,39 +109,51 @@ function SignIn() {
 
 function PasswordForm({ setup = false, invited = false }: { setup?: boolean; invited?: boolean }) {
   const router = useRouter();
-  const { setAccount, setNotice, invitation } = useAccountPreview();
-  const invitee = invitation ?? sampleInvitation;
-  const name = useRef<HTMLInputElement>(null);
-  const email = useRef<HTMLInputElement>(null);
-  const password = useRef<HTMLInputElement>(null);
+  const { setChallenge, setNotice } = useAccount();
+  const { run, error, pending, setError } = useAdminAction();
   const confirmation = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState("");
+  const linkToken = useRef("");
+  useEffect(() => {
+    if (setup) return;
+    const url = new URL(window.location.href);
+    const token = new URLSearchParams(url.hash.slice(1)).get("token") ?? url.searchParams.get("token");
+    if (token) {
+      // Keep the emailed credential in memory after removing it from browser history.
+      linkToken.current = token;
+      url.hash = "";
+      url.searchParams.delete("token");
+      window.history.replaceState(window.history.state, "", url);
+    }
+  }, [setup]);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (password.current?.value !== confirmation.current?.value) {
+    const form = new FormData(event.currentTarget);
+    if (!setup && !linkToken.current) {
+      setError("Open the link from your email to continue.");
+      return;
+    }
+    const password = form.get("password");
+    if (password !== confirmation.current?.value) {
       setError("The passwords must match.");
       confirmation.current?.focus();
       return;
     }
-    setError("");
-    if (invited) {
-      setAccount(invitee);
-      router.push("/admin/verify-invitation");
-    } else if (setup) {
-      const fullName = name.current?.value.trim();
-      const emailAddress = email.current?.value.trim();
-      if (!fullName || !emailAddress) {
-        setError("Enter your name and email address.");
-        return;
+
+    void run(async () => {
+      if (setup || invited) {
+        const email = String(form.get("email")).trim();
+        const result = await adminRequest<Challenge>("auth/setup", "POST", {
+          email, name: String(form.get("name")).trim(), password, ...(invited ? { inviteToken: linkToken.current } : {}),
+        });
+        setChallenge({ ...result, email });
+        router.replace(invited ? "/admin/verify-invitation" : "/admin/verify-email");
+      } else {
+        await adminRequest("auth/reset-password", "POST", { password, token: linkToken.current });
+        setNotice("Your password was reset. Sign in with your new password.");
+        router.replace("/admin/sign-in");
       }
-      // Only the display details move between preview screens.
-      setAccount({ name: fullName, email: emailAddress, role: "Super Admin" });
-      router.push("/admin/verify-email");
-    } else {
-      setNotice("Password reset complete in this preview.");
-      router.push("/admin/sign-in");
-    }
+    });
   }
 
   return (
@@ -146,19 +166,16 @@ function PasswordForm({ setup = false, invited = false }: { setup?: boolean; inv
       footer={invited ? undefined : setup ? "Restricted initial setup. Authorized access only." : "Your password will be updated securely."}
     >
       <form className={styles.accountForm} method="post" onSubmit={submit}>
-        {invited && <div className={styles.infoBox}>
-          <DetailRows items={[["Name", invitee.name], ["Email", invitee.email], ["Assigned role", <Badge key="role" tone="purple">{invitee.role}</Badge>]]} />
-        </div>}
-        {setup && <>
+        {(setup || invited) && <>
           <Field label="Full name">{(id) => (
-            <input id={id} ref={name} autoComplete="name" placeholder="Enter your full name" className={styles.control} required />
+            <input id={id} name="name" autoComplete="name" placeholder="Enter your full name" className={styles.control} required />
           )}</Field>
           <Field label="Email address">{(id) => (
-            <input id={id} ref={email} type="email" autoComplete="email" placeholder="Enter email address" className={styles.control} required />
+            <input id={id} name="email" type="email" autoComplete="email" placeholder="Enter email address" className={styles.control} required />
           )}</Field>
         </>}
         <Field label="Create password" hint="Use at least 8 characters.">{(id, hintId) => (
-          <input id={id} ref={password} type="password" autoComplete="new-password" placeholder="Enter your password"
+          <input id={id} name="password" type="password" autoComplete="new-password" placeholder="Enter your password"
             minLength={8} aria-describedby={hintId} className={styles.control} required />
         )}</Field>
         <Field label="Confirm password">{(id) => (
@@ -174,7 +191,7 @@ function PasswordForm({ setup = false, invited = false }: { setup?: boolean; inv
           </div>
         </>}
         {error && <p className={styles.error} role="alert">{error}</p>}
-        <button className={`${styles.primary} ${styles.accountButton}`} type="submit">
+        <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>
           {invited ? "Create account" : setup ? "Create super admin account" : "Reset password"}
         </button>
       </form>
@@ -207,6 +224,7 @@ function CodeInput({ label }: { label: string }) {
             key={index}
             ref={(node) => { inputs.current[index] = node; }}
             aria-label={`Digit ${index + 1} of ${digits.length}`}
+            name="digit"
             inputMode="numeric"
             autoComplete={index === 0 ? "one-time-code" : "off"}
             pattern="[0-9]"
@@ -231,51 +249,62 @@ function CodeInput({ label }: { label: string }) {
 
 function Verification({ security = false, invited = false }: { security?: boolean; invited?: boolean }) {
   const router = useRouter();
-  const { account, invitation, setAccount, setInvitation } = useAccountPreview();
-  const { update } = useManagement();
-  const [resend, setResend] = useState(false);
-  const target = invited ? invitation ?? sampleInvitation : account;
+  const { challenge, setChallenge, setActivated } = useAccount();
+  const { run, error, pending } = useAdminAction();
+  const [resent, setResent] = useState(false);
 
   return (
     <AccountFrame
-      title={security ? "Security verification" : invited ? "You’re invited!" : "Verify email address"}
-      text={security ? "Enter the six-digit code from your authenticator app to continue."
-        : invited ? "Verify your email to complete your administrator account setup." : "Create your admin account to get started."}
+      title={security ? "Security verification" : "Verify email address"}
+      text={security ? "Enter the six-digit code from your authenticator app to continue." : "Enter the code sent to your administrator email."}
       icon={security ? ShieldCheck : MailCheck}
       success={security}
-      footer={!security && <>
-        <p>Didn’t receive the code?</p>
-        <button type="button" className={styles.link} onClick={() => setResend(true)}>Resend code</button>
-        {resend && <p role="status">Code resend simulated. You can use any six digits in this preview.</p>}
+      footer={!security && challenge && <>
+        <button type="button" className={styles.link} disabled={pending} onClick={() => void run(async () => {
+          const result = await adminRequest<Challenge>("auth/resend", "POST", { token: challenge.token });
+          setChallenge({ ...challenge, token: result.token });
+          setResent(true);
+        })}>Resend code</button>
+        {resent && <p role="status">A new code was sent.</p>}
       </>}
     >
-      <form className={styles.accountForm} method="post" onSubmit={(event) => {
+      {challenge ? <form className={styles.accountForm} method="post" onSubmit={(event) => {
         event.preventDefault();
-        if (invited) {
-          setAccount(target);
-          if (invitation) {
-            update("administrators", (items) => items.map((item) =>
-              item.id === invitation.id && item.status === "Invited" ? { ...item, status: "Active" } : item));
-            setInvitation(null);
+        const code = new FormData(event.currentTarget).getAll("digit").join("");
+        void run(async () => {
+          const body = { token: challenge.token, code };
+          if (security) {
+            await adminRequest("auth/verify-authenticator", "POST", { ...body, remember: challenge.remember });
+            router.replace("/admin/dashboard");
+          } else {
+            setActivated(await adminRequest<AdminProfile>("auth/verify-email", "POST", body));
+            router.replace("/admin/activated");
           }
-        }
-        router.push(security ? "/admin/dashboard" : "/admin/activated");
+          setChallenge(null);
+        });
       }}>
         {!security && <div className={styles.infoBox}>
           <p className={styles.infoLabel}>Verification email sent to</p>
-          <p className={styles.infoValue}>{target.email}</p>
+          <p className={styles.infoValue}>{challenge.email}</p>
         </div>}
-        <CodeInput label={security ? "Authentication code" : "Enter verification code"} />
-        <button className={`${styles.primary} ${styles.accountButton}`} type="submit">
+        {security && challenge.enrollmentUri && <div className={styles.infoBox}>
+          <p>Add ProductPointers to your authenticator app with this setup key, then enter the code it generates.</p>
+          <code style={{ overflowWrap: "anywhere" }}>{new URL(challenge.enrollmentUri).searchParams.get("secret")}</code>
+        </div>}
+        <CodeInput key={challenge.token} label={security ? "Authentication code" : "Enter verification code"} />
+        <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>
           {security ? "Verify and continue" : "Verify email"}
         </button>
-      </form>
+      </form> : <Link className={styles.link} href={security ? "/admin/sign-in" : invited ? "/admin/sign-in" : "/admin/setup"}>
+        {security ? "Return to sign in" : invited ? "Reopen the invitation link from your email" : "Restart account setup"}
+      </Link>}
+      {error && <p className={styles.error} role="alert">{error}</p>}
     </AccountFrame>
   );
 }
 
 function Activated() {
-  const { account } = useAccountPreview();
+  const { activated: account } = useAccount();
   return (
     <AccountFrame
       title="Account activated!"
@@ -284,12 +313,12 @@ function Activated() {
       success
       footer="You can now sign in using your registered email and password."
     >
-      <dl className={`${styles.infoBox} ${styles.accountSummary}`}>
+      {account && <dl className={`${styles.infoBox} ${styles.accountSummary}`}>
         <div><dt>Name</dt><dd>{account.name}</dd></div>
         <div><dt>Email</dt><dd>{account.email}</dd></div>
         <div><dt>Assigned role</dt><dd><Badge tone="purple">{account.role}</Badge></dd></div>
         <div><dt>Account status</dt><dd><Badge tone="purple">Active</Badge></dd></div>
-      </dl>
+      </dl>}
       <Link href="/admin/sign-in" className={`${styles.primary} ${styles.accountButton}`}>Continue to sign in</Link>
     </AccountFrame>
   );
@@ -297,6 +326,7 @@ function Activated() {
 
 function ForgotPassword() {
   const [submitted, setSubmitted] = useState(false);
+  const { run, error, pending } = useAdminAction();
   return (
     <AccountFrame
       title="Forgot your password?"
@@ -306,13 +336,17 @@ function ForgotPassword() {
     >
       <form className={styles.accountForm} method="post" onSubmit={(event) => {
         event.preventDefault();
-        setSubmitted(true);
+        const email = new FormData(event.currentTarget).get("email");
+        void run(async () => {
+          await adminRequest("auth/forgot-password", "POST", { email });
+          setSubmitted(true);
+        });
       }}>
         <EmailField />
-        <button className={`${styles.primary} ${styles.accountButton}`} type="submit">Send reset link</button>
+        <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>Send reset link</button>
+        {error && <p className={styles.error} role="alert">{error}</p>}
         {submitted && <div className={styles.infoBox} role="status">
-          <p>A reset request was simulated.</p>
-          <Link href="/admin/reset-password" className={styles.link}>Preview the password reset screen</Link>
+          <p>If the account exists, you’ll receive a password reset link.</p>
         </div>}
       </form>
     </AccountFrame>

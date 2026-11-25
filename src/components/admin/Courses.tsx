@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { BookOpen, CircleCheck, FileText, Link2, Pencil, Plus, Trash2 } from "lucide-react";
-import { ActionMenu, Badge, ChoiceField, DataTable, Dialog, DialogActions, Field, Metric, PageHeading, money } from "./AdminUI";
-import { useManagement, saveRecord, type Course } from "./ManagementData";
+import { BookOpen, CircleCheck, FileText, Pencil, Plus, Trash2 } from "lucide-react";
+import { ActionMenu, AdminMutations, ResourceState, Badge, ChoiceField, DataTable, Dialog, DialogActions, Field, Metric, PageHeading, money } from "./AdminUI";
+import { type Course } from "./ManagementData";
+import { useAdminMutation, useAdminResource } from "./admin-api";
 import styles from "./admin.module.css";
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
@@ -11,22 +12,12 @@ const deliveryModes = ["Self-paced", "Live"];
 const googleClassroom = (value: string) =>
   URL.canParse(value) && new URL(value).origin === "https://classroom.google.com";
 
-function CourseForm({ course, onClose, onSave }: { course?: Course; onClose: () => void; onSave: (course: Course) => void }) {
+type CourseValues = Omit<Course, "id" | "purchases" | "classroom"> & { classroom?: string };
+
+function CourseForm({ course, onClose, onSave }: { course?: Course; onClose: () => void; onSave: (course: CourseValues) => void }) {
   const [classroom, setClassroom] = useState(course?.classroom ?? "");
-  const [connected, setConnected] = useState(Boolean(course?.classroom));
   const [error, setError] = useState("");
-  const [modules, setModules] = useState<Course["modules"]>(course?.modules ?? []);
-  const [thumbnail, setThumbnail] = useState(course?.thumbnail ?? "");
-
-  function connect() {
-    if (!googleClassroom(classroom.trim())) {
-      setError("Enter an HTTPS Google Classroom link.");
-      return;
-    }
-    setConnected(true);
-    setError("");
-  }
-
+  const [modules, setModules] = useState(() => course?.modules.map((module, index) => ({ ...module, id: String(index) })) ?? []);
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -42,13 +33,12 @@ function CourseForm({ course, onClose, onSave }: { course?: Course; onClose: () 
       return;
     }
     onSave({
-      id: course?.id ?? crypto.randomUUID(), name, category, level: text("level"), price: Number(text("price")),
-      purchases: course?.purchases ?? 0,
+      name, category, level: text("level"), price: Number(text("price")),
       published: course?.published ?? (event.nativeEvent as SubmitEvent).submitter?.getAttribute("value") === "publish",
-      description: course?.description ?? text("description"), classroom: classroom.trim(),
-      delivery: course?.delivery ?? text("delivery"), requirements: course?.requirements ?? text("requirements"),
-      outcomes: course?.outcomes ?? text("outcomes"), thumbnail,
-      modules: modules.map((module) => ({ ...module, title: module.title.trim() })),
+      description: text("description"), classroom: classroom.trim() || undefined,
+      delivery: text("delivery"), requirements: text("requirements"),
+      outcomes: text("outcomes"), thumbnail: text("thumbnail") || undefined,
+      modules: modules.map(({ title, duration }) => ({ title: title.trim(), duration })),
     });
   }
 
@@ -63,31 +53,25 @@ function CourseForm({ course, onClose, onSave }: { course?: Course; onClose: () 
           <Field label="Course Category">{(id) => (
             <input id={id} name="category" placeholder="e.g. Product Management" className={styles.control} defaultValue={course?.category} required />
           )}</Field>
-          {!course && <Field label="Description">{(id) => <textarea id={id} name="description" className={styles.control} />}</Field>}
-          {!course && <Field label="Course thumbnail">{(id) => (
-            <>
-              <input id={id} type="file" accept="image/*" className={styles.control} onChange={(event) => setThumbnail(event.target.files?.[0]?.name ?? "")} />
-              {thumbnail && <p className={styles.hint} role="status">Selected {thumbnail}</p>}
-            </>
-          )}</Field>}
+          <Field label="Description">{(id) => <textarea id={id} name="description" className={styles.control} defaultValue={course?.description} />}</Field>
+          <Field label="Course thumbnail URL">{(id) => <input id={id} name="thumbnail" type="url" className={styles.control} defaultValue={course?.thumbnail ?? ""} />}</Field>
           <div className={`${styles.detailSection} ${styles.infoBox}`}>
-            <h3>{connected ? "Google Classroom connected" : "Not connected"}</h3>
-            <p className={styles.hint}>Connect a Google Classroom invite link to preview the course access workflow.</p>
+            <h3>Google Classroom</h3>
+            <p className={styles.hint}>Save the classroom invite link for staff.</p>
             <Field label="Class link">{(id) => (
               <input id={id} type="url" placeholder="https://classroom.google.com/…" className={styles.control} value={classroom}
-                onChange={(event) => { setClassroom(event.target.value); setConnected(false); setError(""); }} />
+                onChange={(event) => { setClassroom(event.target.value); setError(""); }} />
             )}</Field>
-            <div><button type="button" className={styles.primary} onClick={connect}><Link2 size={15} aria-hidden />Connect Google Classroom</button></div>
           </div>
           <div className={styles.fieldRow}>
             <ChoiceField label="Course Level" name="level" options={levels} defaultValue={course?.level} />
-            <Field label="Price (₦)">{(id) => <input id={id} name="price" type="number" min="0" className={styles.control} defaultValue={course?.price ?? 0} required />}</Field>
+            <Field label="Price (₦)">{(id) => <input id={id} name="price" type="number" min="0" step="0.01" className={styles.control} defaultValue={course?.price ?? 0} required />}</Field>
           </div>
 
-          {!course && <>
-            <ChoiceField label="Delivery Mode" name="delivery" options={deliveryModes} />
-            <Field label="Requirements">{(id) => <textarea id={id} name="requirements" className={styles.control} />}</Field>
-            <Field label="Learning Outcomes">{(id) => <textarea id={id} name="outcomes" className={styles.control} />}</Field>
+          <>
+            <ChoiceField label="Delivery Mode" name="delivery" options={deliveryModes} defaultValue={course?.delivery} />
+            <Field label="Requirements">{(id) => <textarea id={id} name="requirements" className={styles.control} defaultValue={course?.requirements} />}</Field>
+            <Field label="Learning Outcomes">{(id) => <textarea id={id} name="outcomes" className={styles.control} defaultValue={course?.outcomes} />}</Field>
             <fieldset className={styles.formGroup}>
               <legend>Course Modules</legend>
               {modules.map((module, index) => (
@@ -105,7 +89,7 @@ function CourseForm({ course, onClose, onSave }: { course?: Course; onClose: () 
                 <Plus size={14} aria-hidden />Add Module
               </button></div>
             </fieldset>
-          </>}
+          </>
           {error && <p className={styles.error} role="alert">{error}</p>}
         </div>
         <DialogActions onClose={onClose}>
@@ -118,31 +102,33 @@ function CourseForm({ course, onClose, onSave }: { course?: Course; onClose: () 
 }
 
 export function Courses() {
-  const { records: { courses }, update } = useManagement();
+  const resource = useAdminResource<Course[]>("courses");
+  const courses = resource.data ?? [];
+  const action = useAdminMutation(resource.reload);
   const [dialog, setDialog] = useState<{ kind: "create" } | { kind: "edit" | "publication"; course: Course } | null>(null);
-  const close = () => setDialog(null);
+  const close = () => { action.setError(""); setDialog(null); };
   const published = courses.filter((course) => course.published).length;
 
-  function save(value: Course) {
-    update("courses", (items) => saveRecord(items, value));
-    close();
+  function save(value: CourseValues) {
+    const id = dialog?.kind === "edit" ? dialog.course.id : undefined;
+    void action.save(id ? "courses/" + id : "courses", id ? "PUT" : "POST", value, close);
   }
 
   return (
-    <>
+    <ResourceState {...resource}><AdminMutations action={action}>
       <PageHeading title="Courses" description="Create and manage standalone learning products." action={
         <button type="button" className={styles.primary} onClick={() => setDialog({ kind: "create" })}><Plus size={17} aria-hidden />Create Course</button>
       } />
       <div className={styles.metrics}>
         <Metric label="Total Courses" value={courses.length} detail="Courses in the library" icon={BookOpen} />
-        <Metric label="Published" value={published} detail="Available for purchase" icon={CircleCheck} tone="green" />
+        <Metric label="Published" value={published} detail="Published in the course library" icon={CircleCheck} tone="green" />
         <Metric label="Drafts" value={courses.length - published} detail="In setup or awaiting launch" icon={FileText} tone="orange" />
       </div>
       <DataTable caption="Courses" headings={["Course", "Category", "Level", "Price", "Purchases", "Publication", "Actions"]}>
         {courses.map((course) => (
           <tr key={course.id}>
             <td><button type="button" className={styles.tableLink} onClick={() => setDialog({ kind: "edit", course })}>{course.name}</button></td>
-            <td>{course.category}</td><td>{course.level}</td><td>{money(course.price)}</td><td>{course.purchases}</td>
+            <td>{course.category}</td><td>{course.level}</td><td>{money(Number(course.price))}</td><td>{course.purchases}</td>
             <td><Badge tone={course.published ? "green" : "muted"}>{course.published ? "Published" : "Draft"}</Badge></td>
             <td><ActionMenu label={`Actions for ${course.name}`} actions={[
               { label: "Edit Course", icon: Pencil, onSelect: () => setDialog({ kind: "edit", course }) },
@@ -156,11 +142,11 @@ export function Courses() {
       {dialog?.kind === "publication" && <Dialog title={dialog.course.published ? "Unpublish course?" : "Publish course?"}
         description={dialog.course.name} onClose={close}>
         <DialogActions onClose={close}>
-          <button type="button" className={styles.primary} onClick={() => save({ ...dialog.course, published: !dialog.course.published })}>
+          <button type="button" className={styles.primary} onClick={() => void action.save(`courses/${dialog.course.id}/publication`, "PATCH", { published: !dialog.course.published }, close)}>
             {dialog.course.published ? "Unpublish Course" : "Publish Course"}
           </button>
         </DialogActions>
       </Dialog>}
-    </>
+    </AdminMutations></ResourceState>
   );
 }

@@ -2,12 +2,13 @@
 
 import { useState, type FormEvent } from "react";
 import { Award, CircleCheck, Clock3, CreditCard, Link2, Plus, Users } from "lucide-react";
-import { ActionMenu, Badge, ChoiceField, DataTable, DetailRows, Dialog, DialogActions, Field, Metric, PageHeading, type Tone } from "./AdminUI";
-import { useAdminData, type Cohort } from "./AdminData";
-import { useManagement, saveRecord, type Learner } from "./ManagementData";
+import { ActionMenu, AdminMutations, ResourceState, Badge, ChoiceField, DataTable, DetailRows, Dialog, DialogActions, Field, Metric, PageHeading, type Tone } from "./AdminUI";
+import { type CohortOption } from "./AdminData";
+import { type Learner } from "./ManagementData";
+import { useAdminMutation, useAdminResource } from "./admin-api";
 import styles from "./admin.module.css";
 
-const tones: Record<Learner["payment" | "enrollment" | "lms"], Tone> =
+const tones: Record<Learner["providerPayment" | "enrollment" | "lms"], Tone> =
   { Paid: "green", Pending: "orange", Active: "green", Failed: "red", "Not synced": "orange" };
 
 const options = {
@@ -19,12 +20,11 @@ const options = {
 type Action = keyof typeof options;
 
 function LearnerRegistration({
-  cohorts, learners, onClose, onSave,
+  cohorts, onClose, onSave,
 }: {
-  cohorts: Cohort[];
-  learners: Learner[];
+  cohorts: CohortOption[];
   onClose: () => void;
-  onSave: (learner: Learner) => void;
+  onSave: (values: { name: string; email: string; phone?: string; cohortId: string }) => void;
 }) {
   const [error, setError] = useState("");
 
@@ -33,13 +33,11 @@ function LearnerRegistration({
     const form = new FormData(event.currentTarget);
     const name = String(form.get("name")).trim();
     const email = String(form.get("email")).trim().toLowerCase();
-    if (!name || learners.some((learner) => learner.email.toLowerCase() === email)) {
-      setError(name ? "A learner with this email already exists." : "Enter the learner’s full name.");
+    if (!name) {
+      setError("Enter the learner’s full name.");
       return;
     }
-    onSave({ id: crypto.randomUUID(), name, email, phone: String(form.get("phone")).trim(),
-      cohort: String(form.get("cohort")), payment: "Pending", enrollment: "Pending",
-      lms: "Not synced", certificate: "Not yet issued" });
+    onSave({ name, email, phone: String(form.get("phone")).trim() || undefined, cohortId: String(form.get("cohort")) });
   }
 
   return (
@@ -67,19 +65,20 @@ function UpdateLearner({
   learner: Learner;
   action: Action;
   close: () => void;
-  save: (value: Learner) => void;
+  save: (value: string, note: string) => void;
 }) {
   const option = options[action];
   return (
     <Dialog title={option.title} onClose={close}>
       <form method="post" onSubmit={(event) => {
         event.preventDefault();
-        const value = String(new FormData(event.currentTarget).get("value"));
-        if (action === "payment") save({ ...learner, payment: value as Learner["payment"] });
-        if (action === "lms") save({ ...learner, lms: value as Learner["lms"] });
-        if (action === "certificate") save({ ...learner, certificate: value as Learner["certificate"] });
+        const form = new FormData(event.currentTarget);
+        save(String(form.get("value")), String(form.get("note") ?? "").trim());
       }}>
-        <div className={styles.dialogBody}><ChoiceField label={option.label} name="value" options={option.values} defaultValue={learner[action]} /></div>
+        <div className={styles.dialogBody}>
+          <ChoiceField label={option.label} name="value" options={option.values} defaultValue={action === "payment" ? learner.paymentReview?.status ?? learner.providerPayment : learner[action]} />
+          {action === "payment" && <Field label="Reconciliation note">{(id) => <textarea id={id} name="note" className={styles.control} maxLength={2000} defaultValue={learner.paymentReview?.note} required />}</Field>}
+        </div>
         <DialogActions onClose={close}><button type="submit" className={styles.primary}>{option.button}</button></DialogActions>
       </form>
     </Dialog>
@@ -87,21 +86,16 @@ function UpdateLearner({
 }
 
 export function Learners() {
-  const { cohorts } = useAdminData();
-  const { records: { learners }, update } = useManagement();
+  const resource = useAdminResource<Learner[]>("learners");
+  const cohorts = useAdminResource<CohortOption[]>("lookups/cohorts");
+  const learners = resource.data ?? [];
+  const action = useAdminMutation(resource.reload);
   const [dialog, setDialog] = useState<"create" | { kind: Action | "details"; learner: Learner } | null>(null);
-  const close = () => setDialog(null);
-  const cohortLabel = (id: string) => {
-    const cohort = cohorts.find((item) => item.id === id);
-    return cohort ? `${cohort.program} ${cohort.name}` : "Unassigned";
-  };
-  const save = (learner: Learner) => {
-    update("learners", (items) => saveRecord(items, learner));
-    close();
-  };
+  const close = () => { action.setError(""); setDialog(null); };
+  const cohortLabel = (learner: Learner) => [learner.program, learner.cohort].filter(Boolean).join(" · ");
 
   return (
-    <>
+    <ResourceState {...resource}><AdminMutations action={action}>
       <PageHeading title="Learners" description="Manage learner records, enrolment, payments, LMS access and certificates." action={
         <button type="button" className={styles.primary} onClick={() => setDialog("create")}><Plus size={17} aria-hidden />Add Learner</button>
       } />
@@ -110,11 +104,12 @@ export function Learners() {
         <Metric label="Active Learners" value={learners.filter((item) => item.enrollment === "Active").length} detail="Currently enrolled" icon={CircleCheck} tone="green" />
         <Metric label="Pending Enrolment" value={learners.filter((item) => item.enrollment === "Pending").length} detail="Awaiting confirmation" icon={Clock3} tone="orange" />
       </div>
-      <DataTable caption="Learners" headings={["Learner", "Email", "Program / Cohort", "Payment", "Enrolment", "LMS", "Certificate", "Actions"]}>
+      <DataTable caption="Learners" headings={["Learner", "Email", "Program / Cohort", "Provider Payment", "Staff Review", "Enrolment", "LMS", "Certificate", "Actions"]}>
         {learners.map((learner) => <tr key={learner.id}>
           <td><button type="button" className={styles.tableLink} onClick={() => setDialog({ kind: "details", learner })}>{learner.name}</button></td>
-          <td>{learner.email}</td><td>{cohortLabel(learner.cohort)}</td>
-          <td><Badge tone={tones[learner.payment]}>{learner.payment}</Badge></td>
+          <td>{learner.email}</td><td>{cohortLabel(learner)}</td>
+          <td><Badge tone={tones[learner.providerPayment]}>{learner.providerPayment}</Badge></td>
+          <td>{learner.paymentReview ? <Badge tone={tones[learner.paymentReview.status]}>{learner.paymentReview.status}</Badge> : "—"}</td>
           <td><Badge tone={tones[learner.enrollment]}>{learner.enrollment}</Badge></td>
           <td><Badge tone={tones[learner.lms]}>{learner.lms}</Badge></td>
           <td>{learner.certificate}</td>
@@ -124,16 +119,23 @@ export function Learners() {
           }))} /></td>
         </tr>)}
       </DataTable>
-      {dialog === "create" && <LearnerRegistration cohorts={cohorts} learners={learners} onClose={close} onSave={save} />}
+      {dialog === "create" && (cohorts.data?.length ?
+        <LearnerRegistration cohorts={cohorts.data} onClose={close} onSave={(values) => void action.save("learners", "POST", values, close)} /> :
+        <Dialog title="Manual Learner Registration" onClose={close}><div className={styles.dialogBody}><ResourceState {...cohorts}>Create a cohort before adding a learner.</ResourceState></div></Dialog>)}
       {dialog && typeof dialog === "object" && (dialog.kind === "details"
         ? <Dialog title={dialog.learner.name} description={dialog.learner.email} drawer onClose={close}>
           <div className={styles.dialogBody}><DetailRows items={[
-            ["Program / Cohort", cohortLabel(dialog.learner.cohort)], ["WhatsApp", dialog.learner.phone || "—"],
-            ["Payment", dialog.learner.payment], ["Enrolment", dialog.learner.enrollment],
+            ["Program / Cohort", cohortLabel(dialog.learner)], ["WhatsApp", dialog.learner.phone || "—"],
+            ["Provider Payment", dialog.learner.providerPayment], ["Staff Review", dialog.learner.paymentReview?.status ?? "—"], ["Reconciliation Note", dialog.learner.paymentReview?.note ?? "—"], ["Enrolment", dialog.learner.enrollment],
             ["LMS access", dialog.learner.lms], ["Certificate", dialog.learner.certificate],
           ]} /></div>
         </Dialog>
-        : <UpdateLearner learner={dialog.learner} action={dialog.kind} close={close} save={save} />)}
-    </>
+        : <UpdateLearner learner={dialog.learner} action={dialog.kind} close={close} save={(value, note) => {
+          const path = "learners/" + dialog.learner.id;
+          if (dialog.kind === "payment") void action.save(path + "/payment-reviews", "POST", { status: value, note }, close);
+          if (dialog.kind === "lms") void action.save(path + "/lms", "PATCH", { status: value }, close);
+          if (dialog.kind === "certificate") void action.save(path + "/certificate", "PATCH", { issued: value === "Issued" }, close);
+        }} />)}
+    </AdminMutations></ResourceState>
   );
 }
