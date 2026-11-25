@@ -94,6 +94,8 @@ export async function getPrograms(): Promise<ApiProgram[]> {
   const res = await fetch(`${API_BASE_URL}/program/programs`, {
     method: "GET",
     headers: { Accept: "application/json" },
+    // Server renders refresh at most once a minute; ignored in the browser.
+    next: { revalidate: 60 },
   });
 
   if (!res.ok) {
@@ -160,4 +162,54 @@ export async function getLiveProgramFeeNgn(code: string): Promise<number> {
   } catch {
     return getProgramInfo(code).feeNgn;
   }
+}
+
+/** A row in the homepage "Upcoming Programs" tab. */
+export interface UpcomingProgramItem {
+  code: string;
+  title: string;
+  date: string;
+  description: string;
+  cta: string;
+  href: string;
+}
+
+/** Where each program's homepage CTA points. Unknown codes go to `/{code}`. */
+const UPCOMING_PROGRAM_LINKS: Record<string, { href: string; cta: string }> = {
+  PPAP: { href: "/ppap#pricing", cta: "Apply Now" },
+  PPIP: { href: "/ppip#pricing", cta: "Apply Now" },
+  PPMP: { href: "/ppmp/apply?plan=scholarship", cta: "Apply Now" },
+  PPFP: { href: "/ppfp#pricing", cta: "Apply Now" },
+};
+
+function formatProgramDate(iso: string): string | null {
+  const d = iso ? new Date(iso) : null;
+  if (!d || Number.isNaN(d.getTime())) return null;
+  return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+}
+
+function programDateLabel(p: ApiProgram, now: number): string {
+  const start = p.startTime ? new Date(p.startTime).getTime() : NaN;
+  const end = p.endTime ? new Date(p.endTime).getTime() : NaN;
+  if (!Number.isNaN(start) && start > now) return `Next Cohort Starts ${formatProgramDate(p.startTime)}`;
+  if (!Number.isNaN(end) && end > now) return `Cohort In Progress · Ends ${formatProgramDate(p.endTime)}`;
+  return "Next Cohort Dates Coming Soon";
+}
+
+/**
+ * Homepage "Upcoming Programs" rows, from GET /program/programs: every active
+ * program, soonest start first. Throws when the backend is unreachable.
+ */
+export async function getUpcomingProgramItems(): Promise<UpcomingProgramItem[]> {
+  const now = Date.now();
+  const programs = await getPrograms();
+  const startOf = (p: ApiProgram) => new Date(p.startTime).getTime() || Number.MAX_SAFE_INTEGER;
+  return programs
+    .filter((p) => p.isActive)
+    .sort((a, b) => startOf(a) - startOf(b))
+    .map((p) => {
+      const code = p.code.toUpperCase();
+      const link = UPCOMING_PROGRAM_LINKS[code] ?? { href: `/${code.toLowerCase()}`, cta: "Learn More" };
+      return { code, title: p.title, date: programDateLabel(p, now), description: p.description, ...link };
+    });
 }
