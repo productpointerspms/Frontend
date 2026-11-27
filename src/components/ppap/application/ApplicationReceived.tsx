@@ -6,11 +6,12 @@ import { Check, Flame } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { scholarshipConfig, type ScholarshipProgram } from "./scholarship";
 import styles from "./scholarship.module.css";
+import { type ScholarshipListing } from "@/lib/scholarships";
 
-export default function ApplicationReceived({ program }: { program: ScholarshipProgram }) {
-  const config = scholarshipConfig(program);
+export default function ApplicationReceived({ program, scholarship = null }: { program: ScholarshipProgram; scholarship?: ScholarshipListing | null }) {
+  const config = scholarshipConfig(program, scholarship);
   const heading = useRef<HTMLHeadingElement>(null);
-  const scholarshipName = program === "PPFP" ? "PPFP Scholarship" : config.scholarshipName;
+  const scholarshipName = program === "PPFP" && !scholarship ? "PPFP Scholarship" : config.scholarshipName;
   const waitlistUrl = process.env.NEXT_PUBLIC_SCHOLARSHIP_WAITLIST_URL || "https://chat.whatsapp.com/JKV4fAIgtgPGgo8yvZneYh?s=cl&p=a&iam=2";
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function ApplicationReceived({ program }: { program: ScholarshipP
           </p>
           <aside className={styles.slots} aria-label="Scholarship availability">
             <Flame size={26} fill="currentColor" aria-hidden="true" />
-            <p>There are <strong>20 scholarship slots available</strong> in total, and we have received applications from aspiring product managers ready to take the next step in their tech careers.</p>
+            <p>There are <strong>{config.slots} scholarship slots available</strong> in total, and we have received applications from aspiring product managers ready to take the next step in their tech careers.</p>
           </aside>
           <h2>What happens next?</h2>
           <ol className={styles.nextSteps}>

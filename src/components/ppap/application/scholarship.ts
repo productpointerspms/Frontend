@@ -1,4 +1,8 @@
 import { type ApplicationResponseItem } from "@/lib/application";
+import { type ScholarshipListing } from "@/lib/scholarships";
+
+const naira = (amount: number) => `₦${amount.toLocaleString("en-NG")}`;
+const titleCase = (value: string) => value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()).replace(/\b(Pp[a-z]p)\b/g, m => m.toUpperCase());
 
 export const journeyOptions = [
   "I am currently new to product management",
@@ -15,32 +19,37 @@ export const declarations = [
   "I understand that selected scholars will be required to pay the remaining ₦75,000 tuition contribution to secure their place in the accelerator program.",
 ];
 export type ScholarshipProgram = "PPAP" | "PPIP" | "PPFP" | "PPMP";
-export function scholarshipConfig(program: ScholarshipProgram) {
+/** Form copy for a program; `scholarship` (live listing) overrides name, amounts and slots when given. */
+export function scholarshipConfig(program: ScholarshipProgram, scholarship?: ScholarshipListing | null) {
   const ppmp = program === "PPMP";
   const ppip = program === "PPIP";
   const ppfp = program === "PPFP";
   const programName = ppmp ? "Product Management Mastery Program" : ppfp ? "Fintech Product Management Program" : ppip ? "Product Management Apprenticeship/Internship Program" : "Product Management Accelerator Program";
-  const scholarshipName = ppmp ? "PPMP Scholarship" : ppfp ? "Chisom Scholarship" : ppip ? "PPIP Scholarship" : "Onome Scholarship";
-  const contribution = ppmp ? "₦155,000" : ppfp ? "₦150,000" : ppip ? "₦30,000" : "₦75,000";
+  const defaultName = ppmp ? "PPMP Scholarship" : ppfp ? "Chisom Scholarship" : ppip ? "PPIP Scholarship" : "Onome Scholarship";
+  const scholarshipName = scholarship ? titleCase(scholarship.name) : defaultName;
+  const contribution = scholarship ? naira(scholarship.payable) : ppmp ? "₦155,000" : ppfp ? "₦150,000" : ppip ? "₦30,000" : "₦75,000";
   const programLabel = ppmp ? "Product Management Mastery program" : ppfp ? "Fintech Product Management program" : ppip ? "apprenticeship/internship program" : "accelerator program";
   return {
     programName, scholarshipName, contribution, programLabel,
     duration: (ppfp || ppmp) ? "10-week" : "12-week",
-    coverage: ppmp ? "₦655,000" : ppfp ? "₦150,000" : ppip ? "₦145,000" : "₦210,000", tuition: ppmp ? "₦810,000" : ppfp ? "₦300,000" : ppip ? "₦175,000" : "₦285,000",
+    scholarshipCode: scholarship?.code ?? "",
+    slots: scholarship?.slots ?? 20,
+    coverage: scholarship && scholarship.tuition > 0 ? naira(scholarship.tuition - scholarship.payable) : ppmp ? "₦655,000" : ppfp ? "₦150,000" : ppip ? "₦145,000" : "₦210,000",
+    tuition: scholarship && scholarship.tuition > 0 ? naira(scholarship.tuition) : ppmp ? "₦810,000" : ppfp ? "₦300,000" : ppip ? "₦175,000" : "₦285,000",
     requiresNysc: program === "PPAP",
     motivationQuestion: (ppfp || ppmp) ? "Tell us briefly about your Product Management experience." : ppip ? "Why do you want to join the Product Management Apprenticeship/Internship Program?" : "Why do you want to pursue a career in Product Management?",
-    secondQuestion: ppmp ? "What is your biggest challenge as a Product Manager right now?" : ppfp ? "Why should you be selected for the Chisom Scholarship?" : ppip ? "Describe a problem you’ve noticed in the real world that you’d love to solve." : "Why should you be considered for the Onome Scholarship?",
+    secondQuestion: ppmp ? "What is your biggest challenge as a Product Manager right now?" : ppfp ? `Why should you be selected for the ${scholarshipName}?` : ppip ? "Describe a problem you’ve noticed in the real world that you’d love to solve." : `Why should you be considered for the ${scholarshipName}?`,
     journeyOptions: ppmp ? ["I’ve completed a PM course", "I’ve worked on personal product projects", "I have 6–12 months product experience", "I have 1+ year product experience", "Others"] : ppfp ? ["Product Manager", "Associate/Junior Product Manager", "Product Analyst", "Product designer working closely with Product", "Product Operations", "Others"] : ppip ? ["Aspiring Product Manager - Beginner", "Aspiring Product Manager - Currently learning Product Management", "Entry-level / Associate Product Manager", "Product Manager", "Career switcher exploring Product Management", "Others"] : journeyOptions,
-    declarations: [declarations[0], declarations[1], `I understand that only 20 applicants will be selected for this cohort of the ${scholarshipName}.`, `I understand that selected scholars will be required to pay the remaining ${contribution} tuition contribution to secure their place in the ${programLabel}.`],
+    declarations: [declarations[0], declarations[1], `I understand that only ${scholarship?.slots ?? 20} applicants will be selected for this cohort of the ${scholarshipName}.`, `I understand that selected scholars will be required to pay the remaining ${contribution} tuition contribution to secure their place in the ${programLabel}.`],
   };
 }
 export const wordCount = (value: string) => value.trim().split(/\s+/).filter(Boolean).length;
 
-export function scholarshipResponses(data: FormData, program: ScholarshipProgram = "PPAP"): ApplicationResponseItem[] {
-  const config = scholarshipConfig(program);
+export function scholarshipResponses(data: FormData, program: ScholarshipProgram = "PPAP", scholarship?: ScholarshipListing | null): ApplicationResponseItem[] {
+  const config = scholarshipConfig(program, scholarship);
   const answer = (name: string) => String(data.get(name) ?? "").trim();
   return [
-    { category: "TRACK_SELECTION", question: "Application type", response: `${config.scholarshipName} — ${config.programName}` },
+    { category: "TRACK_SELECTION", question: "Application type", response: `${config.scholarshipName}${config.scholarshipCode ? ` (${config.scholarshipCode})` : ""} — ${config.programName}` },
     { category: "CURRENT_ROLE", question: "Where are you currently based?", response: answer("location") },
     { category: "EXPERIENCE", question: "Highest level of education", response: answer("education") },
     { category: "CURRENT_ROLE", question: "What is your current NYSC status?", response: config.requiresNysc ? answer("nysc") : "" },
