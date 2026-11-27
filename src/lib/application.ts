@@ -9,7 +9,7 @@ import {
   type QuestionDef,
 } from "./programQuestions";
 
-export const API_BASE_URL = "https://api.productpointers.com";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE || "https://api.productpointers.com";
 
 export interface ApplicationResponseItem {
   category: string;
@@ -18,6 +18,7 @@ export interface ApplicationResponseItem {
 }
 
 export interface RegisterApplicationPayload {
+  referralCode?: string;
   fullname: string;
   email: string;
   programCode: string;
@@ -292,6 +293,7 @@ export async function submitApplication(
   const config = PROGRAMS[program];
 
   const payload: RegisterApplicationPayload = {
+    referralCode: String(fd.get("referralCode") ?? "").trim() || undefined,
     fullname: String(fd.get("fullname") ?? "").trim(),
     email: String(fd.get("email") ?? "").trim(),
     phoneNumber: String(fd.get("phoneNumber") ?? "").trim(),

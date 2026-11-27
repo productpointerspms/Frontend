@@ -68,7 +68,7 @@ export function PreviewFilters({ list, placeholder, statusLabel, statuses, dateL
       {statuses.map((status) => <option key={status}>{status}</option>)}
     </select>
     <select aria-label={dateLabel} className={styles.control} value={list.period} onChange={(event) => list.setPeriod(event.target.value)}>
-      <option value="">{dateLabel}</option><option value="7">Latest 7 sample days</option><option value="30">Latest 30 sample days</option>
+      <option value="">{dateLabel}</option><option value="7">Latest 7 days of activity</option><option value="30">Latest 30 days of activity</option>
     </select>
     <select aria-label="Sort order" className={styles.control} value={list.sort} onChange={(event) => list.setSort(event.target.value)}>
       <option value="newest">Newest first</option><option value="oldest">Oldest first</option>
@@ -100,7 +100,7 @@ export function PreviewDialog({ title, description, close, submit, children, sav
   title: string;
   description?: string;
   close: () => void;
-  submit?: (data: FormData) => string | void;
+  submit?: (data: FormData) => string | void | Promise<string | void>;
   children: ReactNode;
   save?: string;
   drawer?: boolean;
@@ -108,15 +108,20 @@ export function PreviewDialog({ title, description, close, submit, children, sav
   danger?: boolean;
 }) {
   const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
   return <Dialog title={title} description={description} drawer={drawer} wide={wide} onClose={close}>
-    {submit ? <form onSubmit={(event) => {
+    {submit ? <form onSubmit={async (event) => {
       event.preventDefault();
-      setError(submit(new FormData(event.currentTarget)) ?? "");
+      if (pending) return;
+      setPending(true);
+      try { setError((await submit(new FormData(event.currentTarget))) ?? ""); }
+      catch (cause) { setError(cause instanceof Error ? cause.message : "Save failed."); }
+      finally { setPending(false); }
     }}>
       <div className={styles.dialogBody}>
         {children}{error && <p className={styles.error} role="alert">{error}</p>}
       </div>
-      <DialogActions onClose={close}><button type="submit" className={danger ? ui.danger : styles.primary}>{save}</button></DialogActions>
+      <DialogActions onClose={close}><button type="submit" disabled={pending} className={danger ? ui.danger : styles.primary}>{save}</button></DialogActions>
     </form> : <div className={styles.dialogBody}>{children}</div>}
   </Dialog>;
 }

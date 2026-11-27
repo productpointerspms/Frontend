@@ -224,6 +224,7 @@ function StepTwo({
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+          <label>Referral code (optional)<input name="referralCode" maxLength={24} minLength={3} /></label>
         {/* Basic Info */}
         <SectionCard pill="Basic Info">
           <div className="space-y-5">

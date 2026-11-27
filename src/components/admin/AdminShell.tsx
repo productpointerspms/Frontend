@@ -43,8 +43,8 @@ function Avatar({ name }: { name: string }) {
 }
 
 function canVisit(section: Section, profile: AdminProfile) {
-  // The sample areas have no backend grants yet. Keep them behind an existing Super Admin session.
-  if (section === apprenticeship || section === interview || section === referral) {
+  // The interview preview has no backend grant yet. Keep them behind an existing Super Admin session.
+  if (section === interview) {
     return profile.role === "Super Admin" || profile.sections.includes(section.name);
   }
   const aliases: Record<string, string[]> = {

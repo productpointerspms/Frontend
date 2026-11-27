@@ -266,6 +266,7 @@ export default function CheckoutClient() {
     setError(null);
     try {
       const result = await registerApplication({
+        referralCode: String(new FormData(e.currentTarget).get("referralCode") ?? "").trim() || undefined,
         fullname,
         email,
         phoneNumber: phone,
@@ -305,7 +306,7 @@ export default function CheckoutClient() {
           onSubmit={handleSubmit}
           className="order-2 bg-white rounded-[28px] shadow-sm p-6 sm:p-10"
         >
-          {/* Contact Information */}
+          {!applicationId && <label>Referral code (optional)<input name="referralCode" maxLength={24} minLength={3} /></label>}
           <h2 className="text-xl font-bold text-[#15010D]">
             Contact Information
           </h2>
