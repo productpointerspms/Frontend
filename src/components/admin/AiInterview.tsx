@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { InterviewVoicePilot } from "./InterviewVoicePilot";
 import { useState } from "react";
 import { CircleCheck, Clock3, Edit, Eye, Plus, Trash2, Users, X } from "lucide-react";
 import { ActionMenu, Badge, DataTable, DetailRows, Metric, PageHeading, displayDate } from "./AdminUI";
@@ -63,6 +64,7 @@ export function AiInterview() {
         <button type="button" className={styles.primary} onClick={showQuestions}>Manage questions</button>
       </div>} />
     <PreviewNotice feedback={feedback} />
+    <InterviewVoicePilot questions={published.map(question => question.prompt)} minutes={duration} />
     <div className={styles.metrics} data-columns="4">
       <Metric label="Total interviewed" value={results.length} detail="Completed sample interviews" icon={Users} />
       <Metric label="Pending review" value={results.filter((row) => row.status === "Pending Review").length} detail="Awaiting an admin decision" icon={Clock3} tone="orange" />
