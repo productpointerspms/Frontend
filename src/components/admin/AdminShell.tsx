@@ -27,12 +27,15 @@ const sections = [
   { name: "Analytics", path: "/admin/analytics" },
   { name: "Settings", path: "/admin/settings" },
   { name: "Mentorship", path: "/admin/mentorship" },
+  { name: "Apprenticeship", path: "/admin/apprenticeship" },
+  { name: "AI Interview", path: "/admin/ai-interview" },
+  { name: "Refer & Earn", path: "/admin/refer-and-earn" },
 ];
 
 type Section = typeof sections[number];
 const [
   dashboard, programs, cohorts, scholarships, applications, courses, orders,
-  learners, facilitators, analytics, settings, mentorship,
+  learners, facilitators, analytics, settings, mentorship, apprenticeship, interview, referral,
 ] = sections;
 
 function Avatar({ name }: { name: string }) {
@@ -40,6 +43,10 @@ function Avatar({ name }: { name: string }) {
 }
 
 function canVisit(section: Section, profile: AdminProfile) {
+  // The sample areas have no backend grants yet. Keep them behind an existing Super Admin session.
+  if (section === apprenticeship || section === interview || section === referral) {
+    return profile.role === "Super Admin" || profile.sections.includes(section.name);
+  }
   const aliases: Record<string, string[]> = {
     Dashboard: ["Analytics"],
     Applications: ["Applications", "Scholarship Applications"],
@@ -176,16 +183,16 @@ function Workspace({ account, pages, allowed, children }: { account: AdminProfil
               {pages.includes(cohorts) && <NavigationItem label="Cohorts" section={cohorts} onNavigate={closeNavigation} />}
               {pages.includes(courses) && <NavigationItem label="Courses" section={courses} onNavigate={closeNavigation} />}
             </NavigationGroup>}
-            <NavigationGroup label="Apprenticeship" icon={Link2} initiallyOpen>
-              <NavigationItem label="Apprenticeship" onNavigate={closeNavigation} />
-              <NavigationItem label="AI Interview" onNavigate={closeNavigation} />
-            </NavigationGroup>
+            {[apprenticeship, interview].some((page) => pages.includes(page)) && <NavigationGroup label="Apprenticeship" icon={Link2} initiallyOpen>
+              {pages.includes(apprenticeship) && <NavigationItem label="Apprenticeship" section={apprenticeship} onNavigate={closeNavigation} />}
+              {pages.includes(interview) && <NavigationItem label="AI Interview" section={interview} onNavigate={closeNavigation} />}
+            </NavigationGroup>}
             {pages.includes(analytics) && <NavigationItem label="Analytics" icon={BarChart3} section={analytics} onNavigate={closeNavigation} />}
             {pages.includes(scholarships) && <NavigationItem label="Scholarships" icon={GraduationCap} section={scholarships} onNavigate={closeNavigation} />}
             {pages.includes(applications) && <NavigationItem label="Applications" icon={ClipboardList} section={applications} onNavigate={closeNavigation} />}
             {pages.includes(mentorship) && <NavigationItem label="Mentorship" icon={BookOpen} section={mentorship} onNavigate={closeNavigation} />}
             {pages.includes(orders) && <NavigationItem label="Orders & Payments" icon={CreditCard} section={orders} onNavigate={closeNavigation} />}
-            <NavigationItem label="Refer & Earn" icon={CircleDollarSign} onNavigate={closeNavigation} />
+            {pages.includes(referral) && <NavigationItem label="Refer & Earn" icon={CircleDollarSign} section={referral} onNavigate={closeNavigation} />}
             {[learners, facilitators].some((page) => pages.includes(page)) && <NavigationGroup label="People" icon={Users} initiallyOpen>
               {pages.includes(learners) && <NavigationItem label="Learners" section={learners} onNavigate={closeNavigation} />}
               {pages.includes(facilitators) && <NavigationItem label="Facilitators" section={facilitators} onNavigate={closeNavigation} />}

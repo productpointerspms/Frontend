@@ -16,7 +16,7 @@ export default function SiteChrome({
 }) {
   // Match the rendered segment so fallback pages keep the same chrome when they hydrate.
   const segment = useSelectedLayoutSegment();
-  if (segment === "admin") return children;
+  if (segment === "admin" || segment === "ai-interview" || segment === "refer-and-earn") return children;
 
   return (
     <>
