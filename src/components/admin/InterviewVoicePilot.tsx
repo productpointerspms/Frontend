@@ -13,14 +13,15 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
   const cleanup = useRef<(() => void) | null>(null);
   const input = useRef<MediaStream | null>(null);
   const muted = useRef(false);
+  const inputReady = useRef(!candidate);
   const audio = useRef<HTMLAudioElement>(null);
-  const [state, setState] = useState<"idle" | "connecting" | "live">("idle");
+  const [state, setState] = useState<"idle" | "connecting" | "opening" | "live">("idle");
   const [notice, setNotice] = useState("");
   useEffect(() => () => cleanup.current?.(), []);
 
   useEffect(() => {
     muted.current = Boolean(candidate?.muted);
-    input.current?.getAudioTracks().forEach(track => { track.enabled = !muted.current; });
+    input.current?.getAudioTracks().forEach(track => { track.enabled = inputReady.current && !muted.current; });
   }, [candidate?.muted]);
 
   async function start() {
@@ -29,12 +30,14 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
     let peer: RTCPeerConnection | undefined;
     let stream: MediaStream | undefined;
     let timer: ReturnType<typeof setTimeout> | undefined;
+    let openingResponse: string | undefined;
     const stop = () => {
       abort.abort();
       clearTimeout(timer);
       peer?.close();
       stream?.getTracks().forEach(track => track.stop());
       input.current = null;
+      inputReady.current = !candidate;
       if (audio.current) audio.current.srcObject = null;
       cleanup.current = null;
     };
@@ -43,14 +46,18 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
     setNotice("");
     try {
       stream = await navigator.mediaDevices.getUserMedia({
-        audio: candidate?.microphone ? { deviceId: { exact: candidate.microphone } } : true,
+        audio: candidate ? {
+          ...(candidate.microphone ? { deviceId: { exact: candidate.microphone } } : {}),
+          echoCancellation: true,
+          noiseSuppression: true,
+        } : true,
       });
       if (abort.signal.aborted) {
         stream.getTracks().forEach(track => track.stop());
         return;
       }
       input.current = stream;
-      stream.getAudioTracks().forEach(track => { track.enabled = !muted.current; });
+      stream.getAudioTracks().forEach(track => { track.enabled = inputReady.current && !muted.current; });
       peer = new RTCPeerConnection();
       for (const track of stream.getAudioTracks()) peer.addTrack(track, stream);
       peer.ontrack = async event => {
@@ -69,19 +76,49 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
         }
       };
       const channel = peer.createDataChannel("oai-events");
+      const failConnection = (message: string) => {
+        stop();
+        setState("idle");
+        setNotice(message);
+      };
+      const startListening = () => {
+        inputReady.current = true;
+        stream?.getAudioTracks().forEach(track => { track.enabled = !muted.current; });
+        setState("live");
+        clearTimeout(timer);
+        timer = setTimeout(() => failConnection(candidate ? "Interview time ended." : "Practice time ended."), minutes * 60000);
+      };
       channel.onmessage = event => {
         if (!candidate || abort.signal.aborted) return;
         const message = JSON.parse(event.data);
-        if (message.type === "conversation.item.input_audio_transcription.completed" && message.transcript?.trim()) candidate.transcript(message.transcript.trim());
+        if (!inputReady.current) {
+          if (message.type === "output_audio_buffer.started") {
+            openingResponse ??= message.response_id;
+          } else if (message.type === "output_audio_buffer.stopped" && openingResponse && message.response_id === openingResponse) {
+            // Generated audio can still be playing after response.done.
+            startListening();
+          } else if (message.type === "error" ||
+                     (message.type === "response.done" && message.response?.status !== "completed")) {
+            failConnection("The interviewer could not open the question. Try again.");
+          }
+          return;
+        }
+        if (message.type === "conversation.item.input_audio_transcription.completed" && message.transcript?.trim()) {
+          candidate.transcript(message.transcript.trim());
+        }
       };
       channel.onopen = () => {
         if (abort.signal.aborted) return;
-        channel.send(JSON.stringify({type:"response.create"}));
-        setState("live");
-        clearTimeout(timer);
-        timer = setTimeout(() => { stop(); setState("idle"); setNotice(candidate ? "Interview time ended." : "Practice time ended."); }, minutes * 60000);
+        channel.send(JSON.stringify({ type: "response.create" }));
+        if (candidate) {
+          setState("opening");
+          clearTimeout(timer);
+          timer = setTimeout(() => failConnection("The opening audio did not finish. Try again."), 30000);
+        } else {
+          startListening();
+        }
       };
-      timer = setTimeout(() => { stop(); setState("idle"); setNotice("Connection timed out. Try again."); }, 30000);
+      timer = setTimeout(() => failConnection("Connection timed out. Try again."), 30000);
       const offer = await peer.createOffer();
       await peer.setLocalDescription(offer);
       let answer: {sdp:string};
@@ -108,8 +145,10 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
     <audio ref={audio} autoPlay />
     {state === "idle" ? <button className={styles.secondary} disabled={candidate?.muted} onClick={start}>{candidate ? "Speak with interviewer" : "Start voice pilot"}</button>
       : <button className={styles.secondary} onClick={() => { cleanup.current?.(); setState("idle"); setNotice(candidate ? "Microphone disconnected." : "Practice ended."); }}>
-        {state === "connecting" ? "Cancel connection" : candidate ? "Finish speaking" : "End voice pilot"}
+        {state === "connecting" || state === "opening" ? "Cancel connection" : candidate ? "Finish speaking" : "End voice pilot"}
       </button>}
-    <p role="status">{notice || (state === "connecting" ? "Connecting…" : state === "live" ? "Interview in progress" : "")}</p>
+    <p role="status">{notice || (state === "connecting" ? "Connecting…" :
+      state === "opening" ? "Interviewer speaking. Wait for your turn." :
+      state === "live" ? (candidate ? (candidate.muted ? "Microphone muted." : "Your turn. Speak into your microphone.") : "Interview in progress") : "")}</p>
   </section>;
 }
