@@ -7,7 +7,7 @@ import {
   ActionMenu, AdminMutations, ResourceState, Badge, ChoiceField, DataTable, DetailRows, Dialog, DialogActions, Field, Metric, PageHeading, displayDate,
 } from "./AdminUI";
 import { adminRoles, type Administrator } from "./ManagementData";
-import { useAdminMutation, useAdminResource } from "./admin-api";
+import { adminRequest, useAdminAction, useAdminMutation, useAdminResource } from "./admin-api";
 import styles from "./admin.module.css";
 
 type InvitedRole = typeof adminRoles[number];
@@ -87,7 +87,45 @@ function InviteAdministrator({
 
 type SettingsData = { admins: Administrator[]; sections: string[]; access: { role: InvitedRole; section: string }[] };
 
+function SecuritySettings() {
+  const status = useAdminResource<{ enabled: boolean }>("auth/security");
+  const action = useAdminAction();
+  const [setup, setSetup] = useState<{ token: string; setupKey: string } | null>(null);
+  return <section className={styles.panel} aria-label="Security">
+    <h2>Security</h2>
+    <ResourceState {...status}>
+      <p>Two-factor authentication is {status.data?.enabled ? "on" : "off"}.</p>
+      {!status.data?.enabled && (setup ? <form className={styles.accountForm} onSubmit={event => {
+        event.preventDefault();
+        const code = new FormData(event.currentTarget).get("code");
+        void action.run(async () => {
+          await adminRequest("auth/security/confirm", "POST", { token: setup.token, code });
+          window.location.assign("/admin/sign-in");
+        });
+      }}>
+        <p>Add ProductPointers as a time-based account in your authenticator app using this setup key.</p>
+        <code>{setup.setupKey}</code>
+        <Field label="Authentication code">{id => <input id={id} className={styles.control} name="code" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required />}</Field>
+        <p>After activation, sign in again with your authenticator.</p>
+        <button className={styles.primary} disabled={action.pending}>Confirm and enable</button>
+        <button type="button" disabled={action.pending} onClick={() => { setSetup(null); action.setError(""); }}>Cancel</button>
+      </form> : <button className={styles.primary} disabled={action.pending} onClick={() => void action.run(async () => {
+        setSetup(await adminRequest("auth/security/setup", "POST"));
+      })}>Set up two-factor authentication</button>)}
+      {action.error && <p role="alert">{action.error}</p>}
+    </ResourceState>
+  </section>;
+}
+
 export function Settings() {
+  const profile = useWorkspaceProfile();
+  if (profile.role !== "Super Admin" && !profile.sections.includes("Settings")) {
+    return <><PageHeading title="Settings" description="Manage your account security." /><SecuritySettings /></>;
+  }
+  return <ManagementSettings />;
+}
+
+function ManagementSettings() {
   const profile = useWorkspaceProfile();
   const canManage = profile.role === "Super Admin";
   const resource = useAdminResource<SettingsData>("settings");
@@ -104,6 +142,7 @@ export function Settings() {
       <PageHeading title="Settings" description="Manage administrators, invitations and role access." action={canManage &&
         <button type="button" className={styles.primary} onClick={() => setDialog("invite")}><Plus size={17} aria-hidden />Invite Admin</button>
       } />
+      <SecuritySettings />
       <div className={styles.metrics}>
         <Metric label="Total Admins" value={administrators.length} detail="All administrators" icon={Users} />
         <Metric label="Active Admins" value={active} detail="Currently have dashboard access" icon={UserCheck} tone="green" />

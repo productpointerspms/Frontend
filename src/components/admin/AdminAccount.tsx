@@ -12,7 +12,7 @@ import type { AdminRole } from "./ManagementData";
 import styles from "./admin.module.css";
 
 export type AdminProfile = { id: string; name: string; email: string; role: AdminRole; sections: string[] };
-type Challenge = { token: string; email?: string; enrollmentUri?: string; remember?: boolean };
+type Challenge = { token: string; email?: string; remember?: boolean };
 
 const AccountContext = createContext<{
   activated: AdminProfile | null;
@@ -85,10 +85,15 @@ function SignIn() {
         const form = new FormData(event.currentTarget);
         const remember = form.has("remember");
         void run(async () => {
-          const challenge = await adminRequest<Challenge>("auth/login", "POST", {
+          const challenge = await adminRequest<Challenge & { requiresMfa: boolean }>("auth/login", "POST", {
             email: form.get("email"), password: form.get("password"), remember,
           });
           setNotice("");
+          if (!challenge.requiresMfa) {
+            setChallenge(null);
+            router.replace("/admin/dashboard");
+            return;
+          }
           setChallenge({ ...challenge, remember });
           router.push("/admin/security-verification");
         });
@@ -286,10 +291,6 @@ function Verification({ security = false, invited = false }: { security?: boolea
         {!security && <div className={styles.infoBox}>
           <p className={styles.infoLabel}>Verification email sent to</p>
           <p className={styles.infoValue}>{challenge.email}</p>
-        </div>}
-        {security && challenge.enrollmentUri && <div className={styles.infoBox}>
-          <p>Add ProductPointers to your authenticator app with this setup key, then enter the code it generates.</p>
-          <code style={{ overflowWrap: "anywhere" }}>{new URL(challenge.enrollmentUri).searchParams.get("secret")}</code>
         </div>}
         <CodeInput key={challenge.token} label={security ? "Authentication code" : "Enter verification code"} />
         <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>

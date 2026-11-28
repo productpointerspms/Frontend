@@ -32,8 +32,8 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
     );
     const expiredLogout = route === "auth/logout" && upstream.status === 401;
     const result = expiredLogout ? { statusCode: "00", message: "Signed out", data: null } : await upstream.json();
-    const session = verification && upstream.ok ? result.data?.token : undefined;
-    if (session) result.data = null;
+    const session = (verification || (route === "auth/login" && result.data?.requiresMfa === false)) && upstream.ok ? result.data?.token : undefined;
+    if (session) result.data = verification ? null : { requiresMfa: false };
     const response = NextResponse.json(result, {
       status: expiredLogout ? 200 : upstream.status, headers: { "Cache-Control": "no-store" },
     });

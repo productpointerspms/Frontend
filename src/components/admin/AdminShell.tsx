@@ -43,6 +43,7 @@ function Avatar({ name }: { name: string }) {
 }
 
 function canVisit(section: Section, profile: AdminProfile) {
+  if (section === settings) return true;
   // The interview preview has no backend grant yet. Keep them behind an existing Super Admin session.
   if (section === interview) {
     return profile.role === "Super Admin" || profile.sections.includes(section.name);
