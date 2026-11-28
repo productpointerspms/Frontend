@@ -139,7 +139,7 @@ export function CandidateInterview() {
     update(session.answers[session.questions[next].id] ?? "");
   }
   return (
-    <main className={styles.accountPage}>
+    <main className={`${styles.admin} ${styles.accountPage}`}>
       <section className={styles.accountCard}>
         <h1>Apprenticeship scholarship interview</h1>
         {error && <p role="alert">{error}</p>}
@@ -210,75 +210,82 @@ export function CandidateInterview() {
                 }}
               />
             )}
-            <label>
-              Your answer
-              <textarea
-                value={draft}
-                maxLength={8000}
-                disabled={busy || !remaining}
-                onChange={(e) => update(e.target.value)}
-              />
-            </label>
-            <p role="status">
-              {remaining
-                ? saved
-                : "Time ended. Your saved answers will be submitted."}
-            </p>
-            {remaining > 0 && (
-              <>
-                <button
-                  className={styles.secondary}
-                  disabled={busy}
-                  onClick={() => action(save)}
-                >
-                  Save answer
-                </button>
-                {index > 0 && (
+            <div className={styles.answerForm}>
+              <div className={styles.field}>
+                <label htmlFor="candidate-answer">Your answer</label>
+                <textarea
+                  id="candidate-answer"
+                  className={styles.control}
+                  rows={8}
+                  value={draft}
+                  maxLength={8000}
+                  disabled={busy || !remaining}
+                  onChange={(e) => update(e.target.value)}
+                />
+              </div>
+              <p role="status">
+                {remaining
+                  ? saved
+                  : "Time ended. Your saved answers will be submitted."}
+              </p>
+              <div className={styles.buttonRow}>
+                {remaining > 0 && (
+                  <>
+                    <button
+                      className={styles.secondary}
+                      disabled={busy}
+                      onClick={() => action(save)}
+                    >
+                      Save answer
+                    </button>
+                    {index > 0 && (
+                      <button
+                        disabled={busy}
+                        onClick={() =>
+                          action(async () => {
+                            await save();
+                            move(index - 1);
+                          })
+                        }
+                      >
+                        Previous question
+                      </button>
+                    )}
+                  </>
+                )}
+                {remaining > 0 && index + 1 < session.questions!.length ? (
                   <button
+                    className={styles.primary}
                     disabled={busy}
                     onClick={() =>
                       action(async () => {
                         await save();
-                        move(index - 1);
+                        move(index + 1);
                       })
                     }
                   >
-                    Previous question
+                    Next question
+                  </button>
+                ) : (
+                  <button
+                    className={styles.primary}
+                    disabled={busy}
+                    onClick={() =>
+                      action(async () => {
+                        if (remaining) await save();
+                        await request(token, "/submit", "POST");
+                        setSession({
+                          ...session,
+                          submitted: new Date().toISOString(),
+                        });
+                      })
+                    }
+                  >
+                    Submit interview
                   </button>
                 )}
-              </>
-            )}
-            {remaining > 0 && index + 1 < session.questions!.length ? (
-              <button
-                className={styles.primary}
-                disabled={busy}
-                onClick={() =>
-                  action(async () => {
-                    await save();
-                    move(index + 1);
-                  })
-                }
-              >
-                Next question
-              </button>
-            ) : (
-              <button
-                className={styles.primary}
-                disabled={busy}
-                onClick={() =>
-                  action(async () => {
-                    if (remaining) await save();
-                    await request(token, "/submit", "POST");
-                    setSession({
-                      ...session,
-                      submitted: new Date().toISOString(),
-                    });
-                  })
-                }
-              >
-                Submit interview
-              </button>
-            )}
+              </div>
+            </div>
           </>
         ) : (
           !error && <p>Opening interview…</p>
