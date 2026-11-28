@@ -9,6 +9,8 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
     muted?: boolean;
     connect: (sdp: string, signal: AbortSignal) => Promise<{sdp:string}>;
     transcript: (text:string) => void;
+    // Kome's words for on-screen captions; done is true once a reply is complete.
+    speech?: (text:string, done:boolean) => void;
   } }) {
   const cleanup = useRef<(() => void) | null>(null);
   const input = useRef<MediaStream | null>(null);
@@ -31,6 +33,8 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
     let stream: MediaStream | undefined;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let openingResponse: string | undefined;
+    // Caption text for Kome's reply in progress; a new reply replaces it.
+    let spoken = { response: "", text: "" };
     const stop = () => {
       abort.abort();
       clearTimeout(timer);
@@ -91,6 +95,15 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
       channel.onmessage = event => {
         if (!candidate || abort.signal.aborted) return;
         const message = JSON.parse(event.data);
+        // The session transcribes Kome's audio as it is generated; captions follow it
+        // during the opening and every later turn. Text can run slightly ahead of audio.
+        if (message.type === "response.output_audio_transcript.delta" && typeof message.delta === "string") {
+          if (message.response_id !== spoken.response) spoken = { response: message.response_id, text: "" };
+          spoken.text += message.delta;
+          candidate.speech?.(spoken.text, false);
+        } else if (message.type === "response.output_audio_transcript.done") {
+          candidate.speech?.(typeof message.transcript === "string" ? message.transcript : spoken.text, true);
+        }
         if (!inputReady.current) {
           if (message.type === "output_audio_buffer.started") {
             openingResponse ??= message.response_id;

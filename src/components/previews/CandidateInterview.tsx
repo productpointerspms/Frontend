@@ -56,7 +56,9 @@ export function CandidateInterview() {
   const [microphone, setMicrophone] = useState("");
   const [speaker, setSpeaker] = useState("");
   const [muted, setMuted] = useState(false);
-  const [captions, setCaptions] = useState(false);
+  // On by default so candidates can read what Kome says, as well as hear it.
+  const [captions, setCaptions] = useState(true);
+  const [komeSays, setKomeSays] = useState({ text: "", done: false });
   const [index, setIndex] = useState(0);
   const [draft, setDraft] = useState("");
   const currentDraft = useRef("");
@@ -204,6 +206,7 @@ export function CandidateInterview() {
   function move(next: number) {
     if (!session?.questions) return;
     setIndex(next);
+    setKomeSays({ text: "", done: false });
     update(session.answers[session.questions[next].id] ?? "");
   }
   async function submit() {
@@ -252,7 +255,13 @@ export function CandidateInterview() {
         <div className={ui.layout}>
           <section className={ui.roomMedia} aria-label="Interview controls">
             <MediaPreview stream={hasTime ? stream : null} cameraOn={hasTime && Boolean(stream)} />
-            {captions && <p className={ui.caption}>{question.prompt}</p>}
+            {captions && (
+              <p className={ui.caption} aria-label="What Kome is saying">
+                {komeSays.text || "Kome's words appear here when the interviewer speaks."}
+              </p>
+            )}
+            {/* Screen readers hear each finished reply once, not every streamed word. */}
+            <p className={ui.srOnly} aria-live="polite">{captions && komeSays.done ? komeSays.text : ""}</p>
             <div className={ui.actions}>
               <button type="button" className={styles.secondary} aria-pressed={!muted} disabled={!hasTime} onClick={() => setMuted(value => !value)}>
                 {muted ? <MicOff size={17} aria-hidden /> : <Mic size={17} aria-hidden />}Microphone
@@ -262,7 +271,7 @@ export function CandidateInterview() {
                 {stream ? <Video size={17} aria-hidden /> : <VideoOff size={17} aria-hidden />}{cameraBusy ? "Connecting…" : "Camera"}
               </button>
               <button type="button" className={styles.secondary} aria-pressed={captions} onClick={() => setCaptions(value => !value)}>
-                <Captions size={17} aria-hidden />Question captions
+                <Captions size={17} aria-hidden />{captions ? "Hide captions" : "Show captions"}
               </button>
               <button type="button" className={styles.secondary} onClick={() => setDialog("help")}>
                 <CircleHelp size={17} aria-hidden />Help
@@ -281,6 +290,7 @@ export function CandidateInterview() {
                   muted: muted || busy,
                   connect: (sdp, signal) => request(token, "/voice", "POST", { id: question.id, sdp }, signal),
                   transcript: text => update([currentDraft.current, text].filter(Boolean).join("\n").slice(0, 8000)),
+                  speech: (text, done) => setKomeSays({ text, done }),
                 }}
               />
             )}
