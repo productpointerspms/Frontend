@@ -137,7 +137,7 @@ export function CandidateInterviewSetup({
         </li>)}</ul>
       </> : <div className={ui.panelInner}>
         <h2>About the assessment</h2>
-        <p>Answer aloud when the AI interviewer asks each question. You can read the transcript as you go.</p>
+        <p>Answer aloud when Kome, the AI interviewer, asks each question. You can read the transcript as you go.</p>
         <p>Staff review your responses and assessment alongside your application. Your camera preview stays on this device.</p>
       </div>}
       <div className={ui.panelInner}>

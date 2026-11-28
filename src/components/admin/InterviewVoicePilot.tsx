@@ -139,9 +139,9 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
       setNotice(error instanceof Error ? error.message : "Voice connection failed");
     }
   }
-  return <section className={styles.panel} aria-label="Voice pilot">
-    <h2>{candidate ? "Voice interview" : "Practice the live interview"}</h2>
-    <p>Starting lets the AI interviewer hear your microphone. {candidate ? "Your spoken answer appears in the transcript." : "Use sample answers."}</p>
+  return <section className={styles.panel} aria-label={candidate ? "Voice interview with Kome" : "Voice pilot"}>
+    <h2>{candidate ? "Voice interview with Kome" : "Practice the live interview"}</h2>
+    <p>{candidate ? "Starting lets Kome hear your microphone. Your spoken answer appears in the transcript." : "Starting lets the AI interviewer hear your microphone. Use sample answers."}</p>
     <audio ref={audio} autoPlay />
     {state === "idle" ? <button className={styles.secondary} disabled={candidate?.muted} onClick={start}>{candidate ? "Speak with interviewer" : "Start voice pilot"}</button>
       : <button className={styles.secondary} onClick={() => { cleanup.current?.(); setState("idle"); setNotice(candidate ? "Microphone disconnected." : "Practice ended."); }}>
