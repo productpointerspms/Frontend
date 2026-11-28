@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import OrganizationJsonLd from "@/components/seo/OrganizationJsonLd";
+import SiteChrome from "@/components/SiteChrome";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, SOCIAL_LINKS } from "@/lib/seo";
 
 const Arial = {
@@ -77,12 +78,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased font-montserrat" suppressHydrationWarning>
-        <OrganizationJsonLd />
-        <div className="relative min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <SiteChrome
+          header={<Header />}
+          footer={<Footer />}
+          structuredData={<OrganizationJsonLd />}
+        >
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );

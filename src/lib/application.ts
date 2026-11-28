@@ -9,7 +9,7 @@ import {
   type QuestionDef,
 } from "./programQuestions";
 
-export const API_BASE_URL = "https://api.productpointers.com";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE || "https://api.productpointers.com";
 
 export interface ApplicationResponseItem {
   category: string;
@@ -18,6 +18,8 @@ export interface ApplicationResponseItem {
 }
 
 export interface RegisterApplicationPayload {
+  scholarshipId?: string;
+  referralCode?: string;
   fullname: string;
   email: string;
   programCode: string;
@@ -252,7 +254,7 @@ export async function getApplicationById(
     phoneNumber: String(user.phoneNumber ?? ""),
     programCode: program.code != null ? String(program.code) : undefined,
     programName: program.title != null ? String(program.title) : undefined,
-    fee: program.fee != null ? Number(program.fee) : undefined,
+    fee: app.scholarshipContribution != null ? Number(app.scholarshipContribution) : program.fee != null ? Number(program.fee) : undefined,
     status: String(app.status ?? ""),
     transaction,
   };
@@ -294,6 +296,7 @@ export async function submitApplication(
   const config = PROGRAMS[program];
 
   const payload: RegisterApplicationPayload = {
+    referralCode: String(fd.get("referralCode") ?? "").trim() || undefined,
     fullname: String(fd.get("fullname") ?? "").trim(),
     email: String(fd.get("email") ?? "").trim(),
     phoneNumber: String(fd.get("phoneNumber") ?? "").trim(),

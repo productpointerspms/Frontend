@@ -1,0 +1,30 @@
+.actions, .filters, .pagination, .tabs, .person { display: flex; align-items: center; gap: 10px; }
+.actions { flex-wrap: wrap; }
+.filters { padding: 12px 16px; flex-wrap: wrap; border-top: 1px solid var(--admin-border); }
+.filters select, .pagination select { width: auto; }
+.search { display: flex; align-items: center; gap: 8px; min-height: 38px; flex: 1 1 190px; max-width: 310px; padding: 0 11px; border: 1px solid var(--admin-border); border-radius: 7px; color: var(--admin-muted); }
+.search input { min-width: 0; width: 100%; padding: 7px 1px; }
+.pagination { justify-content: space-between; padding: 10px 16px; flex-wrap: wrap; color: var(--admin-muted); font-size: 12px; }
+.tablePanel { margin-top: 16px; min-width: 0; }
+.tablePanel > div:has(table) { border-inline: 0; border-radius: 0; }
+.tabs { flex-wrap: wrap; }
+.tabs button { min-height: 39px; padding: 0 14px; border-radius: 7px; color: var(--admin-muted); font-weight: 600; }
+.tabs button[aria-pressed="true"] { background: var(--admin-purple-soft); color: var(--admin-purple); }
+.notice { margin: 0 0 14px !important; color: var(--admin-muted); font-size: 12px; }
+.person { line-height: 1.35; text-align: left; }
+.person strong { display: block; color: var(--admin-text); }
+.person span { color: var(--admin-muted); font-size: 12px; }
+.person .initials { border-radius: 50%; display: grid; place-items: center; flex: 0 0 28px; width: 28px; height: 28px; font-weight: 700; color: var(--admin-purple); background: var(--admin-purple-soft); }
+.danger { min-height: 38px; padding: 0 13px; border-radius: 7px; background: #ab2746; color: #fff; font-size: 13px; font-weight: 650; }
+.danger:hover { background: #911b37; }
+.progress { width: min(100%, 85px); height: 6px; vertical-align: middle; accent-color: var(--admin-purple); }
+.tablePanel button:disabled { opacity: .55; }
+.questionList { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.questionList li { display: flex; align-items: center; gap: 8px; justify-content: space-between; border: 1px solid var(--admin-border); border-radius: 7px; padding: 9px; }
+.questionList li[data-selected="true"] { background: var(--admin-purple-soft); }
+.questionList li > button { text-align: left; }
+.split { align-items: start; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px; }
+@media (max-width: 620px) {
+  .split { grid-template-columns: 1fr; }
+  .filters > * { flex: 1 1 130px; max-width: none; }
+}

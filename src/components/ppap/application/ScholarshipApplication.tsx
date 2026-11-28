@@ -32,6 +32,7 @@ export default function ScholarshipApplication({ program = "PPAP", scholarship =
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submitLock.current) return;
+    if (program === "PPIP" && !scholarship?.id) { setError("Scholarship details are unavailable. Reload this page before submitting."); return; }
     const form = event.currentTarget;
     const data = new FormData(form);
     const value = (name: string) => String(data.get(name) ?? "").trim();
@@ -47,7 +48,13 @@ export default function ScholarshipApplication({ program = "PPAP", scholarship =
     submitLock.current = true;
     setSending(true); setError("");
     try {
-      const result = await registerApplication({ fullname: `${value("firstName")} ${value("lastName")}`, email: value("email"), phoneNumber, programCode: program, responses: scholarshipResponses(data, program, scholarship) });
+      const result = await registerApplication({
+        fullname: `${value("firstName")} ${value("lastName")}`,
+        email: value("email"), phoneNumber, programCode: program,
+        ...(program === "PPIP" ? { scholarshipId: scholarship?.id } : {}),
+        referralCode: value("referralCode") || undefined,
+        responses: scholarshipResponses(data, program, scholarship),
+      });
       if (!result.applicationId) throw new Error("No application confirmation was returned. Please contact the team before submitting again.");
       setSubmitted(true);
     } catch (err) { setError(err instanceof Error ? err.message : "Your application could not be submitted. Please try again."); }
@@ -56,6 +63,7 @@ export default function ScholarshipApplication({ program = "PPAP", scholarship =
   if (submitted) return <ApplicationReceived program={program} scholarship={scholarship} />;
 
   return <div className={styles.page}><div className={styles.card}><header className={styles.header}><h1>Scholarship Application</h1><p>Tell us a little about yourself and your career journey to apply for the {config.programName}. Complete all sections on this single form below.</p></header><form className={styles.form} onSubmit={submit} aria-busy={sending}><fieldset disabled={sending} className={styles.fields}>
+          <label>Referral code (optional)<input name="referralCode" maxLength={24} minLength={3} /></label>
     <Section number={1} title="Personal Information" description="Provide your official contact details for candidate tracking."><div className={styles.grid}>
       <div><Label htmlFor="scholarship-first-name" required>First Name</Label><input id="scholarship-first-name" name="firstName" autoComplete="given-name" placeholder="John" required maxLength={80} /></div>
       <div><Label htmlFor="scholarship-last-name" required>Last Name</Label><input id="scholarship-last-name" name="lastName" autoComplete="family-name" placeholder="Jack" required maxLength={80} /></div>

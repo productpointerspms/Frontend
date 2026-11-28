@@ -151,6 +151,7 @@ export default function ProgramCheckout({ program }: { program: CheckoutProgram 
     setSubmitError(null);
     try {
       const result = await registerApplication({
+        referralCode: String(data.get("referralCode") ?? "").trim() || undefined,
         fullname: `${firstName} ${lastName}`.trim(),
         email,
         phoneNumber,
@@ -278,6 +279,7 @@ export default function ProgramCheckout({ program }: { program: CheckoutProgram 
 
         {/* Kept mounted (hidden) so answers survive going back to the summary. */}
         <form className={`${styles.body} ${styles.form} ${local.mobileInputs}`} onSubmit={submitDetails} hidden={step !== 2}>
+          <label>Referral code (optional)<input name="referralCode" maxLength={24} minLength={3} /></label>
           <fieldset className={styles.fields} disabled={submitting}>
             <label htmlFor="firstName">First Name *<input id="firstName" name="firstName" required pattern=".*\S.*" autoComplete="given-name" placeholder="Blessing" maxLength={100} /></label>
             <label htmlFor="lastName">Last Name *<input id="lastName" name="lastName" required pattern=".*\S.*" autoComplete="family-name" placeholder="Okomor" maxLength={100} /></label>

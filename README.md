@@ -20,6 +20,12 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Administrator workspace
+
+Set `ADMIN_API_BASE_URL` in `.env.local` to the origin of your running ProductPointers backend. The Next.js server reads this variable and forwards administrator requests. Set the backend’s `WEB_APP_BASE_URL` to the frontend origin so invitation and password reset emails open the correct site.
+
+For local testing, start the backend with a disposable database and Redis, then run `npm run dev -- --hostname 127.0.0.1 --port 3000` and open [administrator sign-in](http://127.0.0.1:3000/admin/sign-in). Sign in with the local administrator account and its authenticator code.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
