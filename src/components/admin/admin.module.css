@@ -483,6 +483,9 @@ textarea.control { min-height: 92px; resize: vertical; }
 .tablePanel { margin-top: 0; }
 .tablePanel .tableScroll { border-width: 1px 0 0; border-radius: 0 0 var(--admin-radius) var(--admin-radius); }
 .tablePanel .panelHeader { align-items: center; }
+@keyframes adminSpin { to { transform: rotate(360deg); } }
+.spinner { animation: adminSpin 1s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
 .buttonRow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .destructive { color: white; background: #a72743; }
 .destructive:hover { background: #882038; }

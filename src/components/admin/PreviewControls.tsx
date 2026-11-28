@@ -96,7 +96,7 @@ export function PreviewNotice({ feedback }: { feedback: string }) {
   return <p className={ui.notice} role="status">{feedback || "Frontend preview · Changes apply to sample records for this visit."}</p>;
 }
 
-export function PreviewDialog({ title, description, close, submit, children, save = "Save changes", drawer, wide, danger }: {
+export function PreviewDialog({ title, description, close, submit, children, save = "Save changes", drawer, wide, danger, busy = false }: {
   title: string;
   description?: string;
   close: () => void;
@@ -106,10 +106,11 @@ export function PreviewDialog({ title, description, close, submit, children, sav
   drawer?: boolean;
   wide?: boolean;
   danger?: boolean;
+  busy?: boolean;
 }) {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
-  return <Dialog title={title} description={description} drawer={drawer} wide={wide} onClose={close}>
+  return <Dialog title={title} description={description} drawer={drawer} wide={wide} pending={busy || pending} onClose={close}>
     {submit ? <form onSubmit={async (event) => {
       event.preventDefault();
       if (pending) return;
@@ -121,7 +122,7 @@ export function PreviewDialog({ title, description, close, submit, children, sav
       <div className={styles.dialogBody}>
         {children}{error && <p className={styles.error} role="alert">{error}</p>}
       </div>
-      <DialogActions onClose={close}><button type="submit" disabled={pending} className={danger ? ui.danger : styles.primary}>{save}</button></DialogActions>
+      <DialogActions onClose={close}><button type="submit" disabled={pending} className={danger ? ui.danger : styles.primary}>{pending ? "Saving…" : save}</button></DialogActions>
     </form> : <div className={styles.dialogBody}>{children}</div>}
   </Dialog>;
 }

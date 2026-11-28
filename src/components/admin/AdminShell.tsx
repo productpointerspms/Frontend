@@ -226,7 +226,7 @@ function Workspace({ account, pages, allowed, children }: { account: AdminProfil
               <button type="button" className={styles.link} disabled={logout.pending} onClick={() => void logout.run(async () => {
                 await adminRequest("auth/logout", "POST", {});
                 router.replace("/admin/sign-in");
-              })}>Sign out</button>
+              })}>{logout.pending ? "Signing out…" : "Sign out"}</button>
               {logout.error && <p role="alert">{logout.error}</p>}
             </div>}
           </div>

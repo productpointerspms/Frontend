@@ -25,7 +25,7 @@ export async function adminRequest<T = unknown>(path: string, method = "GET", bo
   return result.data as T;
 }
 
-export function useAdminResource<T>(path: string | null) {
+export function useAdminResource<T>(path: string | null, keepOnRefreshError = false) {
   const [request, setRequest] = useState({ path: "", data: undefined as T | undefined, error: "", status: 0, version: -1 });
   const [version, setVersion] = useState(0);
   const reload = useCallback(() => setVersion((current) => current + 1), []);
@@ -36,14 +36,17 @@ export function useAdminResource<T>(path: string | null) {
       if (!controller.signal.aborted) setRequest({ path, data, error: "", status: 200, version });
     }).catch((error) => {
       if (!controller.signal.aborted) {
-        setRequest({ path, data: undefined, error: error.message, status: error instanceof AdminApiError ? error.status : 0, version });
+        const status = error instanceof AdminApiError ? error.status : 0;
+        setRequest(previous => ({ path, version, status, error: error.message,
+          data: keepOnRefreshError && previous.path === path && (status === 0 || status >= 500) ? previous.data : undefined,
+        }));
         if (error instanceof AdminApiError && error.status === 401 && path !== "auth/me") {
           window.location.assign("/admin/sign-in");
         }
       }
     });
     return () => controller.abort();
-  }, [path, version]);
+  }, [path, version, keepOnRefreshError]);
 
   return {
     data: request.path === path ? request.data : undefined,

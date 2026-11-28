@@ -106,7 +106,7 @@ function SignIn() {
         <Link href="/admin/forgot-password" className={styles.link}>Forgot password?</Link>
         <label className={styles.option}><input type="checkbox" name="remember" />Remember me</label>
         {error && <p className={styles.error} role="alert">{error}</p>}
-        <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>Sign in</button>
+        <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>{pending ? "Signing in…" : "Sign in"}</button>
       </form>
     </AccountFrame>
   );
@@ -197,7 +197,7 @@ function PasswordForm({ setup = false, invited = false }: { setup?: boolean; inv
         </>}
         {error && <p className={styles.error} role="alert">{error}</p>}
         <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>
-          {invited ? "Create account" : setup ? "Create super admin account" : "Reset password"}
+          {pending ? (setup || invited ? "Creating account…" : "Resetting password…") : invited ? "Create account" : setup ? "Create super admin account" : "Reset password"}
         </button>
       </form>
     </AccountFrame>
@@ -257,6 +257,7 @@ function Verification({ security = false, invited = false }: { security?: boolea
   const { challenge, setChallenge, setActivated } = useAccount();
   const { run, error, pending } = useAdminAction();
   const [resent, setResent] = useState(false);
+  const [resending, setResending] = useState(false);
 
   return (
     <AccountFrame
@@ -266,10 +267,13 @@ function Verification({ security = false, invited = false }: { security?: boolea
       success={security}
       footer={!security && challenge && <>
         <button type="button" className={styles.link} disabled={pending} onClick={() => void run(async () => {
-          const result = await adminRequest<Challenge>("auth/resend", "POST", { token: challenge.token });
-          setChallenge({ ...challenge, token: result.token });
-          setResent(true);
-        })}>Resend code</button>
+          setResending(true);
+          try {
+            const result = await adminRequest<Challenge>("auth/resend", "POST", { token: challenge.token });
+            setChallenge({ ...challenge, token: result.token });
+            setResent(true);
+          } finally { setResending(false); }
+        })}>{resending ? "Sending…" : "Resend code"}</button>
         {resent && <p role="status">A new code was sent.</p>}
       </>}
     >
@@ -294,7 +298,7 @@ function Verification({ security = false, invited = false }: { security?: boolea
         </div>}
         <CodeInput key={challenge.token} label={security ? "Authentication code" : "Enter verification code"} />
         <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>
-          {security ? "Verify and continue" : "Verify email"}
+          {pending && !resending ? "Verifying…" : security ? "Verify and continue" : "Verify email"}
         </button>
       </form> : <Link className={styles.link} href={security ? "/admin/sign-in" : invited ? "/admin/sign-in" : "/admin/setup"}>
         {security ? "Return to sign in" : invited ? "Reopen the invitation link from your email" : "Restart account setup"}
@@ -344,7 +348,7 @@ function ForgotPassword() {
         });
       }}>
         <EmailField />
-        <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>Send reset link</button>
+        <button className={`${styles.primary} ${styles.accountButton}`} type="submit" disabled={pending}>{pending ? "Sending…" : "Send reset link"}</button>
         {error && <p className={styles.error} role="alert">{error}</p>}
         {submitted && <div className={styles.infoBox} role="status">
           <p>If the account exists, you’ll receive a password reset link.</p>

@@ -107,11 +107,11 @@ function SecuritySettings() {
         <code>{setup.setupKey}</code>
         <Field label="Authentication code">{id => <input id={id} className={styles.control} name="code" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required />}</Field>
         <p>After activation, sign in again with your authenticator.</p>
-        <button className={styles.primary} disabled={action.pending}>Confirm and enable</button>
+        <button className={styles.primary} disabled={action.pending}>{action.pending ? "Enabling…" : "Confirm and enable"}</button>
         <button type="button" disabled={action.pending} onClick={() => { setSetup(null); action.setError(""); }}>Cancel</button>
       </form> : <button className={styles.primary} disabled={action.pending} onClick={() => void action.run(async () => {
         setSetup(await adminRequest("auth/security/setup", "POST"));
-      })}>Set up two-factor authentication</button>)}
+      })}>{action.pending ? "Preparing setup…" : "Set up two-factor authentication"}</button>)}
       {action.error && <p role="alert">{action.error}</p>}
     </ResourceState>
   </section>;
@@ -143,6 +143,7 @@ function ManagementSettings() {
         <button type="button" className={styles.primary} onClick={() => setDialog("invite")}><Plus size={17} aria-hidden />Invite Admin</button>
       } />
       <SecuritySettings />
+      {action.pending && !dialog && <p role="status">Updating access…</p>}
       <div className={styles.metrics}>
         <Metric label="Total Admins" value={administrators.length} detail="All administrators" icon={Users} />
         <Metric label="Active Admins" value={active} detail="Currently have dashboard access" icon={UserCheck} tone="green" />

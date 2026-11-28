@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { InterviewVoicePilot } from "./InterviewVoicePilot";
 import { useState } from "react";
-import { CircleCheck, Clock3, Edit, Eye, Plus, Trash2, Users, X } from "lucide-react";
+import { CircleCheck, Clock3, Edit, Eye, LoaderCircle, Plus, Trash2, Users, X } from "lucide-react";
 import { ActionMenu, Badge, DataTable, DetailRows, Metric, PageHeading, displayDate } from "./AdminUI";
 import {
   PreviewDialog, PreviewFilters, PreviewInput, PreviewNotes, PreviewNotice, PreviewPagination, PreviewPerson, usePreviewList, value,
 } from "./PreviewControls";
-import { adminRequest, useAdminResource } from "./admin-api";
+import { adminRequest, useAdminAction, useAdminResource } from "./admin-api";
 import { saveInterviewPreview, type InterviewPreview, type InterviewQuestion } from "./interview-preview";
 import styles from "./admin.module.css";
 import ui from "./preview.module.css";
@@ -26,12 +26,20 @@ type DialogState =
 
 export function AiInterview() {
   const config = useAdminResource<InterviewPreview>("interviews/config");
-  const records = useAdminResource<InterviewResult[]>("interviews");
-  if (!config.data || !records.data) return <p role="status">{config.error || records.error || "Loading interviews…"}</p>;
-  return <InterviewWorkspace initialConfig={config.data} results={records.data} reload={records.reload}/>;
+  const records = useAdminResource<InterviewResult[]>("interviews", true);
+  if (!config.data || !records.data) {
+    const failed = config.error ? config : records;
+    return failed.error ? <div role="alert">{failed.error} <button className={styles.secondary} disabled={failed.refreshing} onClick={failed.reload}>{failed.refreshing ? "Retrying…" : "Try again"}</button></div> : <p role="status">Loading interviews…</p>;
+  }
+  return <InterviewWorkspace initialConfig={config.data} results={records.data} reload={records.reload}
+    refreshing={records.refreshing} refreshError={records.error} />;
 }
 
-function InterviewWorkspace({initialConfig,results,reload}:{initialConfig:InterviewPreview;results:InterviewResult[];reload:()=>void}){
+function InterviewWorkspace({ initialConfig, results, reload, refreshing, refreshError }: {
+  initialConfig: InterviewPreview; results: InterviewResult[]; reload: () => void; refreshing: boolean; refreshError: string;
+}) {
+  const [requestedRefresh, setRequestedRefresh] = useState(false);
+  const invitation = useAdminAction();
   const [publishedPreview,setPublishedPreview]=useState(initialConfig);
   const { questions: published, duration, intro } = publishedPreview;
   const [questions, setQuestions] = useState(published);
@@ -40,7 +48,7 @@ function InterviewWorkspace({initialConfig,results,reload}:{initialConfig:Interv
   const [dialog, setDialog] = useState<DialogState | null>(null);
   const [feedback, setFeedback] = useState("");
   const list = usePreviewList(results, (row) => row.name + " " + row.email, (row) => row.status, (row) => row.date || row.invitedAt || "");
-  const close = () => setDialog(null);
+  const close = () => { invitation.setError(""); setDialog(null); };
   const finish = (message: string) => { close(); setFeedback(message); };
   const showQuestions = () => { setEditingError(""); setDialog({ kind: "questions" }); };
   const selected = questions.find((item) => item.id === selectedId) ?? questions[0];
@@ -73,7 +81,11 @@ function InterviewWorkspace({initialConfig,results,reload}:{initialConfig:Interv
       <Metric label="Rejected" value={results.filter((row) => row.status === "Rejected").length} detail="Reviewed by the team" icon={X} tone="red" />
     </div>
     <section className={`${styles.panel} ${ui.tablePanel}`} aria-labelledby="interview-results-title">
-      <div className={styles.panelHeader}><h2 id="interview-results-title">Interview results <small>{results.length}</small></h2><button className={styles.secondary} onClick={reload}>Refresh results</button></div>
+      <div className={styles.panelHeader}><h2 id="interview-results-title">Interview results <small>{results.length}</small></h2><button type="button" className={styles.secondary} disabled={refreshing} onClick={() => { setRequestedRefresh(true); reload(); }}>
+        {refreshing && <LoaderCircle size={16} aria-hidden className={styles.spinner} />}
+        {refreshing ? "Refreshing…" : refreshError ? "Try again" : "Refresh results"}
+      </button></div>
+      <p role="status">{refreshing ? "Refreshing results…" : refreshError ? "Could not refresh results. " + refreshError : requestedRefresh ? "Results refreshed." : ""}</p>
       <PreviewFilters list={list} placeholder="Search applicants…" statusLabel="Statuses" statuses={reviewStatuses} dateLabel="Completed date" />
       <DataTable caption="Interview results" headings={["Applicant", "Completed", "AI score", "Commitment", "Interview", "Review status", "Actions"]}>
         {list.rows.map((row) => <tr key={row.id}>
@@ -104,7 +116,7 @@ function InterviewWorkspace({initialConfig,results,reload}:{initialConfig:Interv
       <PreviewNotes name="intro" label="Candidate instructions" value={intro} required />
       <p className={styles.hint}>An administrator reviews each assessment before an admissions decision.</p>
     </PreviewDialog>}
-    {dialog && "result" in dialog && <PreviewDialog key={dialog.kind}
+    {dialog && "result" in dialog && <PreviewDialog key={dialog.kind} busy={invitation.pending}
       title={dialog.kind === "assessment" ? "Applicant interview assessment" : dialog.kind === "accept" ? "Accept applicant" : dialog.kind === "shortlist" ? "Shortlist applicant?" : "Reject applicant?"}
       description={dialog.result.name} close={close} drawer={dialog.kind === "assessment"} danger={dialog.kind === "reject"}
       save={dialog.kind === "accept" ? "Accept applicant" : dialog.kind === "shortlist" ? "Shortlist applicant" : "Reject applicant"}
@@ -125,10 +137,11 @@ function InterviewWorkspace({initialConfig,results,reload}:{initialConfig:Interv
           return <details key={q.id}><summary>{q.prompt}</summary><p>{dialog.result.answers[q.id]||"No answer"}</p><p>{q.criteria}</p>
             {score && <><p>{score.points} / {score.maxScore} · {score.reason}</p><blockquote>{score.evidence}</blockquote></>}</details>;
         })}
-        {!dialog.result.date && <button className={styles.secondary} onClick={async()=>{
-          try{await adminRequest("interviews/"+dialog.result.id+"/invite","POST",{});reload();finish("Replacement invitation queued.");}
-          catch(e){setFeedback(e instanceof Error?e.message:"Could not resend invitation");close();}
-        }}>Resend private invitation</button>}
+        {!dialog.result.date && <button className={styles.secondary} disabled={invitation.pending} onClick={() => void invitation.run(async () => {
+          await adminRequest("interviews/"+dialog.result.id+"/invite","POST",{});
+          reload(); finish("Replacement invitation queued.");
+        })}>{invitation.pending ? "Queuing invitation…" : "Resend private invitation"}</button>}
+        {invitation.error && <p role="alert">{invitation.error}</p>}
         <div className={ui.actions}>
           {dialog.result.assessment && <button type="button" className={styles.primary} onClick={()=>setDialog({...dialog,kind:"accept"})}>Accept applicant</button>}
           <button type="button" className={styles.primary} onClick={() => setDialog({ ...dialog, kind: "shortlist" })}>Shortlist applicant</button>
