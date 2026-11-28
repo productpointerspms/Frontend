@@ -11,17 +11,17 @@ import {
 import styles from "./admin.module.css";
 import ui from "./preview.module.css";
 
-const decisions = ["Pending Review", "Shortlisted", "Rejected"] as const;
+const decisions = ["Pending Review", "Shortlisted", "Accepted", "Rejected"] as const;
 type Decision = typeof decisions[number];
 type Applicant = {
   id: string; name: string; email: string; applied: string;
-  decision: Decision; payment: "Not requested" | "Awaiting Payment" | "Paid"; notes?: string;
+  interview: string; decision: Decision; payment: "Not requested" | "Awaiting Payment" | "Paid"; notes?: string;
 };
 type Learner = { id: string; name: string; email: string; enrolled: string; cohort: string | null; status: "Active" | "Inactive" };
 
 type Modal =
   | { kind: "settings" }
-  | { kind: "applicant" | "shortlist" | "reject"; applicant: Applicant }
+  | { kind: "applicant" | "accept" | "shortlist" | "reject"; applicant: Applicant }
   | { kind: "learner" | "edit" | "deactivate" | "activate"; learner: Learner };
 
 export function Apprenticeship() {
@@ -47,7 +47,7 @@ export function Apprenticeship() {
     const rows = view === "Applicants"
       ? [["Name", "Email", "Applied", "Interview", "Decision", "Payment"], ...applicantsList.results
         .filter((row) => !selected.length || selected.includes(row.id))
-        .map((row) => [row.name, row.email, row.applied, "Unavailable", row.decision, row.payment])]
+        .map((row) => [row.name, row.email, row.applied, row.interview, row.decision, row.payment])]
       : [["Name", "Email", "Enrolled", "Status"], ...learnersList.results.map((row) => [row.name, row.email, row.enrolled, row.status])];
     downloadPreviewCsv(`apprenticeship-${view.toLowerCase()}`, rows);
     setFeedback("Results exported.");
@@ -84,7 +84,7 @@ export function Apprenticeship() {
             <td><input type="checkbox" aria-label={`Select ${row.name}`} checked={selected.includes(row.id)}
               onChange={(event) => setSelected(event.target.checked ? [...selected, row.id] : selected.filter((id) => id !== row.id))} /></td>
             <td><PreviewPerson name={row.name} email={row.email} open={() => setModal({ kind: "applicant", applicant: row })} /></td>
-            <td>{displayDate(row.applied)}</td><td>Unavailable</td>
+            <td>{displayDate(row.applied)}</td><td>{row.interview}</td>
             <td><Badge tone={row.decision === "Rejected" ? "muted" : "purple"}>{row.decision}</Badge></td>
             <td><Badge tone={row.payment === "Paid" ? "green" : "muted"}>{row.payment}</Badge></td>
             <td><ActionMenu label={`Actions for ${row.name}`} actions={[
@@ -131,10 +131,10 @@ export function Apprenticeship() {
         <PreviewInput name="fee" label="Programme fee (₦)" type="number" min={0} step="0.01" value={settings.fee} />
       </div>
     </PreviewDialog>}
-    {modal && "applicant" in modal && <PreviewDialog key={modal.kind} title={modal.kind === "applicant" ? "Applicant details" : modal.kind === "shortlist" ? "Shortlist applicant?" : "Reject applicant?"}
-      description={modal.applicant.name} close={close} drawer={modal.kind === "applicant"} save={modal.kind === "shortlist" ? "Shortlist applicant" : "Reject applicant"} danger={modal.kind === "reject"}
+    {modal && "applicant" in modal && <PreviewDialog key={modal.kind} title={modal.kind === "applicant" ? "Applicant details" : modal.kind === "accept" ? "Accept applicant" : modal.kind === "shortlist" ? "Shortlist applicant?" : "Reject applicant?"}
+      description={modal.applicant.name} close={close} drawer={modal.kind === "applicant"} save={modal.kind === "accept" ? "Accept applicant" : modal.kind === "shortlist" ? "Shortlist applicant" : "Reject applicant"} danger={modal.kind === "reject"}
       submit={modal.kind === "applicant" ? undefined : async (data) => {
-        const decision = modal.kind === "shortlist" ? "Shortlisted" : "Rejected";
+        const decision = modal.kind === "accept" ? "Accepted" : modal.kind === "shortlist" ? "Shortlisted" : "Rejected";
         const notes = value(data, "notes");
         if (decision === "Rejected" && !notes) return "Enter a reason for rejection.";
         await adminRequest(`apprenticeship/applicants/${modal.applicant.id}`, "PATCH", { decision, notes });
@@ -142,9 +142,10 @@ export function Apprenticeship() {
         finish(`${modal.applicant.name} marked ${decision.toLowerCase()}.`);
       }}>
       {modal.kind === "applicant" ? <>
-        <DetailRows items={[["Email", modal.applicant.email], ["Applied", displayDate(modal.applicant.applied)], ["Interview", "Unavailable"],
+        <DetailRows items={[["Email", modal.applicant.email], ["Applied", displayDate(modal.applicant.applied)], ["Interview", modal.applicant.interview],
           ["Decision", modal.applicant.decision], ["Payment", modal.applicant.payment], ["Review notes", modal.applicant.notes || "—"]]} />
         <div className={ui.actions}>
+          {modal.applicant.interview === "Completed" && <button type="button" className={styles.primary} onClick={() => setModal({ ...modal, kind: "accept" })}>Accept applicant</button>}
           <button type="button" className={styles.primary} onClick={() => setModal({ ...modal, kind: "shortlist" })}>Shortlist applicant</button>
           <button type="button" className={styles.secondary} onClick={() => setModal({ ...modal, kind: "reject" })}>Reject applicant</button>
         </div>

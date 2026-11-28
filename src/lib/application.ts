@@ -18,6 +18,7 @@ export interface ApplicationResponseItem {
 }
 
 export interface RegisterApplicationPayload {
+  scholarshipId?: string;
   referralCode?: string;
   fullname: string;
   email: string;
@@ -253,7 +254,7 @@ export async function getApplicationById(
     phoneNumber: String(user.phoneNumber ?? ""),
     programCode: program.code != null ? String(program.code) : undefined,
     programName: program.title != null ? String(program.title) : undefined,
-    fee: program.fee != null ? Number(program.fee) : undefined,
+    fee: app.scholarshipContribution != null ? Number(app.scholarshipContribution) : program.fee != null ? Number(program.fee) : undefined,
     status: String(app.status ?? ""),
     transaction,
   };

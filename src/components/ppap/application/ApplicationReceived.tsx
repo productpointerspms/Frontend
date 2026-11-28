@@ -40,7 +40,7 @@ export default function ApplicationReceived({ program, scholarship = null }: { p
           </aside>
           <h2>What happens next?</h2>
           <ol className={styles.nextSteps}>
-            <li><span aria-hidden="true">1</span><p>Our admissions team will review your application and contact you within <strong>12 to 48 hours</strong> with an official update.</p></li>
+            <li><span aria-hidden="true">1</span><p>{program === "PPIP" ? "Check your email for your private interview link. Complete the interview so our admissions team can review your application and answers." : <>Our admissions team will review your application and contact you within <strong>12 to 48 hours</strong> with an official update.</>}</p></li>
             <li><span aria-hidden="true">2</span><p>If selected, you will receive an official acceptance email containing instructions to secure your scholarship slot and complete the remaining <strong>{config.contribution}</strong> tuition contribution.</p></li>
             <li><span aria-hidden="true">3</span><p>Please check your email inbox (and spam folder) regularly for updates from our team.</p></li>
           </ol>

@@ -32,6 +32,7 @@ export default function ScholarshipApplication({ program = "PPAP", scholarship =
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submitLock.current) return;
+    if (program === "PPIP" && !scholarship?.id) { setError("Scholarship details are unavailable. Reload this page before submitting."); return; }
     const form = event.currentTarget;
     const data = new FormData(form);
     const value = (name: string) => String(data.get(name) ?? "").trim();
@@ -50,6 +51,7 @@ export default function ScholarshipApplication({ program = "PPAP", scholarship =
       const result = await registerApplication({
         fullname: `${value("firstName")} ${value("lastName")}`,
         email: value("email"), phoneNumber, programCode: program,
+        ...(program === "PPIP" ? { scholarshipId: scholarship?.id } : {}),
         referralCode: value("referralCode") || undefined,
         responses: scholarshipResponses(data, program, scholarship),
       });

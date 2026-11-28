@@ -1,4 +1,4 @@
-export type InterviewQuestion = { id: string; group: string; prompt: string; criteria: string; followUp: string };
+export type InterviewQuestion = { id: string; group: string; prompt: string; criteria: string; maxScore?: number; followUp: string };
 
 export const interviewQuestions: InterviewQuestion[] = [
   { id: "1", group: "Your product foundations", prompt: "Have you gone through any foundational product management training? Tell me what you covered and how recently.", criteria: "Describe specific concepts and connect them to a practical example.", followUp: "Where have you applied what you learned?" },

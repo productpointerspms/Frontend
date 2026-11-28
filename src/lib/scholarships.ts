@@ -122,6 +122,7 @@ export function getProgramScholarships(programCode: string): Promise<ApiScholars
 
 /** A scholarship ready for display: backend fields + the copy the API lacks. */
 export interface ScholarshipListing {
+  id: string;
   code: string;
   name: string;
   /** Null when the backend doesn't link it to a known program (no apply link). */
@@ -147,6 +148,7 @@ const naira = (amount: number) => `₦${amount.toLocaleString("en-NG")}`;
 function toListing(api: ApiScholarship, programCode: ScholarshipProgramCode | null): ScholarshipListing {
   const content = SCHOLARSHIP_CONTENT[api.code];
   return {
+    id: api.id,
     code: api.code,
     name: api.name,
     programCode,
