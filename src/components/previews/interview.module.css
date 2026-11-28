@@ -28,3 +28,11 @@
 .danger { color: #fff; background: #ad2542; border-radius: 7px; padding: 9px 13px; font-weight: 650; }
 @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
 @media (max-width: 390px) { .devices { grid-template-columns: 1fr; } }
+.roomMedia { display: grid; align-content: start; gap: 14px; min-width: 0; background: #24232b; border-radius: 12px; padding: clamp(10px, 2vw, 18px); color: #fff; }
+.roomMedia .video { background: #18171e; }
+.roomMedia section { color: var(--admin-text); background: #fff; padding: 14px; display: grid; gap: 8px; }
+.questionProgress { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.questionPrompt { font-weight: 600; }
+
+.transcript { display: grid; gap: 8px; align-content: start; min-height: 185px; border: 1px solid var(--admin-border); border-radius: 8px; padding: 12px; }
+.transcript p { white-space: pre-wrap; overflow-wrap: anywhere; }

@@ -90,8 +90,6 @@
   color: var(--admin-purple);
 }
 .accountIcon[data-tone="green"] { color: #158047; background: #e4f5e9; }
-.answerForm { display: grid; gap: 16px; margin-top: 20px; }
-.answerForm > [role="status"]:empty { margin-block: -8px; }
 .accountForm { display: grid; gap: 16px; }
 .accountButton { border-radius: 100px; width: 100%; min-height: 46px; }
 .accountFooter { text-align: center; color: var(--admin-muted); font-size: 12px; margin-top: 24px; line-height: 1.55; }
@@ -587,3 +585,9 @@ textarea.control { min-height: 92px; resize: vertical; }
 .dialogControls {
   display: contents;
 }
+
+.scholarshipFieldPanel { padding: 16px; display: grid; gap: 12px; justify-items: start; }
+.scholarshipFieldPanel .panelHeader { padding: 0; }
+.scholarshipFields { width: 100%; list-style: none; margin: 10px 0; padding: 0; }
+.scholarshipFields li { background: transparent; border-radius: 0; overflow-wrap: anywhere; }
+.scholarshipFields li + li { border-top: 1px solid var(--admin-border); }

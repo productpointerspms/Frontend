@@ -64,9 +64,10 @@ function StatusAndVisibility({ scholarship }: { scholarship?: Scholarship }) {
 
 type ScholarshipValues = Pick<Scholarship, "name" | "programId" | "description" | "amount" | "deadline" | "slots" | "status" | "visibility" | "fields"> & { eligibility: string[] };
 
-function ScholarshipForm({ scholarship, programs, onClose, onSave }: {
+function ScholarshipForm({ scholarship, programs, addFieldOnOpen = false, onClose, onSave }: {
   scholarship?: Scholarship;
   programs: ProgramOption[];
+  addFieldOnOpen?: boolean;
   onClose: () => void;
   onSave: (values: ScholarshipValues) => void;
 }) {
@@ -75,7 +76,11 @@ function ScholarshipForm({ scholarship, programs, onClose, onSave }: {
   const [amount, setAmount] = useState(scholarship ? String(scholarship.amount) : "");
   const [eligibility, setEligibility] = useState(scholarship?.eligibility?.split("\n").filter(Boolean) ?? []);
   const [requirement, setRequirement] = useState("");
-  const [fields, setFields] = useState<FormField[]>(() => scholarship?.fields.map((field, index) => ({ ...field, id: String(index) })) ?? []);
+  const [fields, setFields] = useState<FormField[]>(() => {
+    const existing = scholarship?.fields.map((field, index) => ({ ...field, id: String(index) })) ?? [];
+    if (addFieldOnOpen) existing.push({ id: "new-field", label: "", type: "Text", required: false });
+    return existing;
+  });
   const [error, setError] = useState("");
 
   function addRequirement() {
@@ -164,7 +169,7 @@ function ScholarshipForm({ scholarship, programs, onClose, onSave }: {
             {fields.map((field, position) => (
               <div className={styles.inlineFormField} key={field.id}>
                 <Field label={`Field ${position + 1} label`}>{(id) => (
-                  <input id={id} className={styles.control} value={field.label} required onChange={(event) => updateField(field.id, { label: event.target.value })} />
+                  <input id={id} className={styles.control} value={field.label} maxLength={160} autoFocus={field.id === "new-field"} required onChange={(event) => updateField(field.id, { label: event.target.value })} />
                 )}</Field>
                 <Field label={`Field ${position + 1} type`}>{(id) => (
                   <select id={id} className={styles.control} value={field.type} onChange={(event) => updateField(field.id, { type: event.target.value as FieldType })}>
@@ -178,7 +183,7 @@ function ScholarshipForm({ scholarship, programs, onClose, onSave }: {
                 </button>
               </div>
             ))}
-            <div><button type="button" className={styles.smallButton} onClick={() =>
+            <div><button type="button" className={styles.smallButton} disabled={fields.length >= 80} onClick={() =>
               setFields((current) => [...current, { id: crypto.randomUUID(), label: "", type: "Text", required: false }])}>
               <Plus size={14} aria-hidden />Add Field
             </button></div>
@@ -200,7 +205,9 @@ export function Scholarships() {
   const programs = useAdminResource<ProgramOption[]>("lookups/programs");
   const scholarships = resource.data ?? [];
   const action = useAdminMutation(resource.reload);
-  const [dialog, setDialog] = useState<"create" | Scholarship | null>(null);
+  const [dialog, setDialog] = useState<"create" | { scholarship: Scholarship; addField?: boolean } | null>(null);
+  const [selectedId, setSelectedId] = useState("");
+  const selected = scholarships.find(item => item.id === selectedId) ?? scholarships[0];
   const close = () => { action.setError(""); setDialog(null); };
 
   return (
@@ -216,7 +223,7 @@ export function Scholarships() {
       <DataTable caption="Scholarships" headings={["Scholarship", "Program", "Full Tuition", "Scholarship Amount", "Applicant Pays", "Deadline", "Available Slots", "Status", "Actions"]}>
         {scholarships.map((item) => (
           <tr key={item.id}>
-            <td><button type="button" className={styles.tableLink} onClick={() => setDialog(item)}>{item.name}</button></td>
+            <td><button type="button" className={styles.tableLink} onClick={() => { setSelectedId(item.id); setDialog({ scholarship: item }); }}>{item.name}</button></td>
             <td>{item.program}</td>
             <td>{money(item.tuition)}</td>
             <td>{money(item.amount)}</td>
@@ -224,17 +231,41 @@ export function Scholarships() {
             <td>{displayDate(item.deadline)}</td>
             <td>{item.slots}</td>
             <td><Badge tone={tones[item.status]}>{item.status}</Badge></td>
-            <td><ActionMenu label={`Actions for ${item.name}`} actions={[{ label: "Edit Scholarship", icon: Pencil, onSelect: () => setDialog(item) }]} /></td>
+            <td><ActionMenu label={`Actions for ${item.name}`} actions={[{ label: "Edit Scholarship", icon: Pencil, onSelect: () => { setSelectedId(item.id); setDialog({ scholarship: item }); } }]} /></td>
           </tr>
         ))}
       </DataTable>
+
+      <section className={`${styles.panel} ${styles.scholarshipFieldPanel}`} aria-labelledby="scholarship-form-fields">
+        <div className={styles.panelHeader}><h2 id="scholarship-form-fields">Scholarship application form fields</h2></div>
+        {selected ? <>
+          <Field label="Scholarship">{id => (
+            <select id={id} className={styles.control} value={selected.id} onChange={event => setSelectedId(event.target.value)}>
+              {scholarships.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
+            </select>
+          )}</Field>
+          {selected.fields.length ? (
+            <ul className={styles.scholarshipFields}>
+              {selected.fields.map((field, index) => (
+                <li className={styles.mutedRow} key={index}>
+                  <span>{field.label}</span><span>{field.type} · {field.required ? "Required" : "Optional"}</span>
+                </li>
+              ))}
+            </ul>
+          ) : <p className={styles.hint}>No custom fields have been added to this scholarship.</p>}
+          <button type="button" className={styles.smallButton} disabled={selected.fields.length >= 80}
+            onClick={() => setDialog({ scholarship: selected, addField: true })}>
+            <Plus size={14} aria-hidden />Add field
+          </button>
+        </> : <p className={styles.hint}>Create a scholarship to manage its application fields.</p>}
+      </section>
 
       {dialog === "create" && (programs.data?.some((program) => program.price !== null) ?
         <ScholarshipForm programs={programs.data.filter((program) => program.price !== null)} onClose={close}
           onSave={(values) => void action.save("scholarships", "POST", values, close)} /> :
         <Dialog title="Create Scholarship" onClose={close}><div className={styles.dialogBody}><ResourceState {...programs}>A program with tuition is required before creating a scholarship.</ResourceState></div></Dialog>)}
-      {dialog && typeof dialog === "object" && <ScholarshipForm scholarship={dialog} programs={[]} onClose={close}
-        onSave={(values) => void action.save("scholarships/" + dialog.id, "PUT", values, close)} />}
+      {dialog && typeof dialog === "object" && <ScholarshipForm scholarship={dialog.scholarship} addFieldOnOpen={dialog.addField} programs={[]} onClose={close}
+        onSave={(values) => void action.save("scholarships/" + dialog.scholarship.id, "PUT", values, close)} />}
     </AdminMutations></ResourceState>
   );
 }

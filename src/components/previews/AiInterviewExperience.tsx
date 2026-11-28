@@ -18,7 +18,7 @@ const checks = [
   { name: "Stable internet connection", description: "Check your connection before starting." },
 ];
 
-function MediaPreview({ stream, cameraOn }: { stream: MediaStream | null; cameraOn: boolean }) {
+export function MediaPreview({ stream, cameraOn }: { stream: MediaStream | null; cameraOn: boolean }) {
   const video = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (video.current) video.current.srcObject = stream;
@@ -29,7 +29,7 @@ function MediaPreview({ stream, cameraOn }: { stream: MediaStream | null; camera
   </div>;
 }
 
-function formatTime(seconds: number) {
+export function formatTime(seconds: number) {
   return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
@@ -50,7 +50,7 @@ export function AiInterviewExperience() {
   const mediaRequest = useRef(0);
   const [config, setConfig] = useState<InterviewPreview | null>(null);
   const [index, setIndex] = useState(0);
-  const [answer, setAnswer] = useState("");
+  const [answered, setAnswered] = useState(false);
   const [responseCount, setResponseCount] = useState(0);
   const [deadline, setDeadline] = useState(0);
   const [remaining, setRemaining] = useState(0);
@@ -153,18 +153,18 @@ export function AiInterviewExperience() {
 
   function finish() {
     releaseMedia();
-    setAnswer("");
+    setAnswered(false);
     setDialog(null);
     setStage("completed");
   }
 
   function advance() {
-    if (!answer.trim() || !config) return;
+    if (!answered || !config) return;
     setResponseCount((count) => count + 1);
     if (index + 1 === config.questions.length) finish();
     else {
       setIndex(index + 1);
-      setAnswer("");
+      setAnswered(false);
     }
   }
 
@@ -228,7 +228,7 @@ export function AiInterviewExperience() {
         </> : <div className={ui.panelInner}>
           <h2>About the assessment</h2>
           <p className={styles.hint}>The sample interview walks through product management questions. The staff dashboard shows sample scores and supports human review.</p>
-          <p className={styles.hint}>Your video stays on this device. Text you enter stays in the current preview.</p>
+          <p className={styles.hint}>Your video stays on this device. The preview uses a sample spoken answer.</p>
         </div>}
         <div className={ui.panelInner}>
           <label className={styles.option}><input type="checkbox" checked={acknowledged} onChange={(event) => setAcknowledged(event.target.checked)} />
@@ -259,9 +259,12 @@ export function AiInterviewExperience() {
           <h1>{active.group}</h1>
           {index === 0 && <p className={styles.hint}>{config.intro}</p>}
           <p>{active.prompt}</p>
-          <label className={styles.field}><span>Sample response</span><textarea className={styles.control} maxLength={4000} value={answer}
-            onChange={(event) => setAnswer(event.target.value)} placeholder="Type a sample response…" /></label>
-          <button type="button" className={styles.primary} disabled={!answer.trim()} onClick={advance}>
+          <div className={ui.transcript}>
+            <h2>Your spoken answer</h2>
+            <p>{answered ? "I would start by speaking with learners and checking where they stop progressing." : "Your transcript will appear here after you speak."}</p>
+          </div>
+          {!answered && <button type="button" className={styles.secondary} onClick={() => setAnswered(true)}>Show sample transcript</button>}
+          <button type="button" className={styles.primary} disabled={!answered} onClick={advance}>
             {index + 1 === config.questions.length ? "Finish interview" : "Next question"}
           </button>
         </div>
@@ -277,7 +280,7 @@ export function AiInterviewExperience() {
       <p>Ending the preview closes this interview and releases your devices.</p>
     </PreviewDialog>}
     {dialog === "help" && <PreviewDialog title="Interview help" close={() => setDialog(null)}>
-      <p>Check your browser permissions if you lose access to your devices. Use the text field to try sample responses.</p>
+      <p>Check your browser permissions if you lose access to your devices. Select Show sample transcript to try the interview progression.</p>
     </PreviewDialog>}
   </main>;
 }

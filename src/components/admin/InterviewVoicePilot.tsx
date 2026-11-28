@@ -4,14 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./admin.module.css";
 
 export function InterviewVoicePilot({ questions, minutes, candidate }: { questions: string[]; minutes: number; candidate?: {
+    microphone?: string;
+    speaker?: string;
+    muted?: boolean;
     connect: (sdp: string, signal: AbortSignal) => Promise<{sdp:string}>;
     transcript: (text:string) => void;
   } }) {
   const cleanup = useRef<(() => void) | null>(null);
+  const input = useRef<MediaStream | null>(null);
+  const muted = useRef(false);
   const audio = useRef<HTMLAudioElement>(null);
   const [state, setState] = useState<"idle" | "connecting" | "live">("idle");
   const [notice, setNotice] = useState("");
   useEffect(() => () => cleanup.current?.(), []);
+
+  useEffect(() => {
+    muted.current = Boolean(candidate?.muted);
+    input.current?.getAudioTracks().forEach(track => { track.enabled = !muted.current; });
+  }, [candidate?.muted]);
 
   async function start() {
     if (cleanup.current) return;
@@ -24,6 +34,7 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
       clearTimeout(timer);
       peer?.close();
       stream?.getTracks().forEach(track => track.stop());
+      input.current = null;
       if (audio.current) audio.current.srcObject = null;
       cleanup.current = null;
     };
@@ -31,19 +42,30 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
     setState("connecting");
     setNotice("");
     try {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: candidate?.microphone ? { deviceId: { exact: candidate.microphone } } : true,
+      });
       if (abort.signal.aborted) {
         stream.getTracks().forEach(track => track.stop());
         return;
       }
+      input.current = stream;
+      stream.getAudioTracks().forEach(track => { track.enabled = !muted.current; });
       peer = new RTCPeerConnection();
       for (const track of stream.getAudioTracks()) peer.addTrack(track, stream);
-      peer.ontrack = event => {
-        if (audio.current) audio.current.srcObject = event.streams[0] || new MediaStream([event.track]);
+      peer.ontrack = async event => {
+        const output = audio.current as (HTMLAudioElement & { setSinkId?: (id: string) => Promise<void> }) | null;
+        if (!output) return;
+        if (candidate?.speaker) {
+          await output.setSinkId?.(candidate.speaker).catch(() => {
+            if (!abort.signal.aborted) setNotice("Using the default speaker.");
+          });
+        }
+        if (!abort.signal.aborted) output.srcObject = event.streams[0] || new MediaStream([event.track]);
       };
       peer.onconnectionstatechange = () => {
         if (!abort.signal.aborted && peer?.connectionState === "failed") {
-          stop(); setState("idle"); setNotice("Connection lost. Start a new practice session.");
+          stop(); setState("idle"); setNotice("Voice connection lost. Try again.");
         }
       };
       const channel = peer.createDataChannel("oai-events");
@@ -57,7 +79,7 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
         channel.send(JSON.stringify({type:"response.create"}));
         setState("live");
         clearTimeout(timer);
-        timer = setTimeout(() => { stop(); setState("idle"); setNotice("Practice time ended."); }, minutes * 60000);
+        timer = setTimeout(() => { stop(); setState("idle"); setNotice(candidate ? "Interview time ended." : "Practice time ended."); }, minutes * 60000);
       };
       timer = setTimeout(() => { stop(); setState("idle"); setNotice("Connection timed out. Try again."); }, 30000);
       const offer = await peer.createOffer();
@@ -82,10 +104,10 @@ export function InterviewVoicePilot({ questions, minutes, candidate }: { questio
   }
   return <section className={styles.panel} aria-label="Voice pilot">
     <h2>{candidate ? "Voice interview" : "Practice the live interview"}</h2>
-    <p>Starting lets the AI interviewer hear your microphone. {candidate ? "Your spoken answer appears below for you to check." : "Use sample answers."}</p>
+    <p>Starting lets the AI interviewer hear your microphone. {candidate ? "Your spoken answer appears in the transcript." : "Use sample answers."}</p>
     <audio ref={audio} autoPlay />
-    {state === "idle" ? <button className={styles.secondary} onClick={start}>{candidate ? "Speak with interviewer" : "Start voice pilot"}</button>
-      : <button className={styles.secondary} onClick={() => { cleanup.current?.(); setState("idle"); setNotice("Practice ended."); }}>
+    {state === "idle" ? <button className={styles.secondary} disabled={candidate?.muted} onClick={start}>{candidate ? "Speak with interviewer" : "Start voice pilot"}</button>
+      : <button className={styles.secondary} onClick={() => { cleanup.current?.(); setState("idle"); setNotice(candidate ? "Microphone disconnected." : "Practice ended."); }}>
         {state === "connecting" ? "Cancel connection" : candidate ? "Finish speaking" : "End voice pilot"}
       </button>}
     <p role="status">{notice || (state === "connecting" ? "Connecting…" : state === "live" ? "Interview in progress" : "")}</p>
